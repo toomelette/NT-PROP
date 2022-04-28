@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>SRA Web Portal - AFD</title>
+    <title>SRA Web Portal - Property and Procurement System</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
@@ -25,19 +25,19 @@
 
       <div class="content-wrapper" >
 
-          @if(!empty(Auth::user()->employeeUnion))
-            @if(Hash::check(Carbon::parse(Auth::user()->employeeUnion->birthday)->format('mdy'), \Illuminate\Support\Facades\Auth::user()->password))
-              <div class="row" id="change_pass_container">
-                <div class="col-md-12">
-                  <a href="#" id="change_pass_href">
-                    <div class="alert alert-warning" style="margin: 1rem">
-                      <p><b>Your account is at risk. </b> It seems like you haven't changed your password yet. Please change your SWEP Account Password by clicking here.</p>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            @endif
-          @endif
+{{--          @if(!empty(Auth::user()->employeeUnion))--}}
+{{--            @if(Hash::check(Carbon::parse(Auth::user()->employeeUnion->birthday)->format('mdy'), \Illuminate\Support\Facades\Auth::user()->password))--}}
+{{--              <div class="row" id="change_pass_container">--}}
+{{--                <div class="col-md-12">--}}
+{{--                  <a href="#" id="change_pass_href">--}}
+{{--                    <div class="alert alert-warning" style="margin: 1rem">--}}
+{{--                      <p><b>Your account is at risk. </b> It seems like you haven't changed your password yet. Please change your SWEP Account Password by clicking here.</p>--}}
+{{--                    </div>--}}
+{{--                  </a>--}}
+{{--                </div>--}}
+{{--              </div>--}}
+{{--            @endif--}}
+{{--          @endif--}}
 
 
         @yield('content')

@@ -265,6 +265,19 @@ class __html{
 
     }
 
+    public static function populate_options($arr = [], $default = null){
+        $options = '<option value="">SELECT</option>';
+        if(is_array($arr)){
+            foreach ($arr as $key => $value){
+                if($key == $default){
+                    $options = $options.'<option value="'.$key.'" selected>'.$value.'</option>';
+                }else{
+                    $options = $options.'<option value="'.$key.'">'.$value.'</option>';
+                }
+            }
+        }
+        return $options;
+    }
     public static function options_obj($obj,$label = null, $value = null){
         $options = '';
         if(!empty($obj)){

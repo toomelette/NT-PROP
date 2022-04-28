@@ -33,7 +33,7 @@
 {{--<script src="https://cdn.jsdelivr.net/npm/autonumeric@4.5.4"></script>--}}
 <script type="text/javascript" src="{{asset('template/plugins/autoNumeric/autoNumeric.js')}}"></script>
 
-<script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/app.js') }}?a={{\Illuminate\Support\Str::random()}}"></script>
 
 <script type="text/javascript" src="{{asset('template/plugins/moment/moment.js')}}"></script>
 <script type="text/javascript" src="{{ asset('template/bower_components/fullcalendar/dist/fullcalendar.min.js') }}"></script>

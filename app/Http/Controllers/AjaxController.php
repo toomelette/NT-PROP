@@ -26,5 +26,9 @@ class AjaxController extends Controller
                 'rand' => $rand,
             ];
         }
+
+        if($for == 'add_ppmp_row'){
+            return view('ajax.ppmp.add_row');
+        }
     }
 }

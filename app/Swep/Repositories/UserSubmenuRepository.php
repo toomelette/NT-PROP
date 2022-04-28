@@ -70,7 +70,6 @@ class UserSubmenuRepository extends BaseRepository implements UserSubmenuInterfa
 
 
 
-
     }
 
 

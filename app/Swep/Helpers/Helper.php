@@ -261,6 +261,14 @@ class Helper
     }
     public static function budgetTypes(){
         return [
+            'PS' => 'Personnel Services (PS)',
+            'CO' => 'Capital Outlay (CO)',
+            'MOOE' => 'Maintenance and Other Operating Expenses (MOOE)',
+        ];
+    }
+
+    public static function fundSources(){
+        return [
             'COB' => 'COB',
             'SIDA' => 'SIDA',
         ];

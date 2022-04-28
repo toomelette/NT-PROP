@@ -27,7 +27,7 @@ class Submenu extends Model{
     }
 
     use Sortable, LogsActivity;
-
+    protected $connection = 'mysql';
     protected $table = 'su_submenus';
 
     protected $dates = ['created_at', 'updated_at'];

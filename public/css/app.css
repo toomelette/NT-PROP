@@ -39,12 +39,42 @@
     border: none;
 }
 
+.news{
+    padding: 5px;
+    -webkit-transition: background-color .3s;
+    transition: background-color .3s;
+    color: black;
+}
+.news:hover {
+    background-color: #cbeddc;
+}
 
 /* Input Uppercase */
 input[data-transform=uppercase] {
     text-transform: uppercase;
 }
 
+.attatchment-horizontal{
+    width: 100%; height: 80px ; border: 1px solid #eee;}
+
+.attatchment-horizontal > div:first-child {
+    width: 20%; float: left
+}
+
+.attatchment-horizontal > div:nth-child(2) {
+    width: 79%; float: right; height: 78px;
+}
+
+.attatchment-horizontal .mailbox-attachment-info{
+    height: inherit;
+}
+.attatchment-horizontal .mailbox-attachment-size{
+    padding-top: 22px;
+}
+
+.attatchment-horizontal .mailbox-attachment-icon{
+    font-size: 32px;
+}
 
 #mid-vert{
     vertical-align: middle;
@@ -145,6 +175,26 @@ ol.example li.placeholder:before {
 
 .w-10p{
     width: 10%;
+}
+
+.w-12p{
+    width: 12%;
+}
+
+.w-14p{
+    width: 14%;
+}
+
+.w-16p{
+    width: 16%;
+}
+
+.w-18p{
+    width: 18%;
+}
+
+.w-20p{
+    width: 20%;
 }
 
 .act3{
@@ -408,10 +458,27 @@ ol.example li.placeholder:before {
 .milestone,.milestone th,.milestone td {
     border: 1px solid grey;
 }
+
+.ppmp_input, .ppmp_input td {
+    border: 1px solid #ccc;
+    padding: 5px;
+    vertical-align: top;
+}
+
+.ppmp_input th{
+    padding-left: 5px;
+    border: 1px solid #ccc;
+}
+
+.no-padding{
+    padding: 0px !important;
+}
+
 .no-style-input{
     width: 100%;
     border: 1px solid black;
-    text-align: center;
+    /*text-align: left;*/
+    height: 30px;
 }
 .no-style-input:focus {
     outline: none !important;
@@ -419,6 +486,16 @@ ol.example li.placeholder:before {
     box-shadow: 0 0 10px #719ECE;
 }
 .no-style-input.has-error {
+    outline: none !important;
+    border:1px solid red;
+    box-shadow: 0 0 10px #dd514c;
+}
+
+.month-box{
+    width: 30px;
+}
+
+.ppmp-input-group.has-error input{
     outline: none !important;
     border:1px solid red;
     box-shadow: 0 0 10px #dd514c;

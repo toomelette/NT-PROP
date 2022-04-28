@@ -31,6 +31,7 @@ class CheckUserRouteExist{
 
         if($this->user_submenu_repo->isExist()){
 
+
             return $next($request);
 
         }

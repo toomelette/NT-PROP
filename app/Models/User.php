@@ -32,6 +32,7 @@ class User extends Authenticatable{
 
     use Notifiable, Sortable, LogsActivity;
 
+    protected $connection = 'mysql';
     protected $dates = ['created_at', 'updated_at'];
 
     public $sortable = ['username', 'firstname', 'is_online', 'is_active'];

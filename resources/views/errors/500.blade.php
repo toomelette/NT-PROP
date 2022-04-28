@@ -23,7 +23,8 @@
             <p>
               Looks like the server encountered an error,
               please report this problem to the administrator.
-              Meanwhile, you may return to Home Page. 
+              Meanwhile, you may return to Home Page.
+
             </p>
             <a class="btn btn-sm btn-danger" href="{{ route('auth.login') }}">Go Back!</a>
           </div>

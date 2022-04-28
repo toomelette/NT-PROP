@@ -201,16 +201,19 @@ function loading_btn(target_form){
 }
 
 function errored(target_form, response){
+
     form_id = $(target_form[0]).attr('id');
     remove_loading_btn(target_form);
-    unmark_required(target_form);
-    mark_required(target_form,response);
+
+
     if(response.status == 503){
         notify(response.responseJSON.message, "danger");
     }else if(response.status == 422){
-
+        unmark_required(target_form);
+        mark_required(target_form,response);
+    }else if(response.status == 413){
+        notify('File too large.','danger');
     }else{
-
         alert(response.responseJSON.message);
     }
 }
@@ -235,8 +238,11 @@ function unmark_required(target_form){
 function mark_required(target_form, response){
     form_id = $(target_form[0]).attr('id');
     $.each(response.responseJSON.errors, function(i, item){
-        $("#"+form_id+" ."+i).addClass('has-error');
-        $("#"+form_id+" ."+i).append("<span class='help-block'> "+item+" </span>");
+        if($("#"+form_id+" ."+i.replace('.','_')).hasClass('minimal') == false){
+            $("#"+form_id+" ."+i.replace('.','_')).append("<span class='help-block'> "+item+" </span>");
+        }
+        $("#"+form_id+" ."+i.replace('.','_')).addClass('has-error');
+
     });
 }
 
