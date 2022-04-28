@@ -22,7 +22,7 @@ class PAP extends Model
             $a->ip_updated = request()->ip();
         });
     }
-    protected $table = 'PAP';
+    protected $table = 'pap';
 
     public function responsibilityCenter(){
         return $this->belongsTo(PPURespCodes::class,'resp_center','rc_code');
