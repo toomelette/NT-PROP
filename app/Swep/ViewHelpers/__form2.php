@@ -37,6 +37,44 @@ class __form2
               </div>';
     }
 
+    public static function textboxOnly($name,$options = [],$value = null,$input_only = false){
+        $n = new __form2;
+        $n->set($options);
+        $r_o = '';
+        $step = '';
+        if(is_object($value)){
+            $value = $value->$name;
+        }
+        $ext = '';
+
+        if($n->is_multiple == 1){
+            $ext = '[]';
+        }
+        $c_class = '';
+        if($n->container_class != ''){
+            $c_class = $n->container_class;
+        }
+
+        if($n->type == 'date'){
+            $value = ($value != '') ? Carbon::parse($value)->format('Y-m-d') : '';
+        }
+
+        $r_o = ($n->readonly == 'readonly') ? 'readonly' : '';
+        $step = ($n->step != '') ? 'step="'.$n->step.'"' : '';
+        $id = ($n->id != '') ?  'id="'.$n->id.'"' : '';
+        $tab_index = ($n->tab_index != '') ?  'tabindex="'.$n->tab_index.'"' : '';
+        $title = ($n->title != '') ? '<i class="fa fa-question-circle" title="'.$n->title.'"></i>' : '';
+
+        if($input_only == true){
+            return '<input class="form-control '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
+             ';
+        }
+        return '<div class="'.$c_class.' col-md-'.$n->cols.' '.$name.'">
+                <input for="'.$n->for.'" class="form-control '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
+              </div>';
+    }
+
+
 
     public static function select($name,$options = [],$value = null){
         $n = new __form2;
@@ -90,16 +128,95 @@ class __form2
                 }
             }
         }
+        if($n->select2_preSelected == ''){
+            $preSelected = '<option value="" selected>Select</option>';
+        }else{
+            $preSelected = '<option value="'.$value.'" selected>'.$n->select2_preSelected.'</option>';
+        }
 
-
-
-        return '<div class="form-group col-md-'.$n->cols .' '.$name.'">
+        return '<div class="form-group '.$n->container_class.' col-md-'.$n->cols .' '.$name.'">
                   <label for="'. $name .'">'. $n->label .'</label>
-                  <select name="'. $name .$ext.'" '. $id .' class="form-control" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
-                    <option value="">Select</option>
+                  <select name="'. $name .$ext.'" '. $id .' class="form-control '.$n->class.'" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
+                    '.$preSelected.'
                     '.$opt_html.'
                   </select>
                 </div>';
+    }
+
+
+    public static function selectOnly($name,$options = [],$value = null){
+        $n = new __form2;
+        $n->set($options);
+        if(is_object($value)){
+            $value = $value->$name;
+        }
+
+        $ext = '';
+        if($n->is_multiple == 1){
+            $ext = '[]';
+        }
+
+        if ($options['options'] == 'year'){
+            $past = 8;
+            $future = 10;
+            if(isset($options['past'])){
+                $past = $options['past'];
+            }
+            if(isset($options['future'])){
+                $future = $options['future'];
+            }
+            $options['options'] = self::yearsArray($past, $future);
+            if($value == ''){
+                $value = Carbon::now()->format('Y');
+            }
+        }
+        $c_class = '';
+        if($n->container_class != ''){
+            $c_class = $n->container_class;
+        }
+
+        $r_o = '';
+        $r_o = ($n->readonly == 'readonly') ? 'readonly' : '';
+        $id = ($n->id != '') ?  'id="'.$n->id.'"' : '';
+        $opt_html = '';
+
+
+        if(isset($options['options'])){
+            if(is_array($options['options'])){
+                foreach ($options['options'] as $key => $option){
+                    if(is_array($option)){
+                        $opt_html = $opt_html.'<optgroup label="'.$key.'">';
+                        foreach ($option as $key2 => $option2){
+                            $sel = '';
+                            if($value == $key2){
+                                $sel = 'selected';
+                            }
+                            $opt_html = $opt_html.'<option value="'.$key2.'" '.$sel.'>'.$option2.'</option>';
+                        }
+                    }else{
+                        $sel = '';
+                        if($value == $key){
+                            $sel = 'selected';
+                        }
+                        $opt_html = $opt_html.'<option value="'.$key.'" '.$sel.'>'.$option.'</option>';
+                    }
+                }
+            }
+        }
+
+        if($n->select2_preSelected == ''){
+            $preSelected = '<option value="" selected>Select</option>';
+        }else{
+            $preSelected = '<option value="'.$value.'" selected>'.$n->select2_preSelected.'</option>';
+        }
+
+        return '<div class=" '.$c_class.' col-md-'.$n->cols .' '.$name.'">
+                <select for="'.$n->for.'" name="'. $name .$ext.'" '. $id .' class="form-control '.$n->class.'" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
+                    '.$preSelected.'
+                    '.$opt_html.'
+                  </select>
+              </div>
+                ';
     }
 
     public static function a_select($name,$options = [],$value = null){
@@ -152,6 +269,20 @@ class __form2
               </div>';
     }
 
+    public static function textareaOnly($name, $options = [],$value = null){
+        if(is_object($value)){
+            $value = $value->$name;
+        }
+
+
+        $n = new __form2;
+        $n->set($options);
+        $id = ($n->id != '') ?  'id="'.$n->id.'"' : '';
+        return '
+                <textarea class="form-control '.$n->class.'" '.$id.' name="'. $name .'" rows="'.$n->rows.'" '. $n->extra_attr .'>'. __sanitize::html_encode($value) .'</textarea>
+          ';
+    }
+
     private static function yearsArray($past = 8, $future = 10){
         $years = [];
         $now_year = Carbon::now()->format('Y');
@@ -173,6 +304,7 @@ class __form2
             $array['placeholder'] = str_replace('*','',$array['placeholder']);
         }
         (!isset($array['id'])) ? $array['id']= '' : false;
+        (!isset($array['tab_index'])) ? $array['tab_index']= '' : false;
         (!isset($array['type'])) ? $array['type']= '' : false;
         (!isset($array['value'])) ? $array['value']= '' : false;
         (!isset($array['placeholder'])) ? $array['placeholder']= '' : false;
@@ -184,12 +316,16 @@ class __form2
         (!isset($array['title'])) ? $array['title']= '' : false;
         (!isset($array['is_multiple'])) ? $array['is_multiple']= '' : false;
         (!isset($array['required'])) ? $array['required']= '' : false;
+        (!isset($array['for'])) ? $array['for']= '' : false;
+        (!isset($array['container_class'])) ? $array['container_class']= '' : false;
         ($array['type'] == '') ?  $array['type'] = 'text' : false;
+        (!isset($array['select2_preSelected'])) ? $array['select2_preSelected']= '' : false;
 
         $this->class = $array['class'];
         $this->cols = $array['cols'];
         $this->label = $array['label'];
         $this->id = $array['id'];
+        $this->tab_index = $array['tab_index'];
         $this->type = $array['type'];
         $this->value = $array['value'];
         $this->extra_attr = $array['extra_attr'];
@@ -201,6 +337,9 @@ class __form2
         $this->title = $array['title'];
         $this->is_multiple = $array['is_multiple'];
         $this->required = $array['required'];
+        $this->for = $array['for'];
+        $this->container_class = $array['container_class'];
+        $this->select2_preSelected = $array['select2_preSelected'];
     }
     public function get($array){
         return $this->name.' Hello';

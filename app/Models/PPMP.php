@@ -36,11 +36,15 @@ class PPMP extends Model
     protected static $logName = 'ppmp';
 
     public function pap(){
-        return $this->belongsTo(PAP::class, 'pap_code','pap_code');
+        return $this->belongsTo(PAP::class, 'papCode','pap_code');
     }
 
     public function creator(){
         return $this->hasOne(User::class,"user_id","user_created");
+    }
+
+    public function article(){
+        return $this->hasOne(Articles::class,'stockNo','stockNo');
     }
 
     public function updater(){

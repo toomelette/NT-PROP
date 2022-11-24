@@ -671,7 +671,7 @@
     $("body").on('click','.activity_properties_btn',function () {
       var id = $(this).attr('data');
       $.ajax({
-        url : '{{route("dashboard.activity_logs_fetch_properties")}}?id='+id,
+        url : '',
         type: 'GET',
         success: function (response) {
           console.log(response);

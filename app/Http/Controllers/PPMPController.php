@@ -2,111 +2,123 @@
 
 
 namespace App\Http\Controllers;
-use App\Http\Requests\PPMP\PPMPFormRequest;
-use App\Models\PapParent;
+
+
+use App\Models\Articles;
 use App\Models\PPMP;
 use App\Swep\Helpers\Helper;
+use App\Swep\Services\PPMPService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
-
-
-
 class PPMPController extends Controller
 {
+    protected $ppmpService;
+    public function __construct(PPMPService $ppmpService)
+    {
+        $this->ppmpService = $ppmpService;
+    }
+
     public function index(Request $request){
-        if($request->ajax() && $request->has('draw')){
-            $ppmps = PPMP::query()->with('pap');
-            return DataTables::of($ppmps)
-                ->addColumn('action',function ($data){
-                    $destroy_route = "'".route("dashboard.ppmp.destroy","slug")."'";
-                    $slug = "'".$data->slug."'";
-                    $button = '<div class="btn-group">
-                                    <button type="button" class="btn btn-default btn-sm show_item_btn" data="'.$data->slug.'" data-toggle="modal" data-target ="#show_item_modal" title="View more" data-placement="left">
-                                        <i class="fa fa-file-text"></i>
-                                    </button>
-                                    <button type="button" data="'.$data->slug.'" class="btn btn-default btn-sm edit_item_btn" data-toggle="modal" data-target="#edit_item_modal" title="Edit" data-placement="top">
-                                        <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button type="button" data="'.$data->slug.'" onclick="delete_data('.$slug.','.$destroy_route.')" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete" data-placement="top">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </div>';
-                    return $button;
-                })
-                ->addColumn('details',function ($data){
-                    return '<div class="table-subdetail-no-border ">
-                                <table style="width: 100%;" class="table-borderless">
-                                    <tr>
-                                      <td>Fiscal Year:</td>
-                                      <td>'.$data->fiscal_year.'</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Budget Type:</td>
-                                      <td>'.$data->budget_type.'</td>
-                                    </tr>
-                                    <tr>
-                                      <td>Resp. Center:</td>
-                                      <td>'.$data->resp_center.'</td>
-                                    </tr>
-                                 </table>
-                            </div>';
-                })
-                ->editColumn('mode_of_proc',function ($data){
-                    return strtoupper(Helper::camelCaseToWords($data->mode_of_proc));
-                })
-                ->editColumn('total_budget',function ($data){
-                    return number_format($data->total_budget,2).'<div class="table-subdetail">
-                        '.number_format($data->unit_cost).' x '.$data->qty.' '.$data->uom.'
-                        </div>';
-                })
-                ->addColumn('grp',function ($data){
-                    $section = ($data->pap->section != "") ? ' | '.$data->pap->section : '';
-                    return '<a href="'.route("dashboard.budget_proposal.index").'?fiscal_year='.$data->pap->fiscal_year.'&resp_center='.$data->pap->resp_center.'&find='.$data->pap->pap_code.'" target="_blank">
-                                <b>'.$data->pap_code.'</b> | '.$data->pap->pap_title.'
-                            </a>
-                            <span class="pull-right small text-muted">'
-                                .$data->pap->division.'
-                                '.$section.'
-                            </span>';
-                })
-                ->escapeColumns([])
-                ->setRowId('slug')
-                ->make(true);
+        if($request->has('with')){
+            return $this->storeArticle($request);
         }
-        if($request->has('fiscal_year') && $request->has('resp_center') && $request->resp_center != null && $request->fiscal_year != null){
-            return view('dashboard.ppmp.index')->with([
-                'request' => $request,
-            ]);
+        if($request->has('draw')){
+            return $this->dataTable($request);
         }
-
-
-        return view('dashboard.recommended_budget.pre_index')->with([
-            'action' => route('dashboard.ppmp.index'),
-        ]);
-
-        return view('dashboard.ppmp.index');
+        return view('ppu.ppmp.index');
     }
 
-    public function store(PPMPFormRequest $request){
-        if(!$request->has('fiscal_year') || !$request->has('resp_center') || $request->fiscal_year == '' || $request->resp_center == ''){
-            abort(503,'No year and responsibility center assigned.');
+    public function dataTable($request){
+        $ppmps = PPMP::query()->with(['article','pap','pap.responsibilityCenter','pap.responsibilityCenter.description']);
+        if($request->has('dept') && $request->dept != ''){
+            $ppmps = $ppmps->whereHas('pap.responsibilityCenter',function ($query) use($request){
+                return $query->where('department','=',$request->dept);
+            });
         }
-        $ppmp = new PPMP;
-        $ppmp->slug = Str::random(16);
-        $ppmp->ppmp_code = $request->ppmp_code;
-        $ppmp->fiscal_year = $request->fiscal_year;
-        $ppmp->budget_type = $request->budget_type;
-        $ppmp->resp_center = $request->resp_center;
-        $ppmp->total_budget = Helper::sanitizeAutonum($request->unit_cost)*$request->qty;
-        $ppmp->pap_code = $request->pap_code;
-        $ppmp->gen_desc = $request->gen_desc;
-        $ppmp->unit_cost = Helper::sanitizeAutonum($request->unit_cost);
+        if($request->has('div') && $request->div != ''){
+            $ppmps = $ppmps->whereHas('pap.responsibilityCenter',function ($query) use($request){
+                return $query->where('division','=',$request->div);
+            });
+        }
+
+        if($request->has('sec') && $request->sec != ''){
+            $ppmps = $ppmps->whereHas('pap.responsibilityCenter',function ($query) use($request){
+                return $query->where('section','=',$request->sec);
+            });
+        }
+        if($request->has('budgetType') && $request->budgetType != ''){
+            $ppmps = $ppmps->where('budgetType','=',$request->budgetType);
+        }
+
+        if($request->has('modeOfProc') && $request->modeOfProc != ''){
+            $ppmps = $ppmps->where('modeOfProc','=',$request->modeOfProc);
+        }
+
+
+        return DataTables::of($ppmps)
+            ->addColumn('article',function($data){
+                return $data->article->article ?? '<small>-</small>';
+            })
+            ->addColumn('cost',function($data){
+                return view('ppu.ppmp.costColumn')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->addColumn('dept',function($data){
+                return $data->pap->responsibilityCenter->description->name ?? '';
+            })
+            ->addColumn('div',function($data){
+
+                $section = $data->pap->responsibilityCenter->section ?? null;
+                $division = $data->pap->responsibilityCenter->division ?? null;
+                return $division .' '.$section;
+            })
+            ->addColumn('action',function($data){
+                return view('ppu.ppmp.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->editColumn('papCode',function($data){
+                $title = $data->pap->pap_title ?? null;
+                return '<a title="'.$title.'" href="#" target="_blank">'.$data->papCode.'</a>' ;
+            })
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
+    }
+
+    public function storeArticle($request){
+        $lastA = Articles::query()->orderBy('stockNo','desc')->limit(1)->first();
+        $a = new Articles();
+        $a->stockNo = $lastA->stockNo + 1;
+        $a->article = $request->article;
+        if($a->save()){
+            return true;
+        }else{
+            abort(503,'Error saving article.');
+        }
+    }
+
+    public function store(Request $request){
+
+        $ppmp = new PPMP();
+        $ppmp->slug = Str::random();
+        $ppmp->ppmpCode = $this->ppmpService->getNextPPMPCode();
+        $ppmp->papCode =$request->papCode ;
+        $ppmp->sourceOfFund = $request->sourceOfFund;
+        $ppmp->stockNo = $request->stockNo;
+        if(Helper::sanitizeAutonum($request->unitCost) < 50000){
+            $ppmp->budgetType = 'MOOE';
+        }else{
+            $ppmp->budgetType = 'CO';
+        }
+        $ppmp->modeOfProc = $request->modeOfProc;
+        $ppmp->unitCost = Helper::sanitizeAutonum($request->unitCost);
         $ppmp->qty = $request->qty;
-        $ppmp->uom = $request->uom;
-        $ppmp->mode_of_proc = $request->mode_of_proc;
-        $ppmp->remark = $request->remark;
+        $ppmp->estTotalCost = $ppmp->unitCost*$ppmp->qty;
+        $ppmp->remarks = $request->remarks;
         $ppmp->qty_jan = $request->qty_jan;
         $ppmp->qty_feb = $request->qty_feb;
         $ppmp->qty_mar = $request->qty_mar;
@@ -122,58 +134,58 @@ class PPMPController extends Controller
         if($ppmp->save()){
             return $ppmp->only('slug');
         }
-        abort(503,'Error saving data.');
+        abort(503,'Error saving PPMP item.');
     }
 
-    private function findBySlug($slug){
-        $ppmp = PPMP::query()->where('slug','=',$slug)->first();
-        if(empty($ppmp)){
-            abort(503,'PPMP not found');
+    public function update(Request $request, $slug){
+        $ppmp = $this->findbySlug($slug);
+        $ppmp->papCode =$request->papCode ;
+        $ppmp->sourceOfFund = $request->sourceOfFund;
+        $ppmp->stockNo = $request->stockNo;
+        if(Helper::sanitizeAutonum($request->unitCost) < 50000){
+            $ppmp->budgetType = 'MOOE';
+        }else{
+            $ppmp->budgetType = 'CO';
         }
-        return $ppmp;
+        $ppmp->modeOfProc = $request->modeOfProc;
+        $ppmp->unitCost = Helper::sanitizeAutonum($request->unitCost);
+        $ppmp->qty = $request->qty;
+        $ppmp->estTotalCost = $ppmp->unitCost*$ppmp->qty;
+        $ppmp->remarks = $request->remarks;
+        $ppmp->qty_jan = $request->qty_jan;
+        $ppmp->qty_feb = $request->qty_feb;
+        $ppmp->qty_mar = $request->qty_mar;
+        $ppmp->qty_apr = $request->qty_apr;
+        $ppmp->qty_may = $request->qty_may;
+        $ppmp->qty_jun = $request->qty_jun;
+        $ppmp->qty_jul = $request->qty_jul;
+        $ppmp->qty_aug = $request->qty_aug;
+        $ppmp->qty_sep = $request->qty_sep;
+        $ppmp->qty_oct = $request->qty_oct;
+        $ppmp->qty_nov = $request->qty_nov;
+        $ppmp->qty_dec = $request->qty_dec;
+        if($ppmp->update()){
+            return $ppmp->only('slug');
+        }
+        abort(503,'Error updating PPMP item.');
     }
+
     public function edit($slug){
-        $ppmp = $this->findBySlug($slug);
-        return view('dashboard.ppmp.edit')->with([
-            'ppmp' => $ppmp,
+        return view('ppu.ppmp.edit')->with([
+            'ppmp' => $this->findbySlug($slug),
         ]);
     }
 
-    public function update(PPMPFormRequest $request,$slug){
-        $ppmp = $this->findBySlug($slug);
-        $ppmp->ppmp_code = $request->ppmp_code;
-        $ppmp->budget_type = $request->budget_type;
-        $ppmp->total_budget = Helper::sanitizeAutonum($request->unit_cost)*$request->qty;
-        $ppmp->pap_code = $request->pap_code;
-        $ppmp->gen_desc = $request->gen_desc;
-        $ppmp->unit_cost = Helper::sanitizeAutonum($request->unit_cost);
-        $ppmp->qty = $request->qty;
-        $ppmp->uom = $request->uom;
-        $ppmp->mode_of_proc = $request->mode_of_proc;
-        $ppmp->remark = $request->remark;
-        $ppmp->qty_jan = $request->qty_jan;
-        $ppmp->qty_feb = $request->qty_feb;
-        $ppmp->qty_mar = $request->qty_mar;
-        $ppmp->qty_apr = $request->qty_apr;
-        $ppmp->qty_may = $request->qty_may;
-        $ppmp->qty_jun = $request->qty_jun;
-        $ppmp->qty_jul = $request->qty_jul;
-        $ppmp->qty_aug = $request->qty_aug;
-        $ppmp->qty_sep = $request->qty_sep;
-        $ppmp->qty_oct = $request->qty_oct;
-        $ppmp->qty_nov = $request->qty_nov;
-        $ppmp->qty_dec = $request->qty_dec;
-        if($ppmp->save()){
-            return $ppmp->only('slug');
-        }
+    public function findbySlug($slug){
+        $ppmp = PPMP::query()->with(['article','pap','pap.responsibilityCenter.description'])->where('slug','=',$slug)->first();
+        return $ppmp ?? abort(503,'PPMP item not found.');
     }
 
     public function destroy($slug){
-        $ppmp = $this->findBySlug($slug);
+        $ppmp = $this->findbySlug($slug);
         if($ppmp->delete()){
             return 1;
         }
-        abort(503,'Error deleting item.');
+        abort(503,'Error deleting PPMP item.');
     }
-
 }

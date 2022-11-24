@@ -229,6 +229,9 @@ class Helper
     }
 
     public static function sanitizeAutonum($num){
+        if($num == '' || $num == null){
+            return 0;
+        }
         $num = str_replace('₱','',$num);
         return str_replace(',','',$num);
     }
@@ -243,6 +246,22 @@ class Helper
             }
         }
         return $array;
+    }
+
+    public static function toSentence($str){
+        return ucwords(implode(' ',preg_split('/(?=[A-Z])/', $str)));
+
+    }
+
+    public static function wrapForSelect2($array){
+        return [
+            'results' => $array,
+//            "pagination" => [
+//                "more" => true ,
+//            ]
+
+
+        ];
     }
 
     public static function responsibilityCenters(){
@@ -261,9 +280,9 @@ class Helper
     }
     public static function budgetTypes(){
         return [
-            'PS' => 'Personnel Services (PS)',
-            'CO' => 'Capital Outlay (CO)',
-            'MOOE' => 'Maintenance and Other Operating Expenses (MOOE)',
+//            'PS' => 'Personnel Services (PS)',
+            'CO' => 'CO - Capital Outlay',
+            'MOOE' => 'MOOE - Maintenance and Other Operating Expenses)',
         ];
     }
 

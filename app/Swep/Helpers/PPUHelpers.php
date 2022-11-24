@@ -17,6 +17,7 @@ class PPUHelpers
         }
         $rc_codes = $rc_codes->get();
         foreach ($rc_codes as $rc_code){
+
             $arr[$rc_code->description->name][$rc_code->rc_code]= $rc_code->desc;
         }
 

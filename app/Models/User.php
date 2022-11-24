@@ -94,36 +94,9 @@ class User extends Authenticatable{
         return $this->hasOne(Employee::class, 'employee_no', 'employee_no');
     }
 
-    public function joEmployee(){
-        return $this->hasOne('App\Models\JoEmployees', 'employee_no', 'employee_no');
-    }
-    
-    public function employeeUnion(){
-        $employee = $this->hasOne('App\Models\Employee', 'employee_no', 'employee_no')
-            ->select(DB::raw('
-                firstname,
-                middlename,
-                lastname,
-                biometric_user_id,
-                employee_no,
-                date_of_birth as birthday,
-                email,
-                "PERM" as type
-            '));
-        $jo_emplyoee = $this->hasOne('App\Models\JoEmployees', 'employee_no', 'employee_no')
-            ->select(DB::raw('
-                firstname,
-                middlename,
-                lastname,
-                biometric_user_id,
-                employee_no,
-                birthday,
-                email,
-                "JO" as type
-            '));
 
-        return $employee->union($jo_emplyoee->getQuery());
-    }
+    
+
     
 
 

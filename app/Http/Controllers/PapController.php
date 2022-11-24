@@ -17,7 +17,7 @@ class PapController extends Controller
 {
     public function index(){
         if(request()->ajax() && request()->has('draw')){
-            $paps = PAP::query();
+            $paps = PAP::query()->with(['prs','prs.items']);
             return DataTables::of($paps)
                 ->addColumn('action',function ($data){
                     $destroy_route = "'".route("dashboard.pap.destroy","slug")."'";
@@ -35,6 +35,9 @@ class PapController extends Controller
                             </div>
                                <a href="'.route('dashboard.ppmp_modal.index').'?pap='.$data->slug.'" ><button class="btn btn-default btn-sm" data="'.$data->slug.'" style="margin-top: 5px; width: 97px"> <i class="fa icon-procurement"></i> PPMP</button></a>
                             ';
+                })
+                ->addColumn('procurement',function($data){
+                    return number_format($data->prItems()->sum('totalCost'),2);
                 })
                 ->addColumn('details',function ($data){
                     return 'd';

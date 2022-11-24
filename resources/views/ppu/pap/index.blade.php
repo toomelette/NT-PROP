@@ -159,7 +159,7 @@
                 "columns": [
                     { "data": "pap_code" },
                     { "data": "pap_title" },
-                    { "data": "co" },
+                    { "data": "procurement" },
                     { "data": "mooe" },
                     { "data": "pcent_share" },
                     { "data": "action" }

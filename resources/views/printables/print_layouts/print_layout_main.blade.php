@@ -6,7 +6,7 @@
 
     <script type="text/javascript" src="http://10.36.1.14:8003/template/bower_components/jquery/dist/jquery.min.js"></script>
 
-
+    <link type="text/css" rel="stylesheet" href="{{asset('css/print.css')}}?s={{\Illuminate\Support\Str::random()}}">
     <link type="text/css" rel="stylesheet" href="{{asset('template/bower_components/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Arial">
     <style type="text/css">

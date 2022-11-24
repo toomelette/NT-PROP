@@ -20,14 +20,27 @@ $('select[multiple]').select2({
 });
 
 
+function toast(type,message,heading = null) {
+    $.toast({
+        text: message, // Text that is to be shown in the toast
+        heading: heading, // Optional heading to be shown on the toast
+        icon: type, // Type of toast icon
+        showHideTransition: 'slide', // fade, slide or plain
+        allowToastClose: true, // Boolean value true or false
+        hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+        stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+        position: 'bottom-right', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+        textAlign: 'left',  // Text alignment i.e. left, right or center
+        loader: false,  // Whether to show loader or not. True by default
+        loaderBg: '#9EC600',  // Background color of the toast loader
+    });
+}
 var autonum_settings = {
-    currencySymbol : ' ₱',
+    currencySymbol : ' ',
     decimalCharacter : '.',
     digitGroupSeparator : ',',
+    watchExternalChanges: true
 };
-
-
-
 
 function autonum_init(){
     $(".autonum").each(function(){
@@ -365,18 +378,19 @@ function delete_data(slug,url){
                 if(res == 1){
                     btn.parents('#'+slug).addClass('danger');
                     btn.parents('#'+slug).addClass('animate__animated animate__zoomOutLeft');
-                    notify('Data deleted successfully','success');
+                    toast('warning','Data deleted successfully','Deleted');
                     setTimeout(function () {
                         btn.parents('#'+slug).parent('tbody').parent('table').DataTable().draw(false);
                     },500);
                 }else{
                     btn.parents('#'+slug).removeClass('warning');
-                    notify('Error deleting data.','danger');
+                    toast('danger','An error occurred while deleting data.','Error!');
                 }
 
             },
             error: function (res) {
-                notify(res.responseJSON.message,'danger');
+                toast('error',res.responseJSON.message,'Error '+res.status);
+                console.log(res);
                 btn.parents('#'+slug).removeClass('warning');
             }
         });

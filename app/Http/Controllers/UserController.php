@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\User\ChangePasswordFormRequest;
 use App\Http\Requests\User\UserEditFormRequest;
 use App\Models\Employee;
-use App\Models\JoEmployees;
+
 use App\Models\Menu;
 use App\Models\User;
 use App\Models\UserSubmenu;
@@ -43,7 +43,7 @@ class UserController extends Controller{
 
     public function index(UserFilterRequest $request){
         $menus = Menu::with('submenu')->get();
-        $users = User::query()->with(['userSubmenu','employeeUnion']);
+        $users = User::query()->with(['userSubmenu']);
         if(request()->ajax()){
             if(request()->has('draw')){
                 if($request->has('is_online') || $request->has('is_active')){
@@ -60,7 +60,7 @@ class UserController extends Controller{
                     }
                 }
 
-                $dt = DataTables::of($users->with(['employee','employeeUnion']))
+                $dt = DataTables::of($users->with(['employee']))
                     ->order(function ($query) use ($request){
                         if($request->has('order')){
                             if($request->order[0]['column'] == 2)
@@ -88,7 +88,8 @@ class UserController extends Controller{
                         $destroy_route = "'".route("dashboard.user.destroy","slug")."'";
                         $slug = "'".$data->slug."'";
                         if(!empty($data->employee)){
-                            $view = '<li><a href="'.route('dashboard.employee.index').'?find='.$data->employee->employee_no.'" target="_blank" class="" data="'.$data->slug.'">View employee</a></li>';
+                            $view = '';
+//                            $view = '<li><a href="'.route('dashboard.employee.index').'?find='.$data->employee->employee_no.'" target="_blank" class="" data="'.$data->slug.'">View employee</a></li>';
                         }else{
                             $view = '';
                         }
@@ -107,7 +108,7 @@ class UserController extends Controller{
                                   <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                                   <span class="caret"></span></button>
                                   <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li><a user="'.ucwords(strtolower($data->firstname)).'" href="#" data="'.$data->slug.'" name="'.strtoupper($data->firstname).' '.strtoupper($data->lastname).'" class="ac_dc" status="'.$stat.'" >'.$a.'</a>
+                                    <li><a user="'.ucwords(strtolower($data->firstname ?? '')).'" href="#" data="'.$data->slug.'" name="'.strtoupper($data->firstname ?? '').' '.strtoupper($data->lastname).'" class="ac_dc" status="'.$stat.'" >'.$a.'</a>
                                     </li>
                                     <li><a href="#" class="reset_password_btn" data="'.$data->slug.'" fullname="'.strtoupper($data->firstname).' '.strtoupper($data->lastname).'">Reset Password</a></li>
                                     '.$view.'
@@ -123,7 +124,7 @@ class UserController extends Controller{
                             if(!Hash::check($default_pword,$data->password)){
                                 $add = '<i class="fa fa-lock text-muted" title="The user has already changed its password."></i>';
                             }
-                            return strtoupper($data->employeeUnion->lastname.', '.$data->employeeUnion->firstname) .' '.$add;
+                            return strtoupper($data->employeeUnion->lastname??''.', ') .' '.$add;
                         }
                         return $data->lastname.', '.$data->firstname;
                     })

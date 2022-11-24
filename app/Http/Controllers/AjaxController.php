@@ -4,6 +4,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Articles;
+use App\Models\PAP;
+use App\Swep\Helpers\Helper;
 use Illuminate\Support\Str;
 
 class AjaxController extends Controller
@@ -30,5 +33,64 @@ class AjaxController extends Controller
         if($for == 'add_ppmp_row'){
             return view('ajax.ppmp.add_row');
         }
+
+        if($for == 'add_row'){
+            return view('dynamic_rows.'.request('view'));
+        }
+
+        if($for == 'pap_codes'){
+            $arr = [];
+            $like = '%'.request('q').'%';
+            $limit = 2;
+            $papCodes = PAP::query()
+                ->select('year' ,'pap_code','pap_title','pap_desc')
+                ->where('pap_code','like',$like)
+                ->orWhere('pap_desc','like',$like)
+                ->orWhere('pap_title','like',$like)
+                ->limit(10)
+                ->get();
+
+            if(!empty($papCodes)){
+                foreach ($papCodes as $papCode){
+                    array_push($arr,[
+                        'id' => $papCode->pap_code,
+                        'text' => $papCode->pap_code.' | '.$papCode->pap_title,
+                        'year' => $papCode->year,
+                        'pap_code' => $papCode->pap_code,
+                        'pap_title' => $papCode->pap_title,
+                    ]);
+                }
+            }
+            return Helper::wrapForSelect2($arr);
+        }
+
+        if($for == 'articles'){
+            $arr = [];
+            $like = '%'.request('q').'%';
+            $articles = Articles::query()
+                ->select('stockNo' ,'article','uom','unitPrice','modeOfProc')
+                ->where('article','like',$like)
+                ->orderBy('article','asc')
+                ->limit(10)
+                ->get();
+
+            if(!empty($articles)){
+                foreach ($articles as $article){
+                    array_push($arr,[
+                        'id' => $article->stockNo,
+                        'text' => $article->article,
+                        'populate' => [
+                            'uom' => $article->uom,
+                            'unitPrice' => $article->unitPrice,
+                            'modeOfProc' => $article->modeOfProc,
+                            'unitCost' => $article->unitPrice,
+                        ]
+                    ]);
+                }
+            }
+            return Helper::wrapForSelect2($arr);
+        }
+
+
     }
 }

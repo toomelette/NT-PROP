@@ -102,11 +102,26 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     /** PPMP **/
     Route::resource('ppmp', 'PPMPController');
+    /** PR **/
+    Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
+    Route::resource('pr', 'PRController');
 
+    Route::resource('articles','ArticlesController');
 
 });
 
 Route::get('test',function (){
     abort(500,'Sayang');
+});
+
+Route::get('/arrangePap',function (){
+   $resps = \App\Models\PPURespCodes::query()
+       ->where('division','=','')
+       ->where('section','=','')
+       ->get();
+    foreach ($resps as $resp) {
+        $resp->desc = $resp->department;
+        $resp->save();
+   }
 });
 

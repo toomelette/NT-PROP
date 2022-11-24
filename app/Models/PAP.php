@@ -31,4 +31,12 @@ class PAP extends Model
     public function ppmps(){
         return $this->hasMany(PPMP::class,'pap_code','pap_code');
     }
+
+    public function prs(){
+        return $this->hasMany(PR::class,'papCode','pap_code');
+    }
+
+    public function prItems(){
+        return $this->hasManyThrough(PRItems::class,PR::class,'papCode','pr_slug','pap_code','slug');
+    }
 }
