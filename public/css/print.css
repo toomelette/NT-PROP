@@ -94,6 +94,13 @@ table.print-table th,table.print-table td{
     text-align: center;
 }
 
+.tbl-minimal>thead>tr>th, .tbl-minimal>tbody>tr>th, .tbl-minimal>tfoot>tr>th, .tbl-minimal>thead>tr>td, .tbl-minimal>tbody>tr>td, .tbl-minimal>tfoot>tr>td{
+    padding: 2px !important;
+}
+.tbl-no-pad>thead>tr>th, .tbl-no-pad>tbody>tr>th, .tbl-no-pad>tfoot>tr>th, .tbl-no-pad>thead>tr>td, .tbl-no-pad>tbody>tr>td, .tbl-no-pad>tfoot>tr>td{
+    padding: 0px !important;
+}
+
 .text-right{
     text-align: right;
 }

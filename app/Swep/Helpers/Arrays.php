@@ -138,4 +138,21 @@ class Arrays
         ksort($arr);
         return $arr;
     }
+
+    public static function fundSources(){
+        return [
+            'COB' => 'COB',
+            'SIDA' => 'SIDA',
+        ];
+    }
+
+    public static function papTypes(){
+        return [
+            'indicative' => 'Indicative',
+            'final' => 'Final',
+            'supplemental' => 'Supplemental',
+            'realigned' => 'Realigned',
+            'cancelled' => 'Cancelled',
+        ];
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\PPU\PAPFormRequest;
 use App\Models\PAP;
 use App\Models\PapParent;
 use App\Swep\Helpers\Helper;
+use App\Swep\Services\PAPService;
 use App\Swep\ViewHelpers\__html;
 use http\Env\Request;
 use Illuminate\Support\Str;
@@ -15,6 +16,13 @@ use Yajra\DataTables\DataTables;
 
 class PapController extends Controller
 {
+
+    protected $papService;
+    public function __construct(PAPService $papService)
+    {
+        $this->papService = $papService;
+    }
+
     public function index(){
         if(request()->ajax() && request()->has('draw')){
             $paps = PAP::query()->with(['prs','prs.items']);
@@ -46,7 +54,7 @@ class PapController extends Controller
                     if($data->pap_desc != ''){
                         return $data->pap_title. '<div class="table-subdetail">'.$data->pap_desc.'</div>';
                     }
-                    return $data;
+                    return $data->pap_title;
                 })
                 ->escapeColumns([])
                 ->setRowId('slug')
@@ -58,21 +66,13 @@ class PapController extends Controller
     }
 
     public function store(PAPFormRequest $request){
-        $pap = PAP::query()->where('year','=',$request->year)->orderBy('base_pap_code','desc')->first();
-        if(!empty($pap)){
-            $base_pap_code = $pap->base_pap_code+1;
-            $pap_code = substr($request->year,2,4).'-'.$request->resp_center.'-'.$this->padPap($base_pap_code);
-        }else{
-            $base_pap_code = 1;
-            $pap_code = substr($request->year,2,4).'-'.$request->resp_center.'-'.$this->padPap($base_pap_code);
-        }
 
         $pap = new PAP;
         $pap->slug = Str::random();
         $pap->year = $request->year;
         $pap->resp_center = $request->resp_center;
-        $pap->base_pap_code = $this->padPap($base_pap_code);
-        $pap->pap_code = $pap_code;
+        $pap->base_pap_code = 1;
+        $pap->pap_code = $this->papService->newPapCode($request->year,$request->resp_center);
         $pap->pap_title = $request->pap_title;
         $pap->pap_desc = $request->pap_desc;
         $pap->ps = $request->ps;

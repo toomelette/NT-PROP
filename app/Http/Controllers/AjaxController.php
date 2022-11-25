@@ -38,6 +38,7 @@ class AjaxController extends Controller
             return view('dynamic_rows.'.request('view'));
         }
 
+
         if($for == 'pap_codes'){
             $arr = [];
             $like = '%'.request('q').'%';

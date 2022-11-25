@@ -106,6 +106,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
     Route::resource('pr', 'PRController');
 
+    Route::get('/jr/{slug}/print','JRController@print')->name('jr.print');
+    Route::resource('jr', 'JRController');
+
     Route::resource('articles','ArticlesController');
 
 });

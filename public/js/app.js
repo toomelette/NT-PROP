@@ -19,6 +19,25 @@ $('select[multiple]').select2({
     closeOnSelect: false,
 });
 
+$("body").on("click",".remove_row_btn",function () {
+    $(this).parents('tr').remove();
+})
+
+$("body").on("click",".add_button",function () {
+    let btn = $(this);
+    $.ajax({
+        url : btn.attr('uri'),
+        type: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+    success: function (res) {
+        $(btn.attr('data-target')+' tbody').append(res);
+    },
+    error: function (res) {
+    }
+})
+});
 
 function toast(type,message,heading = null) {
     $.toast({

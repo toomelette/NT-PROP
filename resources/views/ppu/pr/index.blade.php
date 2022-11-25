@@ -9,7 +9,6 @@
 @section('content2')
 
     <section class="content">
-        <iframe id="print_pr_frame" style="width: 100%; display: none; height: 1px"></iframe>
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">Purchase Requests</h3>
@@ -259,26 +258,9 @@
         })
 
 
-        $("body").on("click",".add_button",function () {
-            let btn = $(this);
-            $.ajax({
-                url : btn.attr('uri'),
-                type: 'GET',
-                headers: {
-                    {!! __html::token_header() !!}
-                },
-                success: function (res) {
-                    $(btn.attr('data-target')+' tbody').append(res);
-                },
-                error: function (res) {
 
-                }
-            })
-        })
 
-        $("body").on("click",".remove_row_btn",function () {
-            $(this).parents('tr').remove();
-        })
+
 
         $("#add_pr_form").submit(function (e) {
             e.preventDefault();

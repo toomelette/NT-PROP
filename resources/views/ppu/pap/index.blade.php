@@ -63,7 +63,7 @@
                             {!! \App\Swep\ViewHelpers\__form2::select('budget_type',[
                                 'label' => 'Budget Type:',
                                 'cols' => 6,
-                                'options' => \App\Swep\Helpers\Helper::budgetTypes(),
+                                'options' => \App\Swep\Helpers\Arrays::fundSources(),
                             ]) !!}
 
                         </div>
@@ -111,6 +111,11 @@
                                 'cols' => 4,
                                 'type' => 'number',
                                 'step' => '0.01',
+                            ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('pap_type',[
+                                'label' => 'Type:',
+                                'cols' => 4,
+                                'options' => \App\Swep\Helpers\Arrays::papTypes()
                             ]) !!}
                         </div>
                     </div>
