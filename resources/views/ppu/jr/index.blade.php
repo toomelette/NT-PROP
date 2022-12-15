@@ -16,8 +16,8 @@
             </div>
 
             <div class="box-body">
-                <div id="pr_table_container" style="display: none">
-                    <table class="table table-bordered table-striped table-hover" id="pr_table" style="width: 100% !important">
+                <div id="jr_table_container" style="display: none">
+                    <table class="table table-bordered table-striped table-hover" id="jr_table" style="width: 100% !important">
                         <thead>
                         <tr class="">
                             <th >Dept/Division</th>
@@ -114,6 +114,12 @@
                   </div>
                   <div class="col-md-2">
                       <div class="row">
+                          {!! \App\Swep\ViewHelpers\__form2::textbox('abc',[
+                            'cols' => 12,
+                            'label' => 'ABC: ',
+                            'class' => 'text-right autonum',
+                          ]) !!}
+
                           {!! \App\Swep\ViewHelpers\__form2::textbox('certifiedBy',[
                             'cols' => 12,
                             'label' => 'Certified by: ',
@@ -162,10 +168,92 @@
     </div>
   </div>
 </div>
+
+{!! \App\Swep\ViewHelpers\__html::blank_modal('edit_jr_modal',80) !!}
 @endsection
 
 @section('scripts')
     <script type="text/javascript">
+        modal_loader = $("#modal_loader").parent('div').html();
+        //Initialize DataTable
+        var active = '';
+        jr_tbl = $("#jr_table").DataTable({
+            "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
+            "columns": [
+                { "data": "dept" },
+                { "data": "divSec" },
+                { "data": "papCode" },
+                { "data": "jrNo" },
+                { "data": "jrDate" },
+                { "data": "items" },
+                { "data": "abc" },
+                { "data": "action" }
+            ],
+            "buttons": [
+                {!! __js::dt_buttons() !!}
+            ],
+            "columnDefs":[
+                {
+                    "targets" : 0,
+                    "class" : 'w-10p'
+                },
+                {
+                    "targets" : 1,
+                    "class" : 'w-12p'
+                },
+                {
+                    "targets" : 2,
+                    "class" : 'w-10p'
+                },
+                {
+                    "targets" : [3,4],
+                    "class" : 'w-8p'
+                },
+                {
+                    "targets" : 6,
+                    "class" : 'w-8p text-right'
+                },
+                {
+                    "targets" : 7,
+                    "orderable" : false,
+                    "class" : 'action4'
+                },
+            ],
+            "responsive": false,
+            'dom' : 'lBfrtip',
+            "processing": true,
+            "serverSide": true,
+            "initComplete": function( settings, json ) {
+                style_datatable("#"+settings.sTableId);
+                $('#tbl_loader').fadeOut(function(){
+                    $("#"+settings.sTableId+"_container").fadeIn();
+                    if(find != ''){
+                        jr_tbl.search(find).draw();
+                    }
+                });
+                //Need to press enter to search
+                $('#'+settings.sTableId+'_filter input').unbind();
+                $('#'+settings.sTableId+'_filter input').bind('keyup', function (e) {
+                    if (e.keyCode == 13) {
+                        jr_tbl.search(this.value).draw();
+                    }
+                });
+            },
+
+            "language":
+                {
+                    "processing": "<center><img style='width: 70px' src='{{asset("images/loader.gif")}}'></center>",
+                },
+            "drawCallback": function(settings){
+                $('[data-toggle="tooltip"]').tooltip();
+                $('[data-toggle="modal"]').tooltip();
+                if(active != ''){
+                    $("#"+settings.sTableId+" #"+active).addClass('success');
+                }
+            }
+        })
+
+
         $(".select2_papCode").select2({
             ajax: {
                 url: '{{route("dashboard.ajax.get","pap_codes")}}',
@@ -189,12 +277,32 @@
                 },
                 success: function (res) {
                     remove_loading_btn(form);
-                    // active = res.slug;
-                    // jr_tbl.draw(false);
-                    // succeed(form,true,true);
+                    active = res.slug;
+                    jr_tbl.draw(false);
+                    succeed(form,true,true);
                 },
                 error: function (res) {
                     errored(form,res);
+                }
+            })
+        })
+
+        $("body").on("click",".edit_jr_btn",function () {
+            let btn = $(this);
+            load_modal2(btn);
+            let uri = '{{route("dashboard.jr.edit","slug")}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
                 }
             })
         })

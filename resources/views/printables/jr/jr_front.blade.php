@@ -23,14 +23,14 @@
     <table style="width: 100%; padding-bottom: 20px" class="" >
         <tr>
             <td style="width: 15%;" class="b-left text-strong">Department:</td>
-            <td class="b-bottom text-strong" style="width: 35%;"> {{$jr->rc->department}} </td>
+            <td class="b-bottom text-strong" style="width: 35%;"> {{$jr->rc->department ?? null}} </td>
             <td class="b-left text-strong">J.R. No.:</td>
             <td class="text-strong b-bottom b-right"> {{$jr->jrNo}} </td>
 
         </tr>
         <tr>
             <td style="width: 15%;" class="b-left text-strong" >Section/Unit:</td>
-            <td style="width: 35%;" class="b-bottom text-strong"> {{$jr->rc->division}} {{(!empty($jr->rc->section)) ? ' - '.$jr->rc->section : null}} </td>
+            <td style="width: 35%;" class="b-bottom text-strong"> {{$jr->rc->division ?? null}} {{(!empty($jr->rc->section)) ? ' - '.$jr->rc->section : null}} </td>
             <td class="b-left text-strong">Date:</td>
             <td class="b-bottom text-strong b-right">{{$jr->jrDate}}</td>
         </tr>
@@ -75,11 +75,13 @@
 
         </tr>
         <tr>
-            <td colspan="4" class="b-top">CHARGE TO: <b>{{$jr->papCode}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b></td>
-            <td style="border-top: 1px solid black"  class="text-strong text-right"></td>
-
-{{--                {{number_format($jr->items()->sum('totalCost'),2)}}--}}
+            <td colspan="3" class="b-top">
+                CHARGE TO: <b>{{$jr->papCode}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b>
             </td>
+            <td class="text-right b-top text-strong">ABC:</td>
+            <td style="border-top: 1px solid black"  class="text-strong text-right"> {{number_format($jr->abc,2)}}</td>
+
+
         </tr>
         </tbody>
 

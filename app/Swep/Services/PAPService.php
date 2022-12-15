@@ -25,4 +25,11 @@ class PAPService extends BaseService
         }
 
     }
+
+    public function findBySlug($slug){
+        $pap = PAP::query()
+            ->with(['responsibilityCenter', 'ppmps', 'prs'])
+            ->where('slug','=',$slug)->first();
+        return $pap ?? abort(503,'PAP not found.');
+    }
 }

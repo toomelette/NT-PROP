@@ -13,7 +13,7 @@
             'class' => 'input-sm',
             'for' => 'uom',
             'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
-        ],$item->unit ?? null) !!}
+        ],$item->uom ?? null) !!}
     </td>
 
     <td>
@@ -38,7 +38,7 @@
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][natureOfWork]',[
             'class' => 'input-sm',
             'label' => 'Description:',
-        ],$item->description ?? null) !!}
+        ],$item->natureOfWork ?? null) !!}
     </td>
     <td>
         <button data="S01QH" type="button" class="btn btn-danger btn-sm remove_row_btn"><i class="fa fa-times"></i></button>

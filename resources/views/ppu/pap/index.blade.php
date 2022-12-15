@@ -21,8 +21,11 @@
                         <tr class="">
                             <th class="th-20">PAP Code</th>
                             <th >PAP Title</th>
-                            <th >Procurement</th>
+                            <th>PS</th>
+                            <th>CO</th>
+                            <th>MOOE</th>
                             <th >Total budget</th>
+                            <th >Procurement</th>
                             <th >Details</th>
                             <th>Action</th>
                         </tr>
@@ -90,19 +93,19 @@
                             {!! \App\Swep\ViewHelpers\__form2::textbox('ps',[
                                 'label' => 'PS:',
                                 'cols' => 4,
-                                'class' => 'autonum'
+                                'class' => 'text-right autonum'
                             ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('co',[
                                 'label' => 'Capital Outlay:',
                                 'cols' => 4,
-                                'class' => 'autonum'
+                                'class' => 'text-right autonum'
                             ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('mooe',[
                                 'label' => 'MOOE:',
                                 'cols' => 4,
-                                'class' => 'autonum'
+                                'class' => 'text-right autonum'
                             ]) !!}
                         </div>
                         <div class="row">
@@ -112,10 +115,15 @@
                                 'type' => 'number',
                                 'step' => '0.01',
                             ]) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::select('pap_type',[
+                            {!! \App\Swep\ViewHelpers\__form2::select('type',[
                                 'label' => 'Type:',
                                 'cols' => 4,
                                 'options' => \App\Swep\Helpers\Arrays::papTypes()
+                            ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('status',[
+                                'label' => 'Status:',
+                                'cols' => 4,
+                                'options' => \App\Swep\Helpers\Arrays::activeInactive()
                             ]) !!}
                         </div>
                     </div>
@@ -128,6 +136,7 @@
     </div>
     {!! \App\Swep\ViewHelpers\__html::blank_modal('ppmp_modal',90) !!}
     {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_ppmp_modal',95,'200px') !!}
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_pap_modal','') !!}
 @endsection
 
 @section('scripts')
@@ -158,14 +167,17 @@
             //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
-            var active = '';
+            active = '';
             pap_tbl = $("#pap_table").DataTable({
                 "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
                 "columns": [
                     { "data": "pap_code" },
                     { "data": "pap_title" },
-                    { "data": "procurement" },
+                    { "data": "ps" },
+                    { "data": "co" },
                     { "data": "mooe" },
+                    { "data": "totalBudget" },
+                    { "data": "procurement" },
                     { "data": "pcent_share" },
                     { "data": "action" }
                 ],
@@ -178,11 +190,11 @@
                         "class" : 'w-8p'
                     },
                     {
-                        "targets" : [2,3,4],
+                        "targets" : [2,3,4,5,6],
                         "class" : 'w-8p text-right'
                     },
                     {
-                        "targets" : 5,
+                        "targets" : 8,
                         "orderable" : false,
                         "class" : 'action3'
                     },
@@ -221,5 +233,25 @@
                 }
             });
         })
+
+        $("body").on("click",".edit_pap_btn",function () {
+            let btn = $(this);
+            load_modal2(btn);
+            let uri = '{{route("dashboard.pap.edit","slug")}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
+                }
+            })
+        });
     </script>
 @endsection

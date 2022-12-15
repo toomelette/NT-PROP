@@ -29,7 +29,7 @@ class PAP extends Model
     }
 
     public function ppmps(){
-        return $this->hasMany(PPMP::class,'pap_code','pap_code');
+        return $this->hasMany(PPMP::class,'papCode','pap_code');
     }
 
     public function prs(){

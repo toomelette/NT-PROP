@@ -18,6 +18,20 @@
     padding-left: 1px;
 }
 
+
+.jr_items>thead>tr>th:first-child{
+    width: 20%;
+}
+
+
+.jr_items>thead>tr>th{
+    padding-left: 1px;
+}
+
+.jr_items>tbody>tr>td{
+    padding-left: 1px;
+}
+
 .jq-toast-heading{
     font-weight: bold;
     color: white;

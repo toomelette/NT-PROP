@@ -155,4 +155,15 @@ class Arrays
             'cancelled' => 'Cancelled',
         ];
     }
+
+    public static function activeInactive(){
+        return[
+            'active' => 'Active',
+            'inactive' => 'Inactive',
+        ];
+    }
+
+    public static function milestones(){
+        return ['Jan', 'Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    }
 }
