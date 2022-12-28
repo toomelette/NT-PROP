@@ -7,7 +7,6 @@
     </section>
 @endsection
 @section('content2')
-
     <section class="content">
         <div class="box box-solid">
             <div class="box-header with-border">

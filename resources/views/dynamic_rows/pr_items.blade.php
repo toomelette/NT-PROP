@@ -19,7 +19,7 @@
     @if(request()->ajax())
         <td>
             {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][item]',[
-                'class' => 'input-sm select2_item_'.$rand,
+                'class' => 'input-sm select2_item_'.$rand.' items_'.$rand.'_item',
                 'options' => [],
                 'select2_preSelected' => $item->article->article ?? null,
             ],$item->item ?? null) !!}
@@ -27,34 +27,34 @@
     @else
         <td>
             {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][item]',[
-                'class' => 'input-sm select2_item',
+                'class' => 'input-sm select2_item items_'.$rand.'_item',
                 'options' => [],
             ],$item->item ?? null) !!}
         </td>
     @endif
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][description]',[
-            'class' => 'input-sm',
+            'class' => 'input-sm items_'.$rand.'_description',
             'label' => 'Description:',
         ],$item->description ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][qty]',[
-            'class' => 'input-sm qty unitXcost',
+            'class' => 'input-sm qty unitXcost items_'.$rand.'_qty',
             'type' => 'number',
         ],$item->qty ?? null) !!}
     </td>
     @if(request()->ajax())
         <td>
             {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unitCost]',[
-                'class' => 'input-sm unitCost text-right unitXcost autonum_'.$rand,
+                'class' => 'input-sm unitCost text-right unitXcost autonum_'.$rand.' items_'.$rand.'_unitCost',
             ],$item->unitCost ?? null) !!}
             <small for="unitCost" class="pull-right text-muted">{{$item->article->unitPrice ?? null}}</small>
         </td>
     @else
         <td>
             {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unitCost]',[
-                'class' => 'input-sm unitCost unitXcost autonum',
+                'class' => 'input-sm unitCost unitXcost autonum items_'.$rand.'_unitCost',
             ],$item->unitCost ?? null) !!}
             <small for="unitCost" class="pull-right text-muted">{{$item->article->unitPrice ?? null}}</small>
         </td>

@@ -6,6 +6,7 @@ namespace App\Swep\Helpers;
 
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
+use Illuminate\Support\Facades\Auth;
 
 class Arrays
 {
@@ -32,12 +33,18 @@ class Arrays
     }
 
     public static function groupedRespCodes(){
-        $rcs = PPURespCodes::query()->with(['description'])->get();
+        if(!empty(Auth::user()->userDetails)){
+            $rcs = PPURespCodes::query()->with(['description'])
+                ->where('rc','=',Auth::user()->userDetails->rc)
+                ->get();
+        }else{
+            return [];
+        }
+
         $arr = [];
 
         if(!empty($rcs)){
             foreach ($rcs as $rc){
-
                 $arr[$rc->description->name][$rc->rc_code] = $rc->desc;
             }
         }

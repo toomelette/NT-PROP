@@ -10,10 +10,10 @@
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
             </td>
             <td class="text-center">
-                <p class="no-margin text-strong" style="font-size: 25px">JOB REQUEST</p>
-                <p class="no-margin">SUGAR REGULATORY ADMINISTRATION</p>
-                <p class="no-margin">Araneta St., Singcang, Bacolod City</p>
-                <p class="no-margin">Telefax No. (034) 434-5123</p>
+                <p class="no-margin text-strong" style="font-size: 30px">JOB REQUEST</p>
+                <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
+                <p class="no-margin text-strong">Araneta St., Singcang, Bacolod City</p>
+                <p class="no-margin text-strong">Telefax No. (034) 434-5123</p>
             </td>
             <td style="width: 30%">
 
@@ -53,15 +53,15 @@
         @if(!empty($jr->items))
             @foreach($jr->items as $item)
                 <tr>
-                    <td class="text-center">{{$item->propertyNo}}</td>
-                    <td class="text-center">{{strtoupper($item->uom)}}</td>
+                    <td class="text-center" style="vertical-align: top">{{$item->propertyNo}}</td>
+                    <td class="text-center" style="vertical-align: top">{{strtoupper($item->uom)}}</td>
                     <td>
                         <b>{{$item->item}}</b>
                         <br>
-                        <i>{{$item->description}}</i>
+                        <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                     </td>
-                    <td class="text-center">{{number_format($item->qty)}} </td>
-                    <td class="text-right">{{$item->natureOfWork}}</td>
+                    <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
+                    <td class="text-right" style="vertical-align: top">{{$item->natureOfWork}}</td>
                 </tr>
 
             @endforeach

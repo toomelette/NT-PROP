@@ -69,8 +69,8 @@ class __form2
             return '<input class="form-control '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
              ';
         }
-        return '<div class="'.$c_class.' col-md-'.$n->cols.' '.$name.'">
-                <input for="'.$n->for.'" class="form-control '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
+        return '<div class=" '.$c_class.' col-md-'.$n->cols.' '.$name.'">
+                <input for="'.$n->for.'" class="form-control single '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
               </div>';
     }
 
@@ -211,7 +211,7 @@ class __form2
         }
 
         return '<div class=" '.$c_class.' col-md-'.$n->cols .' '.$name.'">
-                <select for="'.$n->for.'" name="'. $name .$ext.'" '. $id .' class="form-control '.$n->class.'" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
+                <select for="'.$n->for.'" name="'. $name .$ext.'" '. $id .' class="form-control single '.$n->class.'" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
                     '.$preSelected.'
                     '.$opt_html.'
                   </select>
@@ -279,7 +279,7 @@ class __form2
         $n->set($options);
         $id = ($n->id != '') ?  'id="'.$n->id.'"' : '';
         return '
-                <textarea class="form-control '.$n->class.'" '.$id.' name="'. $name .'" rows="'.$n->rows.'" '. $n->extra_attr .'>'. __sanitize::html_encode($value) .'</textarea>
+                <textarea class="form-control single '.$n->class.'" '.$id.' name="'. $name .'" rows="'.$n->rows.'" '. $n->extra_attr .'>'. __sanitize::html_encode($value) .'</textarea>
           ';
     }
 

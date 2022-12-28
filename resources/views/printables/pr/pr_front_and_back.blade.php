@@ -10,10 +10,10 @@
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
             </td>
             <td class="text-center">
-                    <p class="no-margin text-strong" style="font-size: 25px">PURCHASE REQUEST</p>
-                    <p class="no-margin">SUGAR REGULATORY ADMINISTRATION</p>
-                    <p class="no-margin">Araneta St., Singcang, Bacolod City</p>
-                    <p class="no-margin">Telefax No. (034) 434-5123</p>
+                    <p class="no-margin text-strong" style="font-size: 30px">PURCHASE REQUEST</p>
+                    <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
+                    <p class="no-margin text-strong">Araneta St., Singcang, Bacolod City</p>
+                    <p class="no-margin text-strong">Telefax No. (034) 434-5123</p>
             </td>
             <td style="width: 30%">
 
@@ -57,16 +57,16 @@
             @if(!empty($pr->items))
                 @foreach($pr->items as $item)
                     <tr>
-                        <td class="text-center">{{$item->stockNo}}</td>
+                        <td class="text-center" style="vertical-align: top">{{$item->stockNo}}</td>
                         <td class="text-center">{{$item->article->uom ?? ''}}</td>
                         <td>
                             <b>{{$item->article->article ?? 'Article not found.'}}</b>
                             <br>
-                            <i>{{$item->description}}</i>
+                            <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                         </td>
-                        <td class="text-center">{{number_format($item->qty)}} </td>
-                        <td class="text-right">{{number_format($item->unitCost,2)}}</td>
-                        <td class="text-right">{{number_format($item->totalCost,2)}}</td>
+                        <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
+                        <td class="text-right" style="vertical-align: top">{{number_format($item->unitCost,2)}}</td>
+                        <td class="text-right" style="vertical-align: top">{{number_format($item->totalCost,2)}}</td>
                     </tr>
 
                 @endforeach

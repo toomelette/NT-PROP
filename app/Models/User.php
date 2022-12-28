@@ -94,7 +94,9 @@ class User extends Authenticatable{
         return $this->hasOne(Employee::class, 'employee_no', 'employee_no');
     }
 
-
+    public function userDetails(){
+        return $this->hasOne(UserDetails::class,'user_id','user_id');
+    }
     
 
     

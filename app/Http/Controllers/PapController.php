@@ -137,4 +137,12 @@ class PapController extends Controller
             'pap' => $this->papService->findBySlug($slug)
         ]);
     }
+
+    public function destroy($slug){
+        $pap = $this->papService->findBySlug($slug);
+        if($pap->delete()){
+            return 1;
+        }
+        abort(503,'Error deleting PAP');
+    }
 }

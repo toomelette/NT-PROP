@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\PR\PRFormRequest;
 use App\Models\PR;
 use App\Models\PRItems;
 use App\Swep\Helpers\Helper;
@@ -62,7 +63,7 @@ class PRController extends Controller
             ->toJson();
     }
 
-    public function store(Request $request){
+    public function store(PRFormRequest $request){
 //        abort(503,$this->prService->getNextPRNo());
         $pr = new PR();
         $pr->slug = Str::random();
@@ -111,7 +112,7 @@ class PRController extends Controller
     }
 
 
-    public function update(Request $request,$slug){
+    public function update(PRFormRequest $request,$slug){
         $pr = $this->findBySlug($slug);
         $pr->department = $request->department;
         $pr->division = $request->division;

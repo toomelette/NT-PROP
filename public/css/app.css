@@ -547,3 +547,8 @@ ol.example li.placeholder:before {
     border:1px solid red;
     box-shadow: 0 0 10px #dd514c;
 }
+
+textarea.has-error, input.has-error, select.has-error {
+    border-color: #dd4b39 !important;
+    box-shadow: none;
+}

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Articles;
 use App\Models\PAP;
 use App\Swep\Helpers\Helper;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class AjaxController extends Controller
@@ -45,11 +46,18 @@ class AjaxController extends Controller
             $limit = 2;
             $papCodes = PAP::query()
                 ->select('year' ,'pap_code','pap_title','pap_desc')
-                ->where('pap_code','like',$like)
-                ->orWhere('pap_desc','like',$like)
-                ->orWhere('pap_title','like',$like)
-                ->limit(10)
-                ->get();
+                ->where(function ($query) use ($like){
+                    $query->where('pap_code','like',$like)
+                        ->orWhere('pap_desc','like',$like)
+                        ->orWhere('pap_title','like',$like);
+                });
+            if(!empty(Auth::user()->userDetails)){
+                $papCodes = $papCodes->whereHas('responsibilityCenter',function ($query){
+                    $query->where('rc','=',Auth::user()->userDetails->rc);
+                });
+            }
+
+            $papCodes = $papCodes->limit(10)->get();
 
             if(!empty($papCodes)){
                 foreach ($papCodes as $papCode){
@@ -62,6 +70,13 @@ class AjaxController extends Controller
                     ]);
                 }
             }
+
+            array_push($arr,[
+                'id' => 'UNPROGRAMMED',
+                'text' => 'UNPROGRAMMED',
+                'pap_code' => '',
+                'pap_title' => '',
+            ]);
             return Helper::wrapForSelect2($arr);
         }
 

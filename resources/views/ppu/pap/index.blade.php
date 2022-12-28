@@ -154,6 +154,9 @@
                 },
                 success: function (res) {
                    succeed(form,true,false);
+                   active = res.slug;
+                    pap_tbl.draw(false);
+                    toast('success','PAP created successfully.','Success!');
                 },
                 error: function (res) {
                     errored(form,res);
