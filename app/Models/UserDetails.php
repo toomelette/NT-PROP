@@ -10,4 +10,6 @@ class UserDetails extends Model
 {
     protected $connection = 'mysql_ppu';
     protected $table = 'user_details';
+
+    public $timestamps = false;
 }

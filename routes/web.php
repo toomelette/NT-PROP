@@ -47,6 +47,7 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::delete('/profile/training_destroy/{slug}','ProfileController@trainingDestroy')->name('profile.training_destroy');
 
     Route::get('/ajax/{for}','AjaxController@get')->name('ajax.get');
+    Route::post('/ajax/{for}','AjaxController@post')->name('ajax.post');
     Route::post('/profile/educ_bg_store','ProfileController@educationalBackgroundStore')->name('profile.educ_bg_store');
     Route::post('/profile/eligibility_store','ProfileController@eligibilityStore')->name('profile.eligibility_store');
     Route::post('/profile/work_experience_store','ProfileController@workExperienceStore')->name('profile.work_experience_store');

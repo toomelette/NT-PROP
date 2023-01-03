@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Articles;
 use App\Models\PAP;
+use App\Models\User;
+use App\Models\UserDetails;
 use App\Swep\Helpers\Helper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -108,5 +110,28 @@ class AjaxController extends Controller
         }
 
 
+    }
+
+
+    public function post($for){
+
+        switch ($for){
+            case 'assign_rc':
+                $request = request()->all();
+                request()->validate([
+                    'resp_center' => ' required|string',
+                ]);
+                Auth::user()->userDetails()->delete();
+
+                $ud = new UserDetails();
+                $ud->user_id = Auth::user()->user_id;
+                $ud->rc = request()->get('resp_center');
+                $ud->save();
+                return 1;
+                break;
+            default:
+                abort(503,'For assignment not found.');
+                break;
+        }
     }
 }

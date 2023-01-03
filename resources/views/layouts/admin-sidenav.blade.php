@@ -56,31 +56,31 @@
 
 
         @if(count($tree) > 0)
-            @php($tree_copy = $tree)
-            @php(ksort($tree_copy))
-            @if(count($tree_copy) > 1)
-                    <li class="header header-navigation">NAVIGATION:</li>
-                    <li class="grouper" style="height: 50px;">
-                        <div>
-                            <select class="form-control" id="sidenav_selector" name="abc" style="" data-placeholder="Select a navigation">
-                                @foreach($tree_copy as $category=>$menus)
-                                    @if($category == \Illuminate\Support\Facades\Auth::user()->sidenav)
-                                        <option value="{{$category}}" selected>{!! __html::sidenav_labeler($category) !!}</option>
-                                    @else
-                                        <option value="{{$category}}">{!! __html::sidenav_labeler($category) !!}</option>
-                                    @endif
-                                @endforeach
-                                @if(\Illuminate\Support\Facades\Auth::user()->sidenav == '')
-                                    <option value="" selected>ALL</option>
-                                @else
-                                    <option value="">ALL</option>
-                                @endif
-                            </select>
-                        </div>
-                    </li>
+{{--            @php($tree_copy = $tree)--}}
+{{--            @php(ksort($tree_copy))--}}
+{{--            @if(count($tree_copy) > 1)--}}
+{{--                    <li class="header header-navigation">NAVIGATION:</li>--}}
+{{--                    <li class="grouper" style="height: 50px;">--}}
+{{--                        <div>--}}
+{{--                            <select class="form-control" id="sidenav_selector" name="abc" style="" data-placeholder="Select a navigation">--}}
+{{--                                @foreach($tree_copy as $category=>$menus)--}}
+{{--                                    @if($category == \Illuminate\Support\Facades\Auth::user()->sidenav)--}}
+{{--                                        <option value="{{$category}}" selected>{!! __html::sidenav_labeler($category) !!}</option>--}}
+{{--                                    @else--}}
+{{--                                        <option value="{{$category}}">{!! __html::sidenav_labeler($category) !!}</option>--}}
+{{--                                    @endif--}}
+{{--                                @endforeach--}}
+{{--                                @if(\Illuminate\Support\Facades\Auth::user()->sidenav == '')--}}
+{{--                                    <option value="" selected>ALL</option>--}}
+{{--                                @else--}}
+{{--                                    <option value="">ALL</option>--}}
+{{--                                @endif--}}
+{{--                            </select>--}}
+{{--                        </div>--}}
+{{--                    </li>--}}
 
 
-            @endif
+{{--            @endif--}}
 
                 <li class="header" id="sidenav_search_header" style="display: none; background-color: #024850; color: white"><i class="fa fa-search"></i> SEARCH:</li>
             @foreach($tree as $category=>$menus)

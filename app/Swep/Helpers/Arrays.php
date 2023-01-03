@@ -32,13 +32,18 @@ class Arrays
         return $arr;
     }
 
-    public static function groupedRespCodes(){
+    public static function groupedRespCodes($all = null){
         if(!empty(Auth::user()->userDetails)){
             $rcs = PPURespCodes::query()->with(['description'])
                 ->where('rc','=',Auth::user()->userDetails->rc)
                 ->get();
         }else{
-            return [];
+            if($all == 'all'){
+                $rcs = PPURespCodes::query()->with(['description'])
+                    ->get();
+            }else{
+                return [];
+            }
         }
 
         $arr = [];
@@ -58,6 +63,17 @@ class Arrays
         if(!empty($rcs)){
             foreach ($rcs as $rc){
                 $arr[$rc->department] = $rc->department;
+            }
+        }
+        return $arr;
+    }
+
+    public static function rcs(){
+        $arr = [];
+        $rcs = RCDesc::query()->orderBy('name','asc')->get();
+        if(!empty($rcs)){
+            foreach ($rcs as $rc){
+                $arr[$rc->rc] = $rc->name .' - '.$rc->descriptive_name;
             }
         }
         return $arr;
