@@ -4,6 +4,9 @@
 @extends('printables.print_layouts.print_layout_main')
 
 @section('wrapper')
+    <br>
+    <br>
+    <br>
     <table style="width: 100%; border:1px solid black">
         <tr>
             <td style="width: 30%">
@@ -147,7 +150,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            let set = 530;
+            let set = 520;
             if($("#items_table_{{$rand}}").height() < set){
                 let rem = set - $("#items_table_{{$rand}}").height();
                 $("#adjuster").css('height',rem)
