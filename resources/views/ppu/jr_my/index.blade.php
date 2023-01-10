@@ -3,14 +3,14 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Manage Job Requests</h1>
+        <h1>My Job Requests</h1>
     </section>
 @endsection
 @section('content2')
     <section class="content">
         <div class="box box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Job Requests</h3>
+                <h3 class="box-title"> My Job Requests</h3>
                 <button class="btn btn-primary btn-sm pull-right" data-target="#add_jr_modal" data-toggle="modal"> <i class="fa fa-plus"></i> Create</button>
             </div>
 
@@ -22,8 +22,8 @@
                             <th >Dept/Division</th>
                             <th >Div/Sec</th>
                             <th>PAP Code</th>
-                            <th>PR No.</th>
-                            <th>PR Date</th>
+                            <th>JR No.</th>
+                            <th>JR Date</th>
                             <th >Items</th>
 
                             <th >Total</th>
@@ -61,23 +61,19 @@
           </div>
           <div class="modal-body">
               <div class="row">
-                  {!! \App\Swep\ViewHelpers\__form2::select('respCenter',[
+                  {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                       'cols' => 5,
                       'label' => 'Department/Division/Section:',
                       'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
                   ]) !!}
 
-                  {!! \App\Swep\ViewHelpers\__form2::select('papCode',[
+                  {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
                       'cols' => 5,
                       'label' => 'PAP Code:',
                       'options' => [],
                       'class' => 'select2_papCode',
                   ]) !!}
-                  {!! \App\Swep\ViewHelpers\__form2::textbox('jrDate',[
-                      'cols' => 2,
-                      'label' => 'JR Date.:',
-                      'type' => 'date',
-                  ]) !!}
+
               </div>
               <div class="row">
                   <div class="col-md-12">
@@ -119,7 +115,7 @@
                             'class' => 'text-right autonum',
                           ]) !!}
 
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('certifiedBy',[
+                          {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by',[
                             'cols' => 12,
                             'label' => 'Certified by: ',
                             'rows' => 4
@@ -128,14 +124,14 @@
                   </div>
                   <div class="col-md-3">
                       <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('requestedBy',[
+                          {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
                             'cols' => 12,
                             'label' => 'Requested by: ',
                             'rows' => 4
                           ]) !!}
                       </div>
                       <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('requestedByDesignation',[
+                          {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
                             'cols' => 12,
                             'label' => 'Requested by (Designation): ',
                             'rows' => 4
@@ -144,14 +140,14 @@
                   </div>
                   <div class="col-md-3">
                       <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('approvedBy',[
+                          {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
                             'cols' => 12,
                             'label' => 'Approved by: ',
                             'rows' => 4
                           ]) !!}
                       </div>
                       <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('approvedByDesignation',[
+                          {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by_designation',[
                             'cols' => 12,
                             'label' => 'Approved by (Designation): ',
                             'rows' => 4
@@ -180,10 +176,10 @@
             "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
             "columns": [
                 { "data": "dept" },
-                { "data": "divSec" },
-                { "data": "papCode" },
-                { "data": "jrNo" },
-                { "data": "jrDate" },
+                { "data": "div_sec" },
+                { "data": "pap_code" },
+                { "data": "ref_no" },
+                { "data": "date" },
                 { "data": "items" },
                 { "data": "abc" },
                 { "data": "action" }
@@ -268,7 +264,7 @@
             let form = $(this);
             loading_btn(form);
             $.ajax({
-                url : '{{route("dashboard.jr.store")}}',
+                url : '{{route("dashboard.my_jr.store")}}',
                 data : form.serialize(),
                 type: 'POST',
                 headers: {
@@ -289,7 +285,7 @@
         $("body").on("click",".edit_jr_btn",function () {
             let btn = $(this);
             load_modal2(btn);
-            let uri = '{{route("dashboard.jr.edit","slug")}}';
+            let uri = '{{route("dashboard.my_jr.edit","slug")}}';
             uri = uri.replace('slug',btn.attr('data'));
             $.ajax({
                 url : uri,

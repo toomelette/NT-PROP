@@ -26,14 +26,14 @@
     <table style="width: 100%; padding-bottom: 20px" class="" >
         <tr>
             <td style="width: 15%;" class="b-left text-strong">Department:</td>
-            <td class="b-bottom text-strong" style="width: 35%;"> {{$jr->rc->department ?? null}} </td>
+            <td class="b-bottom text-strong" style="width: 45%;"> {{$jr->rc->department ?? null}} </td>
             <td class="b-left text-strong">J.R. No.:</td>
-            <td class="text-strong b-bottom b-right"> {{$jr->jrNo}} </td>
+            <td class="text-strong b-bottom b-right"> {{$jr->ref_no}} </td>
 
         </tr>
         <tr>
             <td style="width: 15%;" class="b-left text-strong" >Section/Unit:</td>
-            <td style="width: 35%;" class="b-bottom text-strong"> {{$jr->rc->division ?? null}} {{(!empty($jr->rc->section)) ? ' - '.$jr->rc->section : null}} </td>
+            <td style="width: 25%;" class="b-bottom text-strong"> {{$jr->rc->division ?? null}} {{(!empty($jr->rc->section)) ? ' - '.$jr->rc->section : null}} </td>
             <td class="b-left text-strong">Date:</td>
             <td class="b-bottom text-strong b-right">{{$jr->jrDate}}</td>
         </tr>
@@ -53,18 +53,18 @@
         </tr>
         </thead>
         <tbody>
-        @if(!empty($jr->items))
-            @foreach($jr->items as $item)
+        @if(!empty($jr->transDetails))
+            @foreach($jr->transDetails as $item)
                 <tr>
-                    <td class="text-center" style="vertical-align: top">{{$item->propertyNo}}</td>
-                    <td class="text-center" style="vertical-align: top">{{strtoupper($item->uom)}}</td>
+                    <td class="text-center" style="vertical-align: top">{{$item->property_no}}</td>
+                    <td class="text-center" style="vertical-align: top">{{strtoupper($item->unit)}}</td>
                     <td>
                         <b>{{$item->item}}</b>
                         <br>
                         <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                     </td>
                     <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
-                    <td class="text-right" style="vertical-align: top">{{$item->natureOfWork}}</td>
+                    <td class="text-right" style="vertical-align: top">{{$item->nature_of_work}}</td>
                 </tr>
 
             @endforeach
@@ -109,7 +109,7 @@
     <table style="width: 100%;" class="tbl-no-pad">
         <tr>
             <td style="width: 75%" class="b-left"></td>
-            <td class="text-strong text-center b-right b-bottom"><br>{{$jr->certifiedBy}}</td>
+            <td class="text-strong text-center b-right b-bottom"><br>{{$jr->certified_by}}</td>
         </tr>
         <tr>
             <td class="b-left"></td>
@@ -135,13 +135,13 @@
         </tr>
         <tr>
             <td>Printed Name:</td>
-            <td class="text-strong text-center">{{$jr->requestedBy}}</td>
-            <td class="text-strong text-center">{{$jr->approvedBy}}</td>
+            <td class="text-strong text-center">{{$jr->requested_by}}</td>
+            <td class="text-strong text-center">{{$jr->approved_by}}</td>
         </tr>
         <tr>
             <td>Designation:</td>
-            <td class="text-center">{{$jr->requestedByDesignation}}</td>
-            <td class="text-center">{{$jr->approvedByDesignation}}</td>
+            <td class="text-center">{{$jr->requested_by_designation}}</td>
+            <td class="text-center">{{$jr->approved_by_designation}}</td>
         </tr>
     </table>
 @endsection
@@ -150,7 +150,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            let set = 520;
+            let set = 500;
             if($("#items_table_{{$rand}}").height() < set){
                 let rem = set - $("#items_table_{{$rand}}").height();
                 $("#adjuster").css('height',rem)

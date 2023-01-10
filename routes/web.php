@@ -55,6 +55,13 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::post('/profile/select_theme','ProfileController@selectTheme')->name('profile.select_theme');
 
     Route::get('/view_edit_history','EditHistoryController@index')->name('view_edit_history');
+
+
+    Route::get('/my_pr/{slug}/print','MyPrController@print')->name('my_pr.print');
+    Route::resource('my_pr', 'MyPrController');
+
+    Route::get('/my_jr/{slug}/print','MyPrController@print')->name('my_jr.print');
+    Route::resource('my_jr', 'MyJrController');
 });
 
 /** Dashboard **/
@@ -104,11 +111,16 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     /** PPMP **/
     Route::resource('ppmp', 'PPMPController');
     /** PR **/
+
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
     Route::resource('pr', 'PRController');
 
+
     Route::get('/jr/{slug}/print','JRController@print')->name('jr.print');
     Route::resource('jr', 'JRController');
+
+    Route::get('/rfq/{slug}/print','RFQController@print')->name('rfq.print');
+    Route::resource('rfq', 'RFQController');
 
     Route::resource('articles','ArticlesController');
 

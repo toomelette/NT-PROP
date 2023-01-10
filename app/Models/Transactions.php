@@ -7,7 +7,7 @@ namespace App\Models;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
-class JR extends Model
+class Transactions extends Model
 {
     public static function boot()
     {
@@ -24,17 +24,17 @@ class JR extends Model
             $a->created_at = \Carbon::now();
         });
     }
-    protected $table = 'jr';
+    protected $table = 'transactions';
 
-    public function items(){
-        return $this->hasMany(JRItems::class,'jr_slug','slug');
+    public function transDetails(){
+        return $this->hasMany(TransactionDetails::class,'transaction_slug','slug');
     }
 
     public function rc(){
-        return $this->hasOne(PPURespCodes::class,'rc_code','respCenter');
+        return $this->hasOne(PPURespCodes::class,'rc_code','resp_center');
     }
 
     public function pap(){
-        return $this->belongsTo(PAP::class,'papCode','pap_code');
+        return $this->belongsTo(PAP::class,'pap_code','pap_code');
     }
 }

@@ -3,17 +3,17 @@
 @endphp
 <tr id="item_{{$rand}}">
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][propertyNo]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][property_no]',[
             'class' => 'input-sm',
-            'for' => 'propertyNo',
+            'for' => 'property_no',
         ],$item->stockNo ?? null) !!}
     </td>
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][uom]',[
+        {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][unit]',[
             'class' => 'input-sm',
-            'for' => 'uom',
+            'for' => 'unit',
             'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
-        ],$item->uom ?? null) !!}
+        ],$item->unit ?? null) !!}
     </td>
 
     <td>
@@ -35,13 +35,13 @@
         ],$item->qty ?? null) !!}
     </td>
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][natureOfWork]',[
+        {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
             'class' => 'input-sm',
             'label' => 'Description:',
-        ],$item->natureOfWork ?? null) !!}
+        ],$item->nature_of_work ?? null) !!}
     </td>
     <td>
-        <button data="S01QH" type="button" class="btn btn-danger btn-sm remove_row_btn"><i class="fa fa-times"></i></button>
+        <button tabindex="-1" data="S01QH" type="button" class="btn btn-danger btn-sm remove_row_btn"><i class="fa fa-times"></i></button>
     </td>
 </tr>
 
@@ -74,7 +74,7 @@
             let data = e.params.data;
 
             $("#"+parentTrId+" [for='stockNo']").val(data.id);
-            $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
+            $("#"+parentTrId+" [for='unit']").val(data.populate.unit);
             $("#"+parentTrId+" [for='unitCost']").html('Est: '+$.number(data.populate.unitCost,2));
         });
 

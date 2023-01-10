@@ -27,13 +27,15 @@ class __form2
             $value = ($value != '') ? Carbon::parse($value)->format('Y-m-d') : '';
         }
 
+
         $r_o = ($n->readonly == 'readonly') ? 'readonly' : '';
+        $d = ($n->disabled == 'disabled') ? 'disabled' : '';
         $step = ($n->step != '') ? 'step="'.$n->step.'"' : '';
         $id = ($n->id != '') ?  'id="'.$n->id.'"' : '';
         $title = ($n->title != '') ? '<i class="fa fa-question-circle" title="'.$n->title.'"></i>' : '';
         return '<div class="form-group col-md-'.$n->cols.' '.$name.'">
                 <label for="'. $name .'">'.$n->label.'</label> '.$title.'
-                <input class="form-control '.$n->class.'" '.$id.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
+                <input class="form-control '.$n->class.'" '.$id.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.' for="'.$n->for.'" '.$d.' >
               </div>';
     }
 
@@ -317,6 +319,7 @@ class __form2
         (!isset($array['is_multiple'])) ? $array['is_multiple']= '' : false;
         (!isset($array['required'])) ? $array['required']= '' : false;
         (!isset($array['for'])) ? $array['for']= '' : false;
+        (!isset($array['disabled'])) ? $array['disabled']= '' : false;
         (!isset($array['container_class'])) ? $array['container_class']= '' : false;
         ($array['type'] == '') ?  $array['type'] = 'text' : false;
         (!isset($array['select2_preSelected'])) ? $array['select2_preSelected']= '' : false;
@@ -338,6 +341,7 @@ class __form2
         $this->is_multiple = $array['is_multiple'];
         $this->required = $array['required'];
         $this->for = $array['for'];
+        $this->disabled = $array['disabled'];
         $this->container_class = $array['container_class'];
         $this->select2_preSelected = $array['select2_preSelected'];
     }

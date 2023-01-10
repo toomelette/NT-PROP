@@ -28,9 +28,9 @@
             <td style="width: 15%;" class="b-left text-strong">Department:</td>
             <td class="b-bottom text-strong" style="width: 35%;"> {{$pr->rc->department}} </td>
             <td class="b-left text-strong">PR No.:</td>
-            <td class="text-strong b-bottom"> {{$pr->prNo}} </td>
+            <td class="text-strong b-bottom"> {{$pr->ref_no}} </td>
             <td class="text-strong ">Date:</td>
-            <td class="b-bottom text-strong b-right"> {{\Illuminate\Support\Carbon::parse($pr->prDate)->format('F d, Y')}} </td>
+            <td class="b-bottom text-strong b-right"> {{\Illuminate\Support\Carbon::parse($pr->date)->format('M. d, Y')}} </td>
         </tr>
         <tr>
             <td style="width: 15%;" class="b-left text-strong" >Section/Unit:</td>
@@ -38,7 +38,7 @@
             <td class="b-left text-strong">SAI No.:</td>
             <td class="b-bottom text-strong">{{$pr->sai}}</td>
             <td class="text-strong">Date:</td>
-            <td class="b-right b-bottom text-strong">{{\Illuminate\Support\Carbon::parse($pr->saiDate)->format('F d, Y')}}</td>
+            <td class="b-right b-bottom text-strong">{{\Illuminate\Support\Carbon::parse($pr->sai_date)->format('M. d, Y')}}</td>
         </tr>
         <tr>
             <td colspan="2" class="b-left"></td>
@@ -57,10 +57,10 @@
             </tr>
         </thead>
         <tbody>
-            @if(!empty($pr->items))
-                @foreach($pr->items as $item)
+            @if(!empty($pr->transDetails))
+                @foreach($pr->transDetails as $item)
                     <tr>
-                        <td class="text-center" style="vertical-align: top">{{$item->stockNo}}</td>
+                        <td class="text-center" style="vertical-align: top">{{$item->stock_no}}</td>
                         <td class="text-center">{{$item->article->uom ?? ''}}</td>
                         <td>
                             <b>{{$item->article->article ?? 'Article not found.'}}</b>
@@ -68,8 +68,8 @@
                             <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                         </td>
                         <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
-                        <td class="text-right" style="vertical-align: top">{{number_format($item->unitCost,2)}}</td>
-                        <td class="text-right" style="vertical-align: top">{{number_format($item->totalCost,2)}}</td>
+                        <td class="text-right" style="vertical-align: top">{{number_format($item->unit_cost,2)}}</td>
+                        <td class="text-right" style="vertical-align: top">{{number_format($item->total_cost,2)}}</td>
                     </tr>
 
                 @endforeach
@@ -86,7 +86,7 @@
                 <td colspan="4" class="b-top">CHARGE TO: <b>{{$pr->papCode}} - {{\Illuminate\Support\Str::limit($pr->pap->pap_title ?? '-',80,'...')}}</b></td>
                 <td style="border-top: 1px solid black"  class="text-strong text-right">TOTAL</td>
                 <td style="border-top: 1px solid black" class="text-strong text-right">
-                    {{number_format($pr->items()->sum('totalCost'),2)}}
+                    {{number_format($pr->transDetails()->sum('total_cost'),2)}}
                 </td>
             </tr>
         </tbody>
@@ -111,13 +111,13 @@
         </tr>
         <tr>
             <td>Printed Name:</td>
-            <td class="text-strong text-center">{{$pr->requestedBy}}</td>
-            <td class="text-strong text-center">{{$pr->approvedBy}}</td>
+            <td class="text-strong text-center">{{$pr->requested_by}}</td>
+            <td class="text-strong text-center">{{$pr->approved_by}}</td>
         </tr>
         <tr>
             <td>Designation:</td>
-            <td class="text-center">{{$pr->requestedByDesignation}}</td>
-            <td class="text-center">{{$pr->approvedByDesignation}}</td>
+            <td class="text-center">{{$pr->requested_by_designation}}</td>
+            <td class="text-center">{{$pr->approved_by_designation}}</td>
         </tr>
     </table>
 @endsection

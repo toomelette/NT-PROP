@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Purchase Requests</h1>
+        <h1>My Purchase Requests</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,7 +11,7 @@
     <section class="content">
         <div class="box box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">Manage Purchase Requests</h3>
+                <h3 class="box-title">My Purchase Requests</h3>
                 <button class="btn btn-primary btn-sm pull-right" data-target="#add_pr_modal" data-toggle="modal"> <i class="fa fa-plus"></i> Create</button>
             </div>
 
@@ -51,127 +51,122 @@
 
 
 @section('modals')
-<div class="modal fade" id="add_pr_modal" tabindex="-1" role="dialog" aria-labelledby="add_pr_modal_label">
-  <div class="modal-dialog" style="width: 80%" role="document">
-    <div class="modal-content">
-      <form id="add_pr_form">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="myModalLabel">Create Purchase Request</h4>
-          </div>
-          <div class="modal-body">
-              <div class="row">
-                  {!! \App\Swep\ViewHelpers\__form2::select('respCenter',[
-                      'cols' => 5,
-                      'label' => 'Department/Division/Section:',
-                      'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
-                  ]) !!}
+    <div class="modal fade" id="add_pr_modal" tabindex="-1" role="dialog" aria-labelledby="add_pr_modal_label">
+        <div class="modal-dialog" style="width: 80%" role="document">
+            <div class="modal-content">
+                <form id="add_pr_form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Create Purchase Request</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
+                                'cols' => 5,
+                                'label' => 'Department/Division/Section:',
+                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
+                            ]) !!}
 
-                  {!! \App\Swep\ViewHelpers\__form2::select('papCode',[
-                      'cols' => 5,
-                      'label' => 'PAP Code:',
-                      'options' => [],
-                      'class' => 'select2_papCode',
-                  ]) !!}
-                  {!! \App\Swep\ViewHelpers\__form2::textbox('prDate',[
-                      'cols' => 2,
-                      'label' => 'PR Date.:',
-                      'type' => 'date',
-                  ]) !!}
-              </div>
-              <div class="row">
-                  {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
-                      'cols' => 2,
-                      'label' => 'SAI No.:',
-                  ]) !!}
-                  {!! \App\Swep\ViewHelpers\__form2::textbox('saiDate',[
-                    'cols' => 2,
-                    'label' => 'SAI Date.:',
-                    'type' => 'date',
-                  ]) !!}
-              </div>
-              <div class="row">
-                  <div class="col-md-12">
-                      <button data-target="#pr_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=pr_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
-                      <table id="pr_items_table" class="table-bordered table table-condensed table-striped">
-                          <thead>
-                          <tr>
-                              <th style="width: 8%">Stock No.</th>
-                              <th style="width: 8%">Unit</th>
-                              <th style="width: 25%">Item</th>
-                              <th>Description</th>
-                              <th style="width: 8%">Qty</th>
-                              <th style="width: 8%">Unit Cost</th>
-                              <th style="width: 8%">Total Cost</th>
-                              <th style="width: 50px"></th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          @include('dynamic_rows.pr_items')
-                          </tbody>
-                          <tfoot>
-                              <tr>
-                                  <th colspan="6">
-                                  </th>
-                                  <th class="grandTotal text-right zero">0.00</th>
-                              </tr>
-                          </tfoot>
-                      </table>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="col-md-6">
-                      <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
-                            'cols' => 12,
-                            'label' => 'Purpose: ',
-                            'rows' => 4
-                          ]) !!}
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('requestedBy',[
-                            'cols' => 12,
-                            'label' => 'Requested by: ',
-                            'rows' => 4
-                          ]) !!}
-                      </div>
-                      <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('requestedByDesignation',[
-                            'cols' => 12,
-                            'label' => 'Requested by (Designation): ',
-                            'rows' => 4
-                          ]) !!}
-                      </div>
-                  </div>
-                  <div class="col-md-3">
-                      <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('approvedBy',[
-                            'cols' => 12,
-                            'label' => 'Approved by: ',
-                            'rows' => 4
-                          ]) !!}
-                      </div>
-                      <div class="row">
-                          {!! \App\Swep\ViewHelpers\__form2::textbox('approvedByDesignation',[
-                            'cols' => 12,
-                            'label' => 'Approved by (Designation): ',
-                            'rows' => 4
-                          ]) !!}
-                      </div>
-                  </div>
-              </div>
-          </div>
+                            {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
+                                'cols' => 5,
+                                'label' => 'PAP Code:',
+                                'options' => [],
+                                'class' => 'select2_papCode',
+                            ]) !!}
+                        </div>
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
+                                'cols' => 2,
+                                'label' => 'SAI No.:',
+                            ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('sai_date',[
+                              'cols' => 2,
+                              'label' => 'SAI Date.:',
+                              'type' => 'date',
+                            ]) !!}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button data-target="#pr_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=pr_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+                                <table id="pr_items_table" class="table-bordered table table-condensed table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 8%">Stock No.</th>
+                                        <th style="width: 8%">Unit</th>
+                                        <th style="width: 25%">Item</th>
+                                        <th>Description</th>
+                                        <th style="width: 8%">Qty</th>
+                                        <th style="width: 8%">Unit Cost</th>
+                                        <th style="width: 8%">Total Cost</th>
+                                        <th style="width: 50px"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @include('dynamic_rows.pr_items')
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th colspan="6">
+                                        </th>
+                                        <th class="grandTotal text-right zero">0.00</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
+                                      'cols' => 12,
+                                      'label' => 'Purpose: ',
+                                      'rows' => 4
+                                    ]) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                                      'cols' => 12,
+                                      'label' => 'Requested by: ',
+                                      'rows' => 4
+                                    ]) !!}
+                                </div>
+                                <div class="row">
+                                    {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
+                                      'cols' => 12,
+                                      'label' => 'Requested by (Designation): ',
+                                      'rows' => 4
+                                    ]) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
+                                      'cols' => 12,
+                                      'label' => 'Approved by: ',
+                                      'rows' => 4
+                                    ]) !!}
+                                </div>
+                                <div class="row">
+                                    {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by_designation',[
+                                      'cols' => 12,
+                                      'label' => 'Approved by (Designation): ',
+                                      'rows' => 4
+                                    ]) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Save</button>
-          </div>
-      </form>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
     {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_pr_modal','80',null,true) !!}
 @endsection
@@ -188,11 +183,11 @@
                 "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
                 "columns": [
                     { "data": "dept" },
-                    { "data": "divSec" },
-                    { "data": "papCode" },
-                    { "data": "prNo" },
-                    { "data": "prDate" },
-                    { "data": "items" },
+                    { "data": "div_sec" },
+                    { "data": "pap_code" },
+                    { "data": "ref_no" },
+                    { "data": "date" },
+                    { "data": "transDetails" },
                     { "data": "total" },
                     { "data": "action" }
                 ],
@@ -267,7 +262,7 @@
             let form = $(this);
             loading_btn(form);
             $.ajax({
-                url : '{{route("dashboard.pr.store")}}',
+                url : '{{route("dashboard.my_pr.store")}}',
                 data : form.serialize(),
                 type: 'POST',
                 headers: {
@@ -291,7 +286,7 @@
 
         $("body").on("click",".edit_pr_btn",function () {
             let btn = $(this);
-            let uri = '{{route("dashboard.pr.edit","slug")}}';
+            let uri = '{{route("dashboard.my_pr.edit","slug")}}';
             load_modal2(btn);
             uri = uri.replace('slug',btn.attr('data'));
             $.ajax({
@@ -313,8 +308,8 @@
             let parentTableId = $(this).parents('table').attr('id');
             let trId = $(this).parents('tr').attr('id');
             let qty = parseFloat($("#"+trId+" .qty").val());
-            let unitCost = parseFloat($("#"+trId+" .unitCost").val().replaceAll(',',''));
-            let totalCost = unitCost*qty;
+            let unit_cost = parseFloat($("#"+trId+" .unit_cost").val().replaceAll(',',''));
+            let totalCost = unit_cost*qty;
             let grandTotal = 0;
             $("#"+trId+" .totalCost").html($.number(totalCost,2));
 
@@ -340,7 +335,7 @@
 
             $("#"+parentTrId+" [for='stockNo']").val(data.id);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
-            $("#"+parentTrId+" [for='unitCost']").html('Est: '+$.number(data.populate.unitCost,2));
+            $("#"+parentTrId+" [for='unit_cost']").html('Est: '+$.number(data.populate.unit_cost,2));
         });
 
         $(".select2_papCode").select2({

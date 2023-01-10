@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Articles;
+use App\Models\JR;
 use App\Models\PAP;
+use App\Models\PR;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Swep\Helpers\Helper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Response;
 
 class AjaxController extends Controller
 {
@@ -127,6 +131,52 @@ class AjaxController extends Controller
                 $ud->user_id = Auth::user()->user_id;
                 $ud->rc = request()->get('resp_center');
                 $ud->save();
+                return 1;
+                break;
+
+            case 'rfq_prNo':
+                $request = request();
+                switch ($request->get('prJr')){
+                    case 'pr':
+                        $prNo = $request->get('prNo');
+                        $validator = \Validator::make($request->all(),[
+                            'prNo' => [
+                                'required','string','max:12',
+                                Rule::exists('pr','prNo'),
+                                Rule::unique('rfq','id')->where(function ($query) use($prNo){
+                                    return $query->where('prOrJrNo',$prNo)
+                                        ->where('type','PR');
+                                }),
+                            ]
+                        ],[
+                            'prNo.exists' => 'Purchase Request does not exist.',
+                        ]);
+                        break;
+
+                    case 'jr':
+                        $jrNo = $request->get('jrNo');
+                        $validator = \Validator::make($request->all(),[
+                            'jrNo' => [
+                                'required','string','max:12',
+                                Rule::exists('jr','jrNo'),
+                                Rule::unique('rfq','id')->where(function ($query) use($jrNo){
+                                    $query->where('prOrJrNo',$jrNo)
+                                        ->where('type','JR');
+                                }),
+                            ]
+                        ],[
+                            'jrNo.exists' => 'Job Request does not exist.',
+                        ]);
+                        break;
+                    default:
+                        break;
+                }
+                if($validator->fails()){
+                    return Response::json(array(
+                        'success' => false,
+                        'errors' => $validator->getMessageBag()->toArray()
+                    ), 422);
+                }
                 return 1;
                 break;
             default:

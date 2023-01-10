@@ -14,12 +14,11 @@ class PRFormRequest extends FormRequest
 
     public function rules(){
         return [
-            'prDate' => 'required|date_format:Y-m-d',
-            'papCode' => [
+            'pap_code' => [
                 'required',
                 'string',
             ],
-            'respCenter' => [
+            'resp_center' => [
                 'required',
                 'string',
             ],
@@ -29,7 +28,7 @@ class PRFormRequest extends FormRequest
             'items.*.qty'=>[
                 'required',
             ],
-            'items.*.unitCost'=>[
+            'items.*.unit_cost'=>[
                 'required',
             ],
             'items.*.item'=>[

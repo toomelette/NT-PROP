@@ -2,7 +2,7 @@
 <header class="main-header">
   <a href="#" class="logo">
     <span class="logo-mini">A</span>
-    <span class="logo-lg"><b>PPU</b></span>
+    <span class="logo-lg"><b>PPBTMS</b></span>
   </a>
   <nav class="navbar navbar-static-top" @if($_SERVER['SERVER_ADDR'] != '10.36.1.14')style="background-color: #054629" @endif>
     <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">

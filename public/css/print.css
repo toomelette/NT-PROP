@@ -202,3 +202,36 @@ table.print-table th,table.print-table td{
 .b-top{
     border-top: 1px solid black;
 }
+
+.bb-left{
+    border-left: 2px solid black;
+}
+
+.bb-right{
+    border-right: 2px solid black;
+}
+
+.bb-bottom{
+    border-bottom: 2px solid black;
+}
+
+.bb-top{
+    border-top: 2px solid black;
+}
+
+.tr-no-padding td,.tr-no-padding th{
+    padding: 0px !important;
+}
+
+.indent{
+    padding-left: 15px;
+}
+
+.indent-lg{
+    padding-left: 100px;
+}
+
+
+.desc-table thead>tr>th:nth-child(1), .desc-table thead>tr>th:nth-child(2),.desc-table thead>tr>th:nth-child(3) {
+    /*width: 5%;*/
+}
