@@ -68,7 +68,7 @@
                             ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
-                                'cols' => 5,
+                                'cols' => 7,
                                 'label' => 'PAP Code:',
                                 'options' => [],
                                 'class' => 'select2_papCode',

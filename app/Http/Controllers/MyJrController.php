@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\JR\JRFormRequest;
 use App\Models\JR;
 use App\Models\JRItems;
 use App\Models\TransactionDetails;
@@ -62,7 +63,7 @@ class MyJrController extends Controller
             ->toJson();
     }
 
-    public function store(Request $request){
+    public function store(JRFormRequest $request){
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'JR';
