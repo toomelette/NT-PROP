@@ -40,7 +40,6 @@ class CheckUserStatus{
                 return redirect('/');
 
             }
-
             return $next($request);
 
         }

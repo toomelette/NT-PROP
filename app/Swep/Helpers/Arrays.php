@@ -4,6 +4,7 @@
 namespace App\Swep\Helpers;
 
 
+use App\Models\Options;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use Illuminate\Support\Facades\Auth;
@@ -110,54 +111,38 @@ class Arrays
         ];
     }
     public static function modesOfProcurement(){
-        return [
-            'smallValueProcurement' => 'SMALL VALUE PROCUREMENT',
-            'bidding' => 'BIDDING',
-            'repeatOrder' => 'REPEAT ORDER',
-            'shopping' => 'SHOPPING',
-            'directContracting' => 'DIRECT CONTRACTING',
-        ];
+        $arr = [];
+        $ops = Options::query()->where('for','=','modesOfProcurement')->get();
+        if(!empty($ops)){
+            foreach ($ops as $op){
+                $arr[$op->value] = $op->display;
+            }
+        }
+        ksort($arr);
+        return $arr;
+
     }
 
     public static function inventoryTypes(){
-        $arr = [
-            'land' => 'Land',
-            'landImprovement' => 'Land Improvement',
-            'buildings' => 'Buildings',
-            'otherStructures' => 'Other Structures',
-            'officeEquipment' => 'Office Equipment',
-            'ictEquipment' => 'ICT Equipment',
-            'agriculturalEquipment' => 'Agricultural Equipment',
-            'commEquipment' => 'COMM Equipment',
-            'sportEquipment' => 'Sports Equipment',
-            'techSciEquipment' => 'Tech Sci Equipment',
-            'otherMachineryEquipment' => 'Other Machinery Equipment',
-            'notorVehicles' => 'Motor Vehicles',
-            'furnitureFixtures' => 'Furniture Fixtures',
-            'books' => 'Books',
-            'otherPPE' => 'Other PPE'
-        ];
+        $arr = [];
+        $ops = Options::query()->where('for','=','inventoryTypes')->get();
+        if(!empty($ops)){
+            foreach ($ops as $op){
+                $arr[$op->value] = $op->display;
+            }
+        }
         ksort($arr);
         return $arr;
 
     }
     public static function unitsOfMeasurement(){
-        $arr = [
-            'gallon' => 'GALLON',
-            'pack' => 'PACK',
-            'hectare' => 'HECTARE',
-            'laksa' => 'LAKSA',
-            'lot' => 'LOT',
-            'bar' => 'BAR',
-            'bottle' => 'BOTTLE',
-            'box' => 'BOX',
-            'can' => 'CAN',
-            'meter' => 'METER',
-            'piece' => 'PIECE',
-            'ream' => 'REAM',
-            'roll' => 'ROLL',
-            'set' => 'SET',
-        ];
+        $arr = [];
+        $ops = Options::query()->where('for','=','unitsOfMeasurement')->get();
+        if(!empty($ops)){
+            foreach ($ops as $op){
+                $arr[$op->value] = $op->display;
+            }
+        }
         ksort($arr);
         return $arr;
     }
@@ -170,13 +155,15 @@ class Arrays
     }
 
     public static function papTypes(){
-        return [
-            'indicative' => 'Indicative',
-            'final' => 'Final',
-            'supplemental' => 'Supplemental',
-            'realigned' => 'Realigned',
-            'cancelled' => 'Cancelled',
-        ];
+        $arr = [];
+        $ops = Options::query()->where('for','=','papTypes')->get();
+        if(!empty($ops)){
+            foreach ($ops as $op){
+                $arr[$op->value] = $op->display;
+            }
+        }
+        ksort($arr);
+        return $arr;
     }
 
     public static function activeInactive(){

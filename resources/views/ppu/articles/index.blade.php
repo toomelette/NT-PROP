@@ -153,7 +153,7 @@
                         'cols' => 7,
                     ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::select('type',[
-                        'label' => 'Article:',
+                        'label' => 'Type:',
                         'cols' => 5,
                         'options' => \App\Swep\Helpers\Arrays::inventoryTypes(),
                     ]) !!}
@@ -165,12 +165,12 @@
                         'class' => 'text-right autonum',
                     ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::select('uom',[
-                        'label' => 'Article:',
+                        'label' => 'Unit:',
                         'cols' => 3,
                         'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
                     ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::select('modeOfProc',[
-                        'label' => 'Article:',
+                        'label' => 'Mode of Proc:',
                         'cols' => 5,
                         'options' => \App\Swep\Helpers\Arrays::modesOfProcurement(),
                     ]) !!}
