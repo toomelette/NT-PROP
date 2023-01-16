@@ -12,7 +12,6 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">Manage Purchase Requests</h3>
-                <button class="btn btn-primary btn-sm pull-right" data-target="#add_pr_modal" data-toggle="modal"> <i class="fa fa-plus"></i> Create</button>
             </div>
 
             <div class="box-body">
@@ -189,11 +188,11 @@
                 "columns": [
                     { "data": "dept" },
                     { "data": "divSec" },
-                    { "data": "papCode" },
-                    { "data": "prNo" },
-                    { "data": "prDate" },
-                    { "data": "items" },
-                    { "data": "total" },
+                    { "data": "pap_code" },
+                    { "data": "ref_no" },
+                    { "data": "date" },
+                    { "data": "transDetails" },
+                    { "data": "abc" },
                     { "data": "action" }
                 ],
                 "buttons": [

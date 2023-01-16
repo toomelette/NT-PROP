@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JR;
 use App\Models\JRItems;
+use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\JRService;
 use Illuminate\Http\Request;
@@ -27,8 +28,9 @@ class JRController extends Controller
         return view('ppu.jr.index');
     }
     public function dataTable($request){
-        $jrs = JR::query();
-        return \DataTables::of($jrs)
+        $trans = Transactions::query()->with(['transDetails'])
+            ->where('ref_book','=','JR');
+        return \DataTables::of($trans)
             ->addColumn('action',function($data){
                 return view('ppu.jr.dtActions')->with([
                     'jr' => $data,
@@ -42,14 +44,14 @@ class JRController extends Controller
             })
             ->addColumn('items',function($data){
                 return view('ppu.jr.dtItems')->with([
-                    'items' => $data->items,
+                    'items' => $data->transDetails,
                 ]);
             })
             ->editColumn('abc',function($data){
                 return number_format($data->abc,2);
             })
-            ->editColumn('jrDate',function($data){
-                return $data->jrDate ? Carbon::parse($data->jrDate)->format('m/d/Y') : '';
+            ->editColumn('date',function($data){
+                return $data->date ? Carbon::parse($data->date)->format('m/d/Y') : '';
             })
             ->escapeColumns([])
             ->setRowId('slug')

@@ -5,7 +5,7 @@
     <a class="btn btn-default btn-sm print_pr_btn" data="{{$jr->slug}}" target="popup" href="{{route('dashboard.jr.print',$jr->slug)}}"title="" data-placement="left" data-original-title="Print">
         <i class="fa fa-print"></i>
     </a>
-    @if($jr->user_created == \Illuminate\Support\Facades\Auth::user()->user_id)
+    @if($jr->user_created == \Illuminate\Support\Facades\Auth::user()->user_id && 1==2)
         <button type="button" class="btn btn-default btn-sm edit_jr_btn" data="{{$jr->slug}}" data-toggle="modal" data-target="#edit_jr_modal" title="" data-placement="left" data-original-title="Edit">
             <i class="fa fa-edit"></i>
         </button>

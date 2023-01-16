@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PR\PRFormRequest;
 use App\Models\PR;
 use App\Models\PRItems;
+use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
 use Illuminate\Http\Request;
@@ -29,34 +30,35 @@ class PRController extends Controller
     }
 
     public function dataTable(){
-        $prs = PR::query()->with(['items']);
-        return \DataTables::of($prs)
+        $trans = Transactions::query()->with(['transDetails'])
+            ->where('ref_book','=','PR');
+        return \DataTables::of($trans)
             ->addColumn('dept',function($data){
                 return ($data->rc->description->name ?? null).'<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->department ?? null).'</div>';
             })
             ->addColumn('divSec',function($data){
                 return $data->rc->division ?? null;
             })
-            ->addColumn('items',function($data){
-                if(!empty($data->items)){
+            ->addColumn('transDetails',function($data){
+                if(!empty($data->transDetails)){
                     return view('ppu.pr.dtItems')->with([
-                        'items' => $data->items
+                        'items' => $data->transDetails
                     ]);
                 }
             })
-            ->addColumn('total',function($data){
-                
+            ->editColumn('abc',function($data){
+                return number_format($data->abc,2);
             })
             ->addColumn('action',function($data){
                 return view('ppu.pr.dtActions')->with([
                     'pr' => $data,
                 ]);
             })
-            ->editColumn('prDate',function($data){
-                return !empty($data->prDate) ? Carbon::parse($data->prDate)->format('m/d/Y') : null;
+            ->editColumn('date',function($data){
+                return !empty($data->date) ? Carbon::parse($data->date)->format('m/d/Y') : null;
             })
             ->editColumn('total',function($data){
-                return number_format($data->items()->sum('totalCost'),2);
+                return number_format($data->transDetails()->sum('total_cost'),2);
             })
             ->escapeColumns([])
             ->setRowId('slug')

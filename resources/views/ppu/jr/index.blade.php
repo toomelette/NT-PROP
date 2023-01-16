@@ -11,7 +11,6 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">Job Requests</h3>
-                <button class="btn btn-primary btn-sm pull-right" data-target="#add_jr_modal" data-toggle="modal"> <i class="fa fa-plus"></i> Create</button>
             </div>
 
             <div class="box-body">
@@ -22,8 +21,8 @@
                             <th >Dept/Division</th>
                             <th >Div/Sec</th>
                             <th>PAP Code</th>
-                            <th>PR No.</th>
-                            <th>PR Date</th>
+                            <th>JR No.</th>
+                            <th>Date</th>
                             <th >Items</th>
 
                             <th >Total</th>
@@ -181,9 +180,9 @@
             "columns": [
                 { "data": "dept" },
                 { "data": "divSec" },
-                { "data": "papCode" },
-                { "data": "jrNo" },
-                { "data": "jrDate" },
+                { "data": "pap_code" },
+                { "data": "ref_no" },
+                { "data": "date" },
                 { "data": "items" },
                 { "data": "abc" },
                 { "data": "action" }

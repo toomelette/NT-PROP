@@ -6,7 +6,7 @@
         <i class="fa fa-print"></i>
     </a>
 
-    @if($pr->user_created == \Illuminate\Support\Facades\Auth::user()->user_id)
+    @if($pr->user_created == \Illuminate\Support\Facades\Auth::user()->user_id && 1==2)
         <button type="button" class="btn btn-default btn-sm edit_pr_btn" data="{{$pr->slug}}" data-toggle="modal" data-target="#edit_pr_modal" title="" data-placement="left" data-original-title="Edit">
             <i class="fa fa-edit"></i>
         </button>
