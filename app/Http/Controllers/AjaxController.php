@@ -8,6 +8,7 @@ use App\Models\Articles;
 use App\Models\JR;
 use App\Models\PAP;
 use App\Models\PR;
+use App\Models\Transactions;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Swep\Helpers\Helper;
@@ -142,11 +143,7 @@ class AjaxController extends Controller
                         $validator = \Validator::make($request->all(),[
                             'prNo' => [
                                 'required','string','max:12',
-                                Rule::exists('pr','prNo'),
-                                Rule::unique('rfq','id')->where(function ($query) use($prNo){
-                                    return $query->where('prOrJrNo',$prNo)
-                                        ->where('type','PR');
-                                }),
+                                Rule::exists('transactions','ref_no')->where('ref_book','PR'),
                             ]
                         ],[
                             'prNo.exists' => 'Purchase Request does not exist.',
@@ -158,11 +155,7 @@ class AjaxController extends Controller
                         $validator = \Validator::make($request->all(),[
                             'jrNo' => [
                                 'required','string','max:12',
-                                Rule::exists('jr','jrNo'),
-                                Rule::unique('rfq','id')->where(function ($query) use($jrNo){
-                                    $query->where('prOrJrNo',$jrNo)
-                                        ->where('type','JR');
-                                }),
+                                Rule::exists('transactions','ref_no')->where('ref_book','JR'),
                             ]
                         ],[
                             'jrNo.exists' => 'Job Request does not exist.',
@@ -176,6 +169,18 @@ class AjaxController extends Controller
                         'success' => false,
                         'errors' => $validator->getMessageBag()->toArray()
                     ), 422);
+                }else{
+                    $prJr = $request->get('prJr');
+                    $transNo = $request->get('prNo');
+                    $trans = Transactions::query()->where('ref_no','=',$transNo)
+                        ->where('ref_book','=',strtoupper($prJr))
+                        ->first();
+                    if(!empty($trans)){
+                        return [
+                            'transaction_slug' => $trans->slug,
+                        ];
+                    }
+                    abort(503,'Transaction not found');
                 }
                 return 1;
                 break;

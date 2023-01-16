@@ -239,12 +239,12 @@ function errored(target_form, response){
 
 
     if(response.status == 503){
-        notify(response.responseJSON.message, "danger");
+        toast('error',response.responseJSON.message,'Error!');
     }else if(response.status == 422){
         unmark_required(target_form);
         mark_required(target_form,response);
     }else if(response.status == 413){
-        notify('File too large.','danger');
+        toast('error','File too large.','Error!');
     }else{
         alert(response.responseJSON.message);
     }

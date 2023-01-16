@@ -5,6 +5,7 @@ namespace App\Swep\Helpers;
 use App\Models\Department;
 use App\Models\MisRequestsNature;
 use App\Models\RecommendedBudget;
+use App\Models\Setting;
 use App\Models\SuSettings;
 use Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -454,5 +455,13 @@ class Helper
             'COLLEGE' => 'COLLEGE',
             'GRADUATE STUDIES' => 'GRADUATE STUDIES',
         ];
+    }
+
+    public static function getSetting($setting){
+        $s = Setting::query()->where('setting','=',$setting)->first();
+        if(empty($s)){
+            abort(503,'Setting not found');
+        }
+        return $s;
     }
 }
