@@ -433,6 +433,9 @@
                                 @if(Session::has('AUTH_AUTHENTICATED'))
                                     {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('AUTH_AUTHENTICATED')) !!}
                                 @endif
+                                    @if(Session::has('FOR_PERMANENT'))
+                                        {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('FOR_PERMANENT')) !!}
+                                    @endif
 
                                 @if(Session::has('AUTH_UNACTIVATED'))
                                     {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('AUTH_UNACTIVATED')) !!}
