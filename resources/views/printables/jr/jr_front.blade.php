@@ -35,7 +35,7 @@
             <td style="width: 15%;" class="b-left text-strong" >Section/Unit:</td>
             <td style="width: 25%;" class="b-bottom text-strong"> {{$jr->rc->division ?? null}} {{(!empty($jr->rc->section)) ? ' - '.$jr->rc->section : null}} </td>
             <td class="b-left text-strong">Date:</td>
-            <td class="b-bottom text-strong b-right">{{$jr->jrDate}}</td>
+            <td class="b-bottom text-strong b-right">{{\Illuminate\Support\Carbon::parse($jr->date)->format('M. d, Y')}}</td>
         </tr>
         <tr>
             <td colspan="2" class="b-left"></td>

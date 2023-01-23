@@ -115,7 +115,7 @@ class MyJrController extends Controller
         ]);
     }
 
-    public function update(Request $request,$slug){
+    public function update(JRFormRequest $request,$slug){
         $trans = $this->jrService->findBySlug($slug);
         $trans->ref_book = 'JR';
         $trans->resp_center = $request->resp_center;

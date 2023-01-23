@@ -62,6 +62,7 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
 
     Route::get('/my_jr/{slug}/print','MyPrController@print')->name('my_jr.print');
     Route::resource('my_jr', 'MyJrController');
+    Route::resource('ppmp_subaccounts', 'PPMPSubaccountsController');
 });
 
 /** Dashboard **/

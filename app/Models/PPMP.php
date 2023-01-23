@@ -28,7 +28,7 @@ class PPMP extends Model
 
     use LogsActivity;
     protected $table = 'ppmp';
-    protected $fillable = ['budget_type', 'uom'];
+    protected $fillable = ['budget_type', 'uom','papCode'];
 
     protected static $logAttributes = ['*'];
     protected static $ignoreChangedAttributes = ['created_at','updated_at','user_created','user_updated','ip_created','ip_updated'];
@@ -51,5 +51,9 @@ class PPMP extends Model
         return $this->hasOne(User::class,"user_id","user_updated");
     }
 
+
+    public function subAccounts(){
+        return $this->hasMany(PPMP::class,'parentPpmp','slug');
+    }
 
 }

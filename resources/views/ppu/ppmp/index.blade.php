@@ -134,7 +134,8 @@
 
 
 @section('modals')
-<div class="modal fade" id="add_ppmp_modal" tabindex="-1" role="dialog" aria-labelledby="add_ppmp_modal_label">
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('subaccount_modal','65') !!}
+    <div class="modal fade" id="add_ppmp_modal" tabindex="-1" role="dialog" aria-labelledby="add_ppmp_modal_label">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <form id="add_ppmp_form">
@@ -270,7 +271,12 @@
   </div>
 </div>
 
+
+
+
     {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_ppmp_modal','') !!}
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('add_ppmp_subaccount_modal','') !!}
+
 <div class="modal fade" id="add_article_modal" tabindex="-1" role="dialog" aria-labelledby="add_article_modal_label">
     <div class="modal-dialog modal-sm" role="document">
         <form id="add_article_form">
@@ -338,7 +344,7 @@
                     {
                         "targets" : 5,
                         "orderable" : false,
-                        "class" : 'action3'
+                        "class" : 'action4'
                     },
                 ],
                 "responsive": false,
@@ -537,6 +543,27 @@
                     $(this).hide();
                 })
             }
+        })
+        
+        $("body").on("click",".subaccount_btn",function () {
+            let btn = $(this);
+            load_modal2(btn);
+            let uri = '{{route("dashboard.ppmp_subaccounts.index")}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                data : {slug: btn.attr('data')},
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
+                }
+            })
         })
     </script>
 @endsection

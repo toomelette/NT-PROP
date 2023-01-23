@@ -25,69 +25,12 @@ class PPMPController extends Controller
             return $this->storeArticle($request);
         }
         if($request->has('draw')){
-            return $this->dataTable($request);
+            return $this->ppmpService->dataTable($request);
         }
         return view('ppu.ppmp.index');
     }
 
-    public function dataTable($request){
-        $ppmps = PPMP::query()->with(['article','pap','pap.responsibilityCenter','pap.responsibilityCenter.description']);
-        if($request->has('dept') && $request->dept != ''){
-            $ppmps = $ppmps->whereHas('pap.responsibilityCenter',function ($query) use($request){
-                return $query->where('department','=',$request->dept);
-            });
-        }
-        if($request->has('div') && $request->div != ''){
-            $ppmps = $ppmps->whereHas('pap.responsibilityCenter',function ($query) use($request){
-                return $query->where('division','=',$request->div);
-            });
-        }
 
-        if($request->has('sec') && $request->sec != ''){
-            $ppmps = $ppmps->whereHas('pap.responsibilityCenter',function ($query) use($request){
-                return $query->where('section','=',$request->sec);
-            });
-        }
-        if($request->has('budgetType') && $request->budgetType != ''){
-            $ppmps = $ppmps->where('budgetType','=',$request->budgetType);
-        }
-
-        if($request->has('modeOfProc') && $request->modeOfProc != ''){
-            $ppmps = $ppmps->where('modeOfProc','=',$request->modeOfProc);
-        }
-
-
-        return DataTables::of($ppmps)
-            ->addColumn('article',function($data){
-                return $data->article->article ?? '<small>-</small>';
-            })
-            ->addColumn('cost',function($data){
-                return view('ppu.ppmp.costColumn')->with([
-                    'data' => $data,
-                ]);
-            })
-            ->addColumn('dept',function($data){
-                return $data->pap->responsibilityCenter->description->name ?? '';
-            })
-            ->addColumn('div',function($data){
-
-                $section = $data->pap->responsibilityCenter->section ?? null;
-                $division = $data->pap->responsibilityCenter->division ?? null;
-                return $division .' '.$section;
-            })
-            ->addColumn('action',function($data){
-                return view('ppu.ppmp.dtActions')->with([
-                    'data' => $data,
-                ]);
-            })
-            ->editColumn('papCode',function($data){
-                $title = $data->pap->pap_title ?? null;
-                return '<a title="'.$title.'" href="#" target="_blank">'.$data->papCode.'</a>' ;
-            })
-            ->escapeColumns([])
-            ->setRowId('slug')
-            ->toJson();
-    }
 
     public function storeArticle($request){
         $lastA = Articles::query()->orderBy('stockNo','desc')->limit(1)->first();
@@ -164,6 +107,11 @@ class PPMPController extends Controller
         $ppmp->qty_oct = $request->qty_oct;
         $ppmp->qty_nov = $request->qty_nov;
         $ppmp->qty_dec = $request->qty_dec;
+        if($ppmp->isDirty('papCode')){
+            $ppmp->subAccounts()->update([
+                'papCode' => $request->papCode,
+            ]);
+        }
         if($ppmp->update()){
             return $ppmp->only('slug');
         }
@@ -187,5 +135,11 @@ class PPMPController extends Controller
             return 1;
         }
         abort(503,'Error deleting PPMP item.');
+    }
+
+
+
+    public function subAccounts($ppmp_slug){
+        return $ppmp_slug;
     }
 }
