@@ -21,11 +21,13 @@ class RFQService extends BaseService
 
     public function getNextRFQNo(){
         $year = Carbon::now()->format('Y');
-        $rfq = Transactions::query()->where('rfq_no','like',$year.'%')->first();
+        $rfq = Transactions::query()
+            ->where('ref_book','=','RFQ')
+            ->where('ref_no','like',$year.'%')->first();
         if(empty($rfq)){
             $newRfq = $year.'-0001';
         }else{
-            $newRfq = $year.'-'.str_pad(substr($rfq->rfq_no,5) + 1, 4,0,STR_PAD_LEFT);
+            $newRfq = $year.'-'.str_pad(substr($rfq->ref_no,5) + 1, 4,0,STR_PAD_LEFT);
         }
         return $newRfq;
     }

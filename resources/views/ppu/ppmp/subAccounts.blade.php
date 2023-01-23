@@ -146,6 +146,28 @@
                 }
             })
         })
+
+
+        $("#ppmp_subaccount_table_{{$rand}}_container").on("click",".edit_ppmp_subaccount_btn",function () {
+            let btn = $(this);
+            load_modal2(btn);
+            let uri = '{{route("dashboard.ppmp_subaccounts.edit","slug")}}?passed_rand={{$rand}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
+                }
+            })
+        })
+
     </script>
 @endsection
 

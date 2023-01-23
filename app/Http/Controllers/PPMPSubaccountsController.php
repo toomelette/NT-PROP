@@ -72,4 +72,48 @@ class PPMPSubaccountsController extends Controller
         }
         abort(503,'Error saving PPMP item.');
     }
+
+    public function edit($slug){
+        $ppmp = $this->ppmpService->findBySlug($slug);
+        return view('ppu.ppmp.sub.edit')->with([
+            'ppmp' => $ppmp,
+            'passed_rand' => \request('passed_rand'),
+        ]);
+    }
+
+    public function update(Request $request, $slug){
+    $ppmp = $this->ppmpService->findbySlug($slug);
+    $ppmp->stockNo = $request->stockNo;
+    if(Helper::sanitizeAutonum($request->unitCost) < 50000){
+        $ppmp->budgetType = 'MOOE';
+    }else{
+        $ppmp->budgetType = 'CO';
+    }
+    $ppmp->modeOfProc = $request->modeOfProc;
+    $ppmp->unitCost = Helper::sanitizeAutonum($request->unitCost);
+    $ppmp->qty = $request->qty;
+    $ppmp->estTotalCost = $ppmp->unitCost*$ppmp->qty;
+    $ppmp->remarks = $request->remarks;
+    $ppmp->qty_jan = $request->qty_jan;
+    $ppmp->qty_feb = $request->qty_feb;
+    $ppmp->qty_mar = $request->qty_mar;
+    $ppmp->qty_apr = $request->qty_apr;
+    $ppmp->qty_may = $request->qty_may;
+    $ppmp->qty_jun = $request->qty_jun;
+    $ppmp->qty_jul = $request->qty_jul;
+    $ppmp->qty_aug = $request->qty_aug;
+    $ppmp->qty_sep = $request->qty_sep;
+    $ppmp->qty_oct = $request->qty_oct;
+    $ppmp->qty_nov = $request->qty_nov;
+    $ppmp->qty_dec = $request->qty_dec;
+    if($ppmp->isDirty('papCode')){
+        $ppmp->subAccounts()->update([
+            'papCode' => $request->papCode,
+        ]);
+    }
+    if($ppmp->update()){
+        return $ppmp->only('slug');
+    }
+    abort(503,'Error updating PPMP item.');
+}
 }

@@ -26,8 +26,8 @@
                 ____________________
             </td>
             <td>
-                Quotation No. <b>{{$trans->rfq_no}}</b><br>
-                JR/PR No.: <b>{{$trans->ref_no}}</b><br>
+                Quotation No. <b>{{$trans->ref_no}}</b><br>
+                {{$trans->transaction->ref_book}} No.: <b>{{$trans->transaction->ref_no}}</b><br>
                 Date: <b>{{\Illuminate\Support\Carbon::parse($trans->rfq_created_at)->format('F d, Y')}}</b>
             </td>
         </tr>
@@ -85,8 +85,8 @@
             </tr>
         </thead>
         <tbody>
-            @if(!empty($trans->transDetails))
-                @foreach($trans->transDetails as $item)
+            @if(!empty($trans->transaction->transDetails))
+                @foreach($trans->transaction->transDetails as $item)
                     <tr>
                         <td class="text-center text-top" style="width: 10%">{{$loop->iteration}}</td>
                         <td class="text-center text-top" style="width: 10%">{{strtoupper($item->unit)}}</td>

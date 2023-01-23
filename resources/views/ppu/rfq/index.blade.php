@@ -132,7 +132,7 @@
       </div>
     </div>
 
-    {!! \App\Swep\ViewHelpers\__html::blank_modal('prepare_rfq_modal','sm') !!}
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('prepare_rfq_modal','70') !!}
 @endsection
 
 @section('scripts')

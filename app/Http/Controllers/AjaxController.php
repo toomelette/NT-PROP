@@ -78,12 +78,12 @@ class AjaxController extends Controller
                 }
             }
 
-            array_push($arr,[
-                'id' => 'UNPROGRAMMED',
-                'text' => 'UNPROGRAMMED',
-                'pap_code' => '',
-                'pap_title' => '',
-            ]);
+//            array_push($arr,[
+//                'id' => 'UNPROGRAMMED',
+//                'text' => 'UNPROGRAMMED',
+//                'pap_code' => '',
+//                'pap_title' => '',
+//            ]);
             return Helper::wrapForSelect2($arr);
         }
 

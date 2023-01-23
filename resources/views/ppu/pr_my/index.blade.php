@@ -46,7 +46,6 @@
 
     </section>
 
-
 @endsection
 
 
@@ -347,5 +346,6 @@
             dropdownParent: $('#add_pr_modal'),
             placeholder: 'Type PAP Code/Title/Description',
         });
+
     </script>
 @endsection

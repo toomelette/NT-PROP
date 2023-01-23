@@ -38,7 +38,7 @@
             <td class="b-left text-strong">SAI No.:</td>
             <td class="b-bottom text-strong">{{$pr->sai}}</td>
             <td class="text-strong">Date:</td>
-            <td class="b-right b-bottom text-strong">{{\Illuminate\Support\Carbon::parse($pr->sai_date)->format('M. d, Y')}}</td>
+            <td class="b-right b-bottom text-strong">{{($pr->saiDate == ''?'':\Illuminate\Support\Carbon::parse($pr->sai_date)->format('M. d, Y'))}}</td>
         </tr>
         <tr>
             <td colspan="2" class="b-left"></td>
@@ -83,7 +83,7 @@
                 <td></td>
             </tr>
             <tr>
-                <td colspan="4" class="b-top">CHARGE TO: <b>{{$pr->papCode}} - {{\Illuminate\Support\Str::limit($pr->pap->pap_title ?? '-',80,'...')}}</b></td>
+                <td colspan="4" class="b-top">CHARGE TO: <b>{{$pr->pap_code}}</b> - {{\Illuminate\Support\Str::limit($pr->pap->pap_title ?? '-',80,'...')}}</td>
                 <td style="border-top: 1px solid black"  class="text-strong text-right">TOTAL</td>
                 <td style="border-top: 1px solid black" class="text-strong text-right">
                     {{number_format($pr->transDetails()->sum('total_cost'),2)}}
@@ -125,14 +125,20 @@
 @section('scripts')
     <script type="text/javascript">
 
-        $(document).ready(function () {
-            let set = 625;
-            if($("#items_table_{{$rand}}").height() < set){
-                let rem = set - $("#items_table_{{$rand}}").height();
-                $("#adjuster").css('height',rem)
-                print();
-            }
-        })
+
+            $(document).ready(function () {
+                let set = 625;
+                if($("#items_table_{{$rand}}").height() < set){
+                    let rem = set - $("#items_table_{{$rand}}").height();
+                    $("#adjuster").css('height',rem)
+
+
+                    @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
+                    print();
+                    @endif
+                }
+            })
+
         window.onafterprint = function(){
             window.close();
         }

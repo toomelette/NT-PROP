@@ -37,4 +37,16 @@ class Transactions extends Model
     public function pap(){
         return $this->belongsTo(PAP::class,'pap_code','pap_code');
     }
+
+
+
+
+
+    public function rfq(){
+        return $this->hasOne(Transactions::class,'cross_slug','slug')->where('ref_book','=','RFQ');
+    }
+
+    public function transaction(){
+        return $this->hasOne(Transactions::class,'slug','cross_slug');
+    }
 }

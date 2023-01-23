@@ -60,7 +60,7 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::get('/my_pr/{slug}/print','MyPrController@print')->name('my_pr.print');
     Route::resource('my_pr', 'MyPrController');
 
-    Route::get('/my_jr/{slug}/print','MyPrController@print')->name('my_jr.print');
+    Route::get('/my_jr/{slug}/print','MyJrController@print')->name('my_jr.print');
     Route::resource('my_jr', 'MyJrController');
     Route::resource('ppmp_subaccounts', 'PPMPSubaccountsController');
 });

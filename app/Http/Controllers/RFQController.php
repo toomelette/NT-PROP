@@ -25,7 +25,12 @@ class RFQController extends Controller
 
     public function index(){
         if(\request()->ajax() && \request()->has('draw')){
-            $trans = Transactions::query()->where('rfq_no','=',null);
+            $trans = Transactions::query()
+                ->where(function($query){
+                    $query->where('ref_book','=','PR')
+                        ->orWhere('ref_book','=','JR');
+                })
+                ->whereDoesntHave('rfq');
             return \DataTables::of($trans)
                 ->addColumn('action',function($data){
                     return view('ppu.rfq.dtActions')->with([
@@ -54,11 +59,13 @@ class RFQController extends Controller
 
     public function store(RFQFormRequest $request){
 
-        $trans = $this->transactionService->findBySlug($request->trans);
-        if($trans->rfq_no != null){
-            abort(503,'This '.$trans->ref_book.' has an existing RFQ');
-        }
-        $trans->rfq_no = $this->rfqService->getNextRFQNo();
+
+        $trans = new Transactions();
+        $trans->slug = Str::random();
+        $trans->ref_book = 'RFQ';
+        $trans->ref_no = $this->rfqService->getNextRFQNo();
+        $trans->cross_slug = $request->trans;
+        $trans->cross_ref_no = $this->transactionService->findBySlug($request->trans)->ref_no;
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;

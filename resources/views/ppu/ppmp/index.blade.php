@@ -276,7 +276,7 @@
 
     {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_ppmp_modal','') !!}
     {!! \App\Swep\ViewHelpers\__html::blank_modal('add_ppmp_subaccount_modal','') !!}
-
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_ppmp_subaccount_modal','') !!}
 <div class="modal fade" id="add_article_modal" tabindex="-1" role="dialog" aria-labelledby="add_article_modal_label">
     <div class="modal-dialog modal-sm" role="document">
         <form id="add_article_form">
@@ -565,5 +565,7 @@
                 }
             })
         })
+
+
     </script>
 @endsection
