@@ -131,10 +131,9 @@
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem)
-
-
                     @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
                     print();
+                    window.close();
                     @endif
                 }
             })
