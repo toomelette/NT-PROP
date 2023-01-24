@@ -6,6 +6,7 @@
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][property_no]',[
             'class' => 'input-sm',
             'for' => 'property_no',
+            'container_class' => 'items_'.$rand.'_property_no',
         ],$item->stockNo ?? null) !!}
     </td>
     <td>
@@ -13,12 +14,14 @@
             'class' => 'input-sm',
             'for' => 'unit',
             'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
+            'container_class' => 'items_'.$rand.'_unit',
         ],$item->unit ?? null) !!}
     </td>
 
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][item]',[
             'class' => 'input-sm',
+            'container_class' => 'items_'.$rand.'_item',
         ],$item->item ?? null) !!}
     </td>
 
@@ -26,13 +29,14 @@
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][description]',[
             'class' => 'input-sm',
             'label' => 'Description:',
+            'container_class' => 'items_'.$rand.'_description',
         ],$item->description ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][qty]',[
             'class' => 'input-sm qty unitXcost',
             'type' => 'number',
-            'container_class' => 'items_qty',
+            'container_class' => 'items_'.$rand.'_qty',
         ],$item->qty ?? null) !!}
     </td>
     <td>

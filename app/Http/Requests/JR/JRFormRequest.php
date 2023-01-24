@@ -25,12 +25,14 @@ class JRFormRequest extends FormRequest
             'items.*.item'=>[
                 'required',
             ],
-//            'items.*.qty'=>[
-//                'required',
-//            ],
-//            'items.*.unit'=>[
-//                'required',
-//            ],
+            'items.*.qty'=>[
+                'required',
+                'int',
+                'min:1',
+            ],
+            'items.*.unit'=>[
+                'required',
+            ],
             'abc' => [
                 'required',
             ],

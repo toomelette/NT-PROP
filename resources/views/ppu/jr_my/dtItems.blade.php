@@ -16,7 +16,7 @@
             @endphp
             @if($loop->iteration < $max)
                 <tr>
-                    <td class="text-left">{{number_format($item->qty)}} {{strtoupper($item->uom)}}</td>
+                    <td class="text-center">{{number_format($item->qty) }} {{strtoupper($item->unit)}}</td>
                     <td class="text-left">{{$item->item}} - <span style="white-space: pre-line">{{\Illuminate\Support\Str::limit($item->description,150,' ...')}}</span></td>
 {{--                    <td class="text-right">{{$item->unitCost}}</td>--}}
 {{--                    <td class="text-right">{{$item->totalCost}}</td>--}}
