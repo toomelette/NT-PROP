@@ -80,7 +80,7 @@
             </tr>
             <tr>
                 <td colspan="3" class="b-top">
-                    CHARGE TO: <b>{{$jr->papCode}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b>
+                    CHARGE TO: <b>{{$jr->pap_code}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b>
                 </td>
                 <td class="text-right b-top text-strong">ABC:</td>
                 <td style="border-top: 1px solid black"  class="text-strong text-right"> {{number_format($jr->abc,2)}}</td>
