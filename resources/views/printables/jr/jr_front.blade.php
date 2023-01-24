@@ -42,53 +42,55 @@
             <td colspan="2" class="b-left b-right"></td>
         </tr>
     </table>
-    <table style="width: 100%;" class="tbl-bordered-v" id="items_table_{{$rand}}">
-        <thead>
-        <tr>
-            <th style="width: 10%;">Property No.</th>
-            <th>Unit</th>
-            <th>Item Description</th>
-            <th>Quantity</th>
-            <th>Nature of Work</th>
-        </tr>
-        </thead>
-        <tbody>
-        @if(!empty($jr->transDetails))
-            @foreach($jr->transDetails as $item)
-                <tr>
-                    <td class="text-center" style="vertical-align: top">{{$item->property_no}}</td>
-                    <td class="text-center" style="vertical-align: top">{{strtoupper($item->unit)}}</td>
-                    <td>
-                        <b>{{$item->item}}</b>
-                        <br>
-                        <i><span style="white-space: pre-line">{{$item->description}}</span></i>
-                    </td>
-                    <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
-                    <td class="text-right" style="vertical-align: top">{{$item->nature_of_work}}</td>
-                </tr>
+    <div id="items_table_{{$rand}}_container">
+        <table style="width: 100%;" class="tbl-bordered-v" id="items_table_{{$rand}}">
+            <thead>
+            <tr>
+                <th style="width: 10%;">Property No.</th>
+                <th>Unit</th>
+                <th>Item Description</th>
+                <th>Quantity</th>
+                <th>Nature of Work</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if(!empty($jr->transDetails))
+                @foreach($jr->transDetails as $item)
+                    <tr>
+                        <td class="text-center" style="vertical-align: top">{{$item->property_no}}</td>
+                        <td class="text-center" style="vertical-align: top">{{strtoupper($item->unit)}}</td>
+                        <td>
+                            <b>{{$item->item}}</b>
+                            <br>
+                            <i><span style="white-space: pre-line">{{$item->description}}</span></i>
+                        </td>
+                        <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
+                        <td class="text-right" style="vertical-align: top">{{$item->nature_of_work}}</td>
+                    </tr>
 
-            @endforeach
-        @endif
-        <tr>
-            <td id="adjuster"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+                @endforeach
+            @endif
+            <tr>
+                <td id="adjuster"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
 
-        </tr>
-        <tr>
-            <td colspan="3" class="b-top">
-                CHARGE TO: <b>{{$jr->papCode}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b>
-            </td>
-            <td class="text-right b-top text-strong">ABC:</td>
-            <td style="border-top: 1px solid black"  class="text-strong text-right"> {{number_format($jr->abc,2)}}</td>
+            </tr>
+            <tr>
+                <td colspan="3" class="b-top">
+                    CHARGE TO: <b>{{$jr->papCode}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b>
+                </td>
+                <td class="text-right b-top text-strong">ABC:</td>
+                <td style="border-top: 1px solid black"  class="text-strong text-right"> {{number_format($jr->abc,2)}}</td>
 
 
-        </tr>
-        </tbody>
+            </tr>
+            </tbody>
 
-    </table>
+        </table>
+    </div>
     <table style="width: 100%; border-left: 1px solid black;border-right: 1px solid black" class="tbl-minimal">
         <tr>
             <td colspan="3" class="b-right">To be certified by General Services / MIS / Authorized Personnel in case of repair and replacement of parts.</td>
@@ -150,14 +152,18 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            let set = 500;
+            let set = 400;
+
             if($("#items_table_{{$rand}}").height() < set){
                 let rem = set - $("#items_table_{{$rand}}").height();
                 $("#adjuster").css('height',rem)
                 @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
                 print();
+                window.close();
                 @endif
             }
+
+
         })
 
     </script>
