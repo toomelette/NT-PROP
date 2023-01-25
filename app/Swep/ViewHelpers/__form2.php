@@ -137,8 +137,8 @@ class __form2
         }
 
         return '<div class="form-group '.$n->container_class.' col-md-'.$n->cols .' '.$name.'">
-                  <label for="'. $name .'">'. $n->label .'</label>
-                  <select name="'. $name .$ext.'" '. $id .' class="form-control '.$n->class.'" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
+                  <label >'. $n->label .'</label>
+                  <select for="'. $n->for .'" name="'. $name .$ext.'" '. $id .' class="form-control '.$n->class.'" '. $n->extra_attr .' '.$r_o.' '.$n->required.'>
                     '.$preSelected.'
                     '.$opt_html.'
                   </select>

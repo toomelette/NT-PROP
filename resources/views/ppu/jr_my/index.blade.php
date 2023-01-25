@@ -64,7 +64,9 @@
                   {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                       'cols' => 5,
                       'label' => 'Department/Division/Section:',
+                      'class' => 'resp_center_selector',
                       'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
+                      'for' => 'select2_papCode',
                   ]) !!}
 
                   {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
@@ -265,7 +267,15 @@
             dropdownParent: $('#add_jr_modal'),
             placeholder: 'Type PAP Code/Title/Description',
         });
-        
+
+        setTimeout(function () {
+            // $(".select2_papCode").select2('enable',false);
+        },500);
+
+        $(".resp_center_selector").change(function () {
+            alert();
+        })
+
         $("#add_jr_form").submit(function (e) {
             e.preventDefault()
             let form = $(this);

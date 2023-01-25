@@ -47,10 +47,10 @@
             <thead>
             <tr>
                 <th style="width: 10%;">Property No.</th>
-                <th>Unit</th>
+                <th style="width: 5%;">Unit</th>
                 <th>Item Description</th>
-                <th>Quantity</th>
-                <th>Nature of Work</th>
+                <th style="width: 5%;">Quantity</th>
+                <th style="width: 25%;">Nature of Work</th>
             </tr>
             </thead>
             <tbody>
@@ -65,7 +65,7 @@
                             <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                         </td>
                         <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
-                        <td class="text-right" style="vertical-align: top">{{$item->nature_of_work}}</td>
+                        <td class="" style="vertical-align: top">{{$item->nature_of_work}}</td>
                     </tr>
 
                 @endforeach
@@ -80,7 +80,7 @@
             </tr>
             <tr>
                 <td colspan="3" class="b-top">
-                    CHARGE TO: <b>{{$jr->pap_code}} - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',80,'...')}}</b>
+                    CHARGE TO: <b>{{$jr->pap_code}} </b> - {{\Illuminate\Support\Str::limit($jr->pap->pap_title ?? '-',65,'...')}}
                 </td>
                 <td class="text-right b-top text-strong">ABC:</td>
                 <td style="border-top: 1px solid black"  class="text-strong text-right"> {{number_format($jr->abc,2)}}</td>
