@@ -53,8 +53,8 @@ class MyPrController extends Controller
                     'pr' => $data,
                 ]);
             })
-            ->editColumn('prDate',function($data){
-                return !empty($data->date) ? Carbon::parse($data->date)->format('m/d/Y') : null;
+            ->editColumn('date',function($data){
+                return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
             ->editColumn('total',function($data){
                 return number_format($data->transDetails()->sum('total_cost'),2);

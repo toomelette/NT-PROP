@@ -55,8 +55,8 @@ class MyJrController extends Controller
             ->editColumn('abc',function($data){
                 return number_format($data->abc,2);
             })
-            ->editColumn('jrDate',function($data){
-                return $data->jrDate ? Carbon::parse($data->jrDate)->format('m/d/Y') : '';
+            ->editColumn('date',function($data){
+                return $data->date ? Carbon::parse($data->date)->format('M. d, Y') : '';
             })
             ->escapeColumns([])
             ->setRowId('slug')

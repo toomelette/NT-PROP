@@ -55,7 +55,7 @@ class PRController extends Controller
                 ]);
             })
             ->editColumn('date',function($data){
-                return !empty($data->date) ? Carbon::parse($data->date)->format('m/d/Y') : null;
+                return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
             ->editColumn('total',function($data){
                 return number_format($data->transDetails()->sum('total_cost'),2);
@@ -153,7 +153,7 @@ class PRController extends Controller
     }
 
     public function findBySlug($slug){
-        $pr = PR::query()->with(['items','rc','items.article'])->where('slug','=',$slug)->first();
+        $pr = Transactions::query()->with(['transDetails','rc','transDetails.article'])->where('slug','=',$slug)->first();
         return $pr ?? abort(503,'PR not found');
     }
     public function destroy($slug){

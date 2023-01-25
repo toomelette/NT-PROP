@@ -51,7 +51,7 @@ class JRController extends Controller
                 return number_format($data->abc,2);
             })
             ->editColumn('date',function($data){
-                return $data->date ? Carbon::parse($data->date)->format('m/d/Y') : '';
+                return $data->date ? Carbon::parse($data->date)->format('M. d, Y') : '';
             })
             ->escapeColumns([])
             ->setRowId('slug')
