@@ -50,7 +50,7 @@
 
 
 @section('modals')
-    <div class="modal fade" id="add_pr_modal" tabindex="-1" role="dialog" aria-labelledby="add_pr_modal_label">
+    <div class="modal fade" id="add_pr_modal" role="dialog" aria-labelledby="add_pr_modal_label">
         <div class="modal-dialog" style="width: 80%" role="document">
             <div class="modal-content">
                 <form id="add_pr_form">
@@ -90,7 +90,7 @@
                             ]) !!}
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="min-height: 500px">
                                 <button data-target="#pr_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=pr_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
                                 <table id="pr_items_table" class="table-bordered table table-condensed table-striped">
                                     <thead>

@@ -155,6 +155,7 @@
 @section('scripts')
 <script type="text/javascript">
     var active = '';
+    var all_rqf_tbl_active = '';
     $(document).ready(function () {
         //-----DATATABLES-----//
         modal_loader = $("#modal_loader").parent('div').html();
@@ -244,8 +245,8 @@
                 { "data": "transRefBook" },
                 { "data": "transRefNo" },
                 { "data": "dates" },
+                { "data": "transDetails" },
                 { "data": "rfq_deadline" },
-                { "data": "abc" },
                 { "data": "action" }
             ],
             "buttons": [
@@ -258,7 +259,7 @@
                 },
                 {
                     "targets" : 1,
-                    "class" : 'w-12p'
+                    "class" : 'w-8p'
                 },
                 {
                     "targets" : 2,
@@ -271,7 +272,7 @@
 
                 {
                     "targets" : 5,
-                    "class" : 'w-8p text-right'
+                    "class" : 'w-8p'
                 },
                 {
                     "targets" : 6,
@@ -307,8 +308,8 @@
             "drawCallback": function(settings){
                 $('[data-toggle="tooltip"]').tooltip();
                 $('[data-toggle="modal"]').tooltip();
-                if(active != ''){
-                    $("#"+settings.sTableId+" #"+active).addClass('success');
+                if(all_rqf_tbl_active != ''){
+                    $("#"+settings.sTableId+" #"+all_rqf_tbl_active).addClass('success');
                 }
             }
         });
@@ -366,7 +367,8 @@
                 {!! __html::token_header() !!}
             },
             success: function (res) {
-                active = res.slug;
+                all_rqf_tbl_active = res.slug;
+                all_rqf_tbl.draw(false);
                 rfq_tbl.draw(false);
                 succeed(form,true,true);
             },

@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RFQ\RFQFormRequest;
 use App\Models\RFQ;
 use App\Models\Transactions;
+use App\Swep\Helpers\Helper;
 use App\Swep\Services\RFQService;
 use App\Swep\Services\TransactionService;
 use Illuminate\Http\Request;
@@ -39,23 +40,43 @@ class RFQController extends Controller
 
         $rfqs = Transactions::allRfq();
         return \DataTables::of($rfqs)
+            ->with(['transaction'])
             ->addColumn('action',function($data){
-//                return view('ppu.rfq.dtActions')->with([
-//                    'data' => $data,
-//                ]);
+                return view('ppu.rfq.allRfqDtActions')->with([
+                    'data' => $data,
+                ]);
             })
             ->addColumn('transRefBook',function($data){
-                return $data->transaction->ref_book ?? '';
+                return Helper::refBookLabeler($data->transaction->ref_book ?? '');
             })
             ->addColumn('transRefNo',function($data){
-                return $data->transaction->ref_no ?? '';
+                return ($data->transaction->ref_no ?? '').'
+                    <div class="table-subdetail text-right" style="color: #31708f"></div>
+                    <small class="text-muted"> Requested by:<br>'.Str::limit(($data->transaction->requested_by ?? null),15,'...').'</small>
+                    ';
             })
-            ->editColumn('abc',function($data){
-                return number_format($data->abc,2);
+            ->editColumn('rfq_deadline',function($data){
+                if($data->rfq_deadline < Carbon::now()){
+                    return '<span class="text-danger">'.Carbon::parse($data->rfq_deadline)->format('M. d, Y').' <i class="fa fa-times small"></i></span>';
+                }
+                if(Carbon::parse($data->rfq_deadline)->diffInDays() <= 3 ){
+                    return '<span class="text-warning">'.Carbon::parse($data->rfq_deadline)->format('M. d, Y').' <i class="fa fa-warning small"></i> </span>';
+                }
+                return Carbon::parse($data->rfq_deadline)->format('M. d, Y');
             })
             ->addColumn('dates',function($data){
                 return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
             })
+            ->addColumn('transDetails',function($data){
+                if(!empty($data->transaction)){
+                    $type = strtolower($data->transaction->ref_book ?? null);
+                    return view('ppu.'.$type.'.dtItems')->with([
+                        'items' => $data->transaction->transDetails,
+                    ])->render().
+                        '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
+                }
+            })
+
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
@@ -63,20 +84,28 @@ class RFQController extends Controller
 
 
     public function pendingRfqDataTable($request){
+        //PR or JR
         $trans = Transactions::query()
             ->where(function($query){
                 $query->where('ref_book','=','PR')
                     ->orWhere('ref_book','=','JR');
             })
+            ->with(['transDetails'])
             ->whereDoesntHave('rfq');
         return \DataTables::of($trans)
+            ->editColumn('ref_book',function($data){
+                return Helper::refBookLabeler($data->ref_book);
+            })
             ->addColumn('action',function($data){
                 return view('ppu.rfq.dtActions')->with([
                     'data' => $data,
                 ]);
             })
             ->addColumn('transDetails',function($data){
-
+                $type = strtolower($data->ref_book);
+                return view('ppu.'.$type.'.dtItems')->with([
+                    'items' => $data->transDetails,
+                ])->render();
             })
             ->editColumn('date',function($data){
                 return Carbon::parse($data->date)->format('M. d, Y');

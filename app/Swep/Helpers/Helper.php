@@ -145,6 +145,9 @@ class Helper
         $whatIWant = substr($subject, strpos($subject, $character) + 1);
         return $whatIWant;
     }
+    public static function subdetail(){
+        return '<div class="table-subdetail text-right" style="color: #31708f"></div>';
+    }
 
     public static function departmentUnitArrayForSelect(){
         $d = \App\Models\Department::get();
@@ -263,6 +266,25 @@ class Helper
 
 
         ];
+    }
+
+    public static function refBookLabeler($label){
+        $l = 'N/A';
+        $color = 'default';
+        switch ($label){
+            case 'PR':
+                $l = 'PURCHASE';
+                $color = 'green';
+                break;
+            case 'JR':
+                $l = 'JOB';
+                $color = 'purple';
+                break;
+            default:
+                $color = 'gray';
+                break;
+        }
+        return '<div class="label bg-'.$color.'" style="width: 100% !important;">'.$l.'</div>';
     }
 
     public static function responsibilityCenters(){

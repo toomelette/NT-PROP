@@ -51,7 +51,7 @@
 
 
 @section('modals')
-<div class="modal fade" id="add_jr_modal" tabindex="-1" role="dialog" aria-labelledby="add_jr_modal_label">
+<div class="modal fade" id="add_jr_modal" role="dialog" aria-labelledby="add_jr_modal_label">
   <div class="modal-dialog" style="width: 80%" role="document">
     <div class="modal-content">
       <form id="add_jr_form">

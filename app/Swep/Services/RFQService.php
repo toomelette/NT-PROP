@@ -23,7 +23,9 @@ class RFQService extends BaseService
         $year = Carbon::now()->format('Y');
         $rfq = Transactions::query()
             ->where('ref_book','=','RFQ')
-            ->where('ref_no','like',$year.'%')->first();
+            ->where('ref_no','like',$year.'%')
+            ->orderBy('ref_no','desc')
+            ->first();
         if(empty($rfq)){
             $newRfq = $year.'-0001';
         }else{

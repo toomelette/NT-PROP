@@ -33,7 +33,7 @@
         </tr>
     </table>
     <p class="text-justify">
-        Please quote your lowest price on the item/s listed below, subject to the General Conditions, stating the shortest time of delivery and submit your quotation duly signed by your representative not later than _______________________.
+        Please quote your lowest price on the item/s listed below, subject to the General Conditions, stating the shortest time of delivery and submit your quotation duly signed by your representative not later than <u><b>{{strtoupper(\Illuminate\Support\Carbon::parse($trans->rfq_deadline)->format('F d, Y'))}}</b></u>.
     </p>
     <table style="width: 100%;">
         <tr>
@@ -103,7 +103,7 @@
         <tfoot>
             <tr>
                 <td colspan="3" class="text-right text-strong">TOTAL</td>
-                <td class="text-strong text-right">{{number_format($trans->abc,2)}}</td>
+                <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
                 <td></td>
             </tr>
         </tfoot>
@@ -133,6 +133,9 @@
 
 @section('scripts')
     <script type="text/javascript">
-
+        $(document).ready(function () {
+            print();
+            close();
+        })
     </script>
 @endsection
