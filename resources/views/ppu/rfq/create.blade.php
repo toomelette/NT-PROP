@@ -35,7 +35,7 @@
                         \App\Swep\Helpers\Helper::getSetting('rfq_name')->string_value ?? null
                         ) !!}
                         {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_position',[
-                            'label' => 'Signatory Name:',
+                            'label' => 'Signatory Position:',
                             'cols' => 12,
                         ],
                         \App\Swep\Helpers\Helper::getSetting('rfq_position')->string_value ?? null
