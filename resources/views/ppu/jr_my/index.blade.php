@@ -254,6 +254,13 @@
                 url: '{{route("dashboard.ajax.get","pap_codes")}}',
                 dataType: 'json',
                 delay : 250,
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        page: params.page || 1
+                    }
+                    return query;
+                }
             },
             dropdownParent: $('#add_jr_modal'),
             placeholder: 'Type PAP Code/Title/Description',

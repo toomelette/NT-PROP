@@ -143,10 +143,9 @@ Route::get('/arrangePap',function (){
 });
 
 Route::get('/abc',function(){
-    $pap = \App\Models\PAP::query()->get();
+    $pap = \App\Models\PAP::query()->where('slug','=',null)->get();
     foreach ($pap as $p){
         $p->slug = \Illuminate\Support\Str::random();
-        $p->resp_center = '0'.$p->resp_center;
         $p->save();
     }
     return 1;

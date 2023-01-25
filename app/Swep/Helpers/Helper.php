@@ -257,9 +257,9 @@ class Helper
     public static function wrapForSelect2($array){
         return [
             'results' => $array,
-//            "pagination" => [
-//                "more" => true ,
-//            ]
+            "pagination" => [
+                "more" => (count($array) > 1) ? true : false ,
+            ]
 
 
         ];

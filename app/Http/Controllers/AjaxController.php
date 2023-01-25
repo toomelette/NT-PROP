@@ -57,14 +57,15 @@ class AjaxController extends Controller
                     $query->where('pap_code','like',$like)
                         ->orWhere('pap_desc','like',$like)
                         ->orWhere('pap_title','like',$like);
-                });
+                })
+                ->limit(2);
             if(!empty(Auth::user()->userDetails)){
                 $papCodes = $papCodes->whereHas('responsibilityCenter',function ($query){
                     $query->where('rc','=',Auth::user()->userDetails->rc);
                 });
             }
 
-            $papCodes = $papCodes->limit(10)->get();
+            $papCodes = $papCodes->limit(10)->offset(10*request('page'))->get();
 
             if(!empty($papCodes)){
                 foreach ($papCodes as $papCode){
