@@ -57,7 +57,7 @@ class MyPrController extends Controller
             ->editColumn('date',function($data){
                 return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
-            ->editColumn('total',function($data){
+            ->addColumn('total',function($data){
                 return number_format($data->transDetails()->sum('total_cost'),2);
             })
             ->escapeColumns([])

@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -27,6 +28,7 @@ class PPMP extends Model
     }
 
     use LogsActivity;
+    use SoftDeletes;
     protected $table = 'ppmp';
     protected $fillable = ['budget_type', 'uom','papCode'];
 
