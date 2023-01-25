@@ -124,7 +124,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('rfq', 'RFQController');
 
     Route::resource('articles','ArticlesController');
-
+    Route::resource('aq','AqController');
 });
 
 Route::get('test',function (){
