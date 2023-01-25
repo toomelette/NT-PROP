@@ -36,18 +36,25 @@ class RFQController extends Controller
     }
 
     public function allRfqDataTable($request){
+
         $rfqs = Transactions::allRfq();
         return \DataTables::of($rfqs)
             ->addColumn('action',function($data){
-                return view('ppu.rfq.dtActions')->with([
-                    'data' => $data,
-                ]);
+//                return view('ppu.rfq.dtActions')->with([
+//                    'data' => $data,
+//                ]);
             })
-            ->addColumn('prOrJr',function($data){
-                return $data->transaction->ref_book;
+            ->addColumn('transRefBook',function($data){
+                return $data->transaction->ref_book ?? '';
+            })
+            ->addColumn('transRefNo',function($data){
+                return $data->transaction->ref_no ?? '';
             })
             ->editColumn('abc',function($data){
                 return number_format($data->abc,2);
+            })
+            ->addColumn('dates',function($data){
+                return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
             })
             ->escapeColumns([])
             ->setRowId('slug')
@@ -70,6 +77,9 @@ class RFQController extends Controller
             })
             ->addColumn('transDetails',function($data){
 
+            })
+            ->editColumn('date',function($data){
+                return Carbon::parse($data->date)->format('M. d, Y');
             })
             ->editColumn('abc',function($data){
                 return number_format($data->abc,2);

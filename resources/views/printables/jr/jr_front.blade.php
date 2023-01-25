@@ -127,7 +127,7 @@
     </table>
     <table class="tbl-bordered" style="width: 100%">
         <tr>
-            <td rowspan="2">Signature</td>
+            <td rowspan="2" style="width: 100px;">Signature</td>
             <td>Requested by:</td>
             <td>Approved by:</td>
         </tr>
@@ -137,7 +137,7 @@
         </tr>
         <tr>
             <td>Printed Name:</td>
-            <td class="text-strong text-center">{{$jr->requested_by}}</td>
+            <td class="text-strong text-center" style="width: 45%">{{$jr->requested_by}}</td>
             <td class="text-strong text-center">{{$jr->approved_by}}</td>
         </tr>
         <tr>

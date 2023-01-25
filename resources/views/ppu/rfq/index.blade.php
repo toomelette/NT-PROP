@@ -47,9 +47,9 @@
                         <thead>
                         <tr class="">
                             <th >RFQ No.</th>
-                            <th >Ref No.</th>
-                            <th>Date</th>
-                            <th>PAP</th>
+                            <th >Ref Book.</th>
+                            <th>PR/JR #</th>
+                            <th>PR/JR Date <i class="fa fa-arrow-right"></i> RFQ Date</th>
                             <th >Items</th>
 
                             <th >Total</th>
@@ -202,6 +202,7 @@
                     "class" : 'action4'
                 },
             ],
+            'order' : [[2,'desc']],
             "responsive": false,
             'dom' : 'lBfrtip',
             "processing": true,
@@ -240,9 +241,9 @@
             "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?all_rqf=true',
             "columns": [
                 { "data": "ref_no" },
-                { "data": "prOrJr" },
-                { "data": "date" },
-                { "data": "pap_code" },
+                { "data": "transRefBook" },
+                { "data": "transRefNo" },
+                { "data": "dates" },
                 { "data": "rfq_deadline" },
                 { "data": "abc" },
                 { "data": "action" }
@@ -265,7 +266,7 @@
                 },
                 {
                     "targets" : 3,
-                    "class" : 'w-12p'
+                    "class" : 'w-14p'
                 },
 
                 {
@@ -294,7 +295,7 @@
                 $('#'+settings.sTableId+'_filter input').unbind();
                 $('#'+settings.sTableId+'_filter input').bind('keyup', function (e) {
                     if (e.keyCode == 13) {
-                        rqf_tbl.search(this.value).draw();
+                        all_rqf_tbl.search(this.value).draw();
                     }
                 });
             },
