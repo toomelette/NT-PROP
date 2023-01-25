@@ -49,4 +49,9 @@ class Transactions extends Model
     public function transaction(){
         return $this->hasOne(Transactions::class,'slug','cross_slug');
     }
+
+
+    public function scopeAllRfq($query){
+        return $query->where('ref_book','=','RFQ');
+    }
 }

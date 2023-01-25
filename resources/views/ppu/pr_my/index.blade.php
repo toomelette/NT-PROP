@@ -74,6 +74,11 @@
                             ]) !!}
                         </div>
                         <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
+                                  'cols' => 2,
+                                  'label' => 'PR Date:',
+                                  'type' => 'date',
+                              ]) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
                                 'cols' => 2,
                                 'label' => 'SAI No.:',
@@ -275,7 +280,7 @@
                     $("#pr_items_table .zero").each(function () {
                         $(this).html('0.00');
                     })
-
+                    $(".select2_papCode").select2("val", "");
                     toast('success','Purchase request succesfully created','Success');
                 },
                 error: function (res) {
@@ -328,16 +333,17 @@
             dropdownParent: $("#add_pr_modal"),
             placeholder: 'Select item',
         });
+
         $('.select2_item').on('select2:select', function (e) {
             let t = $(this);
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
             $("#"+parentTrId+" [for='stockNo']").val(data.id);
+            $("#"+parentTrId+" [for='itemName']").val(data.text);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='unit_cost']").html('Est: '+$.number(data.populate.unit_cost,2));
         });
-
         $(".select2_papCode").select2({
             ajax: {
                 url: '{{route("dashboard.ajax.get","pap_codes")}}',

@@ -34,16 +34,37 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="tbl_loader">
+                    <center>
+                        <img style="width: 100px" src="{{asset('images/loader.gif')}}">
+                    </center>
+                </div>
             </div>
 
             <div class="tab-pane" id="tab_2">
-                The European languages are members of the same family. Their separate existence is a myth.
-                For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ
-                in their grammar, their pronunciation and their most common words. Everyone realizes why a
-                new common language would be desirable: one could refuse to pay expensive translators. To
-                achieve this, it would be necessary to have uniform grammar, pronunciation and more common
-                words. If several languages coalesce, the grammar of the resulting language is more simple
-                and regular than that of the individual languages.
+                <div id="all_rfq_table_container" style="display: none">
+                    <table class="table table-bordered table-striped table-hover" id="all_rfq_table" style="width: 100% !important">
+                        <thead>
+                        <tr class="">
+                            <th >RFQ No.</th>
+                            <th >Ref No.</th>
+                            <th>Date</th>
+                            <th>PAP</th>
+                            <th >Items</th>
+
+                            <th >Total</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="all_rfq_tbl_loader">
+                    <center>
+                        <img style="width: 100px" src="{{asset('images/loader.gif')}}">
+                    </center>
+                </div>
             </div>
 
         </div>
@@ -52,11 +73,7 @@
 
 
 
-    <div id="tbl_loader">
-        <center>
-            <img style="width: 100px" src="{{asset('images/loader.gif')}}">
-        </center>
-    </div>
+
 
 
 
@@ -192,6 +209,82 @@
             "initComplete": function( settings, json ) {
                 style_datatable("#"+settings.sTableId);
                 $('#tbl_loader').fadeOut(function(){
+                    $("#"+settings.sTableId+"_container").fadeIn();
+                    if(find != ''){
+                        rqf_tbl.search(find).draw();
+                    }
+                });
+                //Need to press enter to search
+                $('#'+settings.sTableId+'_filter input').unbind();
+                $('#'+settings.sTableId+'_filter input').bind('keyup', function (e) {
+                    if (e.keyCode == 13) {
+                        rqf_tbl.search(this.value).draw();
+                    }
+                });
+            },
+
+            "language":
+                {
+                    "processing": "<center><img style='width: 70px' src='{{asset("images/loader.gif")}}'></center>",
+                },
+            "drawCallback": function(settings){
+                $('[data-toggle="tooltip"]').tooltip();
+                $('[data-toggle="modal"]').tooltip();
+                if(active != ''){
+                    $("#"+settings.sTableId+" #"+active).addClass('success');
+                }
+            }
+        });
+
+        all_rqf_tbl = $("#all_rfq_table").DataTable({
+            "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?all_rqf=true',
+            "columns": [
+                { "data": "ref_no" },
+                { "data": "prOrJr" },
+                { "data": "date" },
+                { "data": "pap_code" },
+                { "data": "rfq_deadline" },
+                { "data": "abc" },
+                { "data": "action" }
+            ],
+            "buttons": [
+                {!! __js::dt_buttons() !!}
+            ],
+            "columnDefs":[
+                {
+                    "targets" : 0,
+                    "class" : 'w-8p'
+                },
+                {
+                    "targets" : 1,
+                    "class" : 'w-12p'
+                },
+                {
+                    "targets" : 2,
+                    "class" : 'w-10p'
+                },
+                {
+                    "targets" : 3,
+                    "class" : 'w-12p'
+                },
+
+                {
+                    "targets" : 5,
+                    "class" : 'w-8p text-right'
+                },
+                {
+                    "targets" : 6,
+                    "orderable" : false,
+                    "class" : 'action4'
+                },
+            ],
+            "responsive": false,
+            'dom' : 'lBfrtip',
+            "processing": true,
+            "serverSide": true,
+            "initComplete": function( settings, json ) {
+                style_datatable("#"+settings.sTableId);
+                $('#all_rfq_tbl_loader').fadeOut(function(){
                     $("#"+settings.sTableId+"_container").fadeIn();
                     if(find != ''){
                         rqf_tbl.search(find).draw();

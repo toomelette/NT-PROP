@@ -25,6 +25,11 @@
 
     </div>
     <div class="row">
+        {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
+              'cols' => 2,
+              'label' => 'PR Date:',
+              'type' => 'date',
+          ], $pr ?? null) !!}
         {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
             'cols' => 2,
             'label' => 'SAI No.:',
@@ -157,7 +162,6 @@
                     errored(form,res);
                 }
             })
-
         })
 
         $(".select2_pap_code_{{$rand}}").select2({

@@ -64,7 +64,7 @@
                             <br>
                             <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                         </td>
-                        <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
+                        <td class="text-center" style="vertical-align: top">{{$item->qty}} </td>
                         <td class="" style="vertical-align: top">{{$item->nature_of_work}}</td>
                     </tr>
 

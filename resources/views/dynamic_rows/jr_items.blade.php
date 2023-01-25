@@ -37,6 +37,7 @@
             'class' => 'input-sm qty unitXcost',
             'type' => 'number',
             'container_class' => 'items_'.$rand.'_qty',
+            'step' => 'any',
         ],$item->qty ?? null) !!}
     </td>
     <td>

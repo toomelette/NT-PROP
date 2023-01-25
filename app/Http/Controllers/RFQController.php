@@ -23,31 +23,60 @@ class RFQController extends Controller
         $this->transactionService = $transactionService;
     }
 
-    public function index(){
-        if(\request()->ajax() && \request()->has('draw')){
-            $trans = Transactions::query()
-                ->where(function($query){
-                    $query->where('ref_book','=','PR')
-                        ->orWhere('ref_book','=','JR');
-                })
-                ->whereDoesntHave('rfq');
-            return \DataTables::of($trans)
-                ->addColumn('action',function($data){
-                    return view('ppu.rfq.dtActions')->with([
-                        'data' => $data,
-                    ]);
-                })
-                ->addColumn('transDetails',function($data){
-
-                })
-                ->editColumn('abc',function($data){
-                    return number_format($data->abc,2);
-                })
-                ->escapeColumns([])
-                ->setRowId('slug')
-                ->toJson();
+    public function index(Request $request){
+        if($request->ajax() && $request->has('draw')){
+            if($request->has('all_rqf') && $request->all_rqf == true){
+                return $this->allRfqDataTable($request);
+            }
+            else{
+                return $this->pendingRfqDataTable($request);
+            }
         }
         return view('ppu.rfq.index');
+    }
+
+    public function allRfqDataTable($request){
+        $rfqs = Transactions::allRfq();
+        return \DataTables::of($rfqs)
+            ->addColumn('action',function($data){
+                return view('ppu.rfq.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->addColumn('prOrJr',function($data){
+                return $data->transaction->ref_book;
+            })
+            ->editColumn('abc',function($data){
+                return number_format($data->abc,2);
+            })
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
+    }
+
+
+    public function pendingRfqDataTable($request){
+        $trans = Transactions::query()
+            ->where(function($query){
+                $query->where('ref_book','=','PR')
+                    ->orWhere('ref_book','=','JR');
+            })
+            ->whereDoesntHave('rfq');
+        return \DataTables::of($trans)
+            ->addColumn('action',function($data){
+                return view('ppu.rfq.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->addColumn('transDetails',function($data){
+
+            })
+            ->editColumn('abc',function($data){
+                return number_format($data->abc,2);
+            })
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
     }
 
     public function create(){

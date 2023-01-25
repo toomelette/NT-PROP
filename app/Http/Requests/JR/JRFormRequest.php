@@ -22,13 +22,17 @@ class JRFormRequest extends FormRequest
                 'required',
                 'string',
             ],
+            'date' =>[
+                'required',
+                'date_format:Y-m-d',
+            ],
             'items.*.item'=>[
                 'required',
             ],
             'items.*.qty'=>[
                 'required',
-                'int',
-                'min:1',
+                'string',
+//                'min:1',
             ],
             'items.*.unit'=>[
                 'required',

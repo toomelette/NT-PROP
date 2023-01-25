@@ -78,6 +78,13 @@
 
               </div>
               <div class="row">
+                  {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
+                      'cols' => 2,
+                      'label' => 'JR Date:',
+                      'type' => 'date',
+                  ]) !!}
+              </div>
+              <div class="row">
                   <div class="col-md-12">
                       <button data-target="#pr_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=jr_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
                       <table id="pr_items_table" class="table-bordered table table-condensed table-striped">
@@ -274,7 +281,7 @@
         },500);
 
         $(".resp_center_selector").change(function () {
-            alert();
+            // alert();
         })
 
         $("#add_jr_form").submit(function (e) {

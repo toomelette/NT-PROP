@@ -69,7 +69,8 @@ class MyJrController extends Controller
         $trans->ref_book = 'JR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
-        $trans->date = Carbon::now()->format('Y-m-d');
+//        $trans->date = Carbon::now()->format('Y-m-d');
+        $trans->date = $request->date;
         $trans->ref_no = $this->jrService->getNextJRNo();
         $trans->purpose = $request->purpose;
         $trans->certified_by = $request->certified_by;
@@ -121,6 +122,7 @@ class MyJrController extends Controller
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
         $trans->purpose = $request->purpose;
+        $trans->date = $request->date;
         $trans->certified_by = $request->certified_by;
         $trans->certified_by_designation = $request->certified_by_designation;
         $trans->requested_by = $request->requested_by;

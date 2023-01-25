@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\PR\PRFormRequest;
+use App\Models\Articles;
 use App\Models\PR;
 use App\Models\PRItems;
 use App\Models\TransactionDetails;
@@ -64,6 +65,11 @@ class MyPrController extends Controller
             ->toJson();
     }
 
+    public function getArticle($stockNo){
+        $a = Articles::query()->where('stockNo','=',$stockNo)->first();
+        return $a ?? null;
+    }
+
     public function store(PRFormRequest $request){
 //        abort(503,$this->prService->getNextPRNo());
         $trans = new Transactions();
@@ -72,7 +78,8 @@ class MyPrController extends Controller
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
         $trans->ref_no = $this->prService->getNextPRNo();
-        $trans->date = Carbon::now()->format('Y-m-d');
+//        $trans->date = Carbon::now()->format('Y-m-d');
+        $trans->date = $request->date;
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
@@ -88,9 +95,9 @@ class MyPrController extends Controller
                 array_push($arr,[
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
-                    'stock_no' => $item['stock_no'],
+                    'stock_no' => $item['stockNo'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
@@ -121,8 +128,10 @@ class MyPrController extends Controller
         $trans->ref_book = 'PR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
-        $trans->date = Carbon::now()->format('Y-m-d');
+//        $trans->date = Carbon::now()->format('Y-m-d');
+        $trans->date = $request->date;
         $trans->sai = $request->sai;
+        $trans->unit = $request->unit;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
         $trans->requested_by = $request->requested_by;
@@ -137,9 +146,9 @@ class MyPrController extends Controller
                 array_push($arr,[
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
-                    'stock_no' => $item['stock_no'],
+                    'stock_no' => $item['stockNo'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),

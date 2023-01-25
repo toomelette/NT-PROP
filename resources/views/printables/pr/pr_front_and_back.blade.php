@@ -61,13 +61,13 @@
                 @foreach($pr->transDetails as $item)
                     <tr>
                         <td class="text-center" style="vertical-align: top">{{$item->stock_no}}</td>
-                        <td class="text-center">{{$item->article->uom ?? ''}}</td>
+                        <td class="text-center">{{strtoupper($item->unit ?? '')}}</td>
                         <td>
-                            <b>{{$item->article->article ?? 'Article not found.'}}</b>
+                            <b>{{$item->item ?? 'Article not found.'}}</b>
                             <br>
                             <i><span style="white-space: pre-line">{{$item->description}}</span></i>
                         </td>
-                        <td class="text-center" style="vertical-align: top">{{number_format($item->qty)}} </td>
+                        <td class="text-center" style="vertical-align: top">{{$item->qty}} </td>
                         <td class="text-right" style="vertical-align: top">{{number_format($item->unit_cost,2)}}</td>
                         <td class="text-right" style="vertical-align: top">{{number_format($item->total_cost,2)}}</td>
                     </tr>

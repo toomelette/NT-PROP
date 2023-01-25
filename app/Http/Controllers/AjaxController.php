@@ -108,6 +108,7 @@ class AjaxController extends Controller
                             'unitPrice' => $article->unitPrice,
                             'modeOfProc' => $article->modeOfProc,
                             'unitCost' => $article->unitPrice,
+                            'itemName' => $article->article,
                         ]
                     ]);
                 }

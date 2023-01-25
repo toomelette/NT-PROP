@@ -280,7 +280,7 @@ function mark_required(target_form, response){
             $("#"+form_id+" ."+replaced).parent().addClass('has-error');
         }else{
             if($("#"+form_id+" ."+replaced).hasClass('minimal') == false){
-                $("#"+form_id+" ."+replaced).append("<span class='help-block'> "+item+" </span>");
+                $("#"+form_id+" ."+replaced).append("<span class='warning-message small text-danger'> "+item+" </span>");
             }
         }
 

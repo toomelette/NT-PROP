@@ -3,17 +3,23 @@
 @endphp
 <tr id="item_{{$rand}}">
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stock_no]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stockNo]',[
             'class' => 'input-sm',
             'readonly'=>'readonly',
-            'for' => 'stock_no',
+            'for' => 'stockNo',
         ],$item->stock_no ?? null) !!}
     </td>
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit]',[
+{{--        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit]',[--}}
+{{--            'class' => 'input-sm',--}}
+{{--            'readonly'=>'readonly',--}}
+{{--            'for' => 'uom',--}}
+{{--        ],$item->unit ?? null) !!}--}}
+        {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][unit]',[
             'class' => 'input-sm',
-            'readonly'=>'readonly',
-            'for' => 'uom',
+            'for' => 'unit',
+            'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
+            'container_class' => 'items_'.$rand.'_unit',
         ],$item->unit ?? null) !!}
 
     </td>
@@ -24,6 +30,7 @@
                 'options' => [],
                 'select2_preSelected' => $item->article->article ?? null,
             ],$item->item ?? null) !!}
+            <input name="items[{{$rand}}][itemName]" value="{{$item->item ?? null}}" for="itemName" hidden>
         </td>
     @else
         <td>
@@ -31,6 +38,7 @@
                 'class' => 'input-sm select2_item items_'.$rand.'_item',
                 'options' => [],
             ],$item->item ?? null) !!}
+            <input name="items[{{$rand}}][itemName]" value="" for="itemName" hidden>
         </td>
     @endif
     <td>
@@ -43,6 +51,7 @@
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][qty]',[
             'class' => 'input-sm qty unitXcost items_'.$rand.'_qty',
             'type' => 'number',
+            'step' => 'any',
         ],$item->qty ?? null) !!}
     </td>
     @if(request()->ajax())
@@ -99,9 +108,10 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='stock_no']").val(data.id);
+            $("#"+parentTrId+" [for='stockNo']").val(data.id);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='unit_cost']").html('Est: '+$.number(data.populate.unit_cost,2));
+            $("#"+parentTrId+" [for='itemName']").val(data.text);
         });
 
     </script>
