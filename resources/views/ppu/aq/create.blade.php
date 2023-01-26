@@ -40,12 +40,25 @@
                                     <br>
                                     <span style="white-space: pre-line" class="small">{{$item->description}}</span>
                                 </td>
-                                <td>
-                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items[][qty]',[
+                                <td style="vertical-align: top">
+                                    {!! \App\Swep\ViewHelpers\__form2::textbox('items[][qty]',[
                                         'class' => 'input-sm autonumber text-right',
-                                        'container_class' => 'items_qty',
                                         'step' => 'any',
+                                        'label' => 'Amount:',
+                                        'cols' => ' no-margin',
                                     ],$item->qty ?? null) !!}
+
+
+                                    <a href="#" ><p class="no-margin text-info pull-right add_description_btn"><small>Add description</small></p></a>
+                                    <div class="desc_container clearfix" style="display:none; ">
+
+                                        {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items[][description]',[
+                                            'class' => 'input-sm',
+                                            'label' => 'Description:',
+                                            'container_class' => 'items_description',
+                                            'rows' => 3,
+                                        ]) !!}
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -59,11 +72,24 @@
     </section>
 
     <div hidden id="populate">
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items[][qty]',[
+        {!! \App\Swep\ViewHelpers\__form2::textbox('items[][qty]',[
             'class' => 'input-sm autonumber text-right',
-            'container_class' => 'items_qty',
             'step' => 'any',
-        ],$item->qty ?? null) !!}
+            'label' => 'Amount:',
+            'cols' => ' no-margin',
+        ]) !!}
+
+
+        <a href="#" ><p class="no-margin text-info pull-right add_description_btn"><small>Add description</small></p></a>
+        <div class="desc_container clearfix" style="display:none; ">
+
+            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items[][description]',[
+                'class' => 'input-sm',
+                'label' => 'Description:',
+                'container_class' => 'items_description',
+                'rows' => 3,
+            ]) !!}
+        </div>
     </div>
 
 @endsection
@@ -79,11 +105,14 @@
             let rows = $('#items_body tr').length;
             let html = $("#populate").html();
             $("#items_head tr").each(function () {
-                $(this).append('<td></td>');
+                $(this).append('<td style="vertical-align: top"></td>');
             })
             $("#items_body tr").each(function () {
-                $(this).append('<td>'+html+'</td>');
+                $(this).append('<td style="vertical-align: top">'+html+'</td>');
             })
+        })
+        $("body").on("click",".add_description_btn",function () {
+            $(this).parent('a').siblings('.desc_container').fadeIn();
         })
     </script>
 @endsection
