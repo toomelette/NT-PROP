@@ -72,7 +72,7 @@ class __form2
              ';
         }
         return '<div class=" '.$c_class.' col-md-'.$n->cols.' '.$name.'">
-                <input for="'.$n->for.'" class="form-control single '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
+                <input placeholder="'. $n->placeholder.'" for="'.$n->for.'" class="form-control single '.$n->class.'" '.$id.' '.$tab_index.' name="'. $name .$ext.'" type="'.$n->type.'" value="'.$value.'" placeholder="'. $n->placeholder.'" '. $n->extra_attr .' autocomplete="'.$n->autocomplete.'" '.$r_o.' '.$step.' '.$n->required.'>
               </div>';
     }
 

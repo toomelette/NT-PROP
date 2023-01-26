@@ -41,12 +41,12 @@
                                     <span style="white-space: pre-line" class="small">{{$item->description}}</span>
                                 </td>
                                 <td style="vertical-align: top">
-                                    {!! \App\Swep\ViewHelpers\__form2::textbox('items[][qty]',[
+                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items[][qty]',[
                                         'class' => 'input-sm autonumber text-right',
                                         'step' => 'any',
-                                        'label' => 'Amount:',
                                         'cols' => ' no-margin',
-                                    ],$item->qty ?? null) !!}
+                                        'placeholder' => 'Amount',
+                                    ]) !!}
 
 
                                     <a href="#" ><p class="no-margin text-info pull-right add_description_btn"><small>Add description</small></p></a>
@@ -72,11 +72,11 @@
     </section>
 
     <div hidden id="populate">
-        {!! \App\Swep\ViewHelpers\__form2::textbox('items[][qty]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items[][qty]',[
             'class' => 'input-sm autonumber text-right',
             'step' => 'any',
-            'label' => 'Amount:',
             'cols' => ' no-margin',
+            'placeholder' => 'Amount',
         ]) !!}
 
 
