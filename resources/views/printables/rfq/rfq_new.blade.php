@@ -77,7 +77,8 @@
     <table style="width: 100%" class="tbl-bordered">
         <thead>
             <tr>
-                <th class="text-center">ITEM NO.</th>
+                <th class="text-center">ITEM #</th>
+                <th class="text-center">QTY.</th>
                 <th class="text-center">UNIT</th>
                 <th class="text-center">ITEM & DESCRIPTION</th>
                 <th class="text-center">ABC</th>
@@ -88,7 +89,8 @@
             @if(!empty($trans->transaction->transDetails))
                 @foreach($trans->transaction->transDetails as $item)
                     <tr>
-                        <td class="text-center text-top" style="width: 10%">{{$loop->iteration}}</td>
+                        <td class="text-center text-top" style="width: 8%">{{$loop->iteration}}</td>
+                        <td class="text-center text-top" style="width: 5%">{{$item->qty}}</td>
                         <td class="text-center text-top" style="width: 10%">{{strtoupper($item->unit)}}</td>
                         <td>
                             <b>{{$item->item}}</b><br>
@@ -102,7 +104,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="3" class="text-right text-strong">TOTAL</td>
+                <td colspan="4" class="text-right text-strong">TOTAL</td>
                 <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
                 <td></td>
             </tr>

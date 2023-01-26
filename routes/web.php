@@ -124,7 +124,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('rfq', 'RFQController');
 
     Route::resource('articles','ArticlesController');
-    Route::resource('aq','AqController');
+
+    Route::resource('aq','AqController')->except(['create']);
+    Route::get('/aq/create/{slug}','AqController@create')->name('aq.create');
 });
 
 Route::get('test',function (){

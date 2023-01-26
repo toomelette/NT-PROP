@@ -131,7 +131,6 @@ class MyPrController extends Controller
 //        $trans->date = Carbon::now()->format('Y-m-d');
         $trans->date = $request->date;
         $trans->sai = $request->sai;
-        $trans->unit = $request->unit;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
         $trans->requested_by = $request->requested_by;
