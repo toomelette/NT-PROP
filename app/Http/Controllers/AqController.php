@@ -4,6 +4,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Offers;
+use App\Models\Quotations;
 use App\Models\Transactions;
 use App\Swep\Services\TransactionService;
 use Helper;
@@ -69,8 +71,53 @@ class AqController extends Controller
 
 
     public function create($slug){
-        return view('ppu.aq.create')->with([
-            'trans' => $this->transactionService->findBySlug($slug),
+        $trans = $this->transactionService->findBySlug($slug);
+        if(!empty($trans->aq)){
+            return redirect(route('dashboard.aq.edit',$trans->aq->slug));
+        }
+        $trans = new Transactions();
+        $trans->slug = Str::random();
+        $trans->cross_slug = $slug;
+        $trans->ref_book = 'AQ';
+        $trans->save();
+        return redirect(route('dashboard.aq.edit',$trans->slug));
+
+
+    }
+
+    public function edit($slug){
+        return view('ppu.aq.edit')->with([
+            'aq' => $this->transactionService->findBySlug($slug),
         ]);
+    }
+
+    public function update(Request $request,$slug){
+        $arr = [];
+        $quotationsArr = [];
+        foreach ($request->offers as $key => $items) {
+            $quotationSlug = Str::random();
+            array_push($quotationsArr,[
+                'slug' => $quotationSlug,
+                'aq_slug' => $slug,
+                'supplier_slug' => $request->suppliers[$key],
+                'warranty' => $request->warranty,
+                'price_validity' => $request->price_validity,
+                'delivery_term' => $request->delivery_term,
+            ]);
+            foreach ($items as $itemSlug => $offer ){
+                array_push($arr,[
+                    'slug' => Str::random(),
+                    'quotation_slug' => $quotationSlug,
+                    'item_slug' => $itemSlug,
+                    'amount' => $offer['amount'],
+                    'description' => $offer['description'],
+                ]);
+            }
+        }
+        Quotations::insert($quotationsArr);
+        Offers::insert($arr);
+        return 1;
+
+        abort(503,'Error saving transaction. [AqController::store]');
     }
 }

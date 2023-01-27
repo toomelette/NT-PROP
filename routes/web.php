@@ -125,8 +125,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::resource('articles','ArticlesController');
 
-    Route::resource('aq','AqController')->except(['create']);
+    Route::resource('aq','AqController')->except(['create','store']);
     Route::get('/aq/create/{slug}','AqController@create')->name('aq.create');
+    Route::post('/aq/store/{slug}','AqController@store')->name('aq.store');
 });
 
 Route::get('test',function (){

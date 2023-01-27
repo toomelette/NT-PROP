@@ -238,7 +238,7 @@ function errored(target_form, response){
     remove_loading_btn(target_form);
 
 
-    if(response.status == 503){
+    if(response.status == 503 || response.status == 510){
         toast('error',response.responseJSON.message,'Error!');
     }else if(response.status == 422){
         unmark_required(target_form);

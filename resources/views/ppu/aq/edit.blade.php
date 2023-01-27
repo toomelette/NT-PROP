@@ -13,70 +13,70 @@
             <form id="aq_form">
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        {{$trans->ref_book}}: {{$trans->ref_no}}
+                        {{$aq->ref_book}}: {{$aq->ref_no}}
                     </h3>
-                    <span class="pull-right">ABC: {{number_format($trans->abc,2)}} </span>
+                    <span class="pull-right">ABC: {{number_format($aq->abc,2)}} </span>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
 
                 <div class="box-body">
 
-                        <button type="button" class="btn btn-xs btn-success pull-right" id="add_column_button" style="margin-bottom: 5px" data="{{\Illuminate\Support\Str::random(10)}}"><i class="fa fa-columns"></i> Add Column</button>
-                        <table class="table-bordered table-striped table-condensed" style="width: 100%; overflow-y: auto" id="aq_table">
-                            <thead id="items_head">
-                            <tr>
-                                <th>#</th>
-                                <th>Qty Unit</th>
-                                <th>Description of Articles</th>
-                                <th style="width: 200px;" class="th_supplier">Supplier 1</th>
-                            </tr>
-                            <tr class="bg-info">
-                                <th colspan="3">Supplier Details</th>
-                                <th style="width: 200px;">
-                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers[3]',[
-                                        'class' => 'input-sm',
-                                        'cols' => ' no-margin',
-                                        'placeholder' => 'Supplier',
-                                    ]) !!}
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody id="items_body">
-                            @if(!empty($trans->transDetails))
-                                @foreach($trans->transDetails as $item)
-                                    <tr data="{{$item->slug}}">
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$item->qty}} {{strtoupper($item->unit)}}</td>
-                                        <td>
-                                            <b>{{$item->item}}</b>
-                                            <br>
-                                            <span style="white-space: pre-line" class="small">{{$item->description}}</span>
-                                        </td>
-                                        <td style="vertical-align: top" id="" >
-                                            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('offers[3]['.$item->slug.'][amount]',[
-                                                'class' => 'input-sm autonumber text-right',
-                                                'step' => 'any',
-                                                'cols' => ' no-margin',
-                                                'placeholder' => 'Amount',
+                    <button type="button" class="btn btn-xs btn-success pull-right" id="add_column_button" style="margin-bottom: 5px" data="{{\Illuminate\Support\Str::random(10)}}"><i class="fa fa-columns"></i> Add Column</button>
+                    <table class="table-bordered table-striped table-condensed" style="width: 100%; overflow-y: auto" id="aq_table">
+                        <thead id="items_head">
+                        <tr>
+                            <th>#</th>
+                            <th>Qty Unit</th>
+                            <th>Description of Articles</th>
+                            <th style="width: 200px;" class="th_supplier">Supplier 1</th>
+                        </tr>
+                        <tr class="bg-info">
+                            <th colspan="3">Supplier Details</th>
+                            <th style="width: 200px;">
+                                {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers[3]',[
+                                    'class' => 'input-sm',
+                                    'cols' => ' no-margin',
+                                    'placeholder' => 'Supplier',
+                                ]) !!}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody id="items_body">
+                        @if(!empty($aq->transaction->transDetails))
+                            @foreach($aq->transaction->transDetails as $item)
+                                <tr data="{{$item->slug}}">
+                                    <td>{{$loop->iteration}}</td>
+                                    <td>{{$item->qty}} {{strtoupper($item->unit)}}</td>
+                                    <td>
+                                        <b>{{$item->item}}</b>
+                                        <br>
+                                        <span style="white-space: pre-line" class="small">{{$item->description}}</span>
+                                    </td>
+                                    <td style="vertical-align: top" id="" >
+                                        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('offers[3]['.$item->slug.'][amount]',[
+                                            'class' => 'input-sm autonumber text-right',
+                                            'step' => 'any',
+                                            'cols' => ' no-margin',
+                                            'placeholder' => 'Amount',
+                                        ]) !!}
+
+
+                                        <a href="#" tabindex="-1"><p class="no-margin text-info pull-right add_description_btn"><small>Add description</small></p></a>
+                                        <div class="desc_container clearfix" style="display:none; ">
+
+                                            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('offers[3]['.$item->slug.'][description]',[
+                                                'class' => 'input-sm',
+                                                'label' => 'Description:',
+                                                'container_class' => 'items_description',
+                                                'rows' => 3,
                                             ]) !!}
-
-
-                                            <a href="#" tabindex="-1"><p class="no-margin text-info pull-right add_description_btn"><small>Add description</small></p></a>
-                                            <div class="desc_container clearfix" style="display:none; ">
-
-                                                {!! \App\Swep\ViewHelpers\__form2::textareaOnly('offers[3]['.$item->slug.'][description]',[
-                                                    'class' => 'input-sm',
-                                                    'label' => 'Description:',
-                                                    'container_class' => 'items_description',
-                                                    'rows' => 3,
-                                                ]) !!}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </table>
 
                 </div>
             </form>
@@ -166,9 +166,9 @@
             e.preventDefault();
             let form = $(this);
             $.ajax({
-                url : '{{route("dashboard.aq.store",$trans->slug)}}',
+                url : '{{route("dashboard.aq.update",$aq->slug)}}',
                 data : form.serialize(),
-                type: 'POST',
+                type: 'PATCH',
                 headers: {
                     {!! __html::token_header() !!}
                 },
