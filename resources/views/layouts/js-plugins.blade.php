@@ -19,7 +19,7 @@
 
 <script type="text/javascript" src="{{ asset('template/plugins/pjax/jquery.pjax.js') }}"></script>
 
-<script type="text/javascript" src="{{ asset('template/plugins/toast/jquery.toast.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('template/plugins/toast/src/jquery.toast.js') }}"></script>
 
 <script type="text/javascript" src="{{ asset('template/plugins/price-format/jquery.priceformat.min.js') }}"></script>
 

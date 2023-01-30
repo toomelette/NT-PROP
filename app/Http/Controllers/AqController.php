@@ -86,12 +86,31 @@ class AqController extends Controller
     }
 
     public function edit($slug){
+        $aq = $this->transactionService->findBySlug($slug);
+        $items = [];
+        $quotations  = [];
+        if(!empty($aq->quotationOffers)){
+            foreach ($aq->quotationOffers as $offer){
+                $items[$offer->item_slug][$offer->quotation->slug]['obj'] = $offer;
+                $quotations[$offer->quotation->slug]['obj'] = $offer->quotation;
+            }
+        }
         return view('ppu.aq.edit')->with([
-            'aq' => $this->transactionService->findBySlug($slug),
+            'aq' => $aq,
+            'items' => $items,
+            'quotations' => $quotations,
         ]);
     }
 
     public function update(Request $request,$slug){
+        $aq = $this->transactionService->findBySlug($slug);
+        $aq->prepared_by = $request->prepared_by;
+        $aq->prepared_by_position = $request->prepared_by_position;
+        $aq->noted_by = $request->noted_by;
+        $aq->noted_by_position = $request->noted_by_position;
+        $aq->recommending_approval = $request->recommending_approval;
+        $aq->recommending_approval_position = $request->recommending_approval_position;
+        $aq->update();
         $arr = [];
         $quotationsArr = [];
         foreach ($request->offers as $key => $items) {
@@ -109,15 +128,36 @@ class AqController extends Controller
                     'slug' => Str::random(),
                     'quotation_slug' => $quotationSlug,
                     'item_slug' => $itemSlug,
-                    'amount' => $offer['amount'],
+                    'amount' => \App\Swep\Helpers\Helper::sanitizeAutonum($offer['amount']),
                     'description' => $offer['description'],
                 ]);
             }
         }
+
+
+        $aq->quotationOffers()->delete();
+        $aq->quotations()->delete();
         Quotations::insert($quotationsArr);
         Offers::insert($arr);
         return 1;
 
         abort(503,'Error saving transaction. [AqController::store]');
+    }
+
+    public function print($transaction_slug){
+        $aq = $this->transactionService->findBySlug($transaction_slug);
+        $items = [];
+        $quotations  = [];
+        if(!empty($aq->quotationOffers)){
+            foreach ($aq->quotationOffers as $offer){
+                $items[$offer->item_slug][$offer->quotation->slug]['obj'] = $offer;
+                $quotations[$offer->quotation->slug]['obj'] = $offer->quotation;
+            }
+        }
+        return view('printables.aq.aq_front')->with([
+            'trans' => $this->transactionService->findBySlug($transaction_slug),
+            'items' => $items,
+            'quotations' => $quotations,
+        ]);
     }
 }

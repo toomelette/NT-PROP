@@ -67,7 +67,7 @@ class AjaxController extends Controller
             }
 
             $papCodes = $papCodes->limit(10)->offset(10*(request('page') - 1))->get();
-//            return $papCodes->toSql();
+
             if(!empty($papCodes)){
                 foreach ($papCodes as $papCode){
                     array_push($arr,[
@@ -79,13 +79,6 @@ class AjaxController extends Controller
                     ]);
                 }
             }
-
-//            array_push($arr,[
-//                'id' => 'UNPROGRAMMED',
-//                'text' => 'UNPROGRAMMED',
-//                'pap_code' => '',
-//                'pap_title' => '',
-//            ]);
             return Helper::wrapForSelect2($arr);
         }
 

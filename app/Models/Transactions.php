@@ -56,10 +56,14 @@ class Transactions extends Model
         return $this->hasOne(Transactions::class,'slug','cross_slug');
     }
 
-    public function quotaions(){
+
+
+    public function quotations(){
         return $this->hasMany(Quotations::class,'aq_slug','slug');
     }
-
+    public function quotationOffers(){
+        return $this->hasManyThrough(Offers::class,Quotations::class,'aq_slug','quotation_slug','slug','slug');
+    }
 
     public function scopeAllRfq($query){
         return $query->where('ref_book','=','RFQ');

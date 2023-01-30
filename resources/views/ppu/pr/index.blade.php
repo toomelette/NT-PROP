@@ -201,11 +201,13 @@
                 "columnDefs":[
                     {
                         "targets" : 0,
-                        "class" : 'w-10p'
+                        "class" : 'w-12p'
                     },
                     {
                         "targets" : 1,
-                        "class" : 'w-12p'
+                        "class" : 'w-12p',
+                        "visible" : false,
+
                     },
                     {
                         "targets" : [2,3,4],

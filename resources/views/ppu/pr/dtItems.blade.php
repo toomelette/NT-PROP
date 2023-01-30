@@ -16,7 +16,13 @@
             @if($loop->iteration < $max)
             <tr>
                 <td class="text-left">{{$item->qty}} {{$item->unit}}</td>
-                <td class="text-left"><span style="white-space: pre-line">{{$item->item ?? '' }} - {{\Illuminate\Support\Str::limit($item->description,150,' ... ')}}</span></td>
+                <td class="text-left">
+                    {{$item->article->article ?? $item->item }}
+                    @if($item->description != '')
+                        <br>
+                        <span style="white-space: normal"> - {!! \Illuminate\Support\Str::limit($item->description,150,' ... ') !!}</span>
+                    @endif
+                </td>
                 <td class="text-right">{{$item->unitCost}}</td>
                 <td class="text-right">{{$item->totalCost}}</td>
             </tr>

@@ -37,7 +37,10 @@ class JRController extends Controller
                 ]);
             })
             ->addColumn('dept',function($data){
-                return ($data->rc->description->name ?? null).'<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->department ?? null).'</div>';
+                return ($data->rc->description->name ?? null).
+                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->department ?? null).
+                    '<br>'.($data->rc->division ?? null).
+                    '</div>';
             })
             ->addColumn('divSec',function($data){
                 return $data->rc->division ?? null;

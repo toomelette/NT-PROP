@@ -13,7 +13,7 @@
 
 <link type="text/css" rel="stylesheet" href="{{asset('template/dist/css/skins/_all-skins.min.css')}}">
 
-<link type="text/css" rel="stylesheet" href="{{asset('template/plugins/toast/jquery.toast.min.css')}}">
+<link type="text/css" rel="stylesheet" href="{{asset('template/plugins/toast/src/jquery.toast.css')}}">
 
 <link type="text/css" rel="stylesheet" href="{{ asset('template/plugins/iCheck/all.css')}}">
 

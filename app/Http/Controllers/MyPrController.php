@@ -37,7 +37,11 @@ class MyPrController extends Controller
             ->where('user_created','=',\Auth::user()->user_id);
         return \DataTables::of($prs)
             ->addColumn('dept',function($data){
-                return ($data->rc->description->name ?? null).'<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->department ?? null).'</div>';
+                return ($data->rc->description->name ?? null).
+                    '<div class="table-subdetail" style="margin-top: 3px">'
+                    .($data->rc->department ?? null)
+                    .'<br>'.($data->rc->division ?? null).
+                    '</div>';
             })
             ->addColumn('div_sec',function($data){
                 return $data->rc->division ?? null;
