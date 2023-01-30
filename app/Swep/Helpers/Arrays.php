@@ -36,7 +36,11 @@ class Arrays
     public static function groupedRespCodes($all = null){
         if(!empty(Auth::user()->userDetails)){
             $rcs = PPURespCodes::query()->with(['description'])
-                ->where('rc','=',Auth::user()->userDetails->rc)
+                ->where(function($query){
+                    foreach (Auth::user()->availablePaps as $availablePap){
+                        $query->orWhere('rc','=',$availablePap->rc);
+                    }
+                })
                 ->get();
         }else{
             if($all == 'all'){

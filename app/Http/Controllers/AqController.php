@@ -155,11 +155,19 @@ class AqController extends Controller
             }
         }
         $groupedQuotations = [];
+        $pages = [];
         $start = 0;
         foreach ($quotations as $slug => $quotation){
-            array_push($groupedQuotations, $quotation);
+
+            $groupedQuotations[$slug] = $quotation;
+            if($start > 3){
+                $start = 0;
+                array_push($pages,$groupedQuotations);
+                $groupedQuotations = [];
+            }
+            $start++;
         }
-        dd($groupedQuotations);
+        dd($pages);
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,
