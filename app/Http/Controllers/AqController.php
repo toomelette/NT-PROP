@@ -154,6 +154,12 @@ class AqController extends Controller
                 $quotations[$offer->quotation->slug]['obj'] = $offer->quotation;
             }
         }
+        $groupedQuotations = [];
+        $start = 0;
+        foreach ($quotations as $slug => $quotation){
+            array_push($groupedQuotations, $quotation);
+        }
+        dd($groupedQuotations);
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,

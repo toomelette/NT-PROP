@@ -97,6 +97,10 @@ class User extends Authenticatable{
     public function userDetails(){
         return $this->hasOne(UserDetails::class,'user_id','user_id');
     }
+
+    public function availablePaps(){
+        return $this->hasMany(UserDetails::class,'user_id','user_id');
+    }
     
 
     

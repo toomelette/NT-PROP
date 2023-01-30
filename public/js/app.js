@@ -434,9 +434,7 @@ const formatToCurrency = amount => {
     return "" + amount.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
 };
 
-
-
-function toast(text){
+function toastMessage(text){
     $.toast({
         text: text, // Text that is to be shown in the toast
         showHideTransition: 'fade', // fade, slide or plain
@@ -448,3 +446,4 @@ function toast(text){
         loader: false,  // Whether to show loader or not. True by default
     });
 }
+

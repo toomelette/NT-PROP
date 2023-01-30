@@ -28,9 +28,12 @@
                         <tr>
                             <th>#</th>
                             <th>Qty Unit</th>
-                            <th>Description of Articles</th>
+                            <th style="width: 400px;">Description of Articles</th>
                             @foreach($quotations as $quotation)
-                                <th style="width: 200px;" class="th_supplier">Supplier {{$loop->iteration}}</th>
+                                <th style="width: 200px;" class="th_supplier">
+                                    <label class="no-margin">Supplier {{$loop->iteration}}</label>
+                                    <button type="button" class="btn-danger btn btn-xs pull-right remove_supplier_button"><i class="fa fa-times"></i> </button>
+                                </th>
                             @endforeach
 
                         </tr>
@@ -41,7 +44,7 @@
                                     {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).']',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
-                                        'placeholder' => 'Supplier #'.$loop->iteration,
+                                        'placeholder' => 'Supplier',
                                     ],$quotation['obj']->supplier_slug) !!}
                                 </th>
                             @endforeach
@@ -200,7 +203,9 @@
             let btn = $(this);
             let html = $("#populate").html();
             $("#items_head tr:first").each(function () {
-                $(this).append('<th class="th_supplier" style="vertical-align: top" id="td_'+btn.attr('data')+'"></th>');
+                $(this).append('<th class="th_supplier" style="vertical-align: top" id="td_'+btn.attr('data')+'">' +
+                    '<label class="no-margin"></label><button type="button" class="btn-danger btn btn-xs pull-right remove_supplier_button"><i class="fa fa-times"></i> </button>' +
+                    '</th>');
             })
             $("#items_head tr:nth-child(2)").each(function () {
                 $(this).append('<th style="vertical-align: top" id="td_'+btn.attr('data')+'">'+$("#supplier").html()+'</th>');
@@ -239,6 +244,10 @@
                 $("#items_head tr:eq(1) th:eq("+(len)+")").find('input').attr('name','suppliers['+currentIndex+']');
             });
 
+            $("#aq_table #items_head tr:first th").each(function () {
+                $(this).find('label').html('Supplier '+($(this).index()-2));
+            })
+
         }
         showTotal();
         function showTotal(){
@@ -272,7 +281,7 @@
                     {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    toast('Changes were saved.');
+                    toastMessage('Changes were saved.');
                     remove_loading_btn(form);
                 },
                 error: function (res) {
@@ -315,5 +324,43 @@
         @if(count($quotations) < 1)
             $("#add_column_button").click();
         @endif
+        
+        $("body").on("click",".remove_supplier_button",function () {
+            let t = $(this);
+            let index = t.parent('th').index();
+            $("#aq_table #items_body tr").each(function () {
+                $(this).find('td').eq(index).addClass('bg-danger');
+            });
+            t.parent('th').addClass('bg-danger');
+            Swal.fire({
+                title: 'Are you sure to remove this column?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, remove it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    $("#aq_table #items_body tr").each(function () {
+                        $(this).find('td').eq(index).remove();
+                    });
+                    $("#aq_table tfoot tr").each(function () {
+                        $(this).find('th').eq(index -2).remove();
+                    });
+                    $("#aq_table thead tr:eq(1)").find('th').eq(index-2).remove();
+                    t.parent('th').remove();
+                    $("#aq_form").submit();
+                    indexing();
+                }else{
+                    $("#aq_table #items_body tr").each(function () {
+                        $(this).find('td').eq(index).removeClass('bg-danger');
+                    });
+                    t.parent('th').removeClass('bg-danger');
+                }
+            })
+
+        })
     </script>
 @endsection

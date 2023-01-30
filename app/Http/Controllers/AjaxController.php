@@ -60,10 +60,14 @@ class AjaxController extends Controller
                 });
 
             if(!empty(Auth::user()->userDetails)){
-
                 $papCodes = $papCodes->whereHas('responsibilityCenter',function ($query){
-                    $query->where('rc','=',Auth::user()->userDetails->rc);
+                    $query->where(function ($q){
+                        foreach (Auth::user()->availablePaps as $availablePap){
+                            $q->orWhere('rc','=',$availablePap->rc);
+                        }
+                    });
                 });
+
             }
 
             $papCodes = $papCodes->limit(10)->offset(10*(request('page') - 1))->get();
