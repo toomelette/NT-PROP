@@ -209,7 +209,11 @@
                         'visible' : false,
                     },
                     {
-                        "targets" : [2,3,4],
+                        "targets" : [2,3],
+                        "class" : 'w-12p'
+                    },
+                    {
+                        "targets" : 4,
                         "class" : 'w-8p'
                     },
                     {

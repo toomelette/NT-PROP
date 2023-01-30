@@ -208,11 +208,11 @@
                 },
                 {
                     "targets" : 2,
-                    "class" : 'w-10p'
+                    "class" : 'w-12p'
                 },
                 {
                     "targets" : [3,4],
-                    "class" : 'w-8p'
+                    "class" : 'w-12p'
                 },
                 {
                     "targets" : 6,
