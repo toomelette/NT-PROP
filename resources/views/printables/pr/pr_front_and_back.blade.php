@@ -61,7 +61,7 @@
                 @foreach($pr->transDetails as $item)
                     <tr>
                         <td class="text-center" style="vertical-align: top">{{$item->stock_no}}</td>
-                        <td class="text-center">{{strtoupper($item->unit ?? '')}}</td>
+                        <td class="text-center" style="vertical-align: top">{{strtoupper($item->unit ?? '')}}</td>
                         <td>
                             <b>{{$item->item ?? 'Article not found.'}}</b>
                             <br>
