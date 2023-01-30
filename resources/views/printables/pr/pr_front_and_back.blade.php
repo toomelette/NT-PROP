@@ -111,7 +111,7 @@
         </tr>
         <tr>
             <td>Printed Name:</td>
-            <td class="text-strong text-center">{{$pr->requested_by}}</td>
+            <td class="text-strong text-center" style="width: 45%">{{$pr->requested_by}}</td>
             <td class="text-strong text-center">{{$pr->approved_by}}</td>
         </tr>
         <tr>
