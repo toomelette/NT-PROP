@@ -85,7 +85,7 @@ class LoginController extends Controller{
 
         if($this->auth->guard()->attempt($this->credentials($request))){
             if($this->auth->user()->employee->locations == 'COS-VISAYAS' || $this->auth->user()->employee->locations == 'JANITORIAL' || $this->auth->user()->employee->locations == 'RETIREE' || $this->auth->user()->employee->locations == 'COS-LUZMIN'){
-                if($this->auth->user()->username != 'gjg021' && $this->auth->user()->username != 'kevin'){
+                if($this->auth->user()->username != 'gjg021' && $this->auth->user()->username != 'kevin' && $this->auth->user()->username != 'salu9233'){
                     $this->session->flush();
                     $this->session->flash('FOR_PERMANENT','Non permanent employees are not allowed to access this portal');
                     $this->auth->logout();

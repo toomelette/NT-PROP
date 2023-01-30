@@ -41,7 +41,7 @@
                             <th colspan="3">Supplier Details</th>
                             @foreach($quotations as $quotation)
                                 <th style="width: 200px;">
-                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).']',[
+                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][supplier_slug]',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Supplier',
@@ -91,6 +91,64 @@
                             <th colspan="3" onclick="showTotal()">TOTAL</th>
                             @foreach($quotations as $quotation)
                                 <th class="text-right tfoot"></th>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            <td colspan="3">Warranty:</td>
+                            @foreach($quotations as $quotation)
+                                <td style="width: 200px;">
+                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][warranty]',[
+                                        'class' => 'input-sm',
+                                        'cols' => ' no-margin',
+                                        'placeholder' => 'Warranty',
+                                    ],$quotation['obj']->warranty) !!}
+                                </td>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            <td colspan="3">Price Validity:</td>
+                            @foreach($quotations as $quotation)
+                                <td style="width: 200px;">
+                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][price_validity]',[
+                                        'class' => 'input-sm',
+                                        'cols' => ' no-margin',
+                                        'placeholder' => 'Warranty',
+                                    ],$quotation['obj']->price_validity) !!}
+                                </td>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            <td colspan="3">Has attachments:</td>
+
+                            @foreach($quotations as $quotation)
+                            <td>
+                            <center><input type="checkbox" name="{{'suppliers['.($loop->iteration + 2).'][price_validity]'}}"></center>
+                            </td>
+                            @endforeach
+
+                        </tr>
+                        <tr>
+                            <td colspan="3">Delivery Term:</td>
+                            @foreach($quotations as $quotation)
+                                <td style="width: 200px;">
+                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][delivery_term]',[
+                                        'class' => 'input-sm',
+                                        'cols' => ' no-margin',
+                                        'placeholder' => 'Delivery Term',
+                                    ],$quotation['obj']->delivery_term) !!}
+                                </td>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            <td colspan="3">Payment Term:</td>
+                            @foreach($quotations as $quotation)
+                                <td style="width: 200px;">
+                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][payment_term]',[
+                                        'class' => 'input-sm',
+                                        'cols' => ' no-margin',
+                                        'placeholder' => 'Payment Term',
+                                    ],$quotation['obj']->payment_term) !!}
+                                </td>
                             @endforeach
                         </tr>
                         </tfoot>
@@ -153,8 +211,6 @@
                                 ],$aq ?? null) !!}
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </form>

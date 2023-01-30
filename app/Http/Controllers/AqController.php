@@ -103,6 +103,7 @@ class AqController extends Controller
     }
 
     public function update(Request $request,$slug){
+        return $request;
         $aq = $this->transactionService->findBySlug($slug);
         $aq->prepared_by = $request->prepared_by;
         $aq->prepared_by_position = $request->prepared_by_position;
@@ -148,30 +149,26 @@ class AqController extends Controller
         $aq = $this->transactionService->findBySlug($transaction_slug);
         $items = [];
         $quotations  = [];
+        $by = 3;
         if(!empty($aq->quotationOffers)){
             foreach ($aq->quotationOffers as $offer){
                 $items[$offer->item_slug][$offer->quotation->slug]['obj'] = $offer;
                 $quotations[$offer->quotation->slug]['obj'] = $offer->quotation;
             }
         }
-        $groupedQuotations = [];
+
         $pages = [];
         $start = 0;
-        foreach ($quotations as $slug => $quotation){
-
-            $groupedQuotations[$slug] = $quotation;
-            if($start > 3){
-                $start = 0;
-                array_push($pages,$groupedQuotations);
-                $groupedQuotations = [];
-            }
-            $start++;
+        foreach ($quotations as $key => $quotation){
+                $pages[floor($start/$by)][$key] = $quotation;
+                $start++;
         }
-        dd($pages);
+
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,
-            'quotations' => $quotations,
+//            'quotations' => $quotations,
+            'pages' => $pages,
         ]);
     }
 }
