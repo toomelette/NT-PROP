@@ -12,7 +12,7 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">PRs & JRs pending of AQ</a></li>
-            <li><a href="#tab_2" data-toggle="tab">All RFQs</a></li>
+            <li style="display: none"><a href="#tab_2" data-toggle="tab">All RFQs</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -96,7 +96,7 @@
                 { "data": "transRefNo" },
                 { "data": "dates" },
                 { "data": "transDetails" },
-                { "data": "rfq_deadline" },
+                { "data": "abc" },
                 { "data": "action" }
             ],
             "buttons": [

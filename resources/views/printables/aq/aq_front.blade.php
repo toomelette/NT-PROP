@@ -5,7 +5,8 @@
 
 @section('wrapper')
 <div style="font-family: 'Cambria'">
-    @foreach($pages as $quotations)
+    @if(count($pages) > 0)
+        @foreach($pages as $quotations)
         <div style="break-after: page">
             <table style="width: 100%">
                 <tr style="font-size: 15px">
@@ -13,7 +14,7 @@
                         <p class="no-margin">SUGAR REGULATORY ADMINISTRATION</p>
                         <p class="no-margin">Araneta St., Singcang, Bacolod City</p>
                         <p class="no-margin">Tel No. 433-4962, Fax No. 4353758</p>
-                        <p>ABSTRACT OF QUOTATIONS</p>
+                        <p class="text-strong">ABSTRACT OF QUOTATIONS</p>
                     </td>
                     <td class="text-right" style="vertical-align: bottom">
                         <p>Page {{$loop->iteration}} of {{count($pages)}}</p>
@@ -98,7 +99,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Warranty:</td>
+                    <td><i>Warranty:</i></td>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <td class="text-center">
@@ -111,7 +112,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Price Validity:</td>
+                    <td><i>Price Validity:</i></td>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <td class="text-center">
@@ -139,7 +140,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Delivery Term:</td>
+                    <td><i>Delivery Term:</i></td>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <td class="text-center">
@@ -152,7 +153,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Payment Term:</td>
+                    <td><i>Payment Term:</i></td>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <td class="text-center">
@@ -200,15 +201,19 @@
                 </tr>
             </table>
         </div>
+        <hr class="page-break no-print">
     @endforeach
-
+    @else
+        <h1>No quotations available</h1>
+    @endif
 </div>
 @endsection
 
 @section('scripts')
     <script type="text/javascript">
-
-
+        @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
+        print();
+        @endif
 
     </script>
 @endsection

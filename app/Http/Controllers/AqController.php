@@ -40,14 +40,10 @@ class AqController extends Controller
                     <small class="text-muted"> Requested by:<br>'.Str::limit(($data->transaction->requested_by ?? null),15,'...').'</small>
                     ';
                 })
-                ->editColumn('rfq_deadline',function($data){
-                    if($data->rfq_deadline < Carbon::now()){
-                        return '<span class="text-danger">'.Carbon::parse($data->rfq_deadline)->format('M. d, Y').' <i class="fa fa-times small"></i></span>';
+                ->editColumn('abc',function($data){
+                    if(!empty($data->transaction->abc)){
+                        return number_format($data->transaction->abc,2);
                     }
-                    if(Carbon::parse($data->rfq_deadline)->diffInDays() <= 3 ){
-                        return '<span class="text-warning">'.Carbon::parse($data->rfq_deadline)->format('M. d, Y').' <i class="fa fa-warning small"></i> </span>';
-                    }
-                    return Carbon::parse($data->rfq_deadline)->format('M. d, Y');
                 })
                 ->addColumn('dates',function($data){
                     return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
@@ -103,7 +99,7 @@ class AqController extends Controller
     }
 
     public function update(Request $request,$slug){
-        return $request;
+
         $aq = $this->transactionService->findBySlug($slug);
         $aq->prepared_by = $request->prepared_by;
         $aq->prepared_by_position = $request->prepared_by_position;
@@ -116,13 +112,17 @@ class AqController extends Controller
         $quotationsArr = [];
         foreach ($request->offers as $key => $items) {
             $quotationSlug = Str::random();
+
+
             array_push($quotationsArr,[
                 'slug' => $quotationSlug,
                 'aq_slug' => $slug,
-                'supplier_slug' => $request->suppliers[$key],
-                'warranty' => $request->warranty,
-                'price_validity' => $request->price_validity,
-                'delivery_term' => $request->delivery_term,
+                'supplier_slug' => $request->suppliers[$key]['supplier_slug'],
+                'warranty' => $request->suppliers[$key]['warranty'],
+                'price_validity' => $request->suppliers[$key]['price_validity'],
+                'has_attachments' => (isset($request->suppliers[$key]['has_attachments'])) ? 1 : null,
+                'delivery_term' => $request->suppliers[$key]['delivery_term'],
+                'payment_term' => $request->suppliers[$key]['payment_term'],
             ]);
             foreach ($items as $itemSlug => $offer ){
                 array_push($arr,[

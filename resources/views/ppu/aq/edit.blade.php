@@ -17,7 +17,11 @@
                         {{$aq->ref_book}}: {{$aq->ref_no}}
                     </h3>
 
-                    <button type="submit" class="btn btn-primary btn-sm pull-right"><i class="fa fa-check"></i> Save</button>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-sm" id="finalize_btn"><i class="fa  fa-sign-in"></i> Finalize AQ</button>
+                        <button type="button" class="btn btn-default btn-sm" id="print_preview_btn" data-toggle="modal" data-target="#print_preview_modal"><i class="fa fa-eye"></i> Preview</button>
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -26,8 +30,8 @@
                     <table class="table-bordered table-striped table-condensed" style="width: 100%; overflow-y: auto" id="aq_table">
                         <thead id="items_head">
                         <tr>
-                            <th>#</th>
-                            <th>Qty Unit</th>
+                            <th style="width: 30px;">#</th>
+                            <th style="width: 60px;">Qty Unit</th>
                             <th style="width: 400px;">Description of Articles</th>
                             @foreach($quotations as $quotation)
                                 <th style="width: 200px;" class="th_supplier">
@@ -45,6 +49,7 @@
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Supplier',
+                                        'for' => 'supplier_slug',
                                     ],$quotation['obj']->supplier_slug) !!}
                                 </th>
                             @endforeach
@@ -55,7 +60,7 @@
                         @if(!empty($aq->transaction->transDetails))
                             @foreach($aq->transaction->transDetails as $item)
                                 <tr data="{{$item->slug}}">
-                                    <td>{{$loop->iteration}}</td>
+                                    <td class="text-center">{{$loop->iteration}}</td>
                                     <td>{{$item->qty}} {{strtoupper($item->unit)}}</td>
                                     <td>
                                         <b>{{$item->item}}</b>
@@ -93,60 +98,65 @@
                                 <th class="text-right tfoot"></th>
                             @endforeach
                         </tr>
-                        <tr>
+                        <tr class="footer-inputs" for="warranty">
                             <td colspan="3">Warranty:</td>
                             @foreach($quotations as $quotation)
-                                <td style="width: 200px;">
+                                <td  style="width: 200px;" for="warranty">
                                     {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][warranty]',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Warranty',
+                                        'for' => 'warranty',
                                     ],$quotation['obj']->warranty) !!}
                                 </td>
                             @endforeach
                         </tr>
-                        <tr>
+                        <tr class="footer-inputs" for="price_validity">
                             <td colspan="3">Price Validity:</td>
                             @foreach($quotations as $quotation)
-                                <td style="width: 200px;">
+                                <td style="width: 200px;" for="price_validity">
                                     {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][price_validity]',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
-                                        'placeholder' => 'Warranty',
+                                        'placeholder' => 'Price Validity',
+                                        'for' => 'price_validity',
                                     ],$quotation['obj']->price_validity) !!}
                                 </td>
                             @endforeach
                         </tr>
-                        <tr>
+                        <tr class="footer-inputs" for="has_attachments">
                             <td colspan="3">Has attachments:</td>
 
                             @foreach($quotations as $quotation)
-                            <td>
-                            <center><input type="checkbox" name="{{'suppliers['.($loop->iteration + 2).'][price_validity]'}}"></center>
+                            <td for="has_attachements">
+                            <center>
+                                <input for="has_attachments" type="checkbox" name="{{'suppliers['.($loop->iteration + 2).'][has_attachments]'}}" {{$quotation['obj']->has_attachments == 1 ? 'checked' : null}} ></center>
                             </td>
                             @endforeach
 
                         </tr>
-                        <tr>
-                            <td colspan="3">Delivery Term:</td>
+                        <tr class="footer-inputs" for="delivery_term">
+                            <td colspan="3" for="delivery_term">Delivery Term:</td>
                             @foreach($quotations as $quotation)
                                 <td style="width: 200px;">
                                     {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][delivery_term]',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Delivery Term',
+                                        'for' => 'delivery_term',
                                     ],$quotation['obj']->delivery_term) !!}
                                 </td>
                             @endforeach
                         </tr>
-                        <tr>
-                            <td colspan="3">Payment Term:</td>
+                        <tr class="footer-inputs" for="payment_term">
+                            <td colspan="3" for="payement_term">Payment Term:</td>
                             @foreach($quotations as $quotation)
                                 <td style="width: 200px;">
                                     {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][payment_term]',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Payment Term',
+                                        'for' => 'payment_term',
                                     ],$quotation['obj']->payment_term) !!}
                                 </td>
                             @endforeach
@@ -242,14 +252,87 @@
             'class' => 'input-sm',
             'cols' => ' no-margin',
             'placeholder' => 'Supplier',
+            'for' => 'supplier_slug',
         ]) !!}
+    </div>
+
+    <div hidden id="warranty">
+
+            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('x',[
+                'class' => 'input-sm',
+                'cols' => ' no-margin',
+                'placeholder' => 'Warranty',
+                'for' => 'warranty',
+            ]) !!}
+
+    </div>
+
+    <div hidden id="price_validity">
+
+            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('x',[
+                'class' => 'input-sm',
+                'cols' => ' no-margin',
+                'placeholder' => 'Price Validity',
+                'for' => 'price_validity',
+            ]) !!}
+
+    </div>
+
+    <div hidden id="delivery_term">
+
+            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('x',[
+                'class' => 'input-sm',
+                'cols' => ' no-margin',
+                'placeholder' => 'Delivery Term',
+                'for' => 'delivery_term',
+            ]) !!}
+
+    </div>
+
+    <div hidden id="payment_term">
+
+            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('x',[
+                'class' => 'input-sm',
+                'cols' => ' no-margin',
+                'placeholder' => 'Payment Term',
+                'for' => 'payment_term',
+            ]) !!}
+
+    </div>
+
+    <div hidden id="has_attachments">
+
+            <center><input for="has_attachments" type="checkbox" name="x"></center>
+
     </div>
 
 @endsection
 
 
 @section('modals')
-
+<div class="modal fade" id="print_preview_modal" tabindex="-1" role="dialog" aria-labelledby="print_preview_modal_label">
+  <div class="modal-dialog " style="width: 80%" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">AQ Preview</h4>
+      </div>
+      <div class="modal-body">
+          <div class="bs-example" id="print_preview_frame_container" style="display: none">
+              <div  class="embed-responsive embed-responsive-16by9" style="height: 400px;">
+                  <iframe id="print_preview_frame" class="embed-responsive-item" src="" ></iframe>
+              </div>
+          </div>
+          <div id="iframe_placeholder">
+              <h1 class="text-center" style="font-size: 50px"><i class="fa fa-circle-o-notch fa-spin"></i></h1>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -266,7 +349,7 @@
             $("#items_head tr:nth-child(2)").each(function () {
                 $(this).append('<th style="vertical-align: top" id="td_'+btn.attr('data')+'">'+$("#supplier").html()+'</th>');
             })
-            $("#aq_table tfoot tr").each(function () {
+            $("#aq_table tfoot tr:first").each(function () {
                 $(this).append('<th class="text-right tfoot"></th>');
             })
 
@@ -274,14 +357,18 @@
                 $(this).append('<td style="vertical-align: top" id="td_'+btn.attr('data')+'">'+html+'</td>');
             })
 
-
-
             $("#td_"+btn.attr('data')+" .autonumber").each(function(){
                 new AutoNumeric(this, autonum_settings);
             });
 
+            $(".footer-inputs").each(function () {
+                let t = $(this);
+                t.append('<td>'+$("#"+t.attr('for')).html()+'</td>');
+            })
+
             let random = Math.floor(Math.random() * 10000000 + 1);
             btn.attr('data','btn_'+random);
+
             indexing();
         })
         $("body").on("click",".add_description_btn",function () {
@@ -295,14 +382,36 @@
             $("#items_body tr").each(function () {
                 let t = $(this);
                 let itemId = t.attr('data');
-                t.children('td:eq('+currentIndex+')').find('input.autonumber ').attr('name','offers['+currentIndex+']['+itemId+'][amount]');
-                t.children('td:eq('+currentIndex+')').find('textarea').attr('name','offers['+currentIndex+']['+itemId+'][description]');
-                $("#items_head tr:eq(1) th:eq("+(len)+")").find('input').attr('name','suppliers['+currentIndex+']');
+                t.children('td').each(function () {
+                    if($(this).index() > 2){
+                        $(this).find('input.autonumber').attr('name','offers['+$(this).index()+']['+itemId+'][amount]');
+                        $(this).find('textarea').attr('name','offers['+$(this).index()+']['+itemId+'][description]');
+                    }
+                })
             });
 
-            $("#aq_table #items_head tr:first th").each(function () {
-                $(this).find('label').html('Supplier '+($(this).index()-2));
+            $("#items_head tr:eq(1)").each(function () {
+                let t = $(this);
+                t.children('th:not(:first)').each(function () {
+                    $(this).find('input[for="supplier_slug"]').attr('name','suppliers['+($(this).index()+2)+'][supplier_slug]');
+                })
+            });
+            $("#items_head tr:first").each(function () {
+                let t = $(this);
+                t.children('th').each(function () {
+                    if($(this).index() > 2){
+                        $(this).find('label').html('Supplier '+($(this).index()-2));
+                    }
+                })
+            });
+
+            $(".footer-inputs").each(function () {
+                let t = $(this);
+                t.children('td:not(:first)').each(function () {
+                    $(this).find('input').attr('name','suppliers['+($(this).index()+2)+']['+$(this).parents('tr').attr('for')+']');
+                })
             })
+
 
         }
         showTotal();
@@ -406,9 +515,14 @@
                         $(this).find('th').eq(index -2).remove();
                     });
                     $("#aq_table thead tr:eq(1)").find('th').eq(index-2).remove();
+
+                    $("#aq_table tfoot .footer-inputs").each(function () {
+                        $(this).find('td').eq(index - 2).remove();
+                    });
                     t.parent('th').remove();
-                    $("#aq_form").submit();
                     indexing();
+                    $("#aq_form").submit();
+
                 }else{
                     $("#aq_table #items_body tr").each(function () {
                         $(this).find('td').eq(index).removeClass('bg-danger');
@@ -416,7 +530,19 @@
                     t.parent('th').removeClass('bg-danger');
                 }
             })
+        })
 
+        $("#print_preview_btn").click(function () {
+            $("#print_preview_frame_container").hide();
+            $("#iframe_placeholder").show();
+            $("#print_preview_frame").attr('src','');
+            $("#print_preview_frame").attr('src','{{route("dashboard.aq.print",$aq->slug)}}?noPrint=');
+        })
+
+        $("#print_preview_frame").on('load',function () {
+            $("#iframe_placeholder").fadeOut(function () {
+                $("#print_preview_frame_container").fadeIn();
+            });
         })
     </script>
 @endsection

@@ -23,8 +23,8 @@
                         <span style="white-space: normal"> - {!! \Illuminate\Support\Str::limit($item->description,150,' ... ') !!}</span>
                     @endif
                 </td>
-                <td class="text-right">{{$item->unitCost}}</td>
-                <td class="text-right">{{$item->totalCost}}</td>
+                <td class="text-right">{{number_format($item->unit_cost,2)}}</td>
+                <td class="text-right">{{number_format($item->total_cost,2)}}</td>
             </tr>
             @else
                 @php
