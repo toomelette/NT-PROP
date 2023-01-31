@@ -87,5 +87,14 @@ return array (
   'os-condenesed-light' => array(
     'normal' => $fontDir . '/os_condenesed_light_normal_6bd565e0ac88e2e6fd6c4ff0d15832da',
   ),
+  'glyphicons halflings' => array(
+    'normal' => $fontDir . '/glyphicons_halflings_normal_712800d8b6a2c24d545e845499410706',
+  ),
+  'fontawesome' => array(
+    'normal' => $fontDir . '/fontawesome_normal_4c8c8e9670f7a9082e2415e4f0ec73dd',
+  ),
+  'cambria' => array(
+    'bold' => $fontDir . '/cambria_bold_953fa792438dbb4e4552a39e9cb9c953',
+  ),
 );
 }; ?>

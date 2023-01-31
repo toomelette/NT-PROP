@@ -13,7 +13,7 @@ class PAPService extends BaseService
 {
     public function newPapCode($year , $respCenter){
         $year = Carbon::parse($year.'-01-01')->format('y');
-        $basePapCode = $year.$respCenter.'-';
+        $basePapCode = $year.'-'.$respCenter.'-';
         $pap = PAP::query()->where('pap_code','like',$basePapCode.'%')->orderBy('pap_code','desc')->first();
         if(empty($pap)){
             return $newPapCode = $basePapCode.str_pad(1,2,'0',STR_PAD_LEFT);

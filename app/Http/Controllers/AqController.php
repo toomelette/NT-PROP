@@ -8,6 +8,7 @@ use App\Models\Offers;
 use App\Models\Quotations;
 use App\Models\Transactions;
 use App\Swep\Services\TransactionService;
+use Barryvdh\DomPDF\PDF;
 use Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -163,6 +164,15 @@ class AqController extends Controller
                 $pages[floor($start/$by)][$key] = $quotation;
                 $start++;
         }
+
+//        $pdf = \PDF::loadView('printables.aq.aq_front',[
+//            'trans' => $this->transactionService->findBySlug($transaction_slug),
+//            'items' => $items,
+////            'quotations' => $quotations,
+//            'pages' => $pages,
+//        ])->setPaper('folio', 'landscape');
+//
+//        return $pdf->stream('sss.pdf');
 
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),

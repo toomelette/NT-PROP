@@ -4,10 +4,21 @@
 @extends('printables.print_layouts.print_layout_main')
 
 @section('wrapper')
-<div style="font-family: 'Cambria'">
+    <style>
+        @font-face {
+            font-family: 'Cambria';
+            src: url({{ storage_path("fonts/cambria.ttf") }}) format("truetype");
+            font-weight: 700;
+            font-style: normal;
+        }
+        .page-breaks {
+            page-break-after: always;
+        }
+    </style>
+<div style="font-family: 'Cambria',Arial">
     @if(count($pages) > 0)
         @foreach($pages as $quotations)
-        <div style="break-after: page">
+        <div  class="page-breaks">
             <table style="width: 100%">
                 <tr style="font-size: 15px">
                     <td style="width: 90%;" class="text-center">
@@ -201,7 +212,7 @@
                 </tr>
             </table>
         </div>
-        <hr class="page-break no-print">
+
     @endforeach
     @else
         <h1>No quotations available</h1>

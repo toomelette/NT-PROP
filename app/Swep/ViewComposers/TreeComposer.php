@@ -16,12 +16,28 @@ class TreeComposer
         $tree = [];
         $menus = Menu::with('submenu')->where('portal','=','PPU')->get();
 
-        $user_submenus = UserSubmenu::with(['submenu'])->where('user_id', Auth::user()->user_id)
-            ->whereHas('submenu', function ($query) {
-                return $query->whereHas('menu',function ($q){
-                   return $q->where('portal', '=','PPU');
-            });
-        })->get();
+//        $user_submenus = UserSubmenu::with(['submenu','submenu.menu'])->where('user_id', Auth::user()->user_id)
+//            ->whereHas('submenu', function ($query) {
+//                return $query->whereHas('menu',function ($q){
+//                   return $q->where('portal', '=','PPU')
+//                       ->orderBy('id','desc');
+//            });
+//        })->get();
+
+        $user_submenus = UserSubmenu::with(['submenu','submenu.menu'])->where('user_id', Auth::user()->user_id)
+            ->whereHas('submenu.menu', function ($query) {
+                   return $query->where('portal', '=','PPU');
+             })->get();
+        $user_submenus = UserSubmenu::query()
+            ->leftJoin('su_submenus','su_submenus.submenu_id','su_user_submenus.submenu_id')
+            ->leftJoin('su_menus','su_menus.menu_id','su_submenus.menu_id')
+            ->where('user_id','=',Auth::user()->user_id)
+            ->where('portal','=','PPU')
+            ->orderBy('category','asc')
+            ->orderBy('su_menus.order','asc')
+            ->get();
+
+
 
         foreach ($user_submenus as $user_submenu){
             $tree[$user_submenu->submenu->menu->category][$user_submenu->submenu->menu->menu_id]['menu_obj'] = $user_submenu->submenu->menu;
