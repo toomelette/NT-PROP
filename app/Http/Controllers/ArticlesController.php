@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\Http\Requests\Article\ArticleFormRequest;
 use App\Models\Articles;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\ArticlesService;
@@ -51,7 +52,7 @@ class ArticlesController extends Controller
             ->toJson();
     }
 
-    public function store(Request $request){
+    public function store(ArticleFormRequest $request){
         $a = new Articles();
         $a->acctCode = $request->acctCode;
         $a->stockNo = $this->articleService->makeStockNo();
