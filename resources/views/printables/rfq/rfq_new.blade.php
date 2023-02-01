@@ -137,7 +137,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
             print();
-            close();
+            // close();
         })
     </script>
 @endsection

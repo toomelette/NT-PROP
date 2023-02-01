@@ -159,7 +159,7 @@
                 $("#adjuster").css('height',rem)
                 @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
                 print();
-                window.close();
+                // window.close();
                 @endif
             }
 
