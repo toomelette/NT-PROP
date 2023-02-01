@@ -157,6 +157,7 @@
 
     <div class="content">          
       <h1>Currently performing maintenance.</h1>
+      <p>{{$exception->getMessage()}}</p>
     </div>
 
   </div>  

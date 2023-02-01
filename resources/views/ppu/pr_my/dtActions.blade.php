@@ -9,8 +9,9 @@
         <button type="button" class="btn btn-default btn-sm edit_pr_btn" data="{{$pr->slug}}" data-toggle="modal" data-target="#edit_pr_modal" title="" data-placement="left" data-original-title="Edit">
             <i class="fa fa-edit"></i>
         </button>
+        <button type="button" onclick="delete_data('{{$pr->slug}}','{{route('dashboard.my_pr.destroy',$pr->slug)}}')" data="{{$pr->slug}}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete">
+            <i class="fa fa-trash"></i>
+        </button>
     @endif
-    <button type="button" onclick="delete_data('{{$pr->slug}}','{{route('dashboard.my_pr.destroy',$pr->slug)}}')" data="{{$pr->slug}}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete">
-        <i class="fa fa-trash"></i>
-    </button>
+
 </div>

@@ -121,8 +121,12 @@ class MyPrController extends Controller
 
 
     public function edit($slug){
+        $pr =$this->findBySlug($slug);
+        if($pr->is_locked == 1){
+            abort(503,'This transaction is already locked from editing');
+        }
         return view('ppu.pr_my.edit')->with([
-            'pr' => $this->findBySlug($slug),
+            'pr' => $pr,
         ]);
     }
 
@@ -177,6 +181,9 @@ class MyPrController extends Controller
     }
     public function destroy($slug){
         $pr = $this->findBySlug($slug);
+        if($pr->is_locked == 1){
+            abort(503,'This transaction is already locked');
+        }
         if($pr->delete()){
             $pr->transDetails()->delete();
             return 1;
