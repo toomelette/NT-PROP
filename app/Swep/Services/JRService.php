@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 class JRService extends BaseService
 {
     public function getNextJRNo(){
-        $year = Carbon::now()->format('Y-m-');
+        $year = Carbon::now()->format('Y-');
         $jr = Transactions::query()
             ->where('ref_no','like',$year.'%')
             ->where('ref_book','=','JR')
@@ -20,11 +20,13 @@ class JRService extends BaseService
         if(empty($jr)){
             $jrNo = 0;
         }else{
-            $jrNo = str_replace($year,'',$jr->ref_no);
+//            $jrNo = str_replace($year,'',$jr->ref_no);
+            $jrNo =  substr($jr->ref_no, -4);
         }
 
-        $newPrBaseNo = str_pad($jrNo +1,4,'0',STR_PAD_LEFT);
-        return $year.$newPrBaseNo;
+        $newJrBaseNo = str_pad($jrNo +1,4,'0',STR_PAD_LEFT);
+        abort(503,$year.Carbon::now()->format('m-').$newJrBaseNo);
+        return $year.Carbon::now()->format('m-').$newJrBaseNo;
     }
 
     public function findBySlug($slug){

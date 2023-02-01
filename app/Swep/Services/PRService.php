@@ -12,7 +12,7 @@ use Illuminate\Support\Carbon;
 class PRService extends BaseService
 {
     public function getNextPRNo(){
-        $year = Carbon::now()->format('Y-m-');
+        $year = Carbon::now()->format('Y-');
         $pr = Transactions::query()
             ->where('ref_no','like',$year.'%')
             ->where('ref_book','=','PR')
@@ -20,10 +20,12 @@ class PRService extends BaseService
         if(empty($pr)){
             $prNo = 0;
         }else{
-            $prNo = str_replace($year,'',$pr->ref_no);
+//            $prNo = str_replace($year,'',$pr->ref_no);
+            $prNo =  substr($pr->ref_no, -4);
         }
 
         $newPrBaseNo = str_pad($prNo +1,4,'0',STR_PAD_LEFT);
-        return $year.$newPrBaseNo;
+
+        return $year.Carbon::now()->format('m-').$newPrBaseNo;
     }
 }

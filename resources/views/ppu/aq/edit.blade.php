@@ -3,8 +3,8 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Prepare AQ <span class="pull-right">ABC: {{number_format($aq->abc,2)}} </span></h1>
-
+        <h1>Prepare Abstract of Quotations
+            <span class="pull-right">ABC: {{number_format($aq->transaction->abc,2)}} </span></h1>
     </section>
 @endsection
 @section('content2')
@@ -14,7 +14,7 @@
             <form id="aq_form">
                 <div class="box-header with-border">
                     <h3 class="box-title">
-                        {{$aq->ref_book}}: {{$aq->ref_no}}
+                        {{$aq->ref_book}}: <b>{{$aq->ref_no}}</b>
                     </h3>
 
                     <div class="btn-group pull-right">
@@ -45,7 +45,7 @@
                             <th colspan="3">Supplier Details</th>
                             @foreach($quotations as $quotation)
                                 <th style="width: 200px;">
-                                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('suppliers['.($loop->iteration + 2).'][supplier_slug]',[
+                                    {!! \App\Swep\ViewHelpers\__form2::selectOnly('suppliers['.($loop->iteration + 2).'][supplier_slug]',[
                                         'class' => 'input-sm',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Supplier',
@@ -254,6 +254,7 @@
             'placeholder' => 'Supplier',
             'for' => 'supplier_slug',
         ]) !!}
+
     </div>
 
     <div hidden id="warranty">
@@ -342,7 +343,7 @@
             let btn = $(this);
             let html = $("#populate").html();
             $("#items_head tr:first").each(function () {
-                $(this).append('<th class="th_supplier" style="vertical-align: top" id="td_'+btn.attr('data')+'">' +
+                $(this).append('<th class="th_supplier" style="vertical-align: top; width: 100px" id="td_'+btn.attr('data')+'">' +
                     '<label class="no-margin"></label><button type="button" class="btn-danger btn btn-xs pull-right remove_supplier_button"><i class="fa fa-times"></i> </button>' +
                     '</th>');
             })
@@ -544,5 +545,15 @@
                 $("#print_preview_frame_container").fadeIn();
             });
         })
+
+        $(".select2_supplier").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            // dropdownParent: $("#add_pr_modal"),
+            placeholder: 'Select item',
+        });
     </script>
 @endsection
