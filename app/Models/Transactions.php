@@ -68,4 +68,8 @@ class Transactions extends Model
     public function scopeAllRfq($query){
         return $query->where('ref_book','=','RFQ');
     }
+
+    public function scopeAllAq($query){
+        return $query->where('ref_book','=','AQ');
+    }
 }

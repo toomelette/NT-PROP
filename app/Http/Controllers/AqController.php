@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Offers;
 use App\Models\Quotations;
 use App\Models\Transactions;
+use App\Swep\Services\AqService;
 use App\Swep\Services\TransactionService;
 use Barryvdh\DomPDF\PDF;
 use Helper;
@@ -17,9 +18,11 @@ use Str;
 class AqController extends Controller
 {
     protected $transactionService;
-    public function __construct(TransactionService $transactionService)
+    protected $aqService;
+    public function __construct(TransactionService $transactionService, AqService $aqService)
     {
         $this->transactionService = $transactionService;
+        $this->aqService = $aqService;
     }
 
     public function index(Request $request){
@@ -73,13 +76,12 @@ class AqController extends Controller
             return redirect(route('dashboard.aq.edit',$trans->aq->slug));
         }
         $trans = new Transactions();
+        $trans->ref_no = $this->aqService->getNextAqNo();
         $trans->slug = Str::random();
         $trans->cross_slug = $slug;
         $trans->ref_book = 'AQ';
         $trans->save();
         return redirect(route('dashboard.aq.edit',$trans->slug));
-
-
     }
 
     public function edit($slug){

@@ -146,11 +146,4 @@ Route::get('/arrangePap',function (){
    }
 });
 
-Route::get('/abc',function(){
-    $pap = \App\Models\PAP::query()->where('slug','=',null)->get();
-    foreach ($pap as $p){
-        $p->slug = \Illuminate\Support\Str::random();
-        $p->save();
-    }
-    return 1;
-});
+

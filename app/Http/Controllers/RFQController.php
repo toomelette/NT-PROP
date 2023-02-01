@@ -126,6 +126,7 @@ class RFQController extends Controller
     }
 
     public function store(RFQFormRequest $request){
+        $prOrJr = $this->transactionService->findBySlug($request->trans);
 
 
         $trans = new Transactions();
@@ -133,20 +134,16 @@ class RFQController extends Controller
         $trans->ref_book = 'RFQ';
         $trans->ref_no = $this->rfqService->getNextRFQNo();
         $trans->cross_slug = $request->trans;
-        $trans->cross_ref_no = $this->transactionService->findBySlug($request->trans)->ref_no;
+        $trans->cross_ref_no = $prOrJr->ref_no;
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
         $trans->rfq_user_created = \Auth::user()->user_id;
         $trans->rfq_created_at = Carbon::now();
-        $trans->save();
-        return $trans->only('slug');
-        $rfq->slug = Str::random();
-        $rfq->type = strtoupper($request->prJr);
-        $rfq->prOrJrNo = $request->{$request->prJr.'No'};
-        $rfq->deadline = $request->deadline;
-        if($rfq->save()){
-            return $rfq->only('slug');
+        if($trans->save()){
+            $prOrJr->is_locked = 1;
+            $prOrJr->save();
+            return $trans->only('slug');
         }
         abort(503,'Error creating RFQ');
     }
