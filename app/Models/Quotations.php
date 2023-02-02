@@ -14,4 +14,8 @@ class Quotations extends Model
     public function offers(){
         return $this->hasMany(Offers::class,'quotation_slug','slug');
     }
+
+    public function supplier(){
+        return $this->belongsTo(Suppliers::class,'supplier_slug','slug');
+    }
 }

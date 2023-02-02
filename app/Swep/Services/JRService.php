@@ -25,7 +25,7 @@ class JRService extends BaseService
         }
 
         $newJrBaseNo = str_pad($jrNo +1,4,'0',STR_PAD_LEFT);
-        abort(503,$year.Carbon::now()->format('m-').$newJrBaseNo);
+
         return $year.Carbon::now()->format('m-').$newJrBaseNo;
     }
 

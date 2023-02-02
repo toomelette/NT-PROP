@@ -8,6 +8,7 @@ use App\Models\Articles;
 use App\Models\JR;
 use App\Models\PAP;
 use App\Models\PR;
+use App\Models\Suppliers;
 use App\Models\Transactions;
 use App\Models\User;
 use App\Models\UserDetails;
@@ -20,24 +21,6 @@ use Response;
 class AjaxController extends Controller
 {
     public function get($for){
-        if($for == 'educational_background'){
-            return view('ajax.employee.add_school');
-        }
-
-        if($for == 'eligibility'){
-            return view('ajax.employee.add_eligibility');
-        }
-
-        if($for == 'work_experience'){
-            $rand = Str::random(16);
-            return [
-                'view' => view('ajax.employee.add_work_experience')->with([
-                                'rand' => $rand,
-                            ])->render(),
-                'rand' => $rand,
-            ];
-        }
-
         if($for == 'add_ppmp_row'){
             return view('ajax.ppmp.add_row');
         }
@@ -113,7 +96,29 @@ class AjaxController extends Controller
             }
             return Helper::wrapForSelect2($arr);
         }
+        if($for == 'suppliers'){
+            $arr = [];
+            $like = '%'.request('q').'%';
+            $suppliers = Suppliers::query()
+                ->select('slug' ,'name','address')
+                ->where('name','like',$like)
+                ->orderBy('name','asc')
+                ->limit(10)->offset(10*(request('page') - 1))
+                ->get();
 
+            if(!empty($suppliers)){
+                foreach ($suppliers as $supplier){
+                    array_push($arr,[
+                        'id' => $supplier->slug,
+                        'text' => $supplier->name,
+                        'populate' => [
+                            'address' => $supplier->address,
+                        ]
+                    ]);
+                }
+            }
+            return Helper::wrapForSelect2($arr);
+        }
 
     }
 

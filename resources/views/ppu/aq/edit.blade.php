@@ -46,10 +46,12 @@
                             @foreach($quotations as $quotation)
                                 <th style="width: 200px;">
                                     {!! \App\Swep\ViewHelpers\__form2::selectOnly('suppliers['.($loop->iteration + 2).'][supplier_slug]',[
-                                        'class' => 'input-sm',
+                                        'class' => 'input-sm select2_supplier',
                                         'cols' => ' no-margin',
                                         'placeholder' => 'Supplier',
                                         'for' => 'supplier_slug',
+                                        'options' => [],
+                                        'select2_preSelected' => $quotation['obj']->supplier->name ?? null
                                     ],$quotation['obj']->supplier_slug) !!}
                                 </th>
                             @endforeach
@@ -248,11 +250,12 @@
     </div>
 
     <div hidden id="supplier">
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items[][qty]',[
-            'class' => 'input-sm',
+        {!! \App\Swep\ViewHelpers\__form2::selectOnly('suppliers[][supplier_slug]',[
+            'class' => 'input-sm sel2',
             'cols' => ' no-margin',
             'placeholder' => 'Supplier',
             'for' => 'supplier_slug',
+            'options' => [],
         ]) !!}
 
     </div>
@@ -338,6 +341,16 @@
 
 @section('scripts')
     <script type="text/javascript">
+        var sel2_supplier_options = {
+            ajax: {
+                url: '{{route("dashboard.ajax.get","suppliers")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            // dropdownParent: $("#add_pr_modal"),
+            placeholder: 'Select item',
+        };
+
         $("#add_column_button").click(function () {
             let rows = $('#items_body tr').length;
             let btn = $(this);
@@ -348,7 +361,7 @@
                     '</th>');
             })
             $("#items_head tr:nth-child(2)").each(function () {
-                $(this).append('<th style="vertical-align: top" id="td_'+btn.attr('data')+'">'+$("#supplier").html()+'</th>');
+                $(this).append('<th style="vertical-align: top" id="th_'+btn.attr('data')+'">'+$("#supplier").html()+'</th>');
             })
             $("#aq_table tfoot tr:first").each(function () {
                 $(this).append('<th class="text-right tfoot"></th>');
@@ -362,6 +375,10 @@
                 new AutoNumeric(this, autonum_settings);
             });
 
+            $("#th_"+btn.attr('data')+" .sel2").each(function(){
+                $(this).select2(sel2_supplier_options);
+            });
+
             $(".footer-inputs").each(function () {
                 let t = $(this);
                 t.append('<td>'+$("#"+t.attr('for')).html()+'</td>');
@@ -372,6 +389,9 @@
 
             indexing();
         })
+
+
+
         $("body").on("click",".add_description_btn",function () {
             $(this).parent('a').siblings('.desc_container').fadeIn();
         })
@@ -394,7 +414,7 @@
             $("#items_head tr:eq(1)").each(function () {
                 let t = $(this);
                 t.children('th:not(:first)').each(function () {
-                    $(this).find('input[for="supplier_slug"]').attr('name','suppliers['+($(this).index()+2)+'][supplier_slug]');
+                    $(this).find('select[for="supplier_slug"]').attr('name','suppliers['+($(this).index()+2)+'][supplier_slug]');
                 })
             });
             $("#items_head tr:first").each(function () {
@@ -546,14 +566,6 @@
             });
         })
 
-        $(".select2_supplier").select2({
-            ajax: {
-                url: '{{route("dashboard.ajax.get","articles")}}',
-                dataType: 'json',
-                delay : 250,
-            },
-            // dropdownParent: $("#add_pr_modal"),
-            placeholder: 'Select item',
-        });
+        $(".select2_supplier").select2(sel2_supplier_options);
     </script>
 @endsection
