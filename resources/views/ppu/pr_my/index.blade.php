@@ -12,7 +12,7 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">My Purchase Requests</h3>
-                <button class="btn btn-primary btn-sm pull-right" data-target="#add_pr_modal" data-toggle="modal"> <i class="fa fa-plus"></i> Create</button>
+                <a class="btn btn-primary btn-sm pull-right" href="{{route('dashboard.my_pr.create')}}" > <i class="fa fa-plus"></i> Create</a>
             </div>
 
             <div class="box-body">

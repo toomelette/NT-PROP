@@ -197,4 +197,8 @@ class MyPrController extends Controller
             'pr' => $pr,
         ]);
     }
+
+    public function create(){
+        return view('ppu.pr_my.create');
+    }
 }

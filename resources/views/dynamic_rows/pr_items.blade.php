@@ -100,7 +100,7 @@
                 delay : 250,
             },
 
-            dropdownParent: $('#'+DDParent_{{$rand}}.attr('id')),
+            {{--dropdownParent: $('#'+DDParent_{{$rand}}.attr('id')),--}}
             placeholder: 'Select item',
         });
         $('.select2_item_{{$rand}}').on('select2:select', function (e) {
