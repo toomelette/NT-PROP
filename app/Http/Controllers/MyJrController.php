@@ -171,4 +171,8 @@ class MyJrController extends Controller
         }
         abort(503,'Error deleting item.');
     }
+
+    public function create(){
+        return view('ppu.jr_my.create');
+    }
 }
