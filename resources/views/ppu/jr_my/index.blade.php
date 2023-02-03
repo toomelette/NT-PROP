@@ -11,7 +11,7 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title"> My Job Requests</h3>
-                <button class="btn btn-primary btn-sm pull-right" data-target="#add_jr_modal" data-toggle="modal"> <i class="fa fa-plus"></i> Create</button>
+                <a class="btn btn-primary btn-sm pull-right" href="{{route('dashboard.my_jr.create')}}" > <i class="fa fa-plus"></i> Create</a>
             </div>
 
             <div class="box-body">
