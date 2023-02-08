@@ -91,6 +91,7 @@ class RFQController extends Controller
                     ->orWhere('ref_book','=','JR');
             })
             ->with(['transDetails'])
+            ->where('received_at','!=', null)
             ->whereDoesntHave('rfq');
         return \DataTables::of($trans)
             ->editColumn('ref_book',function($data){
@@ -153,5 +154,23 @@ class RFQController extends Controller
         return view('printables.rfq.rfq_new')->with([
             'trans' => $trans,
         ]);
+    }
+
+    public function edit($slug){
+        $trans = $this->transactionService->findBySlug($slug);
+        return view('ppu.rfq.edit')->with([
+            'trans' => $trans,
+        ]);
+    }
+
+    public function update(RFQFormRequest $request, $slug){
+        $trans = $this->transactionService->findBySlug($slug);
+        $trans->rfq_deadline = $request->rfq_deadline;
+        $trans->rfq_s_name = $request->rfq_s_name;
+        $trans->rfq_s_position = $request->rfq_s_position;
+        if($trans->save()){
+            return $trans->only('slug');
+        }
+        abort(503,'Error saving RFQ. [RFQController::update()]');
     }
 }

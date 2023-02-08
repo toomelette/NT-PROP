@@ -14,4 +14,10 @@
             <i class="fa fa-trash"></i>
         </button>
     @endif
+
+    @if($pr->received_at == null)
+    <button type="button" class="btn btn-default btn-sm receive_btn" data="{{$pr->slug}}" title="" data-placement="left" data-original-title="Receive">
+    <i class="fa  fa-download"></i>
+    </button>
+    @endif
 </div>

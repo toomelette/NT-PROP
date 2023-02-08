@@ -358,5 +358,51 @@
             dropdownParent: $('#add_pr_modal'),
             placeholder: 'Type PAP Code/Title/Description',
         });
+        
+        $("body").on('click','.receive_btn',function () {
+            let btn = $(this);
+
+            Swal.fire({
+                title: 'Receive PR?',
+                // input: 'text',
+                html: btn.attr('text'),
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa fa-check"></i> Receive',
+                showLoaderOnConfirm: true,
+                preConfirm: (email) => {
+                    return $.ajax({
+                        url : '{{route('dashboard.pr.index')}}?receive_pr=1',
+                        type: 'GET',
+                        data: {'trans':btn.attr('data')},
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success : function (res) {
+                            activePr = res.slug;
+                            pr_tbl.draw();
+                        }
+                    })
+                        .then(response => {
+                            return  response;
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                                'Error : '+ error.responseJSON.message,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    toast('success','PR was successfully marked as received.','Success!');
+
+                }
+            })
+        })
     </script>
 @endsection

@@ -150,6 +150,7 @@
     </div>
 
     {!! \App\Swep\ViewHelpers\__html::blank_modal('prepare_rfq_modal','70') !!}
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_rfq_modal','70') !!}
 @endsection
 
 @section('scripts')
@@ -391,7 +392,25 @@
             $(this).attr('disabled','disabled');
         })
         $("input[for='"+target+"']").removeAttr('disabled');
-
+    })
+    $("body").on("click",".edit_rfq_btn",function () {
+        let btn = $(this);
+        load_modal2(btn);
+        let uri = '{{route("dashboard.rfq.edit","slug")}}';
+        uri = uri.replace('slug',btn.attr('data'));
+        $.ajax({
+            url : uri,
+            type: 'GET',
+            headers: {
+                {!! __html::token_header() !!}
+            },
+            success: function (res) {
+                populate_modal2(btn,res);
+            },
+            error: function (res) {
+                populate_modal2_error(res);
+            }
+        })
     })
 </script>
 @endsection

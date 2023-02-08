@@ -115,7 +115,7 @@ class MyJrController extends Controller
     public function edit($slug){
         $jr = $this->jrService->findBySlug($slug);
         if($jr->is_locked == 1){
-            abort(503,'This transaction is already locked from editing');
+            abort(510,'This transaction is already locked from editing');
         }
         return view('ppu.jr_my.edit')->with([
             'jr' => $jr,

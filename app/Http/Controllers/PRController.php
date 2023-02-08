@@ -10,6 +10,7 @@ use App\Models\PRItems;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
+use App\Swep\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -17,16 +18,33 @@ use Illuminate\Support\Str;
 class PRController extends Controller
 {
     protected $prService;
-    public function __construct(PRService $prService)
+    protected $transactionService;
+    public function __construct(PRService $prService, TransactionService $transactionService)
     {
         $this->prService = $prService;
+        $this->transactionService = $transactionService;
     }
 
-    public function index(){
+    public function index(Request $request){
         if(\request()->ajax() && \request()->has('draw')){
             return $this->dataTable();
         }
+        if(\request()->ajax() && \request()->has('receive_pr')){
+            return $this->transactionService->receiveTransaction($request);
+        }
         return view('ppu.pr.index');
+    }
+
+
+    public function receivePr($request){
+        $trans = $this->transactionService->findBySlug($request->trans);
+        $trans->received_at = Carbon::now();
+        $trans->user_received = \Auth::user()->user_id;
+        $trans->is_locked = 1;
+        if($trans->save()){
+            return $trans->only('slug');
+        }
+        abort(503,'Error in receiving. [PRController::receivePr()]');
     }
 
     public function dataTable(){

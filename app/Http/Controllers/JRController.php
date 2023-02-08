@@ -9,6 +9,7 @@ use App\Models\JRItems;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\JRService;
+use App\Swep\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -16,15 +17,22 @@ use Illuminate\Support\Str;
 class JRController extends Controller
 {
     protected $jrService;
-    public function __construct(JRService $jrService)
+    protected  $transactionService;
+    public function __construct(JRService $jrService, TransactionService $transactionService)
     {
         $this->jrService = $jrService;
+        $this->transactionService = $transactionService;
     }
 
     public function index(Request $request){
         if($request->ajax() && $request->has('draw')){
             return $this->dataTable($request);
         }
+
+        if(\request()->ajax() && \request()->has('receive_pr')){
+            return $this->transactionService->receiveTransaction($request);
+        }
+
         return view('ppu.jr.index');
     }
     public function dataTable($request){

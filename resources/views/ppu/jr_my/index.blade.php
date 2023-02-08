@@ -25,7 +25,6 @@
                             <th>JR No.</th>
                             <th>JR Date</th>
                             <th >Items</th>
-
                             <th >Total</th>
                             <th>Action</th>
                         </tr>
