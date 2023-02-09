@@ -87,6 +87,7 @@
             </tr>
         </thead>
         <tbody>
+
             @if(!empty($trans->transaction->transDetails))
                 @foreach($trans->transaction->transDetails as $item)
                     <tr>
@@ -97,7 +98,11 @@
                             <b>{{$item->item}}</b><br>
                             {{$item->description}}
                         </td>
-                        <td class="text-right">{{number_format($item->total_cost,2)}}</td>
+                        <td class="text-right" >
+                            @if($trans->transaction->abc >= 50000)
+                                {{number_format($item->total_cost,2)}}
+                            @endif
+                        </td>
                         <td class="text-center text-top" style="width: 10%"><br>____________</td>
                     </tr>
                 @endforeach
