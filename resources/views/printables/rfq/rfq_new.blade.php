@@ -121,7 +121,7 @@
     <table style="width: 100%;">
         <tr>
             <td class="text-top">Canvassed by:</td>
-            <td class="text-top"></td>
+            <td class="text-top">Owner/Authorized Representative:</td>
         </tr>
         <tr>
             <td class="text-top text-center">
@@ -129,6 +129,8 @@
                 Printed Name/ Signature
             </td>
             <td class="text-top text-center">
+                ___________________________________<br>
+                Printed Name/ Signature <br><br>
                 ___________________________________<br>
                 Tel. No. / Cellphone No. <br>
                 <br>
