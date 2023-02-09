@@ -95,8 +95,10 @@
                         <td class="text-center text-top" style="width: 5%">{{$item->qty}}</td>
                         <td class="text-center text-top" style="width: 10%">{{strtoupper($item->unit)}}</td>
                         <td>
-                            <b>{{$item->item}}</b><br>
-                            {{$item->description}}
+                            <b>{{$item->item}}</b>
+                            <span style="white-space: pre-line">
+                                {{$item->description}}
+                            </span>
                         </td>
                         <td class="text-right" >
                             @if($trans->transaction->abc >= 50000)
