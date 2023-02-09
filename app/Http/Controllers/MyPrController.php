@@ -58,6 +58,12 @@ class MyPrController extends Controller
                     'pr' => $data,
                 ]);
             })
+            ->editColumn('ref_no',function($data){
+                if($data->cancelled_at != null){
+                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                }
+                return $data->ref_no;
+            })
             ->editColumn('date',function($data){
                 return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })

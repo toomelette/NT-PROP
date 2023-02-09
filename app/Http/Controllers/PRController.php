@@ -75,6 +75,12 @@ class PRController extends Controller
                     'pr' => $data,
                 ]);
             })
+            ->editColumn('ref_no',function($data){
+                if($data->cancelled_at != null){
+                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                }
+                return $data->ref_no;
+            })
             ->editColumn('date',function($data){
                 return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
@@ -191,6 +197,21 @@ class PRController extends Controller
         return view('printables.pr.pr_front_and_back')->with([
             'pr' => $pr,
         ]);
+    }
+
+    public function cancel(Request $request,$slug){
+        $request->validate([
+            'cancellation_reason' => 'required|string',
+        ]);
+        $pr = $this->findBySlug($slug);
+        $pr->cancelled_at = Carbon::now();
+        $pr->user_cancelled = \Auth::user()->user_id;
+        $pr->cancellation_reason = $request->cancellation_reason;
+        $pr->is_locked = 1;
+        if($pr->save()){
+            return $pr->only('slug');
+        }
+        abort(503,'Error in cancellation of transaction. PRController::cancel()');
     }
 
 }

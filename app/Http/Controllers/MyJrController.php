@@ -55,6 +55,12 @@ class MyJrController extends Controller
                     'items' => $data->transDetails,
                 ]);
             })
+            ->editColumn('ref_no',function($data){
+                if($data->cancelled_at != null){
+                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                }
+                return $data->ref_no;
+            })
             ->editColumn('abc',function($data){
                 return number_format($data->abc,2);
             })

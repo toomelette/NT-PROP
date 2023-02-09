@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link rel="stylesheet" href="{{asset('template/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
+    <link rel="stylesheet"  href="{{asset('template/plugins/print/bootstrap.print.css')}}">
 
     <link rel="stylesheet" href="{{asset('template/bower_components/font-awesome/css/font-awesome.min.css')}}">
 

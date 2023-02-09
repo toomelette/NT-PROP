@@ -42,7 +42,6 @@
         display: none;
     }
 
-
 }
 
 body{
@@ -234,4 +233,11 @@ table.print-table th,table.print-table td{
 
 .desc-table thead>tr>th:nth-child(1), .desc-table thead>tr>th:nth-child(2),.desc-table thead>tr>th:nth-child(3) {
     /*width: 5%;*/
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+    }
+
 }

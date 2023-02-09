@@ -112,11 +112,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     /** PPMP **/
     Route::resource('ppmp', 'PPMPController');
     /** PR **/
-
+    Route::post('/pr/{slug}/cancel','PRController@cancel')->name('pr.cancel');
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
     Route::resource('pr', 'PRController');
 
-
+    Route::post('/jr/{slug}/cancel','JRController@cancel')->name('jr.cancel');
     Route::get('/jr/{slug}/print','JRController@print')->name('jr.print');
     Route::resource('jr', 'JRController');
 

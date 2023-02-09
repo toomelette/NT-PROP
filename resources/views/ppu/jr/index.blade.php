@@ -352,5 +352,55 @@
                 }
             })
         })
+
+
+        $("body").on('click','.cancel_transaction_btn',function () {
+            let btn = $(this);
+            let uri  = '{{route('dashboard.jr.cancel','slug')}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            Swal.fire({
+                title: 'Cancel Transation?',
+                input: 'text',
+                html: 'Please enter a cancellation reason:',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                confirmButtonColor: '#dd4b39',
+                showCancelButton: true,
+                cancelButtonText : 'Do not cancel',
+                confirmButtonText: '<i class="fa fa-check"></i> Cancel',
+                showLoaderOnConfirm: true,
+                preConfirm: (text) => {
+                    return $.ajax({
+                        url : uri,
+                        type: 'POST',
+                        data: {'cancellation_reason':text},
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success : function (res) {
+                            active = res.slug;
+                            jr_tbl.draw();
+                        }
+                    })
+                        .then(response => {
+                            return  response;
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                                'Error : '+ error.responseJSON.message,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    toast('success','PR was successfully marked as received.','Success!');
+
+                }
+            })
+        })
     </script>
 @endsection

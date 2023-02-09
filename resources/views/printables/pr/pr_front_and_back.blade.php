@@ -92,12 +92,19 @@
         </tbody>
 
     </table>
-    <table style="width: 100%; border-left: 1px solid black;border-right: 1px solid black">
+    <table style="width: 100%; border-left: 1px solid black;border-right: 1px solid black;">
         <tr>
             <td>
                 Purpose: {{$pr->purpose}}
             </td>
         </tr>
+        @if($pr->cancelled_at != null)
+            <tr>
+                <td class="b-top " style="color: red">
+                    CANCELLED: {{Carbon::parse($pr->cancelled_at)->format('M. d, Y | h:i A')}} --- {{$pr->cancellation_reason}}
+                </td>
+            </tr>
+        @endif
     </table>
     <table class="tbl-bordered" style="width: 100%">
         <tr>
@@ -138,8 +145,8 @@
                 }
             })
 
-        window.onafterprint = function(){
-            window.close();
-        }
+        // window.onafterprint = function(){
+        //     window.close();
+        // }
     </script>
 @endsection

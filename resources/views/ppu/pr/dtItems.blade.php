@@ -15,7 +15,7 @@
             @endphp
             @if($loop->iteration < $max)
             <tr>
-                <td class="text-left">{{$item->qty}} {{$item->unit}}</td>
+                <td class="text-center">{{$item->qty}} {{$item->unit}}</td>
                 <td class="text-left">
                     {{$item->article->article ?? $item->item }}
                     @if($item->description != '')

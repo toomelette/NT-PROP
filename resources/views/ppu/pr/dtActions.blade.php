@@ -20,4 +20,19 @@
     <i class="fa  fa-download"></i>
     </button>
     @endif
+
+
+    <div class="btn-group btn-group-sm" role="group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            @if($pr->cancelled_at == null)
+            <li>
+                <a style="color: #dd4b39" href="#" class="cancel_transaction_btn text-danger" data="{{$pr->slug}}" data-original-title="" title=""><i class="fa fa-times"></i> Cancel Transaction</a>
+            </li>
+            @endif
+        </ul>
+    </div>
+
 </div>

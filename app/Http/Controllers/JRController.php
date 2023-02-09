@@ -58,6 +58,12 @@ class JRController extends Controller
                     'items' => $data->transDetails,
                 ]);
             })
+            ->editColumn('ref_no',function($data){
+                if($data->cancelled_at != null){
+                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                }
+                return $data->ref_no;
+            })
             ->editColumn('abc',function($data){
                 return number_format($data->abc,2);
             })
@@ -165,5 +171,20 @@ class JRController extends Controller
             return 1;
         }
         abort(503,'Error deleting item.');
+    }
+
+    public function cancel(Request $request,$slug){
+        $request->validate([
+            'cancellation_reason' => 'required|string',
+        ]);
+        $jr = $this->transactionService->findBySlug($slug);
+        $jr->cancelled_at = Carbon::now();
+        $jr->user_cancelled = \Auth::user()->user_id;
+        $jr->cancellation_reason = $request->cancellation_reason;
+        $jr->is_locked = 1;
+        if($jr->save()){
+            return $jr->only('slug');
+        }
+        abort(503,'Error in cancellation of transaction. JRController::cancel()');
     }
 }

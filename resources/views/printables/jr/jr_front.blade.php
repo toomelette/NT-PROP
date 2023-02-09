@@ -124,6 +124,13 @@
                 Purpose: {{$jr->purpose}}
             </td>
         </tr>
+        @if($jr->cancelled_at != null)
+            <tr>
+                <td class="b-top text-danger">
+                    CANCELLED: {{Carbon::parse($jr->cancelled_at)->format('M. d, Y | h:i A')}} --- {{$jr->cancellation_reason}}
+                </td>
+            </tr>
+        @endif
     </table>
     <table class="tbl-bordered" style="width: 100%">
         <tr>

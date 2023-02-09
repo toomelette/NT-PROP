@@ -139,8 +139,6 @@ class RFQController extends Controller
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
-        $trans->rfq_user_created = \Auth::user()->user_id;
-        $trans->rfq_created_at = Carbon::now();
         if($trans->save()){
             $prOrJr->is_locked = 1;
             $prOrJr->save();
