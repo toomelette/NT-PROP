@@ -38,8 +38,20 @@ class JRController extends Controller
     public function dataTable($request){
         $trans = Transactions::query()->with(['transDetails'])
             ->where('ref_book','=','JR');
-        return \DataTables::of($trans)
-            ->addColumn('action',function($data){
+        $search = $request->get('search')['value'] ?? null;
+
+        $dt = \DataTables::of($trans);
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->whereHas('transDetails',function ($q) use($search){
+                    return $q->where('item','like','%'.$search.'%')
+                        ->orWhere('description','like','%'.$search.'%');
+                });
+            }
+        });
+
+        $dt = $dt->addColumn('action',function($data){
                 return view('ppu.jr.dtActions')->with([
                     'jr' => $data,
                 ]);
@@ -73,6 +85,8 @@ class JRController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+
+        return $dt;
     }
 
     public function store(Request $request){

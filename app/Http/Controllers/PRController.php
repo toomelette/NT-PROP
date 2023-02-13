@@ -27,7 +27,7 @@ class PRController extends Controller
 
     public function index(Request $request){
         if(\request()->ajax() && \request()->has('draw')){
-            return $this->dataTable();
+            return $this->dataTable($request);
         }
         if(\request()->ajax() && \request()->has('receive_pr')){
             return $this->transactionService->receiveTransaction($request);
@@ -47,11 +47,25 @@ class PRController extends Controller
         abort(503,'Error in receiving. [PRController::receivePr()]');
     }
 
-    public function dataTable(){
+    public function dataTable($request){
         $trans = Transactions::query()->with(['transDetails'])
             ->where('ref_book','=','PR');
-        return \DataTables::of($trans)
-            ->addColumn('dept',function($data){
+        $search = $request->get('search')['value'] ?? null;
+
+        $dt = \DataTables::of($trans);
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->whereHas('transDetails',function ($q) use($search){
+                    return $q->where('item','like','%'.$search.'%')
+                        ->orWhere('description','like','%'.$search.'%');
+                });
+            }
+        });
+
+
+
+        $dt = $dt->addColumn('dept',function($data){
                 return ($data->rc->description->name ?? null).
                     '<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->department ?? null).
                     '<br>'.($data->rc->division ?? null).
@@ -60,7 +74,7 @@ class PRController extends Controller
             ->addColumn('divSec',function($data){
                 return $data->rc->division ?? null;
             })
-            ->addColumn('transDetails',function($data){
+            ->addColumn('details',function($data){
                 if(!empty($data->transDetails)){
                     return view('ppu.pr.dtItems')->with([
                         'items' => $data->transDetails
@@ -90,6 +104,7 @@ class PRController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+        return $dt;
     }
 
     public function store(PRFormRequest $request){

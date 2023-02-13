@@ -191,7 +191,7 @@
                     { "data": "pap_code" },
                     { "data": "ref_no" },
                     { "data": "date" },
-                    { "data": "transDetails" },
+                    { "data": "details" },
                     { "data": "abc" },
                     { "data": "action" }
                 ],

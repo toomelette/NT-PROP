@@ -12,6 +12,7 @@ use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Str;
 
@@ -23,20 +24,32 @@ class MyPrController extends Controller
         $this->prService = $prService;
     }
 
-    public function index(){
+    public function index(Request $request){
         if(\request()->ajax() && \request()->has('draw')){
-            return $this->dataTable();
+            return $this->dataTable($request);
         }
         return view('ppu.pr_my.index');
     }
 
-    public function dataTable(){
+    public function dataTable($request){
         $prs = Transactions::query()
             ->with(['transDetails','rc'])
             ->where('ref_book','=','PR')
             ->where('user_created','=',\Auth::user()->user_id);
-        return \DataTables::of($prs)
-            ->addColumn('dept',function($data){
+        $search = $request->get('search')['value'] ?? null;
+
+        $dt = \DataTables::of($prs);
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->whereHas('transDetails',function ($q) use($search){
+                    return $q->where('item','like','%'.$search.'%')
+                        ->orWhere('description','like','%'.$search.'%');
+                });
+            }
+        });
+
+        $dt = $dt->addColumn('dept',function($data){
                 return ($data->rc->description->name ?? null).
                     '<div class="table-subdetail" style="margin-top: 3px">'
                     .($data->rc->department ?? null)
@@ -73,6 +86,7 @@ class MyPrController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+        return $dt;
     }
 
     public function getArticle($stockNo){

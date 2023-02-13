@@ -35,8 +35,20 @@ class MyJrController extends Controller
             ->with(['transDetails','rc'])
             ->where('ref_book','=','JR')
             ->where('user_created','=',\Auth::user()->user_id);
-        return \DataTables::of($jrs)
-            ->addColumn('action',function($data){
+        $search = $request->get('search')['value'] ?? null;
+
+        $dt = \DataTables::of($jrs);
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->whereHas('transDetails',function ($q) use($search){
+                    return $q->where('item','like','%'.$search.'%')
+                        ->orWhere('description','like','%'.$search.'%');
+                });
+            }
+        });
+
+        $dt = $dt->addColumn('action',function($data){
                 return view('ppu.jr_my.dtActions')->with([
                     'jr' => $data,
                 ]);
@@ -70,6 +82,8 @@ class MyJrController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+
+        return $dt;
     }
 
     public function store(JRFormRequest $request){
