@@ -3,15 +3,16 @@
 namespace App\Swep\Services;
 
 
+use App\Models\PPURespCodes;
+use App\Models\RCDesc;
+use App\Models\Transactions;
 use App\Swep\Interfaces\EmployeeInterface;
 use App\Swep\Interfaces\UserInterface;
 use App\Swep\BaseClasses\BaseService;
-
+use Illuminate\Support\Facades\DB;
 
 
 class HomeService extends BaseService{
-
-
 
     protected $employee_repo;
     protected $user_repo;
@@ -31,27 +32,126 @@ class HomeService extends BaseService{
 
 
     public function view(){
-
+        $trans = Transactions::query();
+        $trans_pr = $trans->where('ref_book', '=', 'PR')->count();
+        $trans_jr = $trans->where('ref_book', '=', 'JR')->count();
+        $trans_aq = $trans->where('ref_book', '=', 'AQ')->count();
+        $trans_po = $trans->where('ref_book', '=', 'PO')->count();
+        $trans_rfq = $trans->where('ref_book', '=', 'RFQ')->count();
         $count_active_emp = $this->employee_repo->getAll()->count();
         $count_male_emp = $this->employee_repo->getBySex('M')->count();
         $count_female_emp = $this->employee_repo->getBySex('F')->count();
         $count_online_users = $this->user_repo->getByIsOnline(1)->count();
-        $get_emp_by_dept = $this->getEmpByDept();
+        $trans_by_resp_center_bar = $this->getTransByDept();
 
         return view('dashboard.home.index', compact(
                 'count_active_emp',
                 'count_male_emp',
                 'count_female_emp',
                 'count_online_users',
-                'get_emp_by_dept'
+                'trans_pr',
+                'trans_jr',
+                'trans_aq',
+                'trans_po',
+                'trans_rfq',
+                'trans_by_resp_center_bar'
         ));
 
     }
 
+    private function getTransByDept(){
+        $OBCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '010')
+            ->count('transactions.id');
+        $IADCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '020')
+            ->count('transactions.id');
+        $OACount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '030')
+            ->count('transactions.id');
+        $LEGALCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '040')
+            ->count('transactions.id');
+        $PPSPDCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '050')
+            ->count('transactions.id');
+        $AFDLMCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '060')
+            ->count('transactions.id');
+        $AFDVISCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '065')
+            ->count('transactions.id');
+        $RDELMCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '070')
+            ->count('transactions.id');
+        $RDEVISCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '075')
+            ->count('transactions.id');
+        $RDLMCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '080')
+            ->count('transactions.id');
+        $RDVISCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '085')
+            ->count('transactions.id');
+        $GADCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '090')
+            ->count('transactions.id');
+        $SIDABFPCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '100')
+            ->count('transactions.id');
+        $SIDASCPCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '110')
+            ->count('transactions.id');
+        $SIDAHRDCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '120')
+            ->count('transactions.id');
+        $SIDAFMRCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '130')
+            ->count('transactions.id');
+        $SIDARDCount = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->where('resp_codes.rc', '=', '140')
+            ->count('transactions.id');
 
 
-
-
+        $obj = [(object)['name'=>'OB', 'count'=>$OBCount],
+            (object)['name'=>'IAD', 'count'=>$IADCount],
+            (object)['name'=>'OA', 'count'=>$OACount],
+            (object)['name'=>'LEGAL', 'count'=>$LEGALCount],
+            (object)['name'=>'PPSPD', 'count'=>$PPSPDCount],
+            (object)['name'=>'AFD-LM', 'count'=>$AFDLMCount],
+            (object)['name'=>'AFD-VIS', 'count'=>$AFDVISCount],
+            (object)['name'=>'RDE-LM', 'count'=>$RDELMCount],
+            (object)['name'=>'RDE-VIS', 'count'=>$RDEVISCount],
+            (object)['name'=>'RD-LM', 'count'=>$RDLMCount],
+            (object)['name'=>'RD-VIS', 'count'=>$RDVISCount],
+            (object)['name'=>'GAD', 'count'=>$GADCount],
+            (object)['name'=>'SIDA-BFP', 'count'=>$SIDABFPCount],
+            (object)['name'=>'SIDA-SCP', 'count'=>$SIDASCPCount],
+            (object)['name'=>'SIDA-HRD', 'count'=>$SIDAHRDCount],
+            (object)['name'=>'SIDA- FMR', 'count'=>$SIDAFMRCount],
+            (object)['name'=>'SIDA-R&D', 'count'=>$SIDARDCount]];
+        return $obj;
+        /*return ['IAD'=>$IADCount, 'OA'=>$OACount, 'LEGAL'=>$LEGALCount, 'PPSPD'=>$PPSPDCount, 'AFD-LM'=>$AFDLMCount, 'AFD-VIS'=>$AFDVISCount,
+            'RDE-LM'=>$RDELMCount, 'RDE-VIS'=>$RDEVISCount, 'RD-LM'=>$RDLMCount, 'RD-VIS'=>$RDVISCount, 'GAD'=>$GADCount,
+            'SIDA-BFP'=>$SIDABFPCount, 'SIDA-SCP'=>$SIDASCPCount, 'SIDA-HRD'=>$SIDAHRDCount, 'SIDA- FMR'=>$SIDAFMRCount, 'SIDA-R&D'=>$SIDARDCount];*/
+    }
 
     private function getEmpByDept(){
 
