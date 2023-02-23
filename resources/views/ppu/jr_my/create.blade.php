@@ -36,6 +36,13 @@
 
                     </div>
                     <div class="row">
+                        {!! \App\Swep\ViewHelpers\__form2::select('jr_type',[
+                            'cols' => 5,
+                            'label' => 'JR Type:',
+                            'class' => 'jr_type_selector',
+                            'options' => \App\Swep\Helpers\Arrays::jrType(),
+                        ]) !!}
+
                         {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
                             'cols' => 2,
                             'label' => 'JR Date:',

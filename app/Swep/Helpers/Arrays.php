@@ -4,6 +4,7 @@
 namespace App\Swep\Helpers;
 
 
+use App\Models\JRType;
 use App\Models\Options;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
@@ -11,6 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class Arrays
 {
+    public static function jrType(){
+        $jrType = JRType::query()->get();
+        $arr = [];
+        if(!empty($jrType)){
+            foreach ($jrType as $jrt){
+                $arr[$jrt->name] = $jrt->description;
+            }
+        }
+        return $arr;
+    }
+
     public static function respCenters(){
         $rcs = RCDesc::query()->get();
         $arr = [];
