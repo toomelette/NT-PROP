@@ -18,7 +18,6 @@ class HomeService extends BaseService{
     protected $user_repo;
 
 
-
     public function __construct(EmployeeInterface $employee_repo, UserInterface $user_repo){
 
         $this->employee_repo = $employee_repo;
@@ -28,16 +27,13 @@ class HomeService extends BaseService{
     }
 
 
-
-
-
     public function view(){
-        $trans = Transactions::query();
-        $trans_pr = $trans->where('ref_book', '=', 'PR')->count();
-        $trans_jr = $trans->where('ref_book', '=', 'JR')->count();
-        $trans_aq = $trans->where('ref_book', '=', 'AQ')->count();
-        $trans_po = $trans->where('ref_book', '=', 'PO')->count();
-        $trans_rfq = $trans->where('ref_book', '=', 'RFQ')->count();
+//        $trans = Transactions::query();
+        $trans_pr = DB::table('transactions')->where('ref_book', '=', 'PR')->count();
+        $trans_jr = DB::table('transactions')->where('ref_book', '=', 'JR')->count();
+        $trans_aq = DB::table('transactions')->where('ref_book', '=', 'AQ')->count();
+        $trans_po = DB::table('transactions')->where('ref_book', '=', 'PO')->count();
+        $trans_rfq = DB::table('transactions')->where('ref_book', '=', 'RFQ')->count();
         $count_active_emp = $this->employee_repo->getAll()->count();
         $count_male_emp = $this->employee_repo->getBySex('M')->count();
         $count_female_emp = $this->employee_repo->getBySex('F')->count();

@@ -13,7 +13,7 @@
     <div class="col-md-6">
       <div class="panel">
         <div class="panel-body">
-          <label>Transactions per Responsibility Center</label>
+          <label>PR & JR per Responsibility Center</label>
           <hr class="no-margin">
           <div style="max-height: 355px;overflow-x: hidden; padding-top: 15px" id="">
             <div class="nav-tabs-custom" id="prContainer">
@@ -22,7 +22,7 @@
                 <tr>
                   <th>No.</th>
                   <th>Responsibility Center</th>
-                  <th>Total</th>
+                  <th style="text-align: center;">Total</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,14 +41,17 @@
                   <tr>
                     <td>{{ $number }}</td>
                     <td class="text-strong">{{ $rc->name }}</td>
-                    <td>{{ $rc->count }}</td>
+                    <td style="text-align: center;">{{ $rc->count }}</td>
                   </tr>
                 @endforeach
                 </tbody>
               </table>
             </div>
           </div>
-          <label>Total Transactions: <span class="text-strong">{{$prTotal}}</span></label>
+          <div class="row">
+            <label class="col-md-9">Total:</label>
+            <label style="text-align: center;" class="col-md-3 text-strong">{{$prTotal}}</label>
+          </div>
         </div>
       </div>
     </div>
@@ -115,7 +118,7 @@
 
 
   <div class="row">
-    {!! __chart::div_flot_bar('12', 'trans_by_resp_center_bar' ,'Transaction Graph Report') !!}
+    {!! __chart::div_flot_bar('12', 'trans_by_resp_center_bar' ,'PR & JR Graph Report') !!}
     {{--{!! __chart::div_flot_bar('6', 'emp_by_dept_bar' ,'Employee by Department') !!}--}}
 {{--    {!! __chart::div_flot_donut('6', 'pr_by_dept_donut' , 'PR by Department') !!}--}}
   </div>
