@@ -32,14 +32,24 @@
             'container_class' => 'items_'.$rand.'_description',
         ],$item->description ?? null) !!}
     </td>
+    {{--<td>
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit_cost]',[
+            'class' => 'input-sm qty autonum',
+            'container_class' => 'items_'.$rand.'_unit_cost',
+        ],$item->unit_cost ?? null) !!}
+    </td>--}}
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][qty]',[
-            'class' => 'input-sm qty unitXcost',
-            'type' => 'number',
+            'class' => 'input-sm qty unitXcost autonum',
             'container_class' => 'items_'.$rand.'_qty',
-            'step' => 'any',
         ],$item->qty ?? null) !!}
     </td>
+    {{--<td>
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][total_cost]',[
+            'class' => 'input-sm qty autonum',
+            'container_class' => 'items_'.$rand.'_total_cost',
+        ],$item->total_cost ?? null) !!}
+    </td>--}}
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
             'class' => 'input-sm',

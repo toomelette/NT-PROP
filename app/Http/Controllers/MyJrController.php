@@ -87,6 +87,8 @@ class MyJrController extends Controller
     }
 
     public function store(JRFormRequest $request){
+        /*dd($request->items);*/
+
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'JR';
@@ -113,6 +115,7 @@ class MyJrController extends Controller
                     'description' => $item['description'],
                     'nature_of_work' => $item['nature_of_work'],
                     'property_no' => $item['property_no'],
+                    /*'unit_cost' => $item['unit_cost'],*/
                     'unit' => $item['unit'],
                     'qty' => $item['qty'],
                 ]);

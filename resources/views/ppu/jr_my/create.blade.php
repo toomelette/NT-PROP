@@ -52,7 +52,9 @@
                                     <th style="width: 8%">Unit</th>
                                     <th style="width: 25%">Item</th>
                                     <th>Description</th>
+                                    {{--<th style="width: 8%">Unit Cost</th>--}}
                                     <th style="width: 8%">Qty</th>
+                                    {{--<th style="width: 8%">Total Cost</th>--}}
                                     <th style="width: 18%">Nature of Work</th>
                                     <th style="width: 50px"></th>
                                 </tr>
@@ -62,6 +64,7 @@
                                 </tbody>
 
                             </table>
+                            {{--<button>Calculate</button>--}}
                         </div>
                     </div>
                     <div class="row">
@@ -80,6 +83,7 @@
                                   'cols' => 12,
                                   'label' => 'ABC: ',
                                   'class' => 'text-right autonum',
+                                  /*'readonly' => 'readonly',*/
                                 ]) !!}
 
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by',[
@@ -154,7 +158,7 @@
             placeholder: 'Type PAP Code/Title/Description',
         });
         $("#add_jr_form").submit(function (e) {
-            e.preventDefault()
+            e.preventDefault();
             let form = $(this);
             loading_btn(form);
             $.ajax({
