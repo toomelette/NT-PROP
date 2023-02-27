@@ -244,7 +244,7 @@
             "columns": [
                 { "data": "ref_no" },
                 { "data": "transRefBook" },
-                { "data": "transRefNo" },
+                { "data": "cross_ref_no" },
                 { "data": "dates" },
                 { "data": "transDetails" },
                 { "data": "rfq_deadline" },
@@ -290,7 +290,7 @@
                 $('#all_rfq_tbl_loader').fadeOut(function(){
                     $("#"+settings.sTableId+"_container").fadeIn();
                     if(find != ''){
-                        rqf_tbl.search(find).draw();
+                        all_rqf_tbl.search(find).draw();
                     }
                 });
                 //Need to press enter to search

@@ -93,7 +93,7 @@
             "columns": [
                 { "data": "ref_no" },
                 { "data": "transRefBook" },
-                { "data": "transRefNo" },
+                { "data": "cross_ref_no" },
                 { "data": "dates" },
                 { "data": "transDetails" },
                 { "data": "abc" },

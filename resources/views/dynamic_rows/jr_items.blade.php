@@ -32,24 +32,35 @@
             'container_class' => 'items_'.$rand.'_description',
         ],$item->description ?? null) !!}
     </td>
-    {{--<td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit_cost]',[
-            'class' => 'input-sm qty autonum',
-            'container_class' => 'items_'.$rand.'_unit_cost',
-        ],$item->unit_cost ?? null) !!}
-    </td>--}}
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][qty]',[
             'class' => 'input-sm qty unitXcost autonum',
             'container_class' => 'items_'.$rand.'_qty',
         ],$item->qty ?? null) !!}
     </td>
-    {{--<td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][total_cost]',[
-            'class' => 'input-sm qty autonum',
-            'container_class' => 'items_'.$rand.'_total_cost',
-        ],$item->total_cost ?? null) !!}
-    </td>--}}
+    @if(request()->ajax())
+        <td>
+            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit_cost]',[
+                'class' => 'input-sm unit_cost text-right unitXcost autonum_'.$rand.' items_'.$rand.'_unit_cost',
+            ],$item->unit_cost ?? null) !!}
+            <small for="unit_cost" class="pull-right text-muted">{{$item->article->unitPrice ?? null}}</small>
+        </td>
+    @else
+        <td>
+            {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit_cost]',[
+                'class' => 'input-sm unit_cost unitXcost autonum items_'.$rand.'_unit_cost',
+            ],$item->unit_cost ?? null) !!}
+            <small for="unit_cost" class="pull-right text-muted">{{$item->article->unitPrice ?? null}}</small>
+        </td>
+    @endif
+    <td class="text-right">
+        @if(!empty($item))
+            <span class="totalCost zero">{{number_format($item->total_cost,2)}}</span>
+        @else
+            <span class="totalCost zero" >0.00</span>
+        @endif
+
+    </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
             'class' => 'input-sm',
@@ -84,7 +95,7 @@
 
             placeholder: 'Select item',
         });
-        $('.select2_item_{{$rand}}').on('select2:select', function (e) {
+        /*$('.select2_item_{{$rand}}').on('select2:select', function (e) {
             let t = $(this);
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
@@ -92,7 +103,7 @@
             $("#"+parentTrId+" [for='stockNo']").val(data.id);
             $("#"+parentTrId+" [for='unit']").val(data.populate.unit);
             $("#"+parentTrId+" [for='unitCost']").html('Est: '+$.number(data.populate.unitCost,2));
-        });
+        });*/
 
     </script>
 @endif

@@ -87,14 +87,12 @@ class MyJrController extends Controller
     }
 
     public function store(JRFormRequest $request){
-        /*dd($request->items);*/
-
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'JR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
-//        $trans->date = Carbon::now()->format('Y-m-d');
+        $trans->jr_type = $request->jr_type;
         $trans->date = $request->date;
         $trans->ref_no = $this->jrService->getNextJRNo();
         $trans->purpose = $request->purpose;
@@ -104,7 +102,9 @@ class MyJrController extends Controller
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
-        $trans->abc = Helper::sanitizeAutonum($request->abc);
+        /*$trans->abc = Helper::sanitizeAutonum($request->abc);*/
+
+        $abc = 0;
         $arr = [];
         if(!empty($request->items)){
             foreach ($request->items as $item){
@@ -115,18 +115,22 @@ class MyJrController extends Controller
                     'description' => $item['description'],
                     'nature_of_work' => $item['nature_of_work'],
                     'property_no' => $item['property_no'],
-                    /*'unit_cost' => $item['unit_cost'],*/
                     'unit' => $item['unit'],
+                    'unit_cost' => $item['unit_cost'],
                     'qty' => $item['qty'],
+                    'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
                 ]);
+                $abc = $abc + $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']);
             }
         }
+        $trans->abc = $abc;
         if($trans->save()){
             if(count($arr ) > 0){
                 TransactionDetails::insert($arr);
             }
             return $trans->only('slug');
         }
+        abort(503,'Error creating JR. [PRController::store]');
     }
 
     public function print($slug){

@@ -59,9 +59,9 @@
                                     <th style="width: 8%">Unit</th>
                                     <th style="width: 25%">Item</th>
                                     <th>Description</th>
-                                    {{--<th style="width: 8%">Unit Cost</th>--}}
                                     <th style="width: 8%">Qty</th>
-                                    {{--<th style="width: 8%">Total Cost</th>--}}
+                                    <th style="width: 8%">Unit Cost</th>
+                                    <th style="width: 8%">Total Cost</th>
                                     <th style="width: 18%">Nature of Work</th>
                                     <th style="width: 50px"></th>
                                 </tr>
@@ -69,9 +69,7 @@
                                 <tbody>
                                 @include('dynamic_rows.jr_items')
                                 </tbody>
-
                             </table>
-                            {{--<button>Calculate</button>--}}
                         </div>
                     </div>
                     <div class="row">
@@ -89,8 +87,8 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('abc',[
                                   'cols' => 12,
                                   'label' => 'ABC: ',
-                                  'class' => 'text-right autonum',
-                                  /*'readonly' => 'readonly',*/
+                                  'class' => 'text-right autonum grandTotal',
+                                  'readonly' => 'readonly',
                                 ]) !!}
 
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by',[
@@ -183,12 +181,27 @@
                         $(this).click();
                     })
                     $(".add_button").click();
-                    toast('success','Purchase request succesfully created','Success');
+                    toast('success','Job request succesfully created','Success');
                 },
                 error: function (res) {
                     errored(form,res);
                 }
             })
+        });
+
+        $("body").on("change",".unitXcost",function () {
+            let parentTableId = $(this).parents('table').attr('id');
+            let trId = $(this).parents('tr').attr('id');
+            let qty = parseFloat($("#"+trId+" .qty").val());
+            let unit_cost = parseFloat($("#"+trId+" .unit_cost").val().replaceAll(',',''));
+            let totalCost = unit_cost*qty;
+            let grandTotal = 0;
+            $("#"+trId+" .totalCost").html($.number(totalCost,2));
+
+            $("#"+parentTableId+" .totalCost").each(function () {
+                grandTotal = grandTotal + parseFloat($(this).html().replaceAll(',',''));
+            });
+            $('input[name="abc"]').val($.number(grandTotal,2));
         })
     </script>
 @endsection

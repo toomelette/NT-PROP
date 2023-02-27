@@ -42,12 +42,22 @@ class JRController extends Controller
 
         $dt = \DataTables::of($trans);
 
-        $dt = $dt->filter(function ($query) use($search){
+        /*$dt = $dt->filter(function ($query) use($search){
             if($search != null){
                 $query->whereHas('transDetails',function ($q) use($search){
                     return $q->where('item','like','%'.$search.'%')
                         ->orWhere('description','like','%'.$search.'%');
                 });
+            }
+        });*/
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->where('ref_no', 'like', '%'.$search.'%')
+                    ->orWhereHas('transDetails',function ($q) use($search){
+                        return $q->where('item','like','%'.$search.'%')
+                            ->orWhere('description','like','%'.$search.'%');
+                    });
             }
         });
 

@@ -38,7 +38,7 @@ class AqController extends Controller
                 ->addColumn('transRefBook',function($data){
                     return Helper::refBookLabeler($data->transaction->ref_book ?? '');
                 })
-                ->addColumn('transRefNo',function($data){
+                ->editColumn('cross_ref_no',function($data){
                     return ($data->transaction->ref_no ?? '').'
                     <div class="table-subdetail text-right" style="color: #31708f"></div>
                     <small class="text-muted"> Requested by:<br>'.Str::limit(($data->transaction->requested_by ?? null),15,'...').'</small>

@@ -86,7 +86,7 @@
               <div class="row">
                   <div class="col-md-12">
                       <button data-target="#pr_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=jr_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
-                      <table id="pr_items_table" class="table-bordered table table-condensed table-striped">
+                      <table id="jr_items_table" class="table-bordered table table-condensed table-striped">
                           <thead>
                           <tr>
                               <th style="width: 8%">Property No.</th>
@@ -325,6 +325,6 @@
                     populate_modal2_error(res);
                 }
             })
-        })
+        });
     </script>
 @endsection
