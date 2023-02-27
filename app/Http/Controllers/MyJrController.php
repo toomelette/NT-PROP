@@ -14,6 +14,7 @@ use App\Swep\Services\JRService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Str;
 
 class MyJrController extends Controller
@@ -154,6 +155,7 @@ class MyJrController extends Controller
         $trans->ref_book = 'JR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
+        $trans->jr_type = $request->jr_type;
         $trans->purpose = $request->purpose;
         $trans->date = $request->date;
         $trans->certified_by = $request->certified_by;
@@ -162,7 +164,8 @@ class MyJrController extends Controller
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
-        $trans->abc = Helper::sanitizeAutonum($request->abc);
+//        $trans->abc = Helper::sanitizeAutonum($request->abc);
+        $abc = 0;
         $arr = [];
         if(!empty($request->items)){
             foreach ($request->items as $item){
@@ -174,13 +177,20 @@ class MyJrController extends Controller
                     'nature_of_work' => $item['nature_of_work'],
                     'property_no' => $item['property_no'],
                     'unit' => $item['unit'],
+                    'unit_cost' => $item['unit_cost'],
                     'qty' => $item['qty'],
+                    'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
                 ]);
+                $abc = $abc + $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']);
             }
         }
+        $trans->abc = $abc;
         if($trans->save()){
             if(count($arr ) > 0){
-                $trans->transDetails()->delete();
+                DB::table('transaction_details')
+                    ->where('transaction_slug', '=', $trans->slug)
+                    ->delete();
+//                $trans->transDetails()->delete();
                 TransactionDetails::insert($arr);
             }
             return $trans->only('slug');

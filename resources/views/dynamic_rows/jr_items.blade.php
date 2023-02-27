@@ -7,7 +7,7 @@
             'class' => 'input-sm',
             'for' => 'property_no',
             'container_class' => 'items_'.$rand.'_property_no',
-        ],$item->stockNo ?? null) !!}
+        ],$item->property_no ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][unit]',[

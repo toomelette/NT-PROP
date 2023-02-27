@@ -27,6 +27,14 @@
 
     </div>
     <div class="row">
+        {!! \App\Swep\ViewHelpers\__form2::select('jr_type',[
+            'cols' => 5,
+            'label' => 'JR Type:',
+            'class' => 'jr_type_selector',
+            'options' => \App\Swep\Helpers\Arrays::jrType(),
+            'select2_preSelected' => $jr->jr_type,
+        ]) !!}
+
         {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
             'cols' => 2,
             'label' => 'Date:',
@@ -45,6 +53,8 @@
                     <th style="width: 25%">Item</th>
                     <th>Description</th>
                     <th style="width: 8%">Qty</th>
+                    <th style="width: 8%">Unit Cost</th>
+                    <th style="width: 8%">Total Cost</th>
                     <th style="width: 18%">Nature of Work</th>
                     <th style="width: 50px"></th>
                 </tr>
@@ -90,6 +100,7 @@
                   'cols' => 12,
                   'label' => 'ABC: ',
                   'class' => 'text-right autonum_'.$rand,
+                  'readonly' => 'readonly',
                 ],
                 $jr ?? null) !!}
 
@@ -186,7 +197,20 @@
                     errored(form,res);
                 }
             })
-        
+        })
+        $("body").on("change",".unitXcost",function () {
+            let parentTableId = $(this).parents('table').attr('id');
+            let trId = $(this).parents('tr').attr('id');
+            let qty = parseFloat($("#"+trId+" .qty").val());
+            let unit_cost = parseFloat($("#"+trId+" .unit_cost").val().replaceAll(',',''));
+            let totalCost = unit_cost*qty;
+            let grandTotal = 0;
+            $("#"+trId+" .totalCost").html($.number(totalCost,2));
+
+            $("#"+parentTableId+" .totalCost").each(function () {
+                grandTotal = grandTotal + parseFloat($(this).html().replaceAll(',',''));
+            });
+            $('input[name="abc"]').val($.number(grandTotal,2));
         })
     </script>
 @endsection

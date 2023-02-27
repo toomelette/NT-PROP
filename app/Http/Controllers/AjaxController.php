@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Articles;
-use App\Models\JR;
 use App\Models\PAP;
 use App\Models\PR;
 use App\Models\Suppliers;
