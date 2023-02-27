@@ -34,7 +34,7 @@
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][qty]',[
-            'class' => 'input-sm qty unitXcost autonum',
+            'class' => 'input-sm qty unitXcost',
             'container_class' => 'items_'.$rand.'_qty',
         ],$item->qty ?? null) !!}
     </td>

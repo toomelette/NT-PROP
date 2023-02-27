@@ -52,21 +52,21 @@
                     @endif
                 </tr>
                 <tr>
-                    <th class="text-center">DEPARTMENT</th>
+                    <th class="text-center">{{$department->department}}</th>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <th class="text-center">
-                                {{$quotation['obj']->supplier_slug}}
+                                {{collect($suppliers)->where('slug', $quotation['obj']->supplier_slug)->first()['name'] }}
                             </th>
                         @endforeach
                     @endif
                 </tr>
                 <tr>
-                    <th class="text-center">REQUISITIONER</th>
+                    <th class="text-center">{{$prjr->requested_by }}</th>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <th class="text-center">
-                                Address
+                                {{collect($suppliers)->where('slug', $quotation['obj']->supplier_slug)->first()['address'] }}
                             </th>
                         @endforeach
                     @endif

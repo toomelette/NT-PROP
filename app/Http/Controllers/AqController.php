@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Offers;
+use App\Models\PPURespCodes;
 use App\Models\Quotations;
+use App\Models\Suppliers;
 use App\Models\Transactions;
 use App\Swep\Services\AqService;
 use App\Swep\Services\TransactionService;
@@ -150,6 +152,8 @@ class AqController extends Controller
 
     public function print($transaction_slug){
         $aq = $this->transactionService->findBySlug($transaction_slug);
+        $prjr = $this->transactionService->findBySlug($aq->cross_slug);
+        $department = PPURespCodes::query()->where('rc_code', '=', $prjr->resp_center)->first();
         $items = [];
         $quotations  = [];
         $by = 3;
@@ -159,7 +163,7 @@ class AqController extends Controller
                 $quotations[$offer->quotation->slug]['obj'] = $offer->quotation;
             }
         }
-
+        $suppliers = Suppliers::all();
         $pages = [];
         $start = 0;
         foreach ($quotations as $key => $quotation){
@@ -179,8 +183,11 @@ class AqController extends Controller
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,
-//            'quotations' => $quotations,
+            'quotations' => $quotations,
             'pages' => $pages,
+            'suppliers' => $suppliers,
+            'prjr' => $prjr,
+            'department' => $department,
         ]);
     }
 }
