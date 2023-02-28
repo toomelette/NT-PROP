@@ -1,7 +1,6 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
     <section class="content-header">
         <h1>Prepare AQ</h1>
     </section>
@@ -59,7 +58,6 @@
                                                 'cols' => ' no-margin',
                                                 'placeholder' => 'Amount',
                                             ]) !!}
-
 
                                             <a href="#" tabindex="-1"><p class="no-margin text-info pull-right add_description_btn"><small>Add description</small></p></a>
                                             <div class="desc_container clearfix" style="display:none; ">

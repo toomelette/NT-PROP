@@ -67,7 +67,6 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @include('dynamic_rows.jr_items')
                                 </tbody>
                             </table>
                         </div>
@@ -189,6 +188,13 @@
             })
         });
 
+        $(document).ready(function() {
+            /*let parentTableId = $("#pr_items_table");
+            let firstRow = parentTableId.find("tbody tr:first");
+            firstRow.remove();*/
+            $(".add_button").trigger("click");
+        });
+
         $("body").on("change",".unitXcost",function () {
             let parentTableId = $(this).parents('table').attr('id');
             let trId = $(this).parents('tr').attr('id');
@@ -202,6 +208,6 @@
                 grandTotal = grandTotal + parseFloat($(this).html().replaceAll(',',''));
             });
             $('input[name="abc"]').val($.number(grandTotal,2));
-        })
+        });
     </script>
 @endsection

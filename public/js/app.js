@@ -61,6 +61,14 @@ var autonum_settings = {
     watchExternalChanges: true
 };
 
+var autonum_settings3D = {
+    currencySymbol : ' ',
+    decimalCharacter : '.',
+    digitGroupSeparator : ',',
+    watchExternalChanges: true,
+    decimalPlaces: 3,
+};
+
 function autonum_init(){
     $(".autonum").each(function(){
         new AutoNumeric(this, autonum_settings);

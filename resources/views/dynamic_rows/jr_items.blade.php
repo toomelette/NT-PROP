@@ -79,9 +79,8 @@
 @if(request()->ajax())
     <script type="text/javascript">
         $(".autonum_{{$rand}}").each(function(){
-            new AutoNumeric(this, autonum_settings);
+            new AutoNumeric(this, autonum_settings3D);
         });
-
 
         $(".select2_item_{{$rand}}").select2({
             ajax: {

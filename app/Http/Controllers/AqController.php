@@ -82,6 +82,7 @@ class AqController extends Controller
         $trans->slug = Str::random();
         $trans->cross_slug = $slug;
         $trans->ref_book = 'AQ';
+        $trans->date = now();
         $trans->save();
         return redirect(route('dashboard.aq.edit',$trans->slug));
     }
@@ -106,6 +107,7 @@ class AqController extends Controller
     public function update(Request $request,$slug){
 
         $aq = $this->transactionService->findBySlug($slug);
+        $aq->date = $request->date;
         $aq->prepared_by = $request->prepared_by;
         $aq->prepared_by_position = $request->prepared_by_position;
         $aq->noted_by = $request->noted_by;

@@ -4,6 +4,29 @@
 @extends('printables.print_layouts.print_layout_main')
 
 @section('wrapper')
+    <style>
+        .signature-container {
+            position: relative;
+        }
+
+        .name-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 80px; /* adjust this value to set the height of the signature container */
+            position: relative;
+        }
+
+        .signature-wrapper {
+            position: absolute;
+            top: -90px; /* adjust this value to move the signature up or down */
+            left: 34px;
+        }
+
+        .signature-image {
+            width: 75%; /* adjust this value to set the width of the signature image */
+        }
+    </style>
     <table style="width: 100%;">
         <tr>
             <td style="width: 20%">
@@ -40,9 +63,17 @@
             <td style="width: 65%">
             </td>
             <td class="text-center">
-                <br><br>
-                <b><u>NOLI T. TINGSON</u></b><br>
-                SUPPLY OFFICER IV
+                <div class="signature-container">
+                    <div class="name-container">
+                        <div class="signature-wrapper">
+                            <img src="{{ asset('images/NoliTSign.png') }}" alt="Signature" class="signature-image">
+                        </div>
+                        <div class="name-info">
+                            <span class="name"><u><b>NOLI T. TINGSON</b></u></span><br>
+                            <span class="designation">Supply Office IV</span>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
     </table>

@@ -19,29 +19,29 @@
     @if(count($pages) > 0)
         @foreach($pages as $quotations)
         <div  class="page-breaks">
-            <table style="width: 100%">
-                <tr style="font-size: 15px">
-                    <td style="width: 90%;" class="text-center">
+            <div style="position: relative; margin-bottom: 10px;">
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <img alt="" src="{{ asset('images/sra.png') }}" style="width:100px;">
+                    <div style="display: flex; flex-direction: column; justify-content: center; margin-left: 20px;">
                         <p class="no-margin">SUGAR REGULATORY ADMINISTRATION</p>
                         <p class="no-margin">Araneta St., Singcang, Bacolod City</p>
                         <p class="no-margin">Tel No. 433-4962, Fax No. 4353758</p>
-                        <p class="text-strong">ABSTRACT OF QUOTATIONS</p>
-                    </td>
-                    <td class="text-right" style="vertical-align: bottom">
-                        <p>Page {{$loop->iteration}} of {{count($pages)}}</p>
-                        <h4 class="no-margin text-strong">AQ. No.: {{$trans->ref_no}}</h4>
-                        DATE: DATEEEEE
-                    </td>
-                </tr>
-            </table>
-
-
+                        <h4 class="no-margin text-strong" style="margin-left: 10px;">ABSTRACT OF QUOTATIONS</h4>
+                    </div>
+                </div>
+                <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
+                    <p>Page {{$loop->iteration}} of {{count($pages)}}</p>
+                    <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
+                    DATE: {{$trans->date}}
+                </div>
+                <h5 class="no-margin" style="text-align: left;"><strong>Purchase Request No. {{$prjr->ref_no}}</strong></h5>
+            </div>
             <table class="tbl-bordered" style="width: 100%;">
                 <thead>
                 <tr>
-                    <th class="text-center" rowspan="3" style="width: 40px; word-break: break-word">Item No.</th>
-                    <th class="text-center" rowspan="3" style="width: 50px;">Qty</th>
-                    <th class="text-center" rowspan="3" style="width: 80px;">Unit</th>
+                    <th class="text-center" rowspan="3" style="width: 3%; word-break: break-word">Item No.</th>
+                    <th class="text-center" rowspan="3" style="width: 2%;">Qty</th>
+                    <th class="text-center" rowspan="3" style="width: 5%;">Unit</th>
                     <th class="text-center">Description of Articles</th>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
@@ -185,11 +185,34 @@
                 </tbody>
             </table>
             <br>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left">
+                    <p><strong>Prepared by:</strong></p>
+                    <br><br>
+                    <h4 class="no-margin text-strong"><u>{{strtoupper($trans->prepared_by)}}</u></h4>
+                    {{$trans->prepared_by_position}}
+                </div>
+                <div style="display: inline-block; text-align: left">
+                    <p><strong>Noted by:</strong></p>
+                    <br><br>
+                    <h4 class="no-margin text-strong"><u>{{strtoupper($trans->noted_by)}}</u></h4>
+                    {{$trans->noted_by_position}}
+                </div>
+                <div style="display: inline-block; text-align: left;">
+                    <p><strong>Recommending Approval:</strong></p>
+                    <br><br>
+                    <h4 class="no-margin text-strong"><u>{{strtoupper($trans->recommending_approval)}}</u></h4>
+                    {{$trans->recommending_approval_position}}
+                </div>
+            </div>
+
+{{--
+
             <table style="width: 100%; font-size: 14px">
                 <tr>
-                    <td style="width: 33%">Prepared by:</td>
-                    <td style="width: 33%">Noted by:</td>
-                    <td style="width: 33%">Recommending Approval:</td>
+                    <td style="width: 30%">Prepared by:</td>
+                    <td style="width: 40%">Noted by:</td>
+                    <td style="width: 30%">Recommending Approval:</td>
                 </tr>
                 <tr>
                     <td><br><br></td>
@@ -210,7 +233,7 @@
                         {{$trans->recommending_approval_position}}
                     </td>
                 </tr>
-            </table>
+            </table>--}}
         </div>
 
     @endforeach

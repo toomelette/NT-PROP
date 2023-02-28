@@ -4,10 +4,21 @@
 @extends('printables.print_layouts.print_layout_main')
 
 @section('wrapper')
+    <style>
+        @font-face {
+            font-family: 'Cambria';
+            src: url({{ storage_path("fonts/cambria.ttf") }}) format("truetype");
+            font-weight: 700;
+            font-style: normal;
+        }
+        .page-breaks {
+            page-break-after: always;
+        }
+    </style>
     <br>
     <br>
     <br>
-    <table style="width: 100%; border:1px solid black">
+    <table style="width: 100%; border:1px solid black; font-family: 'Cambria',Arial">
         <tr>
             <td style="width: 30%">
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
@@ -23,7 +34,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; padding-bottom: 20px" class="" >
+    <table style="width: 100%; padding-bottom: 20px; font-family: 'Cambria',Arial" class="" >
         <tr>
             <td style="width: 15%;" class="b-left text-strong">Department:</td>
             <td class="b-bottom text-strong" style="width: 35%;"> {{$pr->rc->department}} </td>
@@ -45,7 +56,7 @@
             <td colspan="4" class="b-left b-right"></td>
         </tr>
     </table>
-    <table style="width: 100%;" class="tbl-bordered-v" id="items_table_{{$rand}}">
+    <table style="width: 100%; font-family: 'Cambria',Arial" class="tbl-bordered-v" id="items_table_{{$rand}}">
         <thead>
             <tr>
                 <th style="width: 10%;">Stock No.</th>
@@ -92,7 +103,7 @@
         </tbody>
 
     </table>
-    <table style="width: 100%; border-left: 1px solid black;border-right: 1px solid black;">
+    <table style="width: 100%; border-left: 1px solid black;border-right: 1px solid black; font-family: 'Cambria',Arial">
         <tr>
             <td>
                 Purpose: {{$pr->purpose}}
@@ -106,7 +117,7 @@
             </tr>
         @endif
     </table>
-    <table class="tbl-bordered" style="width: 100%">
+    <table class="tbl-bordered" style="width: 100%; font-family: 'Cambria',Arial">
         <tr>
             <td rowspan="2">Signature</td>
             <td>Requested by:</td>
@@ -131,8 +142,6 @@
 
 @section('scripts')
     <script type="text/javascript">
-
-
             $(document).ready(function () {
                 let set = 625;
                 if($("#items_table_{{$rand}}").height() < set){

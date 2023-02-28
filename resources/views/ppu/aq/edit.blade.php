@@ -25,7 +25,11 @@
                 </div>
 
                 <div class="box-body">
-
+                    {!! \App\Swep\ViewHelpers\__form2::textboxOnly('date',[
+                                                  'cols' => 2,
+                                                  'type' => 'date',
+                                                  'required' => 'required',
+                                              ], $aq ?? null) !!}
                     <button type="button" class="btn btn-xs btn-success pull-right" id="add_column_button" style="margin-bottom: 5px" data="{{\Illuminate\Support\Str::random(10)}}"><i class="fa fa-columns"></i> Add Column</button>
                     <table class="table-bordered table-striped table-condensed" style="width: 100%; overflow-y: auto" id="aq_table">
                         <thead id="items_head">
