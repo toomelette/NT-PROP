@@ -20,7 +20,7 @@
         .signature-wrapper {
             position: absolute;
             top: -75px; /* adjust this value to move the signature up or down */
-            left: 34px;
+            left: 25px;
         }
 
         .signature-image {
