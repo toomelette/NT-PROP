@@ -19,12 +19,12 @@
 
         .signature-wrapper {
             position: absolute;
-            top: -80px; /* adjust this value to move the signature up or down */
-            left: 20px;
+            top: -40px; /* adjust this value to move the signature up or down */
+            left: 50px;
         }
 
         .signature-image {
-            width: 75%; /* adjust this value to set the width of the signature image */
+            width: 35%; /* adjust this value to set the width of the signature image */
         }
     </style>
     <table style="width: 100%;">
@@ -77,7 +77,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%;">
+    <table style="width: 100%; margin-top: -20px;">
         <tr>
             <td style="width: 8%" class="text-top">
                 NOTE:
