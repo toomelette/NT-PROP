@@ -19,8 +19,8 @@
 
         .signature-wrapper {
             position: absolute;
-            top: -75px; /* adjust this value to move the signature up or down */
-            left: 25px;
+            top: -80px; /* adjust this value to move the signature up or down */
+            left: 20px;
         }
 
         .signature-image {
@@ -70,7 +70,7 @@
                         </div>
                         <div class="name-info">
                             <span class="name"><u><b>NOLI T. TINGSON</b></u></span><br>
-                            <span class="designation">Supply Office IV</span>
+                            <span class="designation">Supply Officer IV</span>
                         </div>
                     </div>
                 </div>
