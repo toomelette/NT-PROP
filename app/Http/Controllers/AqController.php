@@ -181,7 +181,6 @@ class AqController extends Controller
 //        ])->setPaper('folio', 'landscape');
 //
 //        return $pdf->stream('sss.pdf');
-
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,

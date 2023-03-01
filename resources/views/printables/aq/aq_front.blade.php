@@ -1,4 +1,5 @@
 @php
+    use Carbon\Carbon;
     $rand = \Illuminate\Support\Str::random();
 @endphp
 @extends('printables.print_layouts.print_layout_main')
@@ -32,14 +33,18 @@
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
                     <p>Page {{$loop->iteration}} of {{count($pages)}}</p>
                     <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
-                    DATE: {{$trans->date}}
+                    DATE: {{Carbon::createFromFormat('Y-m-d', $trans->date)->format('F j, Y')}}
                 </div>
-                <h5 class="no-margin" style="text-align: left;"><strong>Purchase Request No. {{$prjr->ref_no}}</strong></h5>
+                @if($prjr->ref_book == "PR")
+                    <h5 class="no-margin" style="text-align: left;"><strong>Purchase Request No. {{$prjr->ref_no}}</strong></h5>
+                @elseif($prjr->ref_book == "JR")
+                    <h5 class="no-margin" style="text-align: left;"><strong>Job Request No. {{$prjr->ref_no}}</strong></h5>
+                @endif
             </div>
             <table class="tbl-bordered" style="width: 100%;">
                 <thead>
                 <tr>
-                    <th class="text-center" rowspan="3" style="width: 3%; word-break: break-word">Item No.</th>
+                    <th class="text-center" rowspan="3" style="width: 5%; word-break: break-word">Item No.</th>
                     <th class="text-center" rowspan="3" style="width: 2%;">Qty</th>
                     <th class="text-center" rowspan="3" style="width: 5%;">Unit</th>
                     <th class="text-center">Description of Articles</th>
@@ -85,9 +90,10 @@
                             <td class="text-center" style="vertical-align: top">
                                 {{strtoupper($item->unit)}}
                             </td>
-                            <td style="vertical-align: top">
+                            <td style="vertical-align: top;">
                                 {{$item->item}}
                                 @if($item->description != '')
+                                    <br>
                                     <br>
                                     <span style="white-space: pre-line; " ><i>{{$item->description}}</i></span>
                                 @endif
@@ -98,8 +104,8 @@
                                         <p class="text-center no-margin text-strong">
                                             {{(($items[$item->slug][$quotation['obj']->slug]['obj']->amount ?? null) != null ? '₱ '. number_format($items[$item->slug][$quotation['obj']->slug]['obj']->amount,2) : '')}}
                                         </p>
-
-                                        <span style="white-space: pre-line">{{$items[$item->slug][$quotation['obj']->slug]['obj']->description ?? null}}</span>
+                                        <br>
+                                        <p class="text-center" style="white-space: pre-line">{{$items[$item->slug][$quotation['obj']->slug]['obj']->description ?? null}}</p>
                                     </td>
                                 @endforeach
                             @endif
