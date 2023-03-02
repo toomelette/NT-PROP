@@ -57,7 +57,7 @@
                     @endif
                 </tr>
                 <tr>
-                    <th class="text-center">{{$department->department}}</th>
+                    <th class="text-center">{{$department->desc}}</th>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <th class="text-center">
@@ -102,7 +102,7 @@
                                 @foreach($quotations as $quotation)
                                     <td style="vertical-align: top">
                                         <p class="text-center no-margin text-strong">
-                                            {{(($items[$item->slug][$quotation['obj']->slug]['obj']->amount ?? null) != null ? '₱ '. number_format($items[$item->slug][$quotation['obj']->slug]['obj']->amount,2) : '')}}
+                                            {{(($items[$item->slug][$quotation['obj']->slug]['obj']->amount ?? null) > 0  ? '₱ '. number_format($items[$item->slug][$quotation['obj']->slug]['obj']->amount,2) : '')}}
                                         </p>
                                         <br>
                                         <p class="text-center" style="white-space: pre-line">{{$items[$item->slug][$quotation['obj']->slug]['obj']->description ?? null}}</p>
