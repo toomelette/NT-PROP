@@ -103,9 +103,7 @@ class MyJrController extends Controller
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
-        /*$trans->abc = Helper::sanitizeAutonum($request->abc);*/
-
-        $abc = 0;
+        $trans->abc = Helper::sanitizeAutonum($request->abc);
         $arr = [];
         if(!empty($request->items)){
             foreach ($request->items as $item){
@@ -117,21 +115,19 @@ class MyJrController extends Controller
                     'nature_of_work' => $item['nature_of_work'],
                     'property_no' => $item['property_no'],
                     'unit' => $item['unit'],
-                    'unit_cost' => $item['unit_cost'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'qty' => $item['qty'],
                     'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
                 ]);
-                $abc = $abc + $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']);
             }
         }
-        $trans->abc = $abc;
         if($trans->save()){
             if(count($arr ) > 0){
                 TransactionDetails::insert($arr);
             }
             return $trans->only('slug');
         }
-        abort(503,'Error creating JR. [PRController::store]');
+        abort(503,'Error creating JR. [JRController::store]');
     }
 
     public function print($slug){
@@ -164,8 +160,7 @@ class MyJrController extends Controller
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
-//        $trans->abc = Helper::sanitizeAutonum($request->abc);
-        $abc = 0;
+        $trans->abc = Helper::sanitizeAutonum($request->abc);
         $arr = [];
         if(!empty($request->items)){
             foreach ($request->items as $item){
@@ -177,14 +172,12 @@ class MyJrController extends Controller
                     'nature_of_work' => $item['nature_of_work'],
                     'property_no' => $item['property_no'],
                     'unit' => $item['unit'],
-                    'unit_cost' => $item['unit_cost'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'qty' => $item['qty'],
                     'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
                 ]);
-                $abc = $abc + $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']);
             }
         }
-        $trans->abc = $abc;
         if($trans->save()){
             if(count($arr ) > 0){
                 DB::table('transaction_details')
