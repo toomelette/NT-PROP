@@ -109,28 +109,48 @@
     <table style="width: 100%" class="tbl-bordered">
         <thead>
             <tr>
-                <th class="text-center">ITEM #</th>
-                <th class="text-center">QTY.</th>
-                <th class="text-center">UNIT</th>
-                <th class="text-center">ITEM & DESCRIPTION</th>
-                <th class="text-center">ABC</th>
-                <th class="text-center">OFFER</th>
+                <th class="text-center" style="width:5%">ITEM #</th>
+                <th class="text-center" style="width:5%">QTY.</th>
+                <th class="text-center" style="width:5%">UNIT</th>
+                @if($trans->transaction->ref_book == "JR")
+                    <th class="text-center" style="width:35%">ITEM & DESCRIPTION</th>
+                    <th class="text-center" style="width:30%">NATURE OF WORK</th>
+                @elseif($trans->transaction->ref_book == "PR")
+                    <th class="text-center" style="width:65%">ITEM & DESCRIPTION</th>
+                @endif
+                <th class="text-center" style="width:10%">ABC</th>
+                <th class="text-center" style="width:10%">OFFER</th>
             </tr>
         </thead>
         <tbody>
-
             @if(!empty($trans->transaction->transDetails))
                 @foreach($trans->transaction->transDetails as $item)
                     <tr>
                         <td class="text-center text-top" style="width: 8%">{{$loop->iteration}}</td>
                         <td class="text-center text-top" style="width: 5%">{{$item->qty}}</td>
                         <td class="text-center text-top" style="width: 10%">{{strtoupper($item->unit)}}</td>
-                        <td>
-                            <b>{{$item->item}}</b>
-                            <span style="white-space: pre-line">
+                        @if($trans->transaction->ref_book == "JR")
+                            <td>
+                                <b>{{$item->item}}</b>
+                                <span style="white-space: pre-line">
                                 {{$item->description}}
                             </span>
-                        </td>
+                            </td>
+                            @if($item->nature_of_work != null || $item->nature_of_work != "")
+                                <td rowspan="{{ count($trans->transaction->transDetails) }}">
+                                    <span style="white-space: pre-line">
+                                        {{$item->nature_of_work}}
+                                    </span>
+                                </td>
+                            @endif
+                        @elseif($trans->transaction->ref_book == "PR")
+                            <td>
+                                <b>{{$item->item}}</b>
+                                <span style="white-space: pre-line">
+                                {{$item->description}}
+                            </span>
+                            </td>
+                        @endif
                         <td class="text-right" >
                             @if($trans->transaction->abc >= 50000)
                                 {{number_format($item->total_cost,2)}}
@@ -144,7 +164,12 @@
         <tfoot>
             <tr>
                 <td colspan="4" class="text-right text-strong">TOTAL</td>
-                <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
+                @if($trans->transaction->ref_book == "JR")
+                    <td></td>
+                    <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
+                @elseif($trans->transaction->ref_book == "PR")
+                    <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
+                @endif
                 <td></td>
             </tr>
         </tfoot>
