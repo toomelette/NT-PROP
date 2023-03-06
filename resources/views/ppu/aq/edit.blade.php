@@ -1,7 +1,6 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
     <section class="content-header">
         <h1>Prepare Abstract of Quotations
             <span class="pull-right">ABC: {{number_format($aq->transaction->abc,2)}} </span></h1>
@@ -10,7 +9,7 @@
 @section('content2')
 
     <section class="content">
-        <div class="box box-solid">
+        <div class="box box-solid" style="overflow: auto">
             <form id="aq_form">
                 <div class="box-header with-border">
                     <h3 class="box-title">
@@ -59,7 +58,6 @@
                                     ],$quotation['obj']->supplier_slug) !!}
                                 </th>
                             @endforeach
-
                         </tr>
                         </thead>
                         <tbody id="items_body">
@@ -365,7 +363,7 @@
                     '</th>');
             })
             $("#items_head tr:nth-child(2)").each(function () {
-                $(this).append('<th style="vertical-align: top" id="th_'+btn.attr('data')+'">'+$("#supplier").html()+'</th>');
+                $(this).append('<th style="vertical-align: top;" id="th_'+btn.attr('data')+'">'+$("#supplier").html()+'</th>');
             })
             $("#aq_table tfoot tr:first").each(function () {
                 $(this).append('<th class="text-right tfoot"></th>');
