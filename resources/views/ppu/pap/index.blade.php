@@ -19,15 +19,15 @@
                     <table class="table table-bordered table-striped table-hover" id="pap_table" style="width: 100% !important">
                         <thead>
                         <tr class="">
-                            <th class="th-20">PAP Code</th>
-                            <th >PAP Title</th>
-                            <th>PS</th>
-                            <th>CO</th>
-                            <th>MOOE</th>
-                            <th >Total budget</th>
-                            <th >Procurement</th>
-                            <th >Details</th>
-                            <th>Action</th>
+                            <th style="width: 10%;">RESP CENTER/DEPT</th>
+                            <th class="th-20" style="width: 10%;">PAP Code</th>
+                            <th style="width: 20%;">PAP Title</th>
+                            <th style="width: 10%;">CO</th>
+                            <th style="width: 10%;">MOOE</th>
+                            <th style="width: 10%;">Total budget</th>
+                            <th style="width: 10%;">Procurement</th>
+                            <th style="width: 10%;">Details</th>
+                            <th style="width: 10%;">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -174,9 +174,9 @@
             pap_tbl = $("#pap_table").DataTable({
                 "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
                 "columns": [
+                    { "data": "resp_center" },
                     { "data": "pap_code" },
                     { "data": "pap_title" },
-                    { "data": "ps" },
                     { "data": "co" },
                     { "data": "mooe" },
                     { "data": "totalBudget" },
@@ -189,11 +189,11 @@
                 ],
                 "columnDefs":[
                     {
-                        "targets" : [0],
+                        "targets" : [1],
                         "class" : 'w-8p'
                     },
                     {
-                        "targets" : [2,3,4,5,6],
+                        "targets" : [3,4,5,6],
                         "class" : 'w-8p text-right'
                     },
                     {

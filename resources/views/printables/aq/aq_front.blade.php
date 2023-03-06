@@ -26,7 +26,7 @@
                     <div style="display: flex; flex-direction: column; justify-content: center; margin-left: 20px;">
                         <p class="no-margin">SUGAR REGULATORY ADMINISTRATION</p>
                         <p class="no-margin">Araneta St., Singcang, Bacolod City</p>
-                        <p class="no-margin">Tel No. 433-4962, Fax No. 4353758</p>
+                        <p class="no-margin">Tel No. 433-6891</p>
                         <h4 class="no-margin text-strong" style="margin-left: 10px;">ABSTRACT OF QUOTATIONS</h4>
                     </div>
                 </div>

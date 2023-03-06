@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PPU\PAPFormRequest;
 use App\Models\PAP;
 use App\Models\PapParent;
+use App\Models\PPURespCodes;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PAPService;
 use App\Swep\ViewHelpers\__html;
@@ -34,6 +35,7 @@ class PapController extends Controller
 
     public function dataTable($request){
         $paps = PAP::query()->with(['prs','prs.items']);
+        $RespCenter = PPURespCodes::all();
         return DataTables::of($paps)
             ->addColumn('action',function ($data){
                 return view('ppu.pap.dtActions')->with([
@@ -52,8 +54,8 @@ class PapController extends Controller
                 }
                 return $data->pap_title;
             })
-            ->editColumn('ps',function($data){
-                return number_format($data->ps);
+            ->editColumn('resp_center', function ($data) use ($RespCenter) {
+                return $RespCenter->firstWhere('rc_code', $data->resp_center)->desc;
             })
             ->editColumn('co',function($data){
                 return number_format($data->co);
