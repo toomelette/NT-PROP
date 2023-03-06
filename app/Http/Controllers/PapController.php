@@ -34,10 +34,23 @@ class PapController extends Controller
     }
 
     public function dataTable($request){
-        $paps = PAP::query()->with(['prs','prs.items']);
+        $paps = PAP::query()->with(['prs','prs.items','responsibilityCenter']);
         $RespCenter = PPURespCodes::all();
-        return DataTables::of($paps)
-            ->addColumn('action',function ($data){
+        $search = $request->get('search')['value'] ?? null;
+
+        $dt =  \DataTables::of($paps);
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->where('pap_code', 'like', '%'.$search.'%')
+                    ->orwhere('pap_title', 'like', '%'.$search.'%')
+                    ->orWhereHas('responsibilityCenter',function ($q) use($search){
+                        return $q->where('desc','like','%'.$search.'%');
+                    });
+            }
+        });
+
+        $dt = $dt->addColumn('action',function ($data){
                 return view('ppu.pap.dtActions')->with([
                     'data' => $data,
                 ]);
@@ -69,6 +82,7 @@ class PapController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->make(true);
+        return $dt;
     }
 
     public function store(PAPFormRequest $request){
