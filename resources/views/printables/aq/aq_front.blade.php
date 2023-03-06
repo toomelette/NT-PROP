@@ -195,19 +195,19 @@
                 <div style="text-align: left">
                     <p><strong>Prepared by:</strong></p>
                     <br><br>
-                    <h4 class="no-margin text-strong"><u>{{strtoupper($trans->prepared_by)}}</u></h4>
+                    <p class="no-margin text-strong" style="font-size: 13px"><u>{{strtoupper($trans->prepared_by)}}</u></p>
                     {{$trans->prepared_by_position}}
                 </div>
                 <div style="display: inline-block; text-align: left">
                     <p><strong>Noted by:</strong></p>
                     <br><br>
-                    <h4 class="no-margin text-strong"><u>{{strtoupper($trans->noted_by)}}</u></h4>
+                    <p class="no-margin text-strong" style="font-size: 13px"><u>{{strtoupper($trans->noted_by)}}</u></p>
                     {{$trans->noted_by_position}}
                 </div>
                 <div style="display: inline-block; text-align: left;">
                     <p><strong>Recommending Approval:</strong></p>
                     <br><br>
-                    <h4 class="no-margin text-strong"><u>{{strtoupper($trans->recommending_approval)}}</u></h4>
+                    <p class="no-margin text-strong" style="font-size: 13px"><u>{{strtoupper($trans->recommending_approval)}}</u></p>
                     {{$trans->recommending_approval_position}}
                 </div>
             </div>

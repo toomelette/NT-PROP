@@ -37,7 +37,6 @@ class PapController extends Controller
         $paps = PAP::query()->with(['prs','prs.items','responsibilityCenter']);
         $RespCenter = PPURespCodes::all();
         $search = $request->get('search')['value'] ?? null;
-
         $dt =  \DataTables::of($paps);
 
         $dt = $dt->filter(function ($query) use($search){
