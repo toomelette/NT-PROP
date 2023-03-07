@@ -1,4 +1,5 @@
 @php
+    use SimpleSoftwareIO\QrCode\Facades\QrCode;
     $rand = \Illuminate\Support\Str::random();
 @endphp
 @extends('printables.print_layouts.print_layout_main')
@@ -52,6 +53,9 @@
                 Quotation No. <b>{{$trans->ref_no}}</b><br>
                 {{$trans->transaction->ref_book}} No.: <b>{{$trans->transaction->ref_no}}</b><br>
                 Date: <b>{{\Illuminate\Support\Carbon::parse($trans->rfq_created_at)->format('F d, Y')}}</b>
+            </td>
+            <td>
+                {{ QrCode::size(50)->generate(route("dashboard.rfq.print",$trans->slug)) }}
             </td>
         </tr>
     </table>
