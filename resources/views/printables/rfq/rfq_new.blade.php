@@ -36,7 +36,7 @@
                 <p class="no-margin">Republic of the Philippines</p>
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                <p class="no-margin">Sugar Center Bldg., North Avenue, Diliman, Quezon City, Philippines 1101 TIN 000-784-336</p>
+                <p class="no-margin">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
             </td>
         </tr>
     </table>
