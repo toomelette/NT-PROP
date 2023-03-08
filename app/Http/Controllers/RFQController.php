@@ -149,8 +149,14 @@ class RFQController extends Controller
 
     public function print($slug){
         $trans = $this->transactionService->findBySlug($slug);
+        $nature_of_work_arr = [];
+        foreach ($trans->transaction->transDetails as $tran){
+            $nature_of_work_arr[] = $tran->nature_of_work;
+        }
+
         return view('printables.rfq.rfq_new')->with([
             'trans' => $trans,
+            'nature_of_work_arr' => $nature_of_work_arr,
         ]);
     }
 

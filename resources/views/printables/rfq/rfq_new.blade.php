@@ -128,7 +128,13 @@
         </thead>
         <tbody>
             @if(!empty($trans->transaction->transDetails))
+                @php
+                    $nowCount = 0;
+                @endphp
                 @foreach($trans->transaction->transDetails as $item)
+                    @php
+                        $nowCount = $nowCount + 1;
+                    @endphp
                     <tr>
                         <td class="text-center text-top" style="width: 8%">{{$loop->iteration}}</td>
                         <td class="text-center text-top" style="width: 5%">{{$item->qty}}</td>
@@ -141,11 +147,17 @@
                             </span>
                             </td>
                             @if($item->nature_of_work != null || $item->nature_of_work != "")
-                                <td rowspan="{{ count($trans->transaction->transDetails) }}">
-                                    <span style="white-space: pre-line">
-                                        {{$item->nature_of_work}}
-                                    </span>
-                                </td>
+                                @if($nowCount == 1)
+                                    <td rowspan="{{count($trans->transaction->transDetails) }}">
+                                        <ul>
+                                            @foreach ($nature_of_work_arr as $work)
+                                                @if($work != "")
+                                                    <li>{{ $work }}</li>
+                                                @endif
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                @endif
                             @endif
                         @elseif($trans->transaction->ref_book == "PR")
                             <td>
