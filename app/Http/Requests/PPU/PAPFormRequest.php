@@ -16,6 +16,7 @@ class PAPFormRequest extends FormRequest
         return [
             'year' => 'required|int|min:2020',
             'resp_center' => 'required|string',
+            'pap_code' => 'required|string|max:255',
             'pap_title' => 'required|string|max:255',
             'pap_desc' => 'required|string|max:255',
             'budget_type' => 'required|string',

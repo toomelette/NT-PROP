@@ -35,6 +35,14 @@ $rand = \Illuminate\Support\Str::random(10);
         ) !!}
     </div>
     <div class="row">
+        {!! \App\Swep\ViewHelpers\__form2::textbox('pap_code',[
+            'label' => 'PAP Code:*',
+            'cols' => 12,
+            'readonly' => 'readonly',
+        ],
+        $pap ?? null
+        ) !!}
+
         {!! \App\Swep\ViewHelpers\__form2::textbox('pap_title',[
             'label' => 'PAP Title:*',
             'cols' => 12,

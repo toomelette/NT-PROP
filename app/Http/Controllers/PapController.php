@@ -85,12 +85,17 @@ class PapController extends Controller
     }
 
     public function store(PAPFormRequest $request){
+        $papExist = PAP::query()->where('pap_code', $request->pap_code)->first();
+        if($papExist != null){
+            abort(503, 'PAP Code already exists.');
+        }
         $pap = new PAP;
         $pap->slug = Str::random();
         $pap->year = $request->year;
         $pap->resp_center = $request->resp_center;
         $pap->base_pap_code = 1;
-        $pap->pap_code = $this->papService->newPapCode($request->year,$request->resp_center);
+        $pap->pap_code = $request->pap_code;
+        //$pap->pap_code = $this->papService->newPapCode($request->year,$request->resp_center);
         $pap->pap_title = $request->pap_title;
         $pap->pap_desc = $request->pap_desc;
         $pap->ps = Helper::sanitizeAutonum($request->ps);
@@ -130,7 +135,8 @@ class PapController extends Controller
         $pap->year = $request->year;
         $pap->resp_center = $request->resp_center;
         $pap->base_pap_code = 1;
-        $pap->pap_code = $this->papService->newPapCode($request->year,$request->resp_center);
+        //$pap->pap_code = $request->pap_code;
+        //$pap->pap_code = $this->papService->newPapCode($request->year,$request->resp_center);
         $pap->pap_title = $request->pap_title;
         $pap->pap_desc = $request->pap_desc;
         $pap->ps = Helper::sanitizeAutonum($request->ps);
