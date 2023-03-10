@@ -114,6 +114,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     /** PR **/
     Route::post('/pr/{slug}/cancel','PRController@cancel')->name('pr.cancel');
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
+    Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
     Route::resource('pr', 'PRController');
 
     Route::post('/jr/{slug}/cancel','JRController@cancel')->name('jr.cancel');
