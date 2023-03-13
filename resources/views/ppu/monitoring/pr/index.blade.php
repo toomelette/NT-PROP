@@ -19,12 +19,12 @@
                     <table class="table table-bordered table-striped table-hover" id="pr_monitoring_table" style="width: 100% !important">
                         <thead>
                         <tr class="">
-                            <th style="width: 5%">PR No.</th>
+                            <th style="width: 10%">PR No.</th>
                             <th style="width: 10%">Date Created</th>
                             <th style="width: 10%">Date Received</th>
                             <th style="width: 10%">RFQ Date</th>
                             <th style="width: 10%">AQ Date</th>
-                            <th style="width: 25%">RBAC Reso Date</th>
+                            <th style="width: 15%">RBAC Reso Date</th>
                             <th style="width: 10%">NOA Date</th>
                             <th style="width: 10%">PO/JO Date</th>
                             <th style="width: 10%">Action</th>
