@@ -1,7 +1,6 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
     <section class="content-header">
         <h1>Purchase Request Monitoring</h1>
     </section>

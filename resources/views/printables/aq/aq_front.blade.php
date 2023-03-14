@@ -31,7 +31,10 @@
                     </div>
                 </div>
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
-                    <p>Page {{$loop->iteration}} of {{count($pages)}}</p>
+                    @if($trans->is_locked)
+                        <h3 class="no-margin text-strong">FINAL</h3>
+                    @endif
+                    <p class="no-margin">Page {{$loop->iteration}} of {{count($pages)}}</p>
                     <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
                     DATE: {{Carbon::createFromFormat('Y-m-d', $trans->date)->format('F j, Y')}}
                 </div>

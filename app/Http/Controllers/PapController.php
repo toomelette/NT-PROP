@@ -28,8 +28,6 @@ class PapController extends Controller
         if(request()->ajax() && request()->has('draw')){
             return $this->dataTable($request);
         }
-
-
         return view('ppu.pap.index');
     }
 

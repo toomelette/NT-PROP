@@ -104,9 +104,24 @@ class AqController extends Controller
         ]);
     }
 
-    public function update(Request $request,$slug){
-
+    public function finalized($slug){
         $aq = $this->transactionService->findBySlug($slug);
+        if($aq->is_locked){
+            abort(503,'AQ is already final.');
+        }
+        $aq->is_locked = true;
+        $aq->update();
+        return 1;
+
+        abort(503,'Error saving transaction.');
+    }
+
+    public function update(Request $request,$slug){
+        $aq = $this->transactionService->findBySlug($slug);
+        if($aq->is_locked){
+            abort(503,'AQ is final and locked for editing.');
+        }
+
         $aq->date = $request->date;
         $aq->prepared_by = $request->prepared_by;
         $aq->prepared_by_position = $request->prepared_by_position;
@@ -119,8 +134,6 @@ class AqController extends Controller
         $quotationsArr = [];
         foreach ($request->offers as $key => $items) {
             $quotationSlug = Str::random();
-
-
             array_push($quotationsArr,[
                 'slug' => $quotationSlug,
                 'aq_slug' => $slug,

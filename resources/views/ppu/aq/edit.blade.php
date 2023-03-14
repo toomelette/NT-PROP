@@ -19,7 +19,7 @@
                     <div class="btn-group pull-right">
                         <button type="button" class="btn btn-default btn-sm" id="finalize_btn"><i class="fa  fa-sign-in"></i> Finalize AQ</button>
                         <button type="button" class="btn btn-default btn-sm" id="print_preview_btn" data-toggle="modal" data-target="#print_preview_modal"><i class="fa fa-eye"></i> Preview</button>
-                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="submitForm_btn"><i class="fa fa-check"></i> Save</button>
                     </div>
                 </div>
 
@@ -343,6 +343,17 @@
 
 @section('scripts')
     <script type="text/javascript">
+        $(document).ready(function() {
+            let form = $("#aq_form");
+            let locked = !!("{{$aq->is_locked}}");
+            if(locked) {
+                form.find("input, textarea, select, button").prop("disabled", true);
+                $("#print_preview_btn").prop("disabled", false);
+                $('#submitForm_btn').prop("disabled", true);
+                toastMessage('AQ is Final and locked.');
+            }
+        });
+
         var sel2_supplier_options = {
             ajax: {
                 url: '{{route("dashboard.ajax.get","suppliers")}}',
@@ -567,6 +578,27 @@
                 $("#print_preview_frame_container").fadeIn();
             });
         })
+
+        $("#finalize_btn").click(function () {
+            let form = $("#aq_form");
+            $.ajax({
+                url : '{{route("dashboard.aq.finalized",$aq->slug)}}',
+                type: 'POST',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    form.find("input, textarea, select, button").prop("disabled", true);
+                    $("#print_preview_btn").prop("disabled", false);
+                    $('#submitForm_btn').prop("disabled", true);
+                    toastMessage('AQ Finalized.');
+                },
+                error: function (res) {
+                    console.log(res);
+                    errored(form,res);
+                }
+            })
+        });
 
         $(".select2_supplier").select2(sel2_supplier_options);
     </script>
