@@ -83,11 +83,12 @@
                     $nowCount = 0;
                 @endphp
                 <tr>
+                    <th class="">
                     @foreach($trans->transaction->transDetails as $item)
                         @php
                             $nowCount = $nowCount + 1;
                         @endphp
-                            <th class="">
+
                                 @if($prjr->ref_book == "JR")
                                     @if($nowCount == 1)
                                         @php
@@ -96,10 +97,9 @@
                                         {{ $nature_of_work_str }}
                                     @endif
                                 @endif
-                            </th>
                     @endforeach
+                    </th>
                 </tr>
-
                 </thead>
                 <tbody>
                 @if(!empty($trans->transaction->transDetails))
