@@ -35,6 +35,7 @@ class JRController extends Controller
 
         return view('ppu.jr.index');
     }
+
     public function dataTable($request){
         $trans = Transactions::query()->with(['transDetails'])
             ->where('ref_book','=','JR');
@@ -96,6 +97,73 @@ class JRController extends Controller
             ->setRowId('slug')
             ->toJson();
 
+        return $dt;
+    }
+
+    public function monitoringIndex(Request $request){
+        if(\request()->ajax() && \request()->has('draw')){
+            return $this->monitoringDataTable($request);
+        }
+        return view('ppu.monitoring.jr.index');
+    }
+
+    public function monitoringDataTable($request){
+        $trans = Transactions::query()->where('ref_book','=','JR');
+        $transAll = Transactions::all();
+        $search = $request->get('search')['value'] ?? null;
+
+        $dt = \DataTables::of($trans);
+
+        $dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->where('ref_no', 'like', '%'.$search.'%');
+            }
+        });
+
+        $dt = $dt->addColumn('jr_no',function($data){
+            return ($data->ref_no);
+        })
+            ->addColumn('date_created',function($data){
+                return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
+            })
+            ->addColumn('date_received',function($data){
+                return !empty($data->received_at) ? Carbon::parse($data->date)->format('M. d, Y') : null;
+            })
+            ->addColumn('rfq_date', function($data) use ($transAll) {
+                $item = $transAll->where('cross_slug', $data->slug)
+                    ->where('ref_book', 'RFQ')
+                    ->first();
+                if ($item) {
+                    return Carbon::parse($item->created_at)->format('M. d, Y');
+                } else {
+                    return null;
+                }
+            })
+            ->addColumn('aq_date', function($data) use ($transAll) {
+                $item = $transAll->where('cross_slug', $data->slug)
+                    ->where('ref_book', 'AQ')
+                    ->first();
+                if ($item) {
+                    return Carbon::parse($item->created_at)->format('M. d, Y');
+                } else {
+                    return null;
+                }
+            })
+            ->addColumn('rbac_reso_date',function($data){
+                return "";
+            })
+            ->addColumn('noa_date',function($data){
+                return "";
+            })
+            ->addColumn('po_jo_date',function($data){
+                return "";
+            })
+            ->addColumn('action',function($data){
+                return "";
+            })
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
         return $dt;
     }
 

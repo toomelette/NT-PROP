@@ -29,48 +29,105 @@ class AqController extends Controller
 
     public function index(Request $request){
         if($request->ajax() && $request->has('draw')){
-            $rfqs = Transactions::allRfq();
-            return \DataTables::of($rfqs)
-                ->with(['transaction'])
-                ->addColumn('action',function($data){
-                    return view('ppu.aq.dtActions')->with([
-                        'data' => $data,
-                    ]);
-                })
-                ->addColumn('transRefBook',function($data){
-                    return Helper::refBookLabeler($data->transaction->ref_book ?? '');
-                })
-                ->editColumn('cross_ref_no',function($data){
-                    return ($data->transaction->ref_no ?? '').'
-                    <div class="table-subdetail text-right" style="color: #31708f"></div>
-                    <small class="text-muted"> Requested by:<br>'.Str::limit(($data->transaction->requested_by ?? null),15,'...').'</small>
-                    ';
-                })
-                ->editColumn('abc',function($data){
-                    if(!empty($data->transaction->abc)){
-                        return number_format($data->transaction->abc,2);
-                    }
-                })
-                ->addColumn('dates',function($data){
-                    return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
-                })
-                ->addColumn('transDetails',function($data){
-                    if(!empty($data->transaction)){
-                        $type = strtolower($data->transaction->ref_book ?? null);
-                        return view('ppu.'.$type.'.dtItems')->with([
-                                'items' => $data->transaction->transDetails,
-                            ])->render().
-                            '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
-                    }
-                })
-
-                ->escapeColumns([])
-                ->setRowId('slug')
-                ->toJson();
+            if($request->has('all_aq') && $request->all_aq == true){
+                return $this->allAqDataTable($request);
+            }
+            else{
+                return $this->pendingAqDataTable($request);
+            }
         }
         return view('ppu.aq.index');
     }
 
+    public function allAqDataTable(Request $request){
+        $aq = Transactions::where('ref_book', '=', 'AQ')->get();
+        return \DataTables::of($aq)
+            ->with(['transaction'])
+            ->addColumn('action',function($data){
+                return view('ppu.aq.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->addColumn('transRefBook',function($data){
+                return Helper::refBookLabeler($data->transaction->ref_book ?? '');
+            })
+            ->editColumn('cross_ref_no',function($data){
+                return ($data->transaction->ref_no ?? '').'
+                    <div class="table-subdetail text-right" style="color: #31708f"></div>
+                    <small class="text-muted"> Requested by:<br>'.Str::limit(($data->transaction->requested_by ?? null),15,'...').'</small>
+                    ';
+            })
+            ->editColumn('abc',function($data){
+                if(!empty($data->transaction->abc)){
+                    return number_format($data->transaction->abc,2);
+                }
+            })
+            ->addColumn('dates',function($data){
+                return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
+            })
+            ->addColumn('transDetails',function($data){
+                if(!empty($data->transaction)){
+                    $type = strtolower($data->transaction->ref_book ?? null);
+                    return view('ppu.'.$type.'.dtItems')->with([
+                            'items' => $data->transaction->transDetails,
+                        ])->render().
+                        '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
+                }
+            })
+
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
+        return view('ppu.aq.index');
+    }
+
+    public function pendingAqDataTable(Request $request){
+        $trans = Transactions::where('ref_book', '=', 'RFQ')
+            ->whereNotExists(function($query) {
+                $query->select(\Illuminate\Support\Facades\DB::raw(1))
+                    ->from('transactions as t')
+                    ->whereRaw('t.cross_slug = transactions.cross_slug')
+                    ->where('t.ref_book', '=', 'AQ');
+            })
+            ->get();
+        return \DataTables::of($trans)
+            ->with(['transaction'])
+            ->addColumn('action',function($data){
+                return view('ppu.aq.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->addColumn('transRefBook',function($data){
+                return Helper::refBookLabeler($data->transaction->ref_book ?? '');
+            })
+            ->editColumn('cross_ref_no',function($data){
+                return ($data->transaction->ref_no ?? '').'
+                    <div class="table-subdetail text-right" style="color: #31708f"></div>
+                    <small class="text-muted"> Requested by:<br>'.Str::limit(($data->transaction->requested_by ?? null),15,'...').'</small>
+                    ';
+            })
+            ->editColumn('abc',function($data){
+                if(!empty($data->transaction->abc)){
+                    return number_format($data->transaction->abc,2);
+                }
+            })
+            ->addColumn('dates',function($data){
+                return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
+            })
+            ->addColumn('transDetails',function($data){
+                if(!empty($data->transaction)){
+                    $type = strtolower($data->transaction->ref_book ?? null);
+                    return view('ppu.'.$type.'.dtItems')->with([
+                            'items' => $data->transaction->transDetails,
+                        ])->render().
+                        '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
+                }
+            })
+
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
+    }
 
     public function create($slug){
         $trans = $this->transactionService->findBySlug($slug);

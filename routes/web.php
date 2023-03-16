@@ -119,6 +119,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::post('/jr/{slug}/cancel','JRController@cancel')->name('jr.cancel');
     Route::get('/jr/{slug}/print','JRController@print')->name('jr.print');
+    Route::get('/jr/monitoring/index','JRController@monitoringIndex')->name('jr.monitoringIndex');
     Route::resource('jr', 'JRController');
 
     Route::get('/rfq/{slug}/print','RFQController@print')->name('rfq.print');
