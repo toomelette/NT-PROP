@@ -47,9 +47,9 @@
             <table class="tbl-bordered" style="width: 100%;">
                 <thead>
                 <tr>
-                    <th class="text-center" rowspan="3" style="width: 5%; word-break: break-word">Item No.</th>
-                    <th class="text-center" rowspan="3" style="width: 2%;">Qty</th>
-                    <th class="text-center" rowspan="3" style="width: 5%;">Unit</th>
+                    <th class="text-center" rowspan="4" style="width: 5%; word-break: break-word">Item No.</th>
+                    <th class="text-center" rowspan="4" style="width: 2%;">Qty</th>
+                    <th class="text-center" rowspan="4" style="width: 5%;">Unit</th>
                     <th class="text-center">Description of Articles</th>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
@@ -79,16 +79,32 @@
                         @endforeach
                     @endif
                 </tr>
-                </thead>
-                <tbody>
-                @if(!empty($trans->transaction->transDetails))
-                    @php
-                        $nowCount = 0;
-                    @endphp
+                @php
+                    $nowCount = 0;
+                @endphp
+                <tr>
                     @foreach($trans->transaction->transDetails as $item)
                         @php
                             $nowCount = $nowCount + 1;
                         @endphp
+                            <th class="">
+                                @if($prjr->ref_book == "JR")
+                                    @if($nowCount == 1)
+                                        @php
+                                            $nature_of_work_str = implode('. ', array_filter($nature_of_work_arr));
+                                        @endphp
+                                        {{ $nature_of_work_str }}
+                                    @endif
+                                @endif
+                            </th>
+                    @endforeach
+                </tr>
+
+                </thead>
+                <tbody>
+                @if(!empty($trans->transaction->transDetails))
+
+                    @foreach($trans->transaction->transDetails as $item)
                         <tr>
                             <td class="text-center" style="vertical-align: top">
                                 {{$loop->iteration}}
@@ -100,15 +116,6 @@
                                 {{strtoupper($item->unit)}}
                             </td>
                             <td style="vertical-align: top;">
-                                @if($prjr->ref_book == "JR")
-                                    @if($nowCount == 1)
-                                        @php
-                                            $nature_of_work_str = implode('. ', array_filter($nature_of_work_arr));
-                                        @endphp
-                                        <p class="no-margin text-strong">{{ $nature_of_work_str }}</p>
-                                        <br>
-                                    @endif
-                                @endif
                                 {{$item->item}}
                                 @if($item->description != '')
                                     <br>
