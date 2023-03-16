@@ -99,6 +99,13 @@
                                 @endif
                     @endforeach
                     </th>
+                    @if(count($quotations) > 0)
+                        @foreach($quotations as $quotation)
+                            <th class="text-center">
+
+                            </th>
+                        @endforeach
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
