@@ -105,7 +105,7 @@
                                         @php
                                             $nature_of_work_str = implode('. ', array_filter($nature_of_work_arr));
                                         @endphp
-                                        <p class="no-margin text-strong">{{ $nature_of_work_str }}.</p>
+                                        <p class="no-margin text-strong">{{ $nature_of_work_str }}</p>
                                         <br>
                                     @endif
                                 @endif
