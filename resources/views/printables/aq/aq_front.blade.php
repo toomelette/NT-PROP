@@ -82,7 +82,13 @@
                 </thead>
                 <tbody>
                 @if(!empty($trans->transaction->transDetails))
+                    @php
+                        $nowCount = 0;
+                    @endphp
                     @foreach($trans->transaction->transDetails as $item)
+                        @php
+                            $nowCount = $nowCount + 1;
+                        @endphp
                         <tr>
                             <td class="text-center" style="vertical-align: top">
                                 {{$loop->iteration}}
@@ -94,6 +100,15 @@
                                 {{strtoupper($item->unit)}}
                             </td>
                             <td style="vertical-align: top;">
+                                @if($prjr->ref_book == "JR")
+                                    @if($nowCount == 1)
+                                        @php
+                                            $nature_of_work_str = implode('. ', array_filter($nature_of_work_arr));
+                                        @endphp
+                                        <p class="no-margin text-strong">{{ $nature_of_work_str }}.</p>
+                                        <br>
+                                    @endif
+                                @endif
                                 {{$item->item}}
                                 @if($item->description != '')
                                     <br>

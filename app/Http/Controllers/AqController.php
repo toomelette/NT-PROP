@@ -251,6 +251,10 @@ class AqController extends Controller
 //        ])->setPaper('folio', 'landscape');
 //
 //        return $pdf->stream('sss.pdf');
+        $nature_of_work_arr = [];
+        foreach ($aq->transaction->transDetails as $tran){
+            $nature_of_work_arr[] = $tran->nature_of_work;
+        }
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,
@@ -259,6 +263,7 @@ class AqController extends Controller
             'suppliers' => $suppliers,
             'prjr' => $prjr,
             'department' => $department,
+            'nature_of_work_arr' => $nature_of_work_arr,
         ]);
     }
 }
