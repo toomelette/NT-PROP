@@ -132,6 +132,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/aq/create/{slug}','AqController@create')->name('aq.create');
     Route::post('/aq/store/{slug}','AqController@store')->name('aq.store');
     Route::post('/aq/finalized/{slug}','AqController@finalized')->name('aq.finalized');
+
+    Route::resource('cancellation_request', 'CancellationRequestController');
+    Route::get('/cancellation_request/create','CancellationRequestController@create')->name('cancellationRequest.create');
+
+    Route::resource('supplier', 'SupplierController');
 });
 
 Route::get('test',function (){
