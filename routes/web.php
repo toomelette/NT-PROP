@@ -135,7 +135,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::resource('cancellation_request', 'CancellationRequestController');
     Route::get('/cancellation_request/create','CancellationRequestController@create')->name('cancellationRequest.create');
-
+    Route::get('/cancellation_request/findTransactionByRefNumber/{refNumber}/{refBook}','CancellationRequestController@findTransactionByRefNumber')->name('cancellationRequest.ByRefNumber');
     Route::resource('supplier', 'SupplierController');
 });
 
