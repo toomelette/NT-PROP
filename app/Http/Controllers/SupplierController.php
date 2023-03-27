@@ -3,9 +3,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Article\ArticleFormRequest;
 use App\Http\Requests\Supplier\SupplierFormRequest;
-use App\Models\Articles;
 use App\Models\Suppliers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Suppliers</h1>
+        <h1>Request</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,7 +11,7 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Suppliers</h3>
+                <h3 class="box-title">Request</h3>
                 <button class="btn btn-primary btn-sm pull-right" type="button" data-toggle="modal" data-target="#add_supplier_modal"><i class="fa fa-plus"></i> Add Supplier</button>
             </div>
             <div class="box-body">
@@ -29,13 +29,15 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="suppliers_table_container" style="display: none">
-                            <table class="table table-bordered table-striped table-hover" id="suppliers_table" style="width: 100% !important">
+                        <div id="cr_table_container" style="display: none">
+                            <table class="table table-bordered table-striped table-hover" id="cr_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
-                                    <th>Name</th>
-                                    <th>Address</th>
-                                    <th>TIN</th>
+                                    <th>Type</th>
+                                    <th>Ref No.</th>
+                                    <th>Ref Date</th>
+                                    <th>ABC</th>
+                                    <th>Requested By</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -55,41 +57,6 @@
     </section>
 @endsection
 
-@section('modals')
-<div class="modal fade" id="add_supplier_modal" tabindex="-1" role="dialog" aria-labelledby="add_supplier_modal_label">
-  <div class="modal-dialog modal-lg" role="document">
-    <form id="add_supplier_form">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">New Supplier</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('name',[
-                        'label' => 'Name:',
-                        'cols' => 4,
-                    ]) !!}
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('address',[
-                        'label' => 'Address:',
-                        'cols' => 4,
-                    ]) !!}
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('tin',[
-                        'label' => 'TIN:',
-                        'cols' => 4,
-                    ]) !!}
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
-            </div>
-        </div>
-    </form>
-  </div>
-</div>
-@endsection
-
 @section('scripts')
     <script type="text/javascript">
         var active;
@@ -98,12 +65,14 @@
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
 
-            suppliers_tbl = $("#suppliers_table").DataTable({
-                "ajax" : '{{route("dashboard.supplier.index")}}',
+            cr_tbl = $("#cr_table").DataTable({
+                "ajax" : '{{route("dashboard.cancellationRequest.index")}}',
                 "columns": [
-                    { "data": "name" },
-                    { "data": "address" },
-                    { "data": "tin" },
+                    { "data": "ref_book" },
+                    { "data": "ref_number" },
+                    { "data": "ref_date" },
+                    { "data": "total_amount" },
+                    { "data": "requester" },
                     { "data": "action" }
                 ],
                 "buttons": [
@@ -116,16 +85,16 @@
                 "initComplete": function( settings, json ) {
                     style_datatable("#"+settings.sTableId);
                     $('#tbl_loader').fadeOut(function(){
-                        $("#suppliers_table_container").fadeIn();
+                        $("#cr_table_container").fadeIn();
                         if(find != ''){
-                            suppliers_tbl.search(find).draw();
+                            cr_tbl.search(find).draw();
                         }
                     });
                     //Need to press enter to search
                     $('#'+settings.sTableId+'_filter input').unbind();
                     $('#'+settings.sTableId+'_filter input').bind('keyup', function (e) {
                         if (e.keyCode == 13) {
-                            suppliers_tbl.search(this.value).draw();
+                            cr_tbl.search(this.value).draw();
                         }
                     });
                 },
@@ -140,37 +109,13 @@
                     if(active != ''){
                         if(Array.isArray(active) == true){
                             $.each(active,function (i,item) {
-                                $("#suppliers_table #"+item).addClass('success');
+                                $("#cr_table #"+item).addClass('success');
                             })
                         }
-                        $("#suppliers_table #"+active).addClass('success');
+                        $("#cr_table #"+active).addClass('success');
                     }
                 }
             });
-        })
-        
-
-        $("#add_supplier_form").submit(function (e) {
-            e.preventDefault()
-            let form = $(this);
-            loading_btn(form);
-            $.ajax({
-                url : '{{route("dashboard.supplier.store")}}',
-                data : form.serialize(),
-                type: 'POST',
-                headers: {
-                    {!! __html::token_header() !!}
-                },
-                success: function (res) {
-                    active = res.id;
-                    suppliers_tbl.draw(false);
-                    succeed(form,true,false);
-                    toast('success','Supplier successfully added.','Success!');
-                },
-                error: function (res) {
-                    errored(form,res);
-                }
-            })
         })
     </script>
 @endsection
