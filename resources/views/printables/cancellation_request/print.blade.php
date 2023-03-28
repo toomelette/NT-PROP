@@ -14,7 +14,7 @@
             </div>
             <div class="text-left" style="width: 85%; padding-top: 10px;">
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                <p class="no-margin">ADMIN AND FINANCE DEPARTMENT</p>
+                <p class="no-margin">ADMINISTRATION AND FINANCE DEPARTMENT</p>
                 <p class="no-margin text-strong">PROPERTY/PROCUREMENT/BUILDING AND TRANSPORT MAINTENANCE SECTION</p>
             </div>
         </div>
@@ -46,11 +46,11 @@
         <table style="width: 100%; border: #0a0a0a;">
             <tr>
                 <td height="40" style="border: 1px solid black; width: 30%">Document Type</td>
-                <td style="border: 1px solid black;">{{$cr->ref_book == "PR"? "PURCHASE REQUEST" : "JOB REQUEST"}}</td>
+                <td colspan="3" style="border: 1px solid black;">{{$cr->ref_book == "PR"? "PURCHASE REQUEST" : "JOB REQUEST"}}</td>
             </tr>
             <tr>
                 <td height="40" style="border: 1px solid black; width: 30%">Reference Number</td>
-                <td style="border: 1px solid black;">{{$cr->ref_number}}</td>
+                <td colspan="3" style="border: 1px solid black;">{{$cr->ref_number}}</td>
             </tr>
 
             <tr>
@@ -60,15 +60,17 @@
 
             <tr>
                 <td height="40" style="border: 1px solid black; width: 30%">Total Amount</td>
-                <td style="border: 1px solid black;">Php {{number_format($cr->total_amount,2)}}</td>
+                <td colspan="3" style="border: 1px solid black;">Php {{number_format($cr->total_amount,2)}}</td>
             </tr>
             <tr>
                 <td style="border: 1px solid black; width: 30%" height="40">Reason</td>
-                <td style="border: 1px solid black;">{{strtoupper($cr->reason)}}</td>
+                <td colspan="3" style="border: 1px solid black;">{{strtoupper($cr->reason)}}</td>
             </tr>
             <tr class="">
-                <td style="vertical-align: bottom; border: 1px solid black; width: 30%" height="80">Requisitioner</td>
-                <td style="vertical-align: bottom; border: 1px solid black;">{{strtoupper($cr->requisitioner)}}</td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 30%" height="80">Signature of Requisitioner</td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 30%">{{strtoupper($cr->requisitioner)}}</td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 15%">Received By:</td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 25%"></td>
             </tr>
         </table>
         <br>
