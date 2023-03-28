@@ -26,7 +26,35 @@ class CancellationRequestController extends Controller
         $cr = CancellationRequest::query();
         return DataTables::of($cr)
             ->addColumn('action',function($data){
-                return "";
+                return view('ppu.cancellation_request.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->editColumn('total_amount',function($data){
+                return number_format($data->total_amount,2);
+            })
+            ->editColumn('ref_date',function($data){
+                return $data->ref_date ? Carbon::parse($data->ref_date)->format('M. d, Y') : '';
+            })
+            ->escapeColumns([])
+            ->setRowId('id')
+            ->toJson();
+    }
+
+    public function myIndex(Request $request){
+        if($request->ajax() && $request->has('draw')){
+            return $this->myDataTable($request);
+        }
+        return view('ppu.cancellation_request.myIndex');
+    }
+
+    public function myDataTable($request){
+        $cr = CancellationRequest::query()->where('user_created', Auth::user()->user_id);
+        return DataTables::of($cr)
+            ->addColumn('action',function($data){
+                return view('ppu.cancellation_request.dtActions')->with([
+                    'data' => $data,
+                ]);
             })
             ->editColumn('total_amount',function($data){
                 return number_format($data->total_amount,2);

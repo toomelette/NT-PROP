@@ -131,12 +131,13 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::post('/aq/store/{slug}','AqController@store')->name('aq.store');
     Route::post('/aq/finalized/{slug}','AqController@finalized')->name('aq.finalized');
 
-    Route::resource('cancellation_request', 'CancellationRequestController');
     Route::get('/cancellation_request/create','CancellationRequestController@create')->name('cancellationRequest.create');
     Route::get('/cancellation_request/findTransactionByRefNumber/{refNumber}/{refBook}','CancellationRequestController@findTransactionByRefNumber')->name('cancellationRequest.ByRefNumber');
     Route::post('/cancellation_request/store','CancellationRequestController@store')->name('cancellationRequest.store');
     Route::get('/cancellation_request/index','CancellationRequestController@index')->name('cancellationRequest.index');
     Route::get('/cancellation_request/print/{slug}','CancellationRequestController@print')->name('cancellationRequest.print');
+    Route::get('/cancellation_request/myIndex','CancellationRequestController@myIndex')->name('cancellationRequest.myIndex');
+    //Route::resource('cancellationRequest', 'CancellationRequestController');
 
     Route::resource('supplier', 'SupplierController');
 });

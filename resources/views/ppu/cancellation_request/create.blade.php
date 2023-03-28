@@ -141,8 +141,9 @@
                             $('#trans_table tbody').remove();
                             $('#slug').val(res.slug);
 
+                            let num = parseFloat(res.abc);
                             let tableHtml = '<tbody>';
-                            tableHtml += '<tr><td>' + res.ref_book + '</td><td>' + res.ref_no + '</td><td>' + $.datepicker.formatDate('dd/mm/yy', new Date(res.date)) + '</td><td>' + res.abc + '</td><td>' + res.requested_by + '</td></tr>';
+                            tableHtml += '<tr><td>' + res.ref_book + '</td><td>' + res.ref_no + '</td><td>' + $.datepicker.formatDate('dd/mm/yy', new Date(res.date)) + '</td><td>' + num.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + res.requested_by + '</td></tr>';
                             tableHtml += '</tbody></table>';
 
                             $('#trans_table').append(tableHtml).removeClass('hidden');

@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Manage Cancellation Request</h1>
+        <h1>My Cancellation Request</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,7 +11,7 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Cancellation Request</h3>
+                <h3 class="box-title">My Request</h3>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -24,7 +24,6 @@
                                     <th>Ref No.</th>
                                     <th>Ref Date</th>
                                     <th>ABC</th>
-                                    <th>Requested By</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -53,13 +52,12 @@
             //Initialize DataTable
 
             cr_tbl = $("#cr_table").DataTable({
-                "ajax" : '{{route("dashboard.cancellationRequest.index")}}',
+                "ajax" : '{{route("dashboard.cancellationRequest.myIndex")}}',
                 "columns": [
                     { "data": "ref_book" },
                     { "data": "ref_number" },
                     { "data": "ref_date" },
                     { "data": "total_amount" },
-                    { "data": "requisitioner" },
                     { "data": "action" }
                 ],
                 "buttons": [
