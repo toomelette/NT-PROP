@@ -82,7 +82,7 @@
                 {{\Carbon\Carbon::now()->format('Y')}}/PPBTMS | {{\Illuminate\Support\Facades\Auth::user()->username}} | {{\Illuminate\Support\Facades\Request::ip()}}
             </td>
             <td style="text-align: right">
-                PLEASE PRINT AND SIGN 5 COPIES
+                PLEASE PRINT AND SIGN 4 COPIES
             </td>
         </tr>
     </table>
