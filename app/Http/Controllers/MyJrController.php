@@ -116,7 +116,7 @@ class MyJrController extends Controller
                     'property_no' => $item['property_no'],
                     'unit' => $item['unit'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
-                    'qty' => $item['qty'],
+                    'qty' => Helper::sanitizeAutonum($item['qty']),
                     'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
                 ]);
             }
