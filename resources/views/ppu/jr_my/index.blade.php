@@ -12,6 +12,8 @@
             <div class="box-header with-border">
                 <h3 class="box-title"> My Job Requests</h3>
                 <a class="btn btn-primary btn-sm pull-right" href="{{route('dashboard.my_jr.create')}}" > <i class="fa fa-plus"></i> Create</a>
+
+                <h5 class="pull-right text-strong" style="margin-top: 40px; margin-bottom: -5px">Search by Date Format (yyyy-MM-dd). Ex. 2023-12-31</h5>
             </div>
 
             <div class="box-body">
@@ -255,6 +257,21 @@
                 if(active != ''){
                     $("#"+settings.sTableId+" #"+active).addClass('success');
                 }
+            }
+        })
+
+        $("body").on("change",".dt_filter",function () {
+            let form = $(this).parents('form');
+            filterDT(jr_tbl);
+        })
+
+        $("input[name='date_after']").change(function () {
+            let t = $(this);
+            let before =  $("input[name='date_before']");
+            if(t.val() != ''){
+                before.attr('min',t.val());
+            }else{
+                before.removeAttr('min');
             }
         })
 

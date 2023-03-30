@@ -44,7 +44,8 @@ class MyJrController extends Controller
             if($search != null){
                 $query->whereHas('transDetails',function ($q) use($search){
                     return $q->where('item','like','%'.$search.'%')
-                        ->orWhere('description','like','%'.$search.'%');
+                        ->orWhere('description','like','%'.$search.'%')
+                        ->orWhere('date','like','%'.$search.'%');
                 });
             }
         });

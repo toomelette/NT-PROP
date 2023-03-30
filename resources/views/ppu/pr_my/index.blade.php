@@ -13,6 +13,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">My Purchase Requests</h3>
                 <a class="btn btn-primary btn-sm pull-right" href="{{route('dashboard.my_pr.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                <h5 class="pull-right text-strong" style="margin-top: 40px; margin-bottom: -5px">Search by Date Format (yyyy-MM-dd). Ex. 2023-12-31</h5>
             </div>
 
             <div class="box-body">
