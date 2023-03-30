@@ -29,11 +29,14 @@
                         <p class="no-margin">Tel No. 433-6891</p>
                         <h4 class="no-margin text-strong" style="margin-left: 10px;">ABSTRACT OF QUOTATIONS</h4>
                     </div>
+                    @if($trans->is_locked)
+                        <div style="margin-left: 50px">
+                            {{ QrCode::size(70)->generate(route("dashboard.aq.print",$trans->slug)) }}
+                        </div>
+                        {{--<h3 class="no-margin text-strong">FINAL</h3>--}}
+                    @endif
                 </div>
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
-                    @if($trans->is_locked)
-                        <h3 class="no-margin text-strong">FINAL</h3>
-                    @endif
                     <p class="no-margin">Page {{$loop->iteration}} of {{count($pages)}}</p>
                     <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
                     DATE: {{Carbon::createFromFormat('Y-m-d', $trans->date)->format('F j, Y')}}
