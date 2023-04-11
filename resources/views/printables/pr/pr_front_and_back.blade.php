@@ -24,7 +24,7 @@
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
             </td>
             <td class="text-center">
-                    <p class="no-margin text-strong" style="font-size: 30px">PURCHASE REQUEST</p>
+                    <p class="no-margin text-strong" style="font-size: 25px">PURCHASE REQUEST</p>
                     <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin text-strong">Araneta St., Singcang, Bacolod City</p>
                     <p class="no-margin text-strong">Tel No. 433-6891</p>

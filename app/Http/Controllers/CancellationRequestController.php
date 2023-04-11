@@ -91,7 +91,7 @@ class CancellationRequestController extends Controller
         $trans = Transactions::query()->where('slug', '=', $request->slug)->first();
         $s = new CancellationRequest();
         $s->slug = Str::random(16);
-        $s->request_no = $this->createNewRequestNo();;
+        $s->request_no = $this->createNewRequestNo();
         $s->reason = $request->reason;
         $s->ref_book = $trans->ref_book;
         $s->ref_number =  $trans->ref_no;

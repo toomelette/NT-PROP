@@ -141,6 +141,14 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/cancellation_request/index','CancellationRequestController@index')->name('cancellationRequest.index');
     //Route::resource('cancellationRequest', 'CancellationRequestController');
 
+    Route::get('/award_notice_abstract/create','AwardNoticeAbstractController@create')->name('awardNoticeAbstract.create');
+    Route::get('/award_notice_abstract/findTransactionByRefNumber/{refNumber}/{refBook}','AwardNoticeAbstractController@findTransactionByRefNumber')->name('awardNoticeAbstract.ByRefNumber');
+    Route::post('/award_notice_abstract/store','AwardNoticeAbstractController@store')->name('awardNoticeAbstract.store');
+    Route::get('/award_notice_abstract/print/{slug}','AwardNoticeAbstractController@print')->name('awardNoticeAbstract.print');
+    Route::get('/award_notice_abstract/index','AwardNoticeAbstractController@index')->name('awardNoticeAbstract.index');
+    Route::get('/award_notice_abstract/edit/{slug}','AwardNoticeAbstractController@edit')->name('awardNoticeAbstract.edit');
+
+
     Route::resource('supplier', 'SupplierController');
 });
 

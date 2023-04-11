@@ -70,7 +70,7 @@
                 <div class="signature-container">
                     <div class="name-container">
                         <div class="signature-wrapper">
-                            <img src="{{ asset('images/NoliTSign.png') }}" alt="Signature" class="signature-image">
+                            {{--<img src="{{ asset('images/NoliTSign.png') }}" alt="Signature" class="signature-image">--}}
                         </div>
                         <div class="name-info">
                             <span class="name"><u><b>NOLI T. TINGSON</b></u></span><br>
