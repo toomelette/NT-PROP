@@ -38,6 +38,7 @@
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                 <p class="no-margin">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
+                <p class="no-margin" style="font-size: 20px"><strong>REQUEST FOR QUOTATION</strong></p>
             </td>
         </tr>
     </table>
@@ -70,7 +71,7 @@
                 <div class="signature-container">
                     <div class="name-container">
                         <div class="signature-wrapper">
-                            {{--<img src="{{ asset('images/NoliTSign.png') }}" alt="Signature" class="signature-image">--}}
+                            <img src="{{ asset('images/NoliTSign.png') }}" alt="Signature" class="signature-image">
                         </div>
                         <div class="name-info">
                             <span class="name"><u><b>NOLI T. TINGSON</b></u></span><br>
