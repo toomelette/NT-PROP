@@ -27,6 +27,16 @@
         .signature-image {
             width: 35%; /* adjust this value to set the width of the signature image */
         }
+
+        @font-face {
+            font-family: 'Cambria';
+            src: url({{ storage_path("fonts/cambria.ttf") }}) format("truetype");
+            font-weight: 700;
+            font-style: normal;
+        }
+        .page-breaks {
+            page-break-after: always;
+        }
     </style>
     <table style="width: 100%;">
         <tr>
