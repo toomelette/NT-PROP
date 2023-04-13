@@ -69,7 +69,7 @@
             <tr class="">
                 <td style="vertical-align: bottom; border: 1px solid black; width: 30%" height="80">Signature of Requisitioner</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 30%">{{strtoupper($cr->requisitioner)}}</td>
-                <td style="vertical-align: bottom; border: 1px solid black; width: 15%">Received By:</td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 15%">Approve:</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 25%"></td>
             </tr>
         </table>
