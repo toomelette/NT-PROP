@@ -48,7 +48,7 @@
                 </tr>
                 <tr style="border: 1px solid black; width: 100%;">
                     <td style="border: 1px solid black; width: 16%;">Contact Name:</td>
-                    <td style="width: 34%;"><strong>David John Thaddeus P. Alba</strong></td>
+                    <td style="width: 34%;"><strong>Brando D. Noroña</strong></td>
                     <td style="border: 1px solid black;">Approved Budget (Php):</td>
                     <td style="text-align: right"><strong>{{number_format($ana->approved_budget,2)}}</strong></td>
                 </tr>
