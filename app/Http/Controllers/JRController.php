@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\AwardNoticeAbstract;
 use App\Models\JR;
 use App\Models\JRItems;
 use App\Models\Transactions;
@@ -83,7 +84,7 @@ class JRController extends Controller
             })
             ->editColumn('ref_no',function($data){
                 if($data->cancelled_at != null){
-                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger text-strong" style="border-top: 1px solid black;">CANCELLED</small>';
                 }
                 return $data->ref_no;
             })
@@ -110,6 +111,7 @@ class JRController extends Controller
     public function monitoringDataTable($request){
         $trans = Transactions::query()->where('ref_book','=','JR');
         $transAll = Transactions::all();
+        $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
 
         $dt = \DataTables::of($trans);
@@ -152,8 +154,15 @@ class JRController extends Controller
             ->addColumn('rbac_reso_date',function($data){
                 return "";
             })
-            ->addColumn('noa_date',function($data){
-                return "";
+            ->addColumn('noa_date',function($data) use ($ana){
+                $item = $ana->where('ref_book', '=', 'JR')
+                    ->where('ref_number', '=', $data->ref_no)
+                    ->last();
+                if ($item) {
+                    return Carbon::parse($item->award_date)->format('M. d, Y');
+                } else {
+                    return null;
+                }
             })
             ->addColumn('po_jo_date',function($data){
                 return "";

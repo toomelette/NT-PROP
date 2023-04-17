@@ -139,6 +139,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::post('/aq/finalized/{slug}','AqController@finalized')->name('aq.finalized');
 
     Route::get('/cancellation_request/index','CancellationRequestController@index')->name('cancellationRequest.index');
+    Route::post('/cancellation_request/approve/{slug}','CancellationRequestController@approve')->name('cancellationRequest.approve');
+
     //Route::resource('cancellationRequest', 'CancellationRequestController');
 
     Route::get('/award_notice_abstract/create','AwardNoticeAbstractController@create')->name('awardNoticeAbstract.create');

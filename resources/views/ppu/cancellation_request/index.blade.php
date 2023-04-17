@@ -25,6 +25,7 @@
                                     <th>Ref Date</th>
                                     <th>ABC</th>
                                     <th>Requested By</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -60,6 +61,7 @@
                     { "data": "ref_date" },
                     { "data": "total_amount" },
                     { "data": "requisitioner" },
+                    { "data": "is_cancelled" },
                     { "data": "action" }
                 ],
                 "buttons": [
@@ -103,6 +105,50 @@
                     }
                 }
             });
+
+            $("body").on('click','.cancel_btn',function () {
+                let btn = $(this);
+                let uri  = '{{route('dashboard.cancellationRequest.approve','slug')}}';
+                uri = uri.replace('slug',btn.attr('data'));
+                Swal.fire({
+                    title: 'Cancel Transaction?',
+                    confirmButtonColor: '#dd4b39',
+                    showCancelButton: true,
+                    cancelButtonText : 'Back',
+                    confirmButtonText: '<i class="fa fa-check"></i> Yes',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (text) => {
+                        return $.ajax({
+                            url : uri,
+                            type: 'POST',
+                            headers: {
+                                {!! __html::token_header() !!}
+                            },
+                            success : function (res) {
+                               console.log(res);
+                                active = res.slug;
+                                cr_tbl.draw();
+                            }
+                        })
+                            .then(response => {
+                                return  response;
+
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                Swal.showValidationMessage(
+                                    'Error : '+ error.responseJSON.message,
+                                )
+                            })
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        toast('success','Transaction was successfully marked as cancel.','Success!');
+
+                    }
+                })
+            })
         })
     </script>
 @endsection

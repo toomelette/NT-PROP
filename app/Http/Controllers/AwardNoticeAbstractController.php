@@ -113,12 +113,6 @@ class AwardNoticeAbstractController extends Controller
     }
 
     public function findTransactionByRefNumber($refNumber, $refBook){
-        $ana = AwardNoticeAbstract::query()
-            ->where('ref_book', '=', $refBook)
-            ->first();
-        if($ana != null){
-            abort(503,'Already requested.');
-        }
         $trans = Transactions::query()
             ->where('ref_book', '=', $refBook)
             ->where('ref_no', '=', $refNumber)

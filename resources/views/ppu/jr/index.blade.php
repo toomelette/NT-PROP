@@ -18,7 +18,7 @@
                     <table class="table table-bordered table-striped table-hover" id="jr_table" style="width: 100% !important">
                         <thead>
                         <tr class="">
-                            <th >Dept/Division</th>
+                            <th >Dept/Div/RC</th>
                             <th >Div/Sec</th>
                             <th>PAP Code</th>
                             <th>JR No.</th>

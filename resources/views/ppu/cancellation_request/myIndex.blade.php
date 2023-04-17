@@ -24,6 +24,7 @@
                                     <th>Ref No.</th>
                                     <th>Ref Date</th>
                                     <th>ABC</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -58,6 +59,7 @@
                     { "data": "ref_number" },
                     { "data": "ref_date" },
                     { "data": "total_amount" },
+                    { "data": "is_cancelled" },
                     { "data": "action" }
                 ],
                 "buttons": [

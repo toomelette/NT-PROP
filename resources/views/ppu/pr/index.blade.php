@@ -19,7 +19,7 @@
                     <table class="table table-bordered table-striped table-hover" id="pr_table" style="width: 100% !important">
                         <thead>
                         <tr class="">
-                            <th >Dept/Division</th>
+                            <th >Dept/Div/RC</th>
                             <th >Div/Sec</th>
                             <th>PAP Code</th>
                             <th>PR No.</th>
@@ -448,7 +448,7 @@
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
                 if (result.isConfirmed) {
-                    toast('success','PR was successfully marked as received.','Success!');
+                    toast('success','PR was successfully marked as cancel.','Success!');
 
                 }
             })

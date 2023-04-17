@@ -74,7 +74,7 @@ class MyPrController extends Controller
             })
             ->editColumn('ref_no',function($data){
                 if($data->cancelled_at != null){
-                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger text-strong" style="border-top: 1px solid black;">CANCELLED</small>';
                 }
                 return $data->ref_no;
             })

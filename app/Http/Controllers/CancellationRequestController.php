@@ -27,7 +27,7 @@ class CancellationRequestController extends Controller
         return DataTables::of($cr)
             ->addColumn('action',function($data){
                 return view('ppu.cancellation_request.dtActions')->with([
-                    'data' => $data,
+                    'data' => $data, 'myIndex' => false,
                 ]);
             })
             ->editColumn('total_amount',function($data){
@@ -35,6 +35,9 @@ class CancellationRequestController extends Controller
             })
             ->editColumn('ref_date',function($data){
                 return $data->ref_date ? Carbon::parse($data->ref_date)->format('M. d, Y') : '';
+            })
+            ->editColumn('is_cancelled',function($data){
+                return $data->is_cancelled ? '<span class="text-danger text-strong">Cancelled</span>' : 'For Approval';
             })
             ->escapeColumns([])
             ->setRowId('id')
@@ -53,8 +56,11 @@ class CancellationRequestController extends Controller
         return DataTables::of($cr)
             ->addColumn('action',function($data){
                 return view('ppu.cancellation_request.dtActions')->with([
-                    'data' => $data,
+                    'data' => $data, 'myIndex' => true,
                 ]);
+            })
+            ->editColumn('is_cancelled',function($data){
+                return $data->is_cancelled ? '<span class="text-danger text-strong">Cancelled</span>' : 'For Approval';
             })
             ->editColumn('total_amount',function($data){
                 return number_format($data->total_amount,2);
@@ -126,5 +132,22 @@ class CancellationRequestController extends Controller
         return view('printables.cancellation_request.print')->with([
             'cr' => CancellationRequest::query()->where('slug', $slug)->first(),
         ]);
+    }
+
+    public function approve($slug){
+        $cr = CancellationRequest::query()->where('slug', '=', $slug)->first();
+        $cr->is_cancelled = true;
+        $cr->save();
+
+        $trans = Transactions::query()->where('ref_no','=',$cr->ref_number)
+                ->where('ref_book','=',$cr->ref_book)->first();
+        $trans->cancelled_at = Carbon::now();
+        $trans->user_cancelled = \Auth::user()->user_id;
+        $trans->cancellation_reason = $cr->reason;
+        $trans->is_locked = 1;
+        if($trans->save()){
+            return $trans->only('slug');
+        }
+        abort(503,'Error in cancellation of transaction.');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\PR\PRFormRequest;
+use App\Models\AwardNoticeAbstract;
 use App\Models\PR;
 use App\Models\PRItems;
 use App\Models\Transactions;
@@ -57,6 +58,7 @@ class PRController extends Controller
     public function monitoringDataTable($request){
         $trans = Transactions::query()->where('ref_book','=','PR');
         $transAll = Transactions::all();
+        $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
 
         $dt = \DataTables::of($trans);
@@ -99,8 +101,15 @@ class PRController extends Controller
             ->addColumn('rbac_reso_date',function($data){
                 return "";
             })
-            ->addColumn('noa_date',function($data){
-                return "";
+            ->addColumn('noa_date',function($data) use ($ana){
+                $item = $ana->where('ref_book', '=', 'PR')
+                        ->where('ref_number', '=', $data->ref_no)
+                        ->last();
+                if ($item) {
+                    return Carbon::parse($item->award_date)->format('M. d, Y');
+                } else {
+                    return null;
+                }
             })
             ->addColumn('po_jo_date',function($data){
                 return "";
@@ -159,7 +168,7 @@ class PRController extends Controller
             })
             ->editColumn('ref_no',function($data){
                 if($data->cancelled_at != null){
-                    return '<s class="text-danger">'.$data->ref_no.'</s><br><small class="text-danger">CANCELLED</small>';
+                    return '<span class="">'.$data->ref_no.'</span><br><small class="text-danger text-strong" style="border-top: 1px solid black;">CANCELLED</small>';
                 }
                 return $data->ref_no;
             })
