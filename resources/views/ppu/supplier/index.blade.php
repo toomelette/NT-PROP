@@ -35,7 +35,11 @@
                                 <tr class="">
                                     <th>Name</th>
                                     <th>Address</th>
+                                    <th>Contact Number</th>
                                     <th>TIN</th>
+                                    <th>Contact Person</th>
+                                    <th>Phone Number</th>
+                                    <th>Designation</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -52,7 +56,9 @@
                 </div>
             </div>
         </div>
+        {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_modal','lg') !!}
     </section>
+
 @endsection
 
 @section('modals')
@@ -68,15 +74,44 @@
                 <div class="row">
                     {!! \App\Swep\ViewHelpers\__form2::textbox('name',[
                         'label' => 'Name:',
-                        'cols' => 4,
+                        'cols' => 3,
                     ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('address',[
                         'label' => 'Address:',
-                        'cols' => 4,
+                        'cols' => 3,
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('office_contact_number',[
+                        'label' => 'Office Tel/Phone Number:',
+                        'cols' => 3,
                     ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('tin',[
                         'label' => 'TIN:',
-                        'cols' => 4,
+                        'cols' => 3,
+                    ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('contact_person',[
+                        'label' => 'Contact Person:',
+                        'cols' => 3,
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('contact_person_address',[
+                        'label' => 'Address:',
+                        'cols' => 3,
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('phone_number_1',[
+                        'label' => 'Primary Phone Number:',
+                        'cols' => 3,
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('phone_number_2',[
+                        'label' => 'Secondary Phone Number:',
+                        'cols' => 3,
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('fax_number',[
+                        'label' => 'Fax Number:',
+                        'cols' => 3,
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('designation',[
+                        'label' => 'Designation:',
+                        'cols' => 3,
                     ]) !!}
                 </div>
 
@@ -103,7 +138,11 @@
                 "columns": [
                     { "data": "name" },
                     { "data": "address" },
+                    { "data": "office_contact_number" },
                     { "data": "tin" },
+                    { "data": "contact_person" },
+                    { "data": "phone_number_1" },
+                    { "data": "designation" },
                     { "data": "action" }
                 ],
                 "buttons": [
@@ -169,6 +208,27 @@
                 },
                 error: function (res) {
                     errored(form,res);
+                }
+            })
+        })
+
+        $("body").on("click",".edit_btn",function () {
+            let btn = $(this);
+            load_modal2(btn);
+            let uri = '{{route("dashboard.supplier.edit","slug")}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
+                },
+                error: function (res) {
+                    console.log(res);
+                    populate_modal2_error(res);
                 }
             })
         })

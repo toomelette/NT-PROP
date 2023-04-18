@@ -150,7 +150,6 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/award_notice_abstract/index','AwardNoticeAbstractController@index')->name('awardNoticeAbstract.index');
     Route::get('/award_notice_abstract/edit/{slug}','AwardNoticeAbstractController@edit')->name('awardNoticeAbstract.edit');
 
-
     Route::resource('supplier', 'SupplierController');
 });
 

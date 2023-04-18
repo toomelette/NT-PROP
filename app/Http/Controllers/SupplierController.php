@@ -22,7 +22,9 @@ class SupplierController extends Controller
         $suppliers = Suppliers::query();
         return DataTables::of($suppliers)
             ->addColumn('action',function($data){
-                return "";
+                return view('ppu.supplier.dtActions')->with([
+                    'data' => $data
+                ]);
             })
             ->escapeColumns([])
             ->setRowId('id')
@@ -34,11 +36,48 @@ class SupplierController extends Controller
         $s->slug = Str::random();
         $s->name = strtoupper($request->name);
         $s->address = strtoupper($request->address);
+        $s->office_contact_number = $request->office_contact_number;
         $s->tin = $request->tin;
+        $s->contact_person = $request->contact_person;
+        $s->contact_person_address = $request->contact_person_address;
+        $s->phone_number_1 = $request->phone_number_1;
+        $s->phone_number_2 = $request->phone_number_2;
+        $s->fax_number = $request->fax_number;
+        $s->designation = $request->designation;
         if($s->save()){
             return $s->only('id');
         }
         abort(503,'Error saving supplier.');
+    }
+
+    public function update(Request $request, $slug){
+        $s = $this->findById($slug);
+        $s->name = strtoupper($request->name);
+        $s->address = strtoupper($request->address);
+        $s->office_contact_number = $request->office_contact_number;
+        $s->tin = $request->tin;
+        $s->contact_person = $request->contact_person;
+        $s->contact_person_address = $request->contact_person_address;
+        $s->phone_number_1 = $request->phone_number_1;
+        $s->phone_number_2 = $request->phone_number_2;
+        $s->fax_number = $request->fax_number;
+        $s->designation = $request->designation;
+        if($s->update()){
+            return $s->only('id');
+        }
+        abort(503,'Error updating supplier.');
+    }
+
+    public function edit($slug){
+        $s = $this->findById($slug);
+        return view('ppu.supplier.edit')->with([
+            'supplier' => $s,
+        ]);
+    }
+
+    public function findById($slug){
+        $s = Suppliers::query()->where('slug', '=', $slug)->first();
+        return $s ?? abort(503,'Supplier not found.');
     }
 
 }
