@@ -42,13 +42,13 @@
                 </tr>
                 <tr style="border: 1px solid black; width: 100%;">
                     <td style="border: 1px solid black; width: 16%;">Organization Name:</td>
-                    <td style="width: 34%;"><strong>Sugar Reg. Admin. - Visayas</strong></td>
+                    <td style="width: 34%;"><strong>{{$ana->organization_name}}</strong></td>
                     <td style="border: 1px solid black;">{{$ana->ref_book == "PR"?"PR Number" : "JR Number"}}</td>
                     <td style="text-align: right"><strong>{{$ana->ref_number}}</strong></td>
                 </tr>
                 <tr style="border: 1px solid black; width: 100%;">
                     <td style="border: 1px solid black; width: 16%;">Contact Name:</td>
-                    <td style="width: 34%;"><strong>ATTY. BRANDO D. NOROÑA</strong></td>
+                    <td style="width: 34%;"><strong>{{$ana->contact_name}}</strong></td>
                     <td style="border: 1px solid black;">Approved Budget (Php):</td>
                     <td style="text-align: right"><strong>{{number_format($ana->approved_budget,2)}}</strong></td>
                 </tr>
@@ -122,8 +122,8 @@
         <br>
         <br>
         <div class="col-12" style="float: right; margin-right: 40px">
-            <p class="no-margin" style="font-size: 16px"><strong>ATTY. BRANDO D. NOROÑA</strong></p>
-            <p class="no-margin">Deputy Administrator II for Administration and Finance</p>
+            <p class="no-margin" style="font-size: 16px"><strong>{{$ana->signatory}}</strong></p>
+            <p class="no-margin">{{$ana->designation}}</p>
         </div>
     </div>
 
