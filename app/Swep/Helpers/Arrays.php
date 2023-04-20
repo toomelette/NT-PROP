@@ -8,6 +8,7 @@ use App\Models\JRType;
 use App\Models\Options;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
+use App\Models\Suppliers;
 use Illuminate\Support\Facades\Auth;
 
 class Arrays
@@ -194,5 +195,16 @@ class Arrays
 
     public static function milestones(){
         return ['Jan', 'Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    }
+
+    public static function suppliers(){
+        $s = Suppliers::query()->get();
+        $arr = [];
+        if(!empty($s)){
+            foreach ($s as $ss){
+                $arr[$ss->slug] = $ss->name;
+            }
+        }
+        return $arr;
     }
 }

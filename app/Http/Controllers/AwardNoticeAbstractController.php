@@ -74,21 +74,21 @@ class AwardNoticeAbstractController extends Controller
         if($trans == null){
             abort(503,'Invalid Ref Number');
         }
-        $supplier = Suppliers::query()->where('slug', $request->supplier)->first();
+        $supplier = Suppliers::query()->where('slug', $request->awardee)->first();
         $s = new AwardNoticeAbstract();
         $s->slug = Str::random(16);
         $s->award_notice_number = $this->getNextANANo();
         $s->title_of_notice = "Notice of Award";
-        $s->award_date = $request->date;
+        $s->award_date = $request->award_date;
         $s->registry_number = $request->registry_number;
         $s->ref_book = $request->ref_book;
         $s->ref_number = $request->ref_number;
-        $s->title = $trans->purpose;
+        $s->title = $request->title;
         $s->category = $request->category;
-        $s->approved_budget = $trans->abc;
-        $s->contract_amount = Helper::sanitizeAutonum($request->contract_amount);;
+        $s->approved_budget = Helper::sanitizeAutonum($request->approved_budget);
+        $s->contract_amount = Helper::sanitizeAutonum($request->contract_amount);
         $s->remarks = $request->remarks;
-        $s->reason_for_award = $request->reason;
+        $s->reason_for_award = $request->reason_for_award;
         $s->awardee = $supplier->name;
         $s->awardee_address = $supplier->address;
         $s->contact_person = $request->contact_person;
@@ -97,6 +97,11 @@ class AwardNoticeAbstractController extends Controller
         $s->phone_number_2 = $request->phone_number_2;
         $s->fax_number = $request->fax_number;
         $s->corporate_title = $request->corporate_title;
+
+        $s->organization_name = $request->organization_name;
+        $s->contact_name = $request->contact_name;
+        $s->signatory = $request->signatory;
+        $s->designation = $request->designation;
         if($s->save()){
             $slug = $s->slug;
             return [
@@ -105,6 +110,48 @@ class AwardNoticeAbstractController extends Controller
         }
         abort(503,'Error saving notice.');
     }
+
+    public function edit($slug){
+        $suppliers = Suppliers::pluck('name','slug');
+        $ana = AwardNoticeAbstract::query()
+            ->where('slug','=', $slug)->first();
+        $ana->awardee = Suppliers::query()->where('name','=', $ana->awardee)->first()->slug;
+        return view('ppu.award_notice_abstract.edit')->with([
+            'ana' => $ana,
+            'suppliers' => $suppliers,
+        ]);
+    }
+
+    public function update(Request $request, $slug){
+        $supplier = Suppliers::query()->where('slug','=', $request->awardee)->first();
+        $ana = AwardNoticeAbstract::query()->where('slug', '=', $slug)->first();
+        $ana->award_date = $request->award_date;
+        $ana->registry_number = $request->registry_number;
+        $ana->title = $request->title;
+        $ana->category = $request->category;
+        $ana->approved_budget = Helper::sanitizeAutonum($request->approved_budget);
+        $ana->contract_amount = Helper::sanitizeAutonum($request->contract_amount);
+        $ana->remarks = $request->remarks;
+        $ana->reason_for_award = $request->reason_for_award;
+        $ana->awardee = $supplier->name;
+        $ana->awardee_address = $supplier->address;
+        $ana->contact_person = $request->contact_person;
+        $ana->contact_person_address = $request->contact_person_address;
+        $ana->phone_number_1 = $request->phone_number_1;
+        $ana->phone_number_2 = $request->phone_number_2;
+        $ana->fax_number = $request->fax_number;
+        $ana->corporate_title = $request->corporate_title;
+
+        $ana->organization_name = $request->organization_name;
+        $ana->contact_name = $request->contact_name;
+        $ana->signatory = $request->signatory;
+        $ana->designation = $request->designation;
+        if($ana->update()){
+            return $ana->only('id');
+        }
+        abort(503,'Error updating ANA.');
+    }
+
 
     public function print($slug){
         return view('printables.award_notice_abstract.print')->with([
@@ -119,5 +166,11 @@ class AwardNoticeAbstractController extends Controller
             ->first();
         $trans = $trans??null;
         return $trans?? abort(503,'No record found');
+    }
+
+    public function findSupplier($slug){
+        $s = Suppliers::query()->where('slug','=', $slug)->first();
+        $s = $s??null;
+        return $s?? abort(503,'No record found');
     }
 }

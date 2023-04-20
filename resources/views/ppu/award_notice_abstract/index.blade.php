@@ -42,12 +42,13 @@
                 </div>
             </div>
         </div>
+        {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_modal','lg') !!}
     </section>
 @endsection
 
 @section('scripts')
     <script type="text/javascript">
-        var active;
+        let active;
         $(document).ready(function () {
             //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
@@ -105,6 +106,29 @@
                     }
                 }
             });
+
+            $("body").on("click",".edit_btn",function () {
+                let btn = $(this);
+                load_modal2(btn);
+                let uri = '{{route("dashboard.awardNoticeAbstract.edit","slug")}}';
+                uri = uri.replace('slug',btn.attr('data'));
+                $.ajax({
+                    url : uri,
+                    type: 'GET',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success: function (res) {
+                        populate_modal2(btn,res);
+                    },
+                    error: function (res) {
+                        console.log(res);
+                        populate_modal2_error(res);
+                    }
+                })
+            });
+
+
         })
     </script>
 @endsection

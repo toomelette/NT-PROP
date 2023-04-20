@@ -70,7 +70,7 @@
 
 @section('scripts')
 <script type="text/javascript">
-
+    let active;
     $("#edit_form_{{$rand}}").submit(function (e) {
         e.preventDefault();
         let form = $(this);
