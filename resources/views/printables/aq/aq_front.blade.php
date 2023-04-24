@@ -54,7 +54,7 @@
                     <th class="text-center">Description of Articles</th>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
-                            <th class="text-center">
+                            <th class="text-center" style="width: 15%">
                                 SUPPLIER/DEALER
                             </th>
                         @endforeach
