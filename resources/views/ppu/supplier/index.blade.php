@@ -127,7 +127,7 @@
 
 @section('scripts')
     <script type="text/javascript">
-        var active;
+        let active;
         $(document).ready(function () {
             //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
@@ -190,7 +190,7 @@
         
 
         $("#add_supplier_form").submit(function (e) {
-            e.preventDefault()
+            e.preventDefault();
             let form = $(this);
             loading_btn(form);
             $.ajax({

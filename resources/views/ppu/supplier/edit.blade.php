@@ -1,7 +1,7 @@
 @php
     $rand = \Illuminate\Support\Str::random();
 @endphp
-@extends('layouts.modal-content',['form_id' => 'edit_form_'.$rand , 'slug' => $supplier->slug])
+@extends('layouts.modal-content',['form_id' => 'edit_supplier_form' , 'slug' => $supplier->slug])
 
 @section('modal-header')
     {{$supplier->name}}
@@ -65,38 +65,38 @@
 @endsection
 
 @section('modal-footer')
-<button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
+<button type="button" class="btn btn-primary btn-sm" id="save_edit_btn"><i class="fa fa-check"></i> Save</button>
 @endsection
 
 @section('scripts')
 <script type="text/javascript">
-    let active;
-    $("#edit_form_{{$rand}}").submit(function (e) {
-        e.preventDefault();
-        let form = $(this);
-        let uri = '{{route("dashboard.supplier.update","slug")}}';
-        uri = uri.replace('slug',form.attr('data'));
-        loading_btn(form);
-        $.ajax({
-            url : uri,
-            data : form.serialize(),
-            type: 'PATCH',
-            headers: {
-                {!! __html::token_header() !!}
-            },
-            success: function (res) {
-                succeed(form,true,true);
-                active = res.id;
-                suppliers_tbl.draw(false);
-                toast('info','Supplier successfully updated.','Updated');
-            },
-            error: function (res) {
-                errored(form,res);
-            }
-        })
-    
-    })
-
+    $(document).ready(function() {
+        let active;
+        $("#save_edit_btn").click(function(e) {
+            e.preventDefault();
+            let form = $("#edit_supplier_form");
+            let uri = '{{route("dashboard.supplier.update","slug")}}';
+            uri = uri.replace('slug',form.attr('data'));
+            loading_btn(form);
+            $.ajax({
+                url : uri,
+                data : form.serialize(),
+                type: 'PATCH',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    succeed(form,true,true);
+                    active = res.id;
+                    suppliers_tbl.draw(false);
+                    toast('info','Supplier successfully updated.','Updated');
+                },
+                error: function (res) {
+                    errored(form,res);
+                }
+            });
+        });
+    });
 </script>
 @endsection
 
