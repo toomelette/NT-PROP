@@ -226,7 +226,7 @@
                 </tr>
                 </tbody>
             </table>
-            <h5 class="" style="text-align: left;"><strong>Remarks: </strong>{{$trans->remarks}}</h5>
+            <h5 class="" style="text-align: left;">{{$trans->remarks}}</h5>
 
             <br>
             <div style="display: flex; justify-content: space-between; align-items: center;">
