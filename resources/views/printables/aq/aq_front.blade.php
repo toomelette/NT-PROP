@@ -21,13 +21,16 @@
         @foreach($pages as $quotations)
         <div  class="page-breaks">
             <div style="position: relative; margin-bottom: 10px;">
-                <div style="display: flex; align-items: center; justify-content: center;">
-                    <img alt="" src="{{ asset('images/sra.png') }}" style="width:100px;">
-                    <div style="display: flex; flex-direction: column; justify-content: center; margin-left: 20px;">
-                        <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                        <p class="no-margin">Araneta St., Singcang, Bacolod City</p>
-                        <p class="no-margin">Tel No. 433-6891</p>
-                        <h4 class="no-margin text-strong" style="margin-left: 10px;">ABSTRACT OF QUOTATIONS</h4>
+                <div class="" style="margin-bottom: 100px; padding-top: 10px;">
+                    <div>
+                        <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
+                    </div>
+                    <div style="float: left; text-align: left; margin-left: 15px">
+                        <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
+                        <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Department of Agriculture</p>
+                        <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
+                        <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
+                        <p style="font-size: 18px;"><strong>ABSTRACT OF QUOTATION</strong></p>
                     </div>
                 </div>
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
@@ -223,6 +226,8 @@
                 </tr>
                 </tbody>
             </table>
+            <h5 class="" style="text-align: left;"><strong>Remarks: </strong>{{$trans->remarks}}</h5>
+
             <br>
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="text-align: left">

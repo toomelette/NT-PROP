@@ -178,8 +178,8 @@ class AqController extends Controller
         if($aq->is_locked){
             abort(503,'AQ is final and locked for editing.');
         }
-
         $aq->date = $request->date;
+        $aq->remarks = $request->remarks;
         $aq->prepared_by = $request->prepared_by;
         $aq->prepared_by_position = $request->prepared_by_position;
         $aq->noted_by = $request->noted_by;

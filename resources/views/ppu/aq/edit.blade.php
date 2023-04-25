@@ -169,6 +169,21 @@
                     </table>
                     <br>
                     <div class="row">
+                        <div class="col-md-6" style="margin-bottom: 20px">
+                            <p class="page-header-sm text-info text-strong" style="border-bottom: 1px solid #cedbe1">
+                                REMARKS:
+                            </p>
+                            <div class="row">
+                                {!! \App\Swep\ViewHelpers\__form2::textboxOnly('remarks',[
+                                    'cols' => 12,
+                                    'placeholder' => 'Remarks',
+                                    'class' => 'input-sm',
+                                ],$aq ?? null) !!}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+
                         <div class="col-md-4">
                             <p class="page-header-sm text-info text-strong" style="border-bottom: 1px solid #cedbe1">
                                 PREPARED BY:
