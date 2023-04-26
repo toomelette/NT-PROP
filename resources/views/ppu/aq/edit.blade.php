@@ -367,6 +367,10 @@
                 $('#submitForm_btn').prop("disabled", true);
                 toastMessage('AQ is Final and locked.');
             }
+            else {
+                form.find("input, textarea, select, button").prop("disabled", false);
+                $('#submitForm_btn').prop("disabled", false);
+            }
         });
 
         var sel2_supplier_options = {
