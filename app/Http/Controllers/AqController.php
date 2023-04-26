@@ -173,6 +173,15 @@ class AqController extends Controller
         abort(503,'Error saving transaction.');
     }
 
+    public function unlock($slug){
+        $aq = $this->transactionService->findBySlug($slug);
+        $aq->is_locked = null;
+        $aq->update();
+        return 1;
+
+        abort(503,'Error saving transaction.');
+    }
+
     public function update(Request $request,$slug){
         $aq = $this->transactionService->findBySlug($slug);
         if($aq->is_locked){

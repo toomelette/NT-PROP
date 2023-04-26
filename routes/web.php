@@ -137,6 +137,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/aq/create/{slug}','AqController@create')->name('aq.create');
     Route::post('/aq/store/{slug}','AqController@store')->name('aq.store');
     Route::post('/aq/finalized/{slug}','AqController@finalized')->name('aq.finalized');
+    Route::post('/aq/unlock/{slug}','AqController@unlock')->name('aq.unlock');
 
     Route::get('/cancellation_request/index','CancellationRequestController@index')->name('cancellationRequest.index');
     Route::post('/cancellation_request/approve/{slug}','CancellationRequestController@approve')->name('cancellationRequest.approve');

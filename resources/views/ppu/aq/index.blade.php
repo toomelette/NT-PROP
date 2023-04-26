@@ -83,6 +83,51 @@
 <script type="text/javascript">
     var active = '';
     var all_aq_tbl_active = '';
+    function unlock(){
+        var aqUnlock = document.getElementById("aqUnlock");
+        var dataValue = aqUnlock.getAttribute("data");
+        let uri  = '{{route('dashboard.aq.unlock','slug')}}';
+        uri = uri.replace('slug',dataValue);
+        Swal.fire({
+            title: 'Unlock AQ?',
+            confirmButtonColor: '#dd4b39',
+            showCancelButton: true,
+            cancelButtonText : 'Back',
+            confirmButtonText: '<i class="fa fa-check"></i> Yes',
+            showLoaderOnConfirm: true,
+            preConfirm: (text) => {
+                return $.ajax({
+                    url : uri,
+                    type: 'POST',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success : function (res) {
+                        console.log(res);
+                        active = res.slug;
+                        all_aq_tbl.draw();
+                    }
+                })
+                    .then(response => {
+                        return  response;
+
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        Swal.showValidationMessage(
+                            'Error : '+ error.responseJSON.message,
+                        )
+                    })
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                toast('success','AQ was successfully unlocked.','Success!');
+
+            }
+        })
+    }
+
     $(document).ready(function () {
         //-----DATATABLES-----//
         modal_loader = $("#modal_loader").parent('div').html();
