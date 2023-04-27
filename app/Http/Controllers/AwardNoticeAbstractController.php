@@ -79,16 +79,16 @@ class AwardNoticeAbstractController extends Controller
         $s->slug = Str::random(16);
         $s->award_notice_number = $this->getNextANANo();
         $s->title_of_notice = "Notice of Award";
-        $s->award_date = $request->award_date;
+        $s->award_date = $request->date;
         $s->registry_number = $request->registry_number;
         $s->ref_book = $request->ref_book;
         $s->ref_number = $request->ref_number;
         $s->title = $request->title;
         $s->category = $request->category;
-        $s->approved_budget = Helper::sanitizeAutonum($request->approved_budget);
+        $s->approved_budget = Helper::sanitizeAutonum($request->abc);
         $s->contract_amount = Helper::sanitizeAutonum($request->contract_amount);
         $s->remarks = $request->remarks;
-        $s->reason_for_award = $request->reason_for_award;
+        $s->reason_for_award = $request->reason;
         $s->awardee = $supplier->name;
         $s->awardee_address = $supplier->address;
         $s->contact_person = $request->contact_person;
@@ -100,8 +100,8 @@ class AwardNoticeAbstractController extends Controller
 
         $s->organization_name = $request->organization_name;
         $s->contact_name = $request->contact_name;
-        $s->signatory = $request->signatory;
-        $s->designation = $request->designation;
+        $s->signatory = $request->signatory_name;
+        $s->designation = $request->signatory_title;
         if($s->save()){
             $slug = $s->slug;
             return [
