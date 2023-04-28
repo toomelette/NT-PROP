@@ -153,7 +153,6 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/award_notice_abstract/edit/{slug}','AwardNoticeAbstractController@edit')->name('awardNoticeAbstract.edit');
     Route::patch('/award_notice_abstract/update/{slug}','AwardNoticeAbstractController@update')->name('awardNoticeAbstract.update');
 
-
     Route::resource('supplier', 'SupplierController');
 });
 

@@ -19,7 +19,7 @@
         "laravelcollective/html": "^6.0",
         "predis/predis": "^1.1",
         "rats/zkteco": "^002.0",
-        "simplesoftwareio/simple-qrcode": "^4.2",
+        "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-activitylog": "^3.0",
         "yajra/laravel-datatables": "^1.5",
         "yajra/laravel-datatables-html": "^4.0"

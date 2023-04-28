@@ -1,5 +1,6 @@
 @php
     use Carbon\Carbon;
+    use SimpleSoftwareIO\QrCode\Facades\QrCode;
     $rand = \Illuminate\Support\Str::random();
 @endphp
 @extends('printables.print_layouts.print_layout_main')
@@ -15,12 +16,13 @@
         .page-breaks {
             page-break-after: always;
         }
+
     </style>
 <div style="font-family: 'Cambria',Arial">
     @if(count($pages) > 0)
         @foreach($pages as $quotations)
         <div  class="page-breaks">
-            <div style="position: relative; margin-bottom: 10px;">
+            <div style="position: relative; margin-bottom: 10px; margin-top: 10px">
                 <div class="" style="margin-bottom: 100px; padding-top: 10px;">
                     <div>
                         <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
@@ -35,7 +37,8 @@
                 </div>
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
                     @if($trans->is_locked)
-                        {{ QrCode::size(30)->generate(route("dashboard.aq.print",$trans->slug)) }}
+                        {{--<img alt="" src="data:image/png;base64, {{base64_decode(QrCode::format('png')->merge(asset('images/sra_old.png'),0.3, true)->size(60)->generate('Make me into a QrCode!') ) }}">--}}
+                        {{ QrCode::merge(asset('images/sra_old.png'), 5, true)->size(60)->generate(route("dashboard.aq.print", $trans->slug)) }}
                         {{--<h3 class="no-margin text-strong">FINAL</h3>--}}
                     @endif
                     <p class="no-margin">Page {{$loop->iteration}} of {{count($pages)}}</p>
@@ -152,7 +155,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td><i>Warranty:</i></td>
+                    <td id="target-cell"><i>Warranty:</i></td>
                     @if(count($quotations) > 0)
                         @foreach($quotations as $quotation)
                             <td class="text-center">
@@ -226,26 +229,32 @@
                 </tr>
                 </tbody>
             </table>
-            <h5 class="" style="text-align: left;">{{$trans->remarks}}</h5>
 
             <br>
             <div style="display: flex; justify-content: space-between; align-items: center;">
+                @if(!empty($trans->remarks))
+                    <div class="" style="display: inline-block; border: 1px solid black; width: 250px;">
+                        <p style="font-size: 10px;"><strong>Remarks/Certification:</strong></p>
+                        <p style="font-size: 10px; margin-bottom: 50px">{{$trans->remarks}}</p>
+                    </div>
+                @endif
+
                 <div style="text-align: left">
                     <p><strong>Prepared by:</strong></p>
                     <br><br>
-                    <p class="no-margin text-strong" style="font-size: 13px"><u>{{strtoupper($trans->prepared_by)}}</u></p>
+                    <p class="no-margin text-strong" style="font-size: 18px"><u>{{strtoupper($trans->prepared_by)}}</u></p>
                     {{$trans->prepared_by_position}}
                 </div>
                 <div style="display: inline-block; text-align: left">
                     <p><strong>Noted by:</strong></p>
                     <br><br>
-                    <p class="no-margin text-strong" style="font-size: 13px"><u>{{strtoupper($trans->noted_by)}}</u></p>
+                    <p class="no-margin text-strong" style="font-size: 18px"><u>{{strtoupper($trans->noted_by)}}</u></p>
                     {{$trans->noted_by_position}}
                 </div>
                 <div style="display: inline-block; text-align: left;">
                     <p><strong>Recommending Approval:</strong></p>
                     <br><br>
-                    <p class="no-margin text-strong" style="font-size: 13px"><u>{{strtoupper($trans->recommending_approval)}}</u></p>
+                    <p class="no-margin text-strong" style="font-size: 18px"><u>{{strtoupper($trans->recommending_approval)}}</u></p>
                     {{$trans->recommending_approval_position}}
                 </div>
             </div>
@@ -292,6 +301,5 @@
         @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
         print();
         @endif
-
     </script>
 @endsection
