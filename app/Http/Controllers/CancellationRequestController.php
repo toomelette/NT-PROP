@@ -103,7 +103,8 @@ class CancellationRequestController extends Controller
         $s->ref_number =  $trans->ref_no;
         $s->ref_date =  $trans->date;
         $s->total_amount =  $trans->abc;
-        $s->requisitioner =  Auth::user()->employee->firstname . ' ' . Auth::user()->employee->middlename . ' ' . Auth::user()->employee->lastname;
+        //$s->requisitioner =  Auth::user()->employee->firstname . ' ' . Auth::user()->employee->middlename . ' ' . Auth::user()->employee->lastname;
+        $s->requisitioner = $trans->requested_by;
         if($s->save()){
             $slug = $s->slug;
             return [

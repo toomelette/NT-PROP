@@ -97,6 +97,7 @@ class AwardNoticeAbstractController extends Controller
         $s->phone_number_2 = $request->phone_number_2;
         $s->fax_number = $request->fax_number;
         $s->corporate_title = $request->corporate_title;
+        $s->awardee_tin = $supplier->tin;
 
         $s->organization_name = $request->organization_name;
         $s->contact_name = $request->contact_name;
@@ -141,6 +142,7 @@ class AwardNoticeAbstractController extends Controller
         $ana->phone_number_2 = $request->phone_number_2;
         $ana->fax_number = $request->fax_number;
         $ana->corporate_title = $request->corporate_title;
+        $ana->awardee_tin = $supplier->tin;
 
         $ana->organization_name = $request->organization_name;
         $ana->contact_name = $request->contact_name;
@@ -151,7 +153,6 @@ class AwardNoticeAbstractController extends Controller
         }
         abort(503,'Error updating ANA.');
     }
-
 
     public function print($slug){
         return view('printables.award_notice_abstract.print')->with([
