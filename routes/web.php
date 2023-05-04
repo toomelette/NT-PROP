@@ -155,7 +155,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::get('/purchase_order/create','PurchaseOrderController@create')->name('purchaseOrder.create');
     Route::get('/purchase_order/findRefNumber/{refNumber}/{refBook}','PurchaseOrderController@findRefNumber')->name('purchaseOrder.findRefNumber');
-    Route::get('/purchase_order/store','PurchaseOrderController@store')->name('purchaseOrder.store');
+    Route::post('/purchase_order/store','PurchaseOrderController@store')->name('purchaseOrder.store');
     Route::get('/purchase_order/print/{slug}','PurchaseOrderController@print')->name('purchaseOrder.print');
 
     Route::resource('supplier', 'SupplierController');

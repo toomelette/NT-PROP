@@ -6,23 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 class Altersuppliertable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        //
+        Schema::table('suppliers', function (Blueprint $table) {
+            $table->boolean('is_vat')->default(false);
+            $table->boolean('is_government')->default(false);
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        //
+        Schema::table('transactions', function (Blueprint $table) {
+            $table->dropColumn('is_vat');
+            $table->dropColumn('is_government');
+        });
     }
 }
