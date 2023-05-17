@@ -93,8 +93,25 @@ class RFQController extends Controller
             ->with(['transDetails'])
             ->where('received_at','!=', null)
             ->whereDoesntHave('rfq');
-        return \DataTables::of($trans)
-            ->editColumn('ref_book',function($data){
+
+        $search = $request->get('search')['value'] ?? null;
+
+        if ($search) {
+            $trans = $trans->where(function ($query) use ($search) {
+                $query->where('ref_no', 'like', '%' . $search . '%');
+                /*$query->where('ref_no', 'like', '%' . $search . '%')
+                    ->orWhereHas('transDetails', function ($q) use ($search) {
+                        $q->where('item', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%');
+                    });*/
+            });
+        } else {
+            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+        }
+
+        $dt = \DataTables::of($trans);
+
+        $dt = $dt->editColumn('ref_book',function($data){
                 return Helper::refBookLabeler($data->ref_book);
             })
             ->addColumn('action',function($data){
@@ -117,6 +134,7 @@ class RFQController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+        return $dt;
     }
 
     public function create(){

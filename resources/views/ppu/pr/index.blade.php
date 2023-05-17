@@ -27,6 +27,7 @@
                             <th >Items</th>
 
                             <th >Total</th>
+                            <th >Requested By</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -193,6 +194,7 @@
                     { "data": "date" },
                     { "data": "details" },
                     { "data": "abc" },
+                    { "data": "requested_by" },
                     { "data": "action" }
                 ],
                 "buttons": [

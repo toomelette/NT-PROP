@@ -42,6 +42,20 @@ class JRController extends Controller
             ->where('ref_book','=','JR');
         $search = $request->get('search')['value'] ?? null;
 
+        if ($search) {
+            $trans = $trans->where(function ($query) use ($search) {
+                $query->where('ref_no', 'like', '%' . $search . '%')
+                    ->orWhere('requested_by', 'like', '%' . $search . '%');
+                /*$query->where('ref_no', 'like', '%' . $search . '%')
+                    ->orWhereHas('transDetails', function ($q) use ($search) {
+                        $q->where('item', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%');
+                    });*/
+            });
+        } else {
+            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+        }
+
         $dt = \DataTables::of($trans);
 
         /*$dt = $dt->filter(function ($query) use($search){
@@ -53,7 +67,7 @@ class JRController extends Controller
             }
         });*/
 
-        $dt = $dt->filter(function ($query) use($search){
+        /*$dt = $dt->filter(function ($query) use($search){
             if($search != null){
                 $query->where('ref_no', 'like', '%'.$search.'%')
                     ->orWhereHas('transDetails',function ($q) use($search){
@@ -61,7 +75,7 @@ class JRController extends Controller
                             ->orWhere('description','like','%'.$search.'%');
                     });
             }
-        });
+        });*/
 
         $dt = $dt->addColumn('action',function($data){
                 return view('ppu.jr.dtActions')->with([

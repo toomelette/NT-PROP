@@ -130,7 +130,8 @@ class PRController extends Controller
 
         if ($search) {
             $trans = $trans->where(function ($query) use ($search) {
-                $query->where('ref_no', 'like', '%' . $search . '%');
+                $query->where('ref_no', 'like', '%' . $search . '%')
+                    ->orWhere('requested_by', 'like', '%' . $search . '%');
                 /*$query->where('ref_no', 'like', '%' . $search . '%')
                     ->orWhereHas('transDetails', function ($q) use ($search) {
                         $q->where('item', 'like', '%' . $search . '%')

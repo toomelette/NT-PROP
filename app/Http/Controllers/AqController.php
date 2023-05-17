@@ -90,6 +90,7 @@ class AqController extends Controller
                     ->where('t.ref_book', '=', 'AQ');
             })
             ->get();
+
         return \DataTables::of($trans)
             ->with(['transaction'])
             ->addColumn('action',function($data){
