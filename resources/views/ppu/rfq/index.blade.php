@@ -16,6 +16,21 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
+                {{--<input class="hidden" type="text" id="slug" name="slug"/>
+                {!! \App\Swep\ViewHelpers\__form2::select('ref_book', [
+                                    'label' => 'Reference Type:',
+                                    'cols' => 3,
+                                    'options' => [
+                                        'PR' => 'PR',
+                                        'JR' => 'JR'
+                                    ]
+                                ]) !!}
+
+                {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
+                                        'label' => 'Reference Number:',
+                                        'cols' => 3,
+                                    ]) !!}--}}
+
                 <div id="rfq_table_container" style="display: none">
                     <table class="table table-bordered table-striped table-hover" id="rfq_table" style="width: 100% !important">
                         <thead>
