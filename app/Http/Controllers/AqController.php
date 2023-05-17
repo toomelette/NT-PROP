@@ -88,11 +88,37 @@ class AqController extends Controller
                     ->from('transactions as t')
                     ->whereRaw('t.cross_slug = transactions.cross_slug')
                     ->where('t.ref_book', '=', 'AQ');
-            })
-            ->get();
+            });
 
-        return \DataTables::of($trans)
-            ->with(['transaction'])
+        $search = $request->get('search')['value'] ?? null;
+
+        if ($search) {
+            $trans = $trans->where(function ($query) use ($search) {
+                $query->where('ref_no', 'like', '%' . $search . '%');
+                /*$query->where('ref_no', 'like', '%' . $search . '%')
+                    ->orWhereHas('transDetails', function ($q) use ($search) {
+                        $q->where('item', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%');
+                    });*/
+            });
+        } else {
+            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+        }
+        $trans = $trans->get();
+
+        $dt = \DataTables::of($trans);
+
+        /*$dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->where('ref_no', 'like', '%'.$search.'%')
+                    ->orWhereHas('transDetails',function ($q) use($search){
+                    return $q->where('item','like','%'.$search.'%')
+                        ->orWhere('description','like','%'.$search.'%');
+                });
+            }
+        });*/
+
+        $dt = $dt->with(['transaction'])
             ->addColumn('action',function($data){
                 return view('ppu.aq.dtActions')->with([
                     'data' => $data,
@@ -128,6 +154,7 @@ class AqController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+        return $dt;
     }
 
     public function create($slug){
