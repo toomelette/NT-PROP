@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RFQ\RFQFormRequest;
 use App\Models\RFQ;
+use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\RFQService;
@@ -145,9 +146,8 @@ class RFQController extends Controller
     }
 
     public function store(RFQFormRequest $request){
+        dd($request);
         $prOrJr = $this->transactionService->findBySlug($request->trans);
-
-
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'RFQ';
@@ -194,5 +194,22 @@ class RFQController extends Controller
             return $trans->only('slug');
         }
         abort(503,'Error saving RFQ. [RFQController::update()]');
+    }
+
+    public function findTransByRefNumber($refNumber, $refBook){
+        $trans = Transactions::query()
+            ->where('ref_book', '=', $refBook)
+            ->where('ref_no', '=', $refNumber)
+            ->first();
+        $trans = $trans??null;
+        $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
+        if ($trans==null) {
+            abort(503, 'No record found');
+        }
+
+        return response()->json([
+            'trans' => $trans,
+            'transDetails' => $transDetails
+        ]);
     }
 }
