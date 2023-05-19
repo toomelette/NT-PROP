@@ -11,7 +11,7 @@
 <section class="content">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_1" data-toggle="tab">Create RFQ</a></li>
+            <li class="active"><a href="#tab_1" data-toggle="tab">Prepare RFQ</a></li>
             {{--<li class="active"><a href="#tab_1" data-toggle="tab">PRs & JRs pending of RFQ</a></li>--}}
             <li><a href="#tab_2" data-toggle="tab">All RFQs</a></li>
         </ul>
@@ -19,8 +19,8 @@
             <div class="tab-pane active" id="tab_1">
                 <form id="add_rfq_form">
                     <div class="row">
-                        <input class="" type="text" id="slug" name="slug"/>
-                        <input class="" type="text" id="itemSlug" name="itemSlug"/>
+                        <input class="hidden" type="text" id="slug" name="slug"/>
+                        <input class="hidden" type="text" id="itemSlug" name="itemSlug"/>
                         {!! \App\Swep\ViewHelpers\__form2::select('ref_book', [
                                             'label' => 'Reference Type:',
                                             'cols' => 2,
@@ -39,18 +39,18 @@
                             <div class="col-md-12">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_deadline',[
                                     'label' => 'Deadline:',
-                                    'cols' => 12,
+                                    'cols' => 4,
                                     'type' => 'date',
                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_name',[
                                     'label' => 'Signatory Name:',
-                                    'cols' => 12,
+                                    'cols' => 4,
                                 ],
                                 \App\Swep\Helpers\Helper::getSetting('rfq_name')->string_value ?? null
                                 ) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_position',[
                                     'label' => 'Signatory Position:',
-                                    'cols' => 12,
+                                    'cols' => 4,
                                 ],
                                 \App\Swep\Helpers\Helper::getSetting('rfq_position')->string_value ?? null
                                 ) !!}
@@ -66,7 +66,7 @@
                                                 <th>Qty</th>
                                                 <th>Unit Cost</th>
                                                 <th>Total Cost</th>
-                                                <th></th>
+                                                <th width="3%"></th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -217,6 +217,25 @@
 
 @section('scripts')
 <script type="text/javascript">
+    function deleteRow(button) {
+        const row = button.closest('tr');
+        if (row) {
+            row.remove();
+            updateSlugs(row.id);
+        }
+    }
+
+    function updateSlugs(slug) {
+        const slugsInput = document.getElementById('itemSlug');
+        let slugs = slugsInput.value.split('~');
+        const index = slugs.indexOf(slug);
+
+        if (index !== -1) {
+            slugs.splice(index, 1);
+            slugsInput.value = slugs.join('~');
+        }
+    }
+
     var active = '';
     var all_rqf_tbl_active = '';
     $('input[name="ref_number"]').unbind().bind('keyup', function(e) {
@@ -250,7 +269,7 @@
                             let stock = res.transDetails[i].stock_no;
                             stock = stock === null ? '' : stock;
                             slugs += res.transDetails[i].slug + '~';
-                            tableHtml += '<tr><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td></tr>';
+                            tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
                         }
                         tableHtml += '</tbody></table>';
                         slugs = slugs.slice(0, -1); // Remove the last '~' character
@@ -294,8 +313,33 @@
                     $('#saveBtn').addClass('hidden');
                     $('#trans_table tbody').remove();
                     $('#trans_table').addClass('hidden');
-                    form.find('input, select, textarea').val('');
-                    toast('success','Request successful.','Success!');
+                    $('#divRows').addClass('hidden');
+                    $('#ref_book').val('');
+                    $('#ref_number').val('');
+                    $('#slug').val('');
+                    $('#itemSlug').val('');
+                    toast('success','RFQ successfully created.','Success!');
+                    Swal.fire({
+                        title: 'RFQ Successfully Created',
+                        icon: 'success',
+                        html:
+                            'Click the print button below to print RFQ.<br>You may also view RFQs on RFQ Tab of this page or by navigating to PRs and JRs.',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-print"></i> Print',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonText:
+                            'Dismiss',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let link = "{{route('dashboard.rfq.print','slug')}}";
+                            link = link.replace('slug',res.slug);
+                            window.open(link, '_blank');
+                        }
+                    })
                 },
                 error: function(res) {
                     // Display an alert with the error message

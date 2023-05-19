@@ -138,7 +138,57 @@
             </tr>
         </thead>
         <tbody>
-            @if(!empty($trans->transaction->transDetails))
+        @if(!empty($td))
+            @php
+                $nowCount = 0;
+            @endphp
+            @foreach($td as $item)
+                @php
+                    $nowCount = $nowCount + 1;
+                @endphp
+                <tr>
+                    <td class="text-center text-top" style="width: 8%">{{$loop->iteration}}</td>
+                    <td class="text-center text-top" style="width: 5%">{{$item->qty}}</td>
+                    <td class="text-center text-top" style="width: 10%">{{strtoupper($item->unit)}}</td>
+                    @if($trans->transaction->ref_book == "JR")
+                        <td>
+                            <b>{{$item->item}}</b>
+                            <span style="white-space: pre-line">
+                                {{$item->description}}
+                            </span>
+                        </td>
+                        @if($item->nature_of_work != null || $item->nature_of_work != "")
+                            @if($nowCount == 1)
+                                <td rowspan="{{count($td) }}">
+                                    <ul>
+                                        @foreach ($nature_of_work_arr as $work)
+                                            @if($work != "")
+                                                <li>{{ $work }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            @endif
+                        @endif
+                    @elseif($trans->transaction->ref_book == "PR")
+                        <td>
+                            <b>{{$item->item}}</b>
+                            <span style="white-space: pre-line">
+                                {{$item->description}}
+                            </span>
+                        </td>
+                    @endif
+                    <td class="text-right" >
+                        @if($trans->abc >= 50000)
+                            {{number_format($item->total_cost,2)}}
+                        @endif
+                    </td>
+                    <td class="text-center text-top" style="width: 10%"><br>____________</td>
+                </tr>
+            @endforeach
+        @endif
+
+            {{--@if(!empty($trans->transaction->transDetails))
                 @php
                     $nowCount = 0;
                 @endphp
@@ -186,16 +236,16 @@
                         <td class="text-center text-top" style="width: 10%"><br>____________</td>
                     </tr>
                 @endforeach
-            @endif
+            @endif--}}
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="4" class="text-right text-strong">TOTAL</td>
                 @if($trans->transaction->ref_book == "JR")
                     <td></td>
-                    <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
+                    <td class="text-strong text-right">{{number_format($trans->abc,2)}}</td>
                 @elseif($trans->transaction->ref_book == "PR")
-                    <td class="text-strong text-right">{{number_format($trans->transaction->abc,2)}}</td>
+                    <td class="text-strong text-right">{{number_format($trans->abc,2)}}</td>
                 @endif
                 <td></td>
             </tr>

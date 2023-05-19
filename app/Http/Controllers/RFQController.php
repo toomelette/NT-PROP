@@ -146,18 +146,44 @@ class RFQController extends Controller
     }
 
     public function store(RFQFormRequest $request){
-        dd($request);
-        $prOrJr = $this->transactionService->findBySlug($request->trans);
+        $randomSlug = Str::random();
+        $prOrJr = $this->transactionService->findBySlug($request->slug);
+        $totalAbc = 0;
+        $arr = [];
+
+        $tranDetailSlugs = $request->itemSlug;
+        $slugs = explode("~", $tranDetailSlugs);
+        $transactionDetails = TransactionDetails::whereIn('slug', $slugs)->get();
+        foreach ($transactionDetails as $transactionDetail) {
+            array_push($arr,[
+                'slug' => Str::random(),
+                'transaction_slug' => $randomSlug,
+                'stock_no' => $transactionDetail->stock_no,
+                'unit' => $transactionDetail->unit,
+                'item' => $transactionDetail->item,
+                'description' => $transactionDetail->description,
+                'qty' => $transactionDetail->qty,
+                'unit_cost' => $transactionDetail->unit_cost,
+                'total_cost' => $transactionDetail->total_cost,
+                'property_no' => $transactionDetail->property_no,
+                'nature_of_work' => $transactionDetail->nature_of_work,
+            ]);
+            $totalAbc = $totalAbc + $transactionDetail->total_cost;
+        }
+
         $trans = new Transactions();
-        $trans->slug = Str::random();
+        $trans->slug = $randomSlug;
         $trans->ref_book = 'RFQ';
         $trans->ref_no = $this->rfqService->getNextRFQNo();
-        $trans->cross_slug = $request->trans;
+        $trans->cross_slug = $request->slug;
         $trans->cross_ref_no = $prOrJr->ref_no;
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
+        $trans->abc = $totalAbc;
+
         if($trans->save()){
+            TransactionDetails::insert($arr);
             $prOrJr->is_locked = 1;
             $prOrJr->save();
             return $trans->only('slug');
@@ -168,12 +194,17 @@ class RFQController extends Controller
     public function print($slug){
         $trans = $this->transactionService->findBySlug($slug);
         $nature_of_work_arr = [];
-        foreach ($trans->transaction->transDetails as $tran){
+        $td = TransactionDetails::query()->where('transaction_slug', '=', $slug)->get();
+        /*foreach ($trans->transaction->transDetails as $tran){
+            $nature_of_work_arr[] = $tran->nature_of_work;
+        }*/
+        foreach ($td as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
         }
 
         return view('printables.rfq.rfq_new')->with([
             'trans' => $trans,
+            'td' => $td,
             'nature_of_work_arr' => $nature_of_work_arr,
         ]);
     }
@@ -201,6 +232,15 @@ class RFQController extends Controller
             ->where('ref_book', '=', $refBook)
             ->where('ref_no', '=', $refNumber)
             ->first();
+        $rfqtrans = Transactions::query()
+            ->where('cross_slug', '=', $trans->slug)
+            ->where('ref_book', '=', 'RFQ')
+            ->first();
+        $rfqtrans = $rfqtrans??null;
+        if ($rfqtrans!=null) {
+            abort(503, 'This record already have an RFQ.');
+        }
+
         $trans = $trans??null;
         $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
         if ($trans==null) {
