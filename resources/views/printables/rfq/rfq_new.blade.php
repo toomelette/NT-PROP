@@ -243,9 +243,21 @@
                 <td colspan="4" class="text-right text-strong">TOTAL</td>
                 @if($trans->transaction->ref_book == "JR")
                     <td></td>
-                    <td class="text-strong text-right">{{number_format($trans->abc,2)}}</td>
+                    <td class="text-strong text-right">
+                        @if($trans->abc == 0)
+                            {{number_format($trans->transaction->abc,2)}}
+                        @else
+                            {{number_format($trans->abc,2)}}
+                        @endif
+                    </td>
                 @elseif($trans->transaction->ref_book == "PR")
-                    <td class="text-strong text-right">{{number_format($trans->abc,2)}}</td>
+                    <td class="text-strong text-right">
+                        @if($trans->abc == 0)
+                            {{number_format($trans->transaction->abc,2)}}
+                        @else
+                            {{number_format($trans->abc,2)}}
+                        @endif
+                    </td>
                 @endif
                 <td></td>
             </tr>

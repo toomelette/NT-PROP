@@ -114,7 +114,7 @@
                             <th>PR/JR #</th>
                             <th>PR/JR Date <i class="fa fa-arrow-right"></i> RFQ Date</th>
                             <th >Items</th>
-                            <th >Total</th>
+                            <th >RFQ Deadline</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -245,7 +245,7 @@
         else {
             let refBook = $('select[name="ref_book"]').val();
             if (e.keyCode === 13) {
-                let uri = '{{route("dashboard.rfq.findTransByRefNumber", ["refNumber", "refBook"]) }}';
+                let uri = '{{route("dashboard.rfq.findTransByRefNumber", ["refNumber", "refBook", "add", "id"]) }}';
                 uri = uri.replace('refNumber',$(this).val());
                 uri = uri.replace('refBook',refBook);
                 $.ajax({

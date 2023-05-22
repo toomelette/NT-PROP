@@ -173,14 +173,25 @@ class RFQController extends Controller
 
         $trans = new Transactions();
         $trans->slug = $randomSlug;
+        $trans->resp_center = $prOrJr->resp_center;
+        $trans->pap_code = $prOrJr->pap_code;
         $trans->ref_book = 'RFQ';
         $trans->ref_no = $this->rfqService->getNextRFQNo();
         $trans->cross_slug = $request->slug;
         $trans->cross_ref_no = $prOrJr->ref_no;
+        $trans->purpose = $prOrJr->purpose;
+        $trans->jr_type = $prOrJr->jr_type;
+        $trans->requested_by = $prOrJr->requested_by;
+        $trans->requested_by_designation = $prOrJr->requested_by_designation;
+        $trans->approved_by = $prOrJr->approved_by;
+        $trans->approved_by_designation = $prOrJr->approved_by_designation;
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
-        $trans->abc = $totalAbc;
+        if($prOrJr->ref_book == "PR")
+            $trans->abc = $totalAbc;
+        else
+            $trans->abc = $prOrJr->abc;
 
         if($trans->save()){
             TransactionDetails::insert($arr);
@@ -212,44 +223,82 @@ class RFQController extends Controller
     public function edit($slug){
         $trans = $this->transactionService->findBySlug($slug);
         return view('ppu.rfq.edit')->with([
-            'trans' => $trans,
+            'trans' => $trans
         ]);
     }
 
-    public function update(RFQFormRequest $request, $slug){
-        $trans = $this->transactionService->findBySlug($slug);
+    public function update(RFQFormRequest $request, $slugEdit){
+        $trans = $this->transactionService->findBySlug($slugEdit);
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
+
+        $totalAbc = 0;
+        $arr = [];
+
+        $tranDetailSlugs = $request->itemSlugEdit;
+        $slugs = explode("~", $tranDetailSlugs);
+        $transactionDetails = TransactionDetails::whereIn('slug', $slugs)->get();
+        $transactionDetails->each(function ($transactionDetail) {
+            $transactionDetail->delete();
+        });
+        foreach ($transactionDetails as $transactionDetail) {
+            array_push($arr,[
+                'slug' => Str::random(),
+                'transaction_slug' => $trans->slug,
+                'stock_no' => $transactionDetail->stock_no,
+                'unit' => $transactionDetail->unit,
+                'item' => $transactionDetail->item,
+                'description' => $transactionDetail->description,
+                'qty' => $transactionDetail->qty,
+                'unit_cost' => $transactionDetail->unit_cost,
+                'total_cost' => $transactionDetail->total_cost,
+                'property_no' => $transactionDetail->property_no,
+                'nature_of_work' => $transactionDetail->nature_of_work,
+            ]);
+            $totalAbc = $totalAbc + $transactionDetail->total_cost;
+        }
+        if($trans->ref_book == "PR")
+            $trans->abc = $totalAbc;
+
         if($trans->save()){
+            TransactionDetails::insert($arr);
             return $trans->only('slug');
         }
         abort(503,'Error saving RFQ. [RFQController::update()]');
     }
 
-    public function findTransByRefNumber($refNumber, $refBook){
-        $trans = Transactions::query()
-            ->where('ref_book', '=', $refBook)
-            ->where('ref_no', '=', $refNumber)
-            ->first();
-        $rfqtrans = Transactions::query()
-            ->where('cross_slug', '=', $trans->slug)
-            ->where('ref_book', '=', 'RFQ')
-            ->first();
-        $rfqtrans = $rfqtrans??null;
-        if ($rfqtrans!=null) {
-            abort(503, 'This record already have an RFQ.');
-        }
+    public function findTransByRefNumber($refNumber, $refBook, $action, $id){
+        if($action == "add"){
+            $trans = Transactions::query()
+                ->where('ref_book', '=', $refBook)
+                ->where('ref_no', '=', $refNumber)
+                ->first();
+            $rfqtrans = Transactions::query()
+                ->where('cross_slug', '=', $trans->slug)
+                ->where('ref_book', '=', 'RFQ')
+                ->first();
+            $rfqtrans = $rfqtrans??null;
+            if ($rfqtrans!=null) {
+                abort(503, 'This record already have an RFQ.');
+            }
 
-        $trans = $trans??null;
-        $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
-        if ($trans==null) {
-            abort(503, 'No record found');
-        }
+            $trans = $trans??null;
+            $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
+            if ($trans==null) {
+                abort(503, 'No record found');
+            }
 
-        return response()->json([
-            'trans' => $trans,
-            'transDetails' => $transDetails
-        ]);
+            return response()->json([
+                'trans' => $trans,
+                'transDetails' => $transDetails
+            ]);
+        }
+        else if($action == "edit"){
+            $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $id)->get();
+            return response()->json([
+                'transDetails' => $transDetails
+            ]);
+        }
     }
 }

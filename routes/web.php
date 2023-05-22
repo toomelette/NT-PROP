@@ -128,7 +128,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('jr', 'JRController');
 
     Route::get('/rfq/{slug}/print','RFQController@print')->name('rfq.print');
-    Route::get('/rfq/findTransByRefNumber/{refNumber}/{refBook}','RFQController@findTransByRefNumber')->name('rfq.findTransByRefNumber');
+    Route::get('/rfq/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','RFQController@findTransByRefNumber')->name('rfq.findTransByRefNumber');
     Route::resource('rfq', 'RFQController');
 
     Route::resource('articles','ArticlesController');
