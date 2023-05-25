@@ -61,8 +61,10 @@
                         </tr>
                         </thead>
                         <tbody id="items_body">
-                        @if(!empty($aq->transaction->transDetails))
-                            @foreach($aq->transaction->transDetails as $item)
+                        {{--@if(!empty($aq->transaction->transDetails))
+                            @foreach($aq->transaction->transDetails as $item)--}}
+                        @if(!empty($transDetails))
+                            @foreach($transDetails as $item)
                                 <tr data="{{$item->slug}}">
                                     <td class="text-center">{{$loop->iteration}}</td>
                                     <td>{{$item->qty}} {{strtoupper($item->unit)}}</td>

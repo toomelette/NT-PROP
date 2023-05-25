@@ -91,7 +91,8 @@
                 @endphp
                 <tr>
                     <th class="">
-                    @foreach($trans->transaction->transDetails as $item)
+                    {{--@foreach($trans->transaction->transDetails as $item)--}}
+                        @foreach($transDetails as $item)
                         @php
                             $nowCount = $nowCount + 1;
                         @endphp
@@ -116,9 +117,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if(!empty($trans->transaction->transDetails))
-
-                    @foreach($trans->transaction->transDetails as $item)
+                {{--@if(!empty($trans->transaction->transDetails))
+                    @foreach($trans->transaction->transDetails as $item)--}}
+                @if(!empty($transDetails))
+                    @foreach($transDetails as $item)
                         <tr>
                             <td class="text-center" style="vertical-align: top">
                                 {{$loop->iteration}}
@@ -258,9 +260,7 @@
                     {{$trans->recommending_approval_position}}
                 </div>
             </div>
-
 {{--
-
             <table style="width: 100%; font-size: 14px">
                 <tr>
                     <td style="width: 30%">Prepared by:</td>

@@ -145,10 +145,12 @@
             }
             else {
                 let refBook = $('select[name="ref_book"]').val();
+                let supplier = $('select[name="supplier"]').val();
                 if (e.keyCode === 13) {
                     let uri = '{{route("dashboard.po.findTransByRefNumber", ["refNumber", "refBook", "add", "id"]) }}';
                     uri = uri.replace('refNumber',$(this).val());
                     uri = uri.replace('refBook',refBook);
+                    uri = uri.replace('id',supplier);
                     $.ajax({
                         url : uri,
                         type: 'GET',
@@ -163,14 +165,24 @@
                             let slugs = '';
                             let tableHtml = '<tbody>';
                             for(let i=0; i<res.transDetails.length; i++){
-                                let num1 = parseFloat(res.transDetails[i].unit_cost);
-                                let num2 = parseFloat(res.transDetails[i].total_cost);
-                                num1 = isNaN(num1) ? 0 : num1;
-                                num2 = isNaN(num2) ? 0 : num2;
+                                //let num1 = parseFloat(res.transDetails[i].unit_cost);
+                                //let num2 = parseFloat(res.transDetails[i].total_cost);
+                                //num1 = isNaN(num1) ? 0 : num1;
+                                //num2 = isNaN(num2) ? 0 : num2;
                                 let stock = res.transDetails[i].stock_no;
                                 stock = stock === null ? '' : stock;
                                 slugs += res.transDetails[i].slug + '~';
-                                tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+                                let aqTotalCost = 0;
+                                let aqUnitCost = 0;
+                                for (const aqd of res.aqOfferDetails) {
+                                    if(aqd.item_slug === res.transDetails[i].slug){
+                                        aqTotalCost = parseFloat(aqd.amount);
+                                    }
+                                }
+                                aqUnitCost = parseFloat(aqTotalCost / res.transDetails[i].qty);
+                                aqTotalCost = isNaN(aqTotalCost) ? 0 : aqTotalCost;
+                                aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
+                                tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
                             }
                             tableHtml += '</tbody></table>';
                             slugs = slugs.slice(0, -1); // Remove the last '~' character

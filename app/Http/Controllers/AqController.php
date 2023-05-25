@@ -8,6 +8,7 @@ use App\Models\Offers;
 use App\Models\PPURespCodes;
 use App\Models\Quotations;
 use App\Models\Suppliers;
+use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Services\AqService;
 use App\Swep\Services\TransactionService;
@@ -65,13 +66,20 @@ class AqController extends Controller
             ->addColumn('dates',function($data){
                 return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
             })
+
             ->addColumn('transDetails',function($data){
                 if(!empty($data->transaction)){
+                    $rfqtrans = Transactions::query()
+                        ->where('cross_slug', '=', $data->cross_slug)
+                        ->where('ref_book', '=', 'RFQ')
+                        ->first();
+                    $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
                     $type = strtolower($data->transaction->ref_book ?? null);
                     return view('ppu.'.$type.'.dtItems')->with([
-                            'items' => $data->transaction->transDetails,
+                            /*'items' => $data->transaction->transDetails,*/
+                            'items' => $transDetails,
                         ])->render().
-                        '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
+                        '<small class="pull-right text-strong text-info">'.number_format($rfqtrans->abc,2).'</small>';
                 }
             })
 
@@ -135,12 +143,32 @@ class AqController extends Controller
             })
             ->editColumn('abc',function($data){
                 if(!empty($data->transaction->abc)){
-                    return number_format($data->transaction->abc,2);
+                    $rfqtrans = Transactions::query()
+                        ->where('cross_slug', '=', $data->cross_slug)
+                        ->where('ref_book', '=', 'RFQ')
+                        ->first();
+                    return number_format($rfqtrans->abc,2);
                 }
             })
             ->addColumn('dates',function($data){
                 return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
             })
+            ->addColumn('transDetails',function($data){
+                if(!empty($data->transaction)){
+                    $rfqtrans = Transactions::query()
+                        ->where('cross_slug', '=', $data->cross_slug)
+                        ->where('ref_book', '=', 'RFQ')
+                        ->first();
+                    $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+                    $type = strtolower($data->transaction->ref_book ?? null);
+                    return view('ppu.'.$type.'.dtItems')->with([
+                            /*'items' => $data->transaction->transDetails,*/
+                            'items' => $transDetails,
+                        ])->render().
+                        '<small class="pull-right text-strong text-info">'.number_format($rfqtrans->abc,2).'</small>';
+                }
+            })
+            /*
             ->addColumn('transDetails',function($data){
                 if(!empty($data->transaction)){
                     $type = strtolower($data->transaction->ref_book ?? null);
@@ -149,7 +177,7 @@ class AqController extends Controller
                         ])->render().
                         '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
                 }
-            })
+            })*/
 
             ->escapeColumns([])
             ->setRowId('slug')
@@ -176,6 +204,13 @@ class AqController extends Controller
         $aq = $this->transactionService->findBySlug($slug);
         $items = [];
         $quotations  = [];
+
+        $rfqtrans = Transactions::query()
+            ->where('cross_slug', '=', $aq->cross_slug)
+            ->where('ref_book', '=', 'RFQ')
+            ->first();
+        $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+
         if(!empty($aq->quotationOffers)){
             foreach ($aq->quotationOffers as $offer){
                 $items[$offer->item_slug][$offer->quotation->slug]['obj'] = $offer;
@@ -186,6 +221,7 @@ class AqController extends Controller
             'aq' => $aq,
             'items' => $items,
             'quotations' => $quotations,
+            'transDetails' => $transDetails
         ]);
     }
 
@@ -289,9 +325,17 @@ class AqController extends Controller
 //
 //        return $pdf->stream('sss.pdf');
         $nature_of_work_arr = [];
-        foreach ($aq->transaction->transDetails as $tran){
+        $rfqtrans = Transactions::query()
+            ->where('cross_slug', '=', $aq->cross_slug)
+            ->where('ref_book', '=', 'RFQ')
+            ->first();
+        $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+        foreach ($transDetails as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
         }
+        /*foreach ($aq->transaction->transDetails as $tran){
+            $nature_of_work_arr[] = $tran->nature_of_work;
+        }*/
         return view('printables.aq.aq_front')->with([
             'trans' => $this->transactionService->findBySlug($transaction_slug),
             'items' => $items,
@@ -301,6 +345,7 @@ class AqController extends Controller
             'prjr' => $prjr,
             'department' => $department,
             'nature_of_work_arr' => $nature_of_work_arr,
+            'transDetails' => $transDetails
         ]);
     }
 }
