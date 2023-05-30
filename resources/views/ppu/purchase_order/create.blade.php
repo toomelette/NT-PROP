@@ -16,6 +16,10 @@
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
                     <input class="hidden" type="text" id="slug" name="slug"/>
+                    <input class="hidden" type="text" id="isVat" name="isVat"/>
+                    <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
+                    <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
+                    <input class="hidden" type="text" id="tax_base_2" name="tax_base_2"/>
                     {!! \App\Swep\ViewHelpers\__form2::textbox('mode',[
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
@@ -105,6 +109,21 @@
                                         ]) !!}
                     <div class="row hidden" id="divRows">
                         <div class="col-md-12">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('total_gross',[
+                                            'label' => 'Total Gross:',
+                                            'cols' => 2,
+                                            'required' => 'required'
+                                        ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('total',[
+                                            'label' => 'Total:',
+                                            'cols' => 2,
+                                            'required' => 'required'
+                                        ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('total_in_words',[
+                                            'label' => 'Total in words:',
+                                            'cols' => 8,
+                                            'required' => 'required'
+                                        ]) !!}
                             <div class="" id="tableContainer" style="margin-top: 50px">
                                 <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
                                     <thead>
@@ -159,12 +178,11 @@
                 success: function(res) {
                     console.log(res);
                     toast('success','Successfully created.','Success!');
-                    /*$('#printIframe').attr('src',res.route);
+                    $('#printIframe').attr('src',res.route);
                     $('#trans_table tbody').remove();
                     $('#slug').val('');
                     succeed(form,true,true);
-                    toast('success','Successfully created.','Success!');*/
-                    /*Swal.fire({
+                    Swal.fire({
                         title: 'Successfully created',
                         icon: 'success',
                         html:
@@ -180,11 +198,11 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.rfq.print','slug')}}";
+                            let link = "{{route('dashboard.po.print','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
-                    })*/
+                    })
                 },
                 error: function(res) {
                     // Display an alert with the error message
@@ -206,6 +224,8 @@
                     $('input[name="supplier_address"]').val(res.address);
                     $('input[name="supplier_tin"]').val(res.tin);
                     $('input[name="supplier_representative"]').val(res.contact_person);
+                    $('input[name="isVat"]').val(res.is_vat == 1?"True":"False");
+                    $('input[name="isGovernment"]').val(res.is_government == 1?"True":"False");
                     console.log(res);
                 },
                 error: function (res) {
@@ -240,6 +260,7 @@
                             $('#slug').val(res.trans.slug);
                             let slugs = '';
                             let tableHtml = '<tbody>';
+                            let overAllTotal = 0;
                             for(let i=0; i<res.transDetails.length; i++){
                                 //let num1 = parseFloat(res.transDetails[i].unit_cost);
                                 //let num2 = parseFloat(res.transDetails[i].total_cost);
@@ -258,9 +279,37 @@
                                 aqUnitCost = parseFloat(aqTotalCost / res.transDetails[i].qty);
                                 aqTotalCost = isNaN(aqTotalCost) ? 0 : aqTotalCost;
                                 aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
+                                overAllTotal += aqTotalCost;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
                             }
                             tableHtml += '</tbody></table>';
+                            if($('#isGovernment').val() === 'True'){
+                                alert('Hi');
+                                $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                                $('input[name="total"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                            }
+                            else {
+                                let taxBase = overAllTotal-((12 / 100) * overAllTotal);
+                                let tb1 = 0;
+                                if($('#isVat').val() === 'True'){
+                                    tb1 = (5 / 100) * taxBase;
+                                }
+                                else {
+                                    tb1 = (1 / 100) * taxBase;
+                                }
+                                let pOjOTax = 0;
+                                if(refBook === "PR"){
+                                    pOjOTax = (1 / 100) * taxBase;
+                                }
+                                else {
+                                    pOjOTax = (2 / 100) * taxBase;
+                                }
+                                $('#tax_base_1').val(tb1);
+                                $('#tax_base_2').val(pOjOTax);
+                                let totalAmt = overAllTotal - (tb1 + pOjOTax);
+                                $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                            }
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
                             $('#itemSlug').val(slugs);
 

@@ -17,8 +17,8 @@ class PAPFormRequest extends FormRequest
             'year' => 'required|int|min:2020',
             'resp_center' => 'required|string',
             'pap_code' => 'required|string|max:255',
-            'pap_title' => 'required|string|max:255',
-            'pap_desc' => 'required|string|max:255',
+            'pap_title' => 'required|string',
+            'pap_desc' => 'required|string',
             'budget_type' => 'required|string',
         ];
     }
