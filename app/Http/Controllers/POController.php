@@ -35,7 +35,8 @@ class POController extends Controller
 
     public function store(POFormRequest $request) {
         $randomSlug = Str::random();
-        $poNUmber = $this->getNextPONo();
+        $refBook = $request->ref_book == "PR"?"PO":"JO";
+        $poNUmber = $this->getNextPONo($refBook);
         $s = Suppliers::query()->where('slug','=', $request->supplier)->first();
 
         $order = new Order();
@@ -55,6 +56,7 @@ class POController extends Controller
         $order->authorized_official_designation = $request->authorized_official_designation;
         $order->funds_available = $request->funds_available;
         $order->funds_available_designation = $request->funds_available_designation;
+        $order->ref_book = $refBook;
 
         $refNumber= $request->ref_number;
         $trans = Transactions::query()
@@ -198,11 +200,12 @@ class POController extends Controller
         }
     }
 
-    public function getNextPONo(){
+    public function getNextPONo($ref_book){
 
         $year = Carbon::now()->format('Y-');
         $trans = Order::query()
             ->where('ref_no','like',$year.'%')
+            ->where('ref_book','=', $ref_book)
             ->orderBy('ref_no','desc')
             ->limit(1)->first();
         if(empty($trans)){

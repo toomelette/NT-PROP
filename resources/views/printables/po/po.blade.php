@@ -38,7 +38,7 @@
             page-break-after: always;
         }
     </style>
-    <table style="width: 100%;">
+    <table style="width: 100%; margin-left: -40px;">
         <tr>
             <td style="width: 20%">
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
@@ -48,11 +48,11 @@
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                 <p class="no-margin">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
-                <p class="no-margin" style="font-size: 20px"><strong>PURCHASE ORDER</strong></p>
+                <p class="no-margin" style="font-size: 30px"><strong>{{$order->ref_book=="PO"?"PURCHASE ORDER":"JOB ORDER"}}</strong></p>
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; margin-top: 20px">
         <tr style="font-size: 14px">
             <td style="width: 50%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -133,7 +133,7 @@
         </tr>
     </table>
     @if($trans->transaction->ref_book == 'PR')
-        <table style="width: 100%;" class="tbl-bordered">
+        <table style="width: 100%; height: 390px;" class="tbl-bordered">
             <thead>
             <tr>
                 <th class="text-center" style="width:10%; font-size: 16px;">Stock No.</th>
@@ -154,10 +154,10 @@
                         $nowCount = $nowCount + 1;
                     @endphp
                     <tr style="">
-                        <td class="text-center text-top" style="">{{$item->stock_no}}</td>
-                        <td class="text-center text-top" style="">{{strtoupper($item->unit)}}</td>
-                        <td class="text-center text-top" style=""><b>{{$item->item}}</b><br>{{strtoupper($item->description)}}</td>
-                        <td class="text-center text-top" style="">{{$item->qty}}</td>
+                        <td class="text-center " style="">{{$item->stock_no}}</td>
+                        <td class="text-center " style="">{{strtoupper($item->unit)}}</td>
+                        <td class="text-center " style=""><b>{{$item->item}}</b><br>{{strtoupper($item->description)}}</td>
+                        <td class="text-center " style="">{{$item->qty}}</td>
                         <td class="text-right" >
                             <b>{{number_format($item->unit_cost,2)}}</b>
                         </td>
@@ -177,48 +177,129 @@
             </tr>
             </tfoot>
         </table>
+
+        <table style="width: 100%; border: 1px solid black;">
+            <tr style="font-size: 14px">
+                <td style="width: 65%; border: 1px solid black;">
+
+                </td>
+                <td style="width: 35%; border: 1px solid black;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        Tax Base: <span style="margin-left: 100px; font-size: 12px">{{number_format($order->total_gross-((12 / 100) * $trans->transaction->abc),2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="margin-left: 160px; font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="margin-left: 167px; font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
+                        <span style="margin-left: 60px; font-size: 12px">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width: 100%; border: 1px solid black;">
+            <tr style="font-size: 14px">
+                <td class="text-strong" style="width: 85%; border: 1px solid black;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b>(Total Amount in Words) <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($order->total_in_words) }}</u></span></b>
+                    </div>
+                </td>
+                <td class="text-strong text-right" style="width: 20%; border: 1px solid black;">
+                    {{number_format($order->total,2)}}
+                </td>
+            </tr>
+        </table>
     @else
-
+        {{--------------------------------------------------------
+        ------------------------------------------------------
+        ------------------------------------------------------
+        ------------------------------------------------------
+        ------------------------------------------------------
+        ------------------------------------------------------
+        ------------------------------------------------------
+        --------------------------------------------------------}}
     @endif
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%;">
         <tr style="font-size: 14px">
-            <td style="width: 65%; border: 1px solid black;">
-
-            </td>
-            <td style="width: 35%; border: 1px solid black;">
+            <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
-                   Tax Base: <span style="margin-left: 100px; font-size: 12px">{{number_format($order->total_gross-((12 / 100) * $trans->transaction->abc),2)}}</span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 160px; font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 167px; font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
-                    <span style="margin-left: 60px; font-size: 12px">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</span>
+                    <b><span style="margin-left: 40px; font-size: 14px">In case failure to make delivery within the time specified above, a penalty of one-tenth
+                        (1/10) of one percent for every day of delay shall be imposed.</span></b>
                 </div>
             </td>
         </tr>
     </table>
-    <br>
-    <p class="text-left">After having carefully read and accepted your General Conditions, I/We quote you on the item at prices noted above.</p>
-    <table style="width: 100%;">
-        <tr>
-            <td class="text-top">Canvassed by:</td>
-            <td class="text-top">Owner/Authorized Representative:</td>
-        </tr>
-        <tr>
-            <td class="text-top text-center">
-                ___________________________________<br>
-                Printed Name/ Signature
+    <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
+        <tr style="font-size: 14px">
+            <td style="width: 50%;">
+
             </td>
-            <td class="text-top text-center">
-                ___________________________________<br>
-                Printed Name/ Signature <br><br>
-                ___________________________________<br>
-                Tel. No. / Cellphone No. <br>
-                <br>
-                ___________________________________<br>
-                Date
+            <td style="width: 50%">
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 160px; font-size: 14px">Very truly yours,</span></b>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px"><b>{{$order->authorized_official}}</b>
+                    </span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 105px; font-size: 14px"><u>{{$order->authorized_official_designation}}</u></span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 140px; font-size: 14px">(Authorized Official)</span></b>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%; margin-top: -30px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+        <tr style="font-size: 14px">
+            <td style="width: 50%;">
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 40px; font-size: 14px">Conforme:</span></b>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px"><b><u>{{$order->supplier_representative}}</u></b>
+                    </span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 70px; font-size: 14px">(Signature Over Printer Name of Supplier)</span></b>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start; margin-top: -20px; ">
+                    <span style="margin-left: 70px; margin-top: 30px; font-size: 18px"><b>___________________________</b>
+                    </span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 170px; font-size: 14px">Date</span></b>
+                </div>
+            </td>
+            <td style="width: 50%">
+            </td>
+        </tr>
+    </table>
+    <table style="width: 100%; border: 1px solid black;">
+        <tr style="font-size: 14px">
+            <td style="width:70%; border: 1px solid black;">
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="font-size: 14px">Funds Available:</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px"><b>{{$order->funds_available}}</b>
+                    </span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 135px; font-size: 14px"><u>{{$order->funds_available_designation}}</u></span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 133px; font-size: 14px">Chief Accountant</span></b>
+                </div>
+            </td>
+            <td style="width: 30%">
+                <div style="margin-top: -35px; margin-bottom: 35px;">
+                    BUR No. <span style="margin-left: 40px; font-size: 14px">________________</span>
+                </div>
+                <div style="">
+                    Amount: <span style="margin-left: 36px; font-size: 14px">________________</span>
+                </div>
             </td>
         </tr>
     </table>
