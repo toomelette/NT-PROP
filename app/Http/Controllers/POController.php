@@ -147,19 +147,22 @@ class POController extends Controller
 
     public function findTransByRefNumber($refNumber, $refBook, $action, $id){
         if($action == "add"){
-            $trans = Transactions::query()
-                ->where('ref_book', '=', $refBook)
-                ->where('ref_no', '=', $refNumber)
-                ->first();
-            if ($trans==null) {
-                abort(503, 'No record found');
-            }
-            $rfqtrans = Transactions::query()
+            /*$rfqtrans = Transactions::query()
                 ->where('cross_slug', '=', $trans->slug)
+                ->where('ref_book', '=', 'RFQ')
+                ->first();*/
+            $rfqtrans = Transactions::query()
+                ->where('ref_no', '=', $refNumber)
                 ->where('ref_book', '=', 'RFQ')
                 ->first();
             if ($rfqtrans==null) {
                 abort(503, 'No RFQ Found for this Reference Number.');
+            }
+            $trans = Transactions::query()
+                ->where('slug', '=', $rfqtrans->cross_slug)
+                ->first();
+            if ($trans==null) {
+                abort(503, 'No record found');
             }
             $aq = Transactions::query()
                 ->where('cross_slug', '=', $trans->slug)

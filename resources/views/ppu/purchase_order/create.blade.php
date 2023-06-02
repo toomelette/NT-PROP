@@ -94,16 +94,16 @@
                                     \App\Swep\Helpers\Helper::getSetting('po_funds_available_designation')->string_value ?? null
                                     ) !!}
 
-                    {!! \App\Swep\ViewHelpers\__form2::select('ref_book', [
+                    {{--{!! \App\Swep\ViewHelpers\__form2::select('ref_book', [
                                         'label' => 'Reference Type:',
                                         'cols' => 2,
                                         'options' => [
                                             'PR' => 'PR',
                                             'JR' => 'JR'
                                         ],
-                                    ]) !!}
+                                    ]) !!}--}}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                                            'label' => 'Reference Number:',
+                                            'label' => 'RFQ Reference Number:',
                                             'cols' => 3,
                                             'required' => 'required'
                                         ]) !!}
@@ -240,12 +240,12 @@
                 toast('error','Reference Number cannot be empty','Invalid!');
             }
             else {
-                let refBook = $('select[name="ref_book"]').val();
+                //let refBook = $('select[name="ref_book"]').val();
                 let supplier = $('select[name="supplier"]').val();
                 if (e.keyCode === 13) {
                     let uri = '{{route("dashboard.po.findTransByRefNumber", ["refNumber", "refBook", "add", "id"]) }}';
                     uri = uri.replace('refNumber',$(this).val());
-                    uri = uri.replace('refBook',refBook);
+                    //uri = uri.replace('refBook',refBook);
                     uri = uri.replace('id',supplier);
                     $.ajax({
                         url : uri,

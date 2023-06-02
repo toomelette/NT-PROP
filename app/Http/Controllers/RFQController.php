@@ -274,14 +274,14 @@ class RFQController extends Controller
                 ->where('ref_book', '=', $refBook)
                 ->where('ref_no', '=', $refNumber)
                 ->first();
-            $rfqtrans = Transactions::query()
+            /*$rfqtrans = Transactions::query()
                 ->where('cross_slug', '=', $trans->slug)
                 ->where('ref_book', '=', 'RFQ')
                 ->first();
             $rfqtrans = $rfqtrans??null;
             if ($rfqtrans!=null) {
                 abort(503, 'This record already have an RFQ.');
-            }
+            }*/
 
             $trans = $trans??null;
             $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
