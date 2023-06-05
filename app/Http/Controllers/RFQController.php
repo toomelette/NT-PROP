@@ -68,13 +68,29 @@ class RFQController extends Controller
             ->addColumn('dates',function($data){
                 return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
             })
-            ->addColumn('transDetails',function($data){
+            /*->addColumn('transDetails',function($data){
                 if(!empty($data->transaction)){
                     $type = strtolower($data->transaction->ref_book ?? null);
                     return view('ppu.'.$type.'.dtItems')->with([
                         'items' => $data->transaction->transDetails,
                     ])->render().
                         '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
+                }
+            })*/
+            ->addColumn('transDetails',function($data){
+                if(!empty($data->transaction)){
+                    $rfqtrans = Transactions::query()
+                        ->where('cross_slug', '=', $data->cross_slug)
+                        ->where('ref_no','=',$data->ref_no)
+                        ->where('ref_book', '=', 'RFQ')
+                        ->first();
+                    $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+                    $type = strtolower($data->transaction->ref_book ?? null);
+                    return view('ppu.'.$type.'.dtItems')->with([
+                            /*'items' => $data->transaction->transDetails,*/
+                            'items' => $transDetails,
+                        ])->render().
+                        '<small class="pull-right text-strong text-info">'.number_format($rfqtrans->abc,2).'</small>';
                 }
             })
 

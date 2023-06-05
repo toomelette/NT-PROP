@@ -105,6 +105,25 @@
 
 @section('scripts')
     <script type="text/javascript">
+        function deleteRowEdit(button) {
+            const row = button.closest('tr');
+            if (row) {
+                row.remove();
+                updateSlugsEdit(row.id);
+            }
+        }
+
+        function updateSlugsEdit(slug) {
+            const slugsInput = document.getElementById('itemSlugEdit');
+            let slugs = slugsInput.value.split('~');
+            const index = slugs.indexOf(slug);
+
+            if (index !== -1) {
+                slugs.splice(index, 1);
+                slugsInput.value = slugs.join('~');
+            }
+        }
+
         $(document).ready(function() {
             let slug = $('input[name="slugEdit"]').val();
             let uri = '{{route("dashboard.rfq.findTransByRefNumber", ["refNumber", "refBook", "edit", "id"]) }}';
@@ -127,7 +146,7 @@
                         let stock = res.transDetails[i].stock_no;
                         stock = stock === null ? '' : stock;
                         slugs += res.transDetails[i].slug + '~';
-                        tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+                        tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRowEdit(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
                     }
                     tableHtml += '</tbody></table>';
                     slugs = slugs.slice(0, -1); // Remove the last '~' character

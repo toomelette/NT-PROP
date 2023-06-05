@@ -34,6 +34,7 @@ class POController extends Controller
     }
 
     public function store(POFormRequest $request) {
+        dd($request->itemSlugEdit);
         $randomSlug = Str::random();
         $refBook = $request->ref_book == "PR"?"PO":"JO";
         $poNUmber = $this->getNextPONo($refBook);

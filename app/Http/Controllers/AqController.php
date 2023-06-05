@@ -71,6 +71,7 @@ class AqController extends Controller
                 if(!empty($data->transaction)){
                     $rfqtrans = Transactions::query()
                         ->where('cross_slug', '=', $data->cross_slug)
+                        ->where('ref_no','=',$data->ref_no)
                         ->where('ref_book', '=', 'RFQ')
                         ->first();
                     $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();

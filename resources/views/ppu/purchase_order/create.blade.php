@@ -16,6 +16,7 @@
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
                     <input class="hidden" type="text" id="slug" name="slug"/>
+                    <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
                     <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
@@ -163,6 +164,25 @@
 
         });
 
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            if (row) {
+                row.remove();
+                updateSlugs(row.id);
+            }
+        }
+
+        function updateSlugs(slug) {
+            const slugsInput = document.getElementById('itemSlugEdit');
+            let slugs = slugsInput.value.split('~');
+            const index = slugs.indexOf(slug);
+
+            if (index !== -1) {
+                slugs.splice(index, 1);
+                slugsInput.value = slugs.join('~');
+            }
+        }
+
         $('#saveBtn').click(function(e) {
             e.preventDefault();
             let form = $('#po_form');
@@ -261,6 +281,7 @@
                             let slugs = '';
                             let tableHtml = '<tbody>';
                             let overAllTotal = 0;
+                            alert(res.transDetails.length);
                             for(let i=0; i<res.transDetails.length; i++){
                                 //let num1 = parseFloat(res.transDetails[i].unit_cost);
                                 //let num2 = parseFloat(res.transDetails[i].total_cost);
@@ -281,10 +302,12 @@
                                 aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
                                 overAllTotal += aqTotalCost;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+                                slugs += res.transDetails[i].slug + '~';
                             }
+                            slugs = slugs.slice(0, -1); // Remove the last '~' character
+                            $('#itemSlugEdit').val(slugs);
                             tableHtml += '</tbody></table>';
                             if($('#isGovernment').val() === 'True'){
-                                alert('Hi');
                                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                                 $('input[name="total"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                             }
@@ -298,7 +321,7 @@
                                     tb1 = (1 / 100) * taxBase;
                                 }
                                 let pOjOTax = 0;
-                                if(refBook === "PR"){
+                                if(res.trans.refBook === "PR"){
                                     pOjOTax = (1 / 100) * taxBase;
                                 }
                                 else {
@@ -310,9 +333,6 @@
                                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                                 $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                             }
-                            slugs = slugs.slice(0, -1); // Remove the last '~' character
-                            $('#itemSlug').val(slugs);
-
                             $('#trans_table').append(tableHtml).removeClass('hidden');
                             console.log(res);
                         },
