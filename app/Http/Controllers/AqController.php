@@ -71,9 +71,21 @@ class AqController extends Controller
                 if(!empty($data->transaction)){
                     $rfqtrans = Transactions::query()
                         ->where('cross_slug', '=', $data->cross_slug)
-                        ->where('ref_no','=',$data->ref_no)
                         ->where('ref_book', '=', 'RFQ')
-                        ->first();
+                        ->get();
+                    if($rfqtrans->count() > 1){
+                        $rfqtrans = Transactions::query()
+                            ->where('cross_slug', '=', $data->cross_slug)
+                            ->where('ref_no', '=', $data->cross_ref_no)
+                            ->where('ref_book', '=', 'RFQ')
+                            ->first();
+                    }
+                    else {
+                        $rfqtrans = Transactions::query()
+                            ->where('cross_slug', '=', $data->cross_slug)
+                            ->where('ref_book', '=', 'RFQ')
+                            ->first();
+                    }
                     $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
                     $type = strtolower($data->transaction->ref_book ?? null);
                     return view('ppu.'.$type.'.dtItems')->with([
@@ -145,8 +157,7 @@ class AqController extends Controller
             ->editColumn('abc',function($data){
                 if(!empty($data->transaction->abc)){
                     $rfqtrans = Transactions::query()
-                        ->where('cross_slug', '=', $data->cross_slug)
-                        ->where('ref_book', '=', 'RFQ')
+                        ->where('slug', '=', $data->slug)
                         ->first();
                     return number_format($rfqtrans->abc,2);
                 }
@@ -157,8 +168,7 @@ class AqController extends Controller
             ->addColumn('transDetails',function($data){
                 if(!empty($data->transaction)){
                     $rfqtrans = Transactions::query()
-                        ->where('cross_slug', '=', $data->cross_slug)
-                        ->where('ref_book', '=', 'RFQ')
+                        ->where('slug', '=', $data->slug)
                         ->first();
                     $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
                     $type = strtolower($data->transaction->ref_book ?? null);
@@ -191,14 +201,15 @@ class AqController extends Controller
         if(!empty($trans->aq)){
             return redirect(route('dashboard.aq.edit',$trans->aq->slug));
         }
-        $trans = new Transactions();
-        $trans->ref_no = $this->aqService->getNextAqNo();
-        $trans->slug = Str::random();
-        $trans->cross_slug = $slug;
-        $trans->ref_book = 'AQ';
-        $trans->date = now();
-        $trans->save();
-        return redirect(route('dashboard.aq.edit',$trans->slug));
+        $trans1 = new Transactions();
+        $trans1->ref_no = $this->aqService->getNextAqNo();
+        $trans1->slug = Str::random();
+        $trans1->cross_slug = $trans->cross_slug;
+        $trans1->cross_ref_no = $trans->ref_no;
+        $trans1->ref_book = 'AQ';
+        $trans1->date = now();
+        $trans1->save();
+        return redirect(route('dashboard.aq.edit',$trans1->slug));
     }
 
     public function edit($slug){
@@ -207,7 +218,7 @@ class AqController extends Controller
         $quotations  = [];
 
         $rfqtrans = Transactions::query()
-            ->where('cross_slug', '=', $aq->cross_slug)
+            ->where('ref_no', '=', $aq->cross_ref_no)
             ->where('ref_book', '=', 'RFQ')
             ->first();
         $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
