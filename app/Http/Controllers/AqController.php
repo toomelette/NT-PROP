@@ -198,8 +198,13 @@ class AqController extends Controller
 
     public function create($slug){
         $trans = $this->transactionService->findBySlug($slug);
-        if(!empty($trans->aq)){
-            return redirect(route('dashboard.aq.edit',$trans->aq->slug));
+        $aqExist = Transactions::query()
+                    ->where('cross_ref_no','=', $trans->ref_no)
+                    ->where('ref_book','=', 'AQ')
+                    ->first();
+       /* if(!empty($trans->aq)){*/
+        if(!empty($aqExist)){
+            return redirect(route('dashboard.aq.edit',$aqExist->slug));
         }
         $trans1 = new Transactions();
         $trans1->ref_no = $this->aqService->getNextAqNo();
