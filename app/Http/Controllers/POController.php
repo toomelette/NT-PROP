@@ -34,7 +34,7 @@ class POController extends Controller
     }
 
     public function store(POFormRequest $request) {
-        dd($request->itemSlugEdit);
+
         $randomSlug = Str::random();
         $refBook = $request->ref_book == "PR"?"PO":"JO";
         $poNUmber = $this->getNextPONo($refBook);
@@ -83,7 +83,10 @@ class POController extends Controller
             ->where('ref_book', '=', $request->ref_book)
             ->where('ref_number', '=', $request->ref_number)
             ->first();
-        $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+        //$transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+        $tranDetailSlugs = $request->itemSlugEdit;
+        $slugs = explode("~", $tranDetailSlugs);
+        $transactionDetails = TransactionDetails::whereIn('slug', $slugs)->get();
 
         $order->total_gross = $ana->contract_amount;
         $order->total =  Helper::sanitizeAutonum($request->total);
@@ -110,7 +113,7 @@ class POController extends Controller
 
         $totalAbc = 0;
         $arr = [];
-        foreach ($transDetails as $transactionDetail) {
+        foreach ($transactionDetails as $transactionDetail) {
             $aqTotalCost = 0;
             $aqUnitCost = 0;
             foreach($aqOfferDetails as $aqd) {

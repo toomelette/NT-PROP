@@ -167,8 +167,12 @@
         function deleteRow(button) {
             const row = button.closest('tr');
             if (row) {
-                row.remove();
-                updateSlugs(row.id);
+                const sixthTd = row.getElementsByTagName('td')[5]; // Get the 6th td element (index 5)
+                const value = sixthTd.textContent;
+                const sanitizedValue = value.replace(/,/g, '');
+                alert(sanitizedValue);
+                //row.remove();
+                //updateSlugs(row.id);
             }
         }
 
@@ -302,7 +306,7 @@
                                 aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
                                 overAllTotal += aqTotalCost;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
-                                slugs += res.transDetails[i].slug + '~';
+
                             }
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
                             $('#itemSlugEdit').val(slugs);
