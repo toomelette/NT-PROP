@@ -199,7 +199,7 @@ class AqController extends Controller
     public function create($slug){
         $trans = $this->transactionService->findBySlug($slug);
         $aqExist = Transactions::query()
-                    ->where('cross_ref_no','=', $trans->ref_no)
+                    ->where('ref_no','=', $trans->ref_no)
                     ->where('ref_book','=', 'AQ')
                     ->first();
        /* if(!empty($trans->aq)){*/
