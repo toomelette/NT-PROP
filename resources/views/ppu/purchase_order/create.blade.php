@@ -15,6 +15,7 @@
                     <div class="embed-responsive embed-responsive-16by9 hidden" style="height: 1019.938px;">
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
+                    <input class="hidden" type="text" id="refBook" name="refBook"/>
                     <input class="hidden" type="text" id="slug" name="slug"/>
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
@@ -167,12 +168,39 @@
         function deleteRow(button) {
             const row = button.closest('tr');
             if (row) {
+                let refBook = $('#refBook').val();
                 const sixthTd = row.getElementsByTagName('td')[5]; // Get the 6th td element (index 5)
                 const value = sixthTd.textContent;
                 const sanitizedValue = value.replace(/,/g, '');
-                alert(sanitizedValue);
-                //row.remove();
-                //updateSlugs(row.id);
+
+                let overAllTotal1 = $('input[name="total_gross"]').val();
+                const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
+                let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
+                alert(overAllTotal);
+                let taxBase = overAllTotal-((12 / 100) * overAllTotal);
+                let tb1 = 0;
+                if($('#isVat').val() === 'True'){
+                    tb1 = (5 / 100) * taxBase;
+                }
+                else {
+                    tb1 = (1 / 100) * taxBase;
+                }
+                let pOjOTax = 0;
+                if(refBook === "PR"){
+                    pOjOTax = (1 / 100) * taxBase;
+                }
+                else {
+                    pOjOTax = (2 / 100) * taxBase;
+                }
+                $('#tax_base_1').val(tb1);
+                $('#tax_base_2').val(pOjOTax);
+                let totalAmt = overAllTotal - (tb1 + pOjOTax);
+                alert(overAllTotal + " - " + totalAmt);
+                $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+
+                row.remove();
+                updateSlugs(row.id);
             }
         }
 
@@ -285,7 +313,6 @@
                             let slugs = '';
                             let tableHtml = '<tbody>';
                             let overAllTotal = 0;
-                            alert(res.transDetails.length);
                             for(let i=0; i<res.transDetails.length; i++){
                                 //let num1 = parseFloat(res.transDetails[i].unit_cost);
                                 //let num2 = parseFloat(res.transDetails[i].total_cost);
@@ -308,6 +335,7 @@
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
 
                             }
+                            $('#refBook').val(res.trans.ref_book);
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
                             $('#itemSlugEdit').val(slugs);
                             tableHtml += '</tbody></table>';
@@ -325,7 +353,7 @@
                                     tb1 = (1 / 100) * taxBase;
                                 }
                                 let pOjOTax = 0;
-                                if(res.trans.refBook === "PR"){
+                                if(res.trans.ref_book === "PR"){
                                     pOjOTax = (1 / 100) * taxBase;
                                 }
                                 else {

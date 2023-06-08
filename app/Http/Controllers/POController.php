@@ -17,11 +17,40 @@ use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\TransactionService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
+use Yajra\DataTables\DataTables;
 
 class POController extends Controller
 {
+    public function index(Request $request){
+        if($request->ajax() && $request->has('draw')){
+            return $this->dataTable($request);
+        }
+        return view('ppu.purchase_order.index');
+    }
+
+    public function dataTable($request){
+        $po = Order::query();
+        return DataTables::of($po)
+            ->addColumn('action',function($data){
+                return view('ppu.purchase_order.dtActions')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->editColumn('total',function($data){
+                return number_format($data->total,2);
+            })
+            ->editColumn('created_at',function($data){
+                return $data->created_at ? Carbon::parse($data->created_at)->format('M. d, Y') : '';
+            })
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
+    }
+
+
     public function create(){
         $suppliers = Suppliers::pluck('name','slug');
         return view('ppu.purchase_order.create', compact('suppliers'));
