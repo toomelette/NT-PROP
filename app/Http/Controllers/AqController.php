@@ -42,8 +42,43 @@ class AqController extends Controller
 
     public function allAqDataTable(Request $request){
         $aq = Transactions::where('ref_book', '=', 'AQ')->get();
-        return \DataTables::of($aq)
-            ->with(['transaction'])
+        $trans = Transactions::where('ref_book', '=', 'RFQ')
+            ->whereNotExists(function($query) {
+                $query->select(\Illuminate\Support\Facades\DB::raw(1))
+                    ->from('transactions as t')
+                    ->whereRaw('t.cross_slug = transactions.cross_slug')
+                    ->where('t.ref_book', '=', 'AQ');
+            });
+
+        $search = $request->get('search')['value'] ?? null;
+
+        if ($search) {
+            $aq = Transactions::where('ref_book', '=', 'AQ')->where(function ($query) use ($search) {
+                $query->where('ref_no', 'like', '%' . $search . '%');
+                /*$query->where('ref_no', 'like', '%' . $search . '%')
+                    ->orWhereHas('transDetails', function ($q) use ($search) {
+                        $q->where('item', 'like', '%' . $search . '%')
+                            ->orWhere('description', 'like', '%' . $search . '%');
+                    });*/
+            });
+        } else {
+            $aq = $aq->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+        }
+        $aq = $aq->get();
+
+        $dt = \DataTables::of($aq);
+
+        /*$dt = $dt->filter(function ($query) use($search){
+            if($search != null){
+                $query->where('ref_no', 'like', '%'.$search.'%')
+                    ->orWhereHas('transDetails',function ($q) use($search){
+                    return $q->where('item','like','%'.$search.'%')
+                        ->orWhere('description','like','%'.$search.'%');
+                });
+            }
+        });*/
+
+        $dt = $dt->with(['transaction'])
             ->addColumn('action',function($data){
                 return view('ppu.aq.dtActions')->with([
                     'data' => $data,
@@ -81,10 +116,19 @@ class AqController extends Controller
                             ->first();
                     }
                     else {
-                        $rfqtrans = Transactions::query()
-                            ->where('cross_slug', '=', $data->cross_slug)
-                            ->where('ref_book', '=', 'RFQ')
-                            ->first();
+                        if(!empty($data->cross_ref_no)){
+                            $rfqtrans = Transactions::query()
+                                ->where('cross_slug', '=', $data->cross_slug)
+                                ->where('ref_no', '=', $data->cross_ref_no)
+                                ->where('ref_book', '=', 'RFQ')
+                                ->first();
+                        }
+                        else{
+                            $rfqtrans = Transactions::query()
+                                ->where('cross_slug', '=', $data->cross_slug)
+                                ->where('ref_book', '=', 'RFQ')
+                                ->first();
+                        }
                     }
                     $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
                     $type = strtolower($data->transaction->ref_book ?? null);
@@ -99,7 +143,7 @@ class AqController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
-        return view('ppu.aq.index');
+        return view('ppu.aq.index', $dt);
     }
 
     public function pendingAqDataTable(Request $request){

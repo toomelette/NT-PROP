@@ -112,18 +112,18 @@
                             {!! \App\Swep\ViewHelpers\__form2::textbox('contact_name',[
                                                  'label' => 'Contact Name:',
                                                  'cols' => 12,
-                                             ], 'ATTY. BRANDO D. NOROÑA') !!}
+                                             ], 'PABLO LUIS S. AZCONA') !!}
                         </div>
 
                         <div class="col-md-6 no-padding" style="border-left: 1px solid black; margin-top: 50px">
                             {!! \App\Swep\ViewHelpers\__form2::textbox('signatory_name',[
                                              'label' => 'Signatory:',
                                              'cols' => 12,
-                                         ], 'ATTY. BRANDO D. NOROÑA') !!}
+                                         ], 'PABLO LUIS S. AZCONA') !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('signatory_title',[
                                                  'label' => 'Designation:',
                                                  'cols' => 12,
-                                             ], 'Deputy Administrator II for Administration and Finance') !!}
+                                             ], 'SRA Administrator') !!}
                         </div>
                         <div class="box-footer pull-right">
                             <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
