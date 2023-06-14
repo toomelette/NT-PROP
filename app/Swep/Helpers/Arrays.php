@@ -207,4 +207,13 @@ class Arrays
         }
         return $arr;
     }
+
+    public static function years($past = 8, $future = 10){
+        $years = [];
+        $now_year = \Carbon::now()->format('Y');
+        for ( $x = $now_year - $past ; $x <= $now_year + $future; $x++){
+            $years[$x] = $x;
+        }
+        return $years;
+    }
 }

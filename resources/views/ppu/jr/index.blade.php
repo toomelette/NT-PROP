@@ -14,6 +14,67 @@
             </div>
 
             <div class="box-body">
+                <div class="panel">
+                    <div class="box box-sm box-default box-solid collapsed-box">
+                        <div class="box-header with-border">
+                            <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: none">
+                            <form id="filter_form">
+                                <div class="row">
+
+                                    {!! \App\Swep\ViewHelpers\__form2::select('year',[
+                                        'cols' => '1 dt_filter-parent-div',
+                                        'label' => 'Year:',
+                                        'class' => 'dt_filter filters',
+                                        'options' => \App\Swep\Helpers\Arrays::years(),
+                                        'for' => 'select2_papCode',
+                                    ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
+
+                                    {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
+                                        'cols' => '3 dt_filter-parent-div',
+                                        'label' => 'Department/Division/Section:',
+                                        'class' => 'dt_filter filters',
+                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
+                                        'for' => 'select2_papCode',
+                                    ]) !!}
+                                    <div class="col-md-2 ">
+                                        <label>Requisitioner:</label>
+                                        <select name="requested_by"  class="form-control dt_filter select2_requested_by">
+                                            <option value="" selected>Don't filter</option>
+                                            @php
+                                                $requisitioners = \App\Models\Transactions::query()->select('requested_by')->where('ref_book','=','JR')->groupBy('requested_by')->orderBy('requested_by')->pluck('requested_by');
+                                            @endphp
+                                            {!! \App\Swep\Helpers\Helper::populateOptionsFromArray($requisitioners,null,true) !!}
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr style="margin: 3px">
+                            <div class="row">
+                                <form id="search_by_item_form">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="">Search by Item: <small class="text-danger">(This may take some time.)</small></label>
+                                            <div class="input-group">
+                                                <input name="item" type="text" class="form-control">
+                                                <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                                            </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div id="jr_table_container" style="display: none">
                     <table class="table table-bordered table-striped table-hover" id="jr_table" style="width: 100% !important">
                         <thead>
@@ -24,7 +85,6 @@
                             <th>JR No.</th>
                             <th>Date</th>
                             <th >Items</th>
-
                             <th >Total</th>
                             <th >Requested By</th>
                             <th>Action</th>
@@ -177,7 +237,7 @@
         //Initialize DataTable
         var active = '';
         jr_tbl = $("#jr_table").DataTable({
-            "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
+            "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
             "columns": [
                 { "data": "dept" },
                 { "data": "divSec" },
@@ -203,19 +263,19 @@
                     'visible' : false,
                 },
                 {
-                    "targets" : 2,
-                    "class" : 'w-12p'
-                },
-                {
-                    "targets" : [3,4],
-                    "class" : 'w-12p'
+                    "targets" : [2,3,4],
+                    "class" : 'w-10p'
                 },
                 {
                     "targets" : 6,
-                    "class" : 'w-8p text-right'
+                    "class" : 'w-10p text-right'
                 },
                 {
-                    "targets" : 7,
+                    "targets": 7,
+                    "class": 'w-10p',
+                },
+                {
+                    "targets" : 8,
                     "orderable" : false,
                     "class" : 'action4'
                 },
@@ -355,6 +415,18 @@
             })
         })
 
+        $("body").on("change",".dt_filter",function () {
+            let form = $(this).parents('form');
+            $("#search_by_item_form").get(0).reset();
+            filterDT(jr_tbl);
+        })
+
+
+        $("#search_by_item_form").submit(function (e) {
+            e.preventDefault();
+            let data = $("#search_by_item_form").serialize();
+            jr_tbl.ajax.url("{{Request::url()}}?"+$("#filter_form").serialize()+"&"+data).load();
+        })
 
         $("body").on('click','.cancel_transaction_btn',function () {
             let btn = $(this);
@@ -404,5 +476,7 @@
                 }
             })
         })
+
+        $(".select2_requested_by").select2();
     </script>
 @endsection

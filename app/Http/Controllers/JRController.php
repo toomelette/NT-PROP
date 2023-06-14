@@ -37,35 +37,47 @@ class JRController extends Controller
         return view('ppu.jr.index');
     }
 
-    public function dataTable($request){
+    public function dataTable(Request $request){
         $trans = Transactions::query()->with(['transDetails'])
             ->where('ref_book','=','JR');
-        $search = $request->get('search')['value'] ?? null;
-
-        if ($search) {
-            $trans = $trans->where(function ($query) use ($search) {
-                $query->where('ref_no', 'like', '%' . $search . '%')
-                    ->orWhere('requested_by', 'like', '%' . $search . '%');
-                /*$query->where('ref_no', 'like', '%' . $search . '%')
-                    ->orWhereHas('transDetails', function ($q) use ($search) {
-                        $q->where('item', 'like', '%' . $search . '%')
-                            ->orWhere('description', 'like', '%' . $search . '%');
-                    });*/
-            });
-        } else {
-            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+        if($request->has('resp_center') && $request->resp_center != ''){
+            $trans = $trans->where('resp_center','=',$request->resp_center);
+        }
+        if($request->has('requested_by') && $request->requested_by != ''){
+            $trans = $trans->where('requested_by','=',$request->requested_by);
+        }
+        if($request->has('year') && $request->year != ''){
+            $trans = $trans->where('date','like',$request->year.'%');
         }
 
-        $dt = \DataTables::of($trans);
+//        $search = $request->get('search')['value'] ?? null;
+//
+//        if ($search) {
+//            $trans = $trans->where(function ($query) use ($search) {
+//                $query->where('ref_no', 'like', '%' . $search . '%')
+//                    ->orWhere('requested_by', 'like', '%' . $search . '%');
+//                /*$query->where('ref_no', 'like', '%' . $search . '%')
+//                    ->orWhereHas('transDetails', function ($q) use ($search) {
+//                        $q->where('item', 'like', '%' . $search . '%')
+//                            ->orWhere('description', 'like', '%' . $search . '%');
+//                    });*/
+//            });
+//        } else {
+//            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+//        }
 
-        /*$dt = $dt->filter(function ($query) use($search){
-            if($search != null){
-                $query->whereHas('transDetails',function ($q) use($search){
-                    return $q->where('item','like','%'.$search.'%')
-                        ->orWhere('description','like','%'.$search.'%');
-                });
-            }
-        });*/
+        $dt = \DataTables::of($trans);
+        if($request->has('item') && $request->item != ''){
+            $dt = $dt->filter(function ($query) use($request){
+                if($request->item != null){
+                    $query->whereHas('transDetails',function ($q) use($request){
+                        return $q->where('item','like','%'.$request->item.'%')
+                            ->orWhere('description','like','%'.$request->item.'%');
+                    });
+                }
+            });
+        }
+
 
         /*$dt = $dt->filter(function ($query) use($search){
             if($search != null){

@@ -486,4 +486,24 @@ class Helper
         }
         return $s;
     }
+
+    public static function populateOptionsFromArray($array,$selected = null,$valueAsValue = false){
+        $opt = '';
+        if(count($array) > 0){
+            foreach ($array as $key => $value){
+                if($selected != null){
+                    if($key == $selected){
+                        $s = 'selected';
+                    }else{
+                        $s = '';
+                    }
+                }else{
+                    $s = '';
+                }
+                $opt = $opt.'<option value="'.(($valueAsValue == false) ? $key : $value).'" '.$s.'>'.$value.'</option>';
+            }
+        }
+
+        return $opt;
+    }
 }

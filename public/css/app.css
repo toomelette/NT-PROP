@@ -552,3 +552,29 @@ textarea.has-error, input.has-error, select.has-error {
     border-color: #dd4b39 !important;
     box-shadow: none;
 }
+
+.box.box-sm.box-solid{
+    margin-bottom: 5px;
+}
+.box-header>.fa, .box-header>.glyphicon, .box-header>.ion, .box-header .box-title-sm {
+    font-size: 12px;
+}
+
+.box.box-sm.box-solid.box-default>.box-header{
+    padding: 5px;
+}
+
+.box.box-sm.box-solid.box-primary>.box-header{
+    padding: 5px;
+}
+
+.box.box-sm.box-solid.box-success>.box-header{
+    padding: 5px;
+}
+
+.box.box-sm.box-solid>.box-header>.box-tools .btn{
+    padding: 0px 5px;
+}
+.box-sm>.box-header>.box-tools{
+    top: 2px;
+}
