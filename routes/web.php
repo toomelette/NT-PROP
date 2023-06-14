@@ -164,6 +164,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
     Route::resource('po', 'POController');
 
+    Route::get('/par/{slug}/print','PARController@print')->name('par.print');
+    Route::resource('par', 'PARController');
+
     Route::resource('supplier', 'SupplierController');
 });
 

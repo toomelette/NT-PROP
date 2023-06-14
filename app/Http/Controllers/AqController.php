@@ -41,42 +41,17 @@ class AqController extends Controller
     }
 
     public function allAqDataTable(Request $request){
-        $aq = Transactions::where('ref_book', '=', 'AQ')->get();
-        $trans = Transactions::where('ref_book', '=', 'RFQ')
-            ->whereNotExists(function($query) {
-                $query->select(\Illuminate\Support\Facades\DB::raw(1))
-                    ->from('transactions as t')
-                    ->whereRaw('t.cross_slug = transactions.cross_slug')
-                    ->where('t.ref_book', '=', 'AQ');
-            });
-
+        $aq = Transactions::where('ref_book', '=', 'AQ');
         $search = $request->get('search')['value'] ?? null;
-
         if ($search) {
-            $aq = Transactions::where('ref_book', '=', 'AQ')->where(function ($query) use ($search) {
+            $aq = $aq->where(function ($query) use ($search) {
                 $query->where('ref_no', 'like', '%' . $search . '%');
-                /*$query->where('ref_no', 'like', '%' . $search . '%')
-                    ->orWhereHas('transDetails', function ($q) use ($search) {
-                        $q->where('item', 'like', '%' . $search . '%')
-                            ->orWhere('description', 'like', '%' . $search . '%');
-                    });*/
             });
         } else {
-            $aq = $aq->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+            $aq = $aq->whereRaw('1 = 0');
         }
         $aq = $aq->get();
-
         $dt = \DataTables::of($aq);
-
-        /*$dt = $dt->filter(function ($query) use($search){
-            if($search != null){
-                $query->where('ref_no', 'like', '%'.$search.'%')
-                    ->orWhereHas('transDetails',function ($q) use($search){
-                    return $q->where('item','like','%'.$search.'%')
-                        ->orWhere('description','like','%'.$search.'%');
-                });
-            }
-        });*/
 
         $dt = $dt->with(['transaction'])
             ->addColumn('action',function($data){
@@ -143,7 +118,7 @@ class AqController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
-        return view('ppu.aq.index', $dt);
+        return $dt;
     }
 
     public function pendingAqDataTable(Request $request){
