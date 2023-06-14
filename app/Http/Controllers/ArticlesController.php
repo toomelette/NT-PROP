@@ -61,6 +61,7 @@ class ArticlesController extends Controller
         $a->type = $request->type;
         $a->unitPrice = Helper::sanitizeAutonum($request->unitPrice);
         $a->uom = $request->uom;
+        $a->estimated_useful_life = $request->estimated_useful_life;
         if($a->save()){
             return $a->only('id');
         }
@@ -81,6 +82,7 @@ class ArticlesController extends Controller
         $a->type = $request->type;
         $a->unitPrice = Helper::sanitizeAutonum($request->unitPrice);
         $a->uom = $request->uom;
+        $a->estimated_useful_life = $request->estimated_useful_life;
         if($a->update()){
             return $a->only('id');
         }

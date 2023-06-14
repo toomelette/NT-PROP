@@ -45,9 +45,14 @@
     <div class="row">
         {!! \App\Swep\ViewHelpers\__form2::textbox('acctCode',[
             'label' => 'Acct. Code:',
-            'cols' => 3,
+            'cols' => 4,
             'class' => '',
         ],
+        $article ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::textbox('estimated_useful_life',[
+                        'label' => 'Estimated Useful Life:',
+                        'cols' => 4,
+                    ],
         $article ?? null) !!}
     </div>
 
