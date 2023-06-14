@@ -136,6 +136,15 @@ class JRController extends Controller
 
     public function monitoringDataTable($request){
         $trans = Transactions::query()->where('ref_book','=','JR');
+
+        if($request->has('resp_center') && $request->resp_center != ''){
+            $trans = $trans->where('resp_center','=',$request->resp_center);
+        }
+        if($request->has('year') && $request->year != ''){
+            $trans = $trans->where('date','like',$request->year.'%');
+        }
+
+
         $transAll = Transactions::all();
         $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
@@ -149,8 +158,8 @@ class JRController extends Controller
         });
 
         $dt = $dt->addColumn('jr_no',function($data){
-            return ($data->ref_no);
-        })
+                return '<a href="'.route('dashboard.jr.index').'?find='.$data->ref_no.'" target="_blank" class="no-margin" title="JR: '.$data->purpose.' ">'.$data->ref_no.'</a>';
+            })
             ->addColumn('date_created',function($data){
                 return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })

@@ -289,8 +289,9 @@
                 style_datatable("#"+settings.sTableId);
                 $('#tbl_loader').fadeOut(function(){
                     $("#"+settings.sTableId+"_container").fadeIn();
-                    if(find != ''){
+                    if (find != '') {
                         jr_tbl.search(find).draw();
+                        window.history.pushState({}, document.title, "/dashboard/jr");
                     }
                 });
                 //Need to press enter to search

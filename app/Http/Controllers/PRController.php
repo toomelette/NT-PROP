@@ -55,22 +55,32 @@ class PRController extends Controller
         abort(503,'Error in receiving. [PRController::receivePr()]');
     }
 
-    public function monitoringDataTable($request){
+    public function monitoringDataTable(Request $request){
         $trans = Transactions::query()->where('ref_book','=','PR');
+
+        if($request->has('resp_center') && $request->resp_center != ''){
+            $trans = $trans->where('resp_center','=',$request->resp_center);
+        }
+        if($request->has('year') && $request->year != ''){
+            $trans = $trans->where('date','like',$request->year.'%');
+        }
+
+
         $transAll = Transactions::all();
         $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
-
         $dt = \DataTables::of($trans);
 
+
+
         $dt = $dt->filter(function ($query) use($search){
-            if($search != null){
+        if($search != null){
                 $query->where('ref_no', 'like', '%'.$search.'%');
             }
         });
 
         $dt = $dt->addColumn('pr_no',function($data){
-            return ($data->ref_no);
+                 return '<a href="'.route('dashboard.pr.index').'?find='.$data->ref_no.'" target="_blank" class="no-margin" title="PR: '.$data->purpose.' ">'.$data->ref_no.'</a>';
             })
             ->addColumn('date_created',function($data){
                 return !empty($data->date) ? Carbon::parse($data->date)->format('M. d, Y') : null;
