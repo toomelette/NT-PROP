@@ -39,6 +39,13 @@ class PARController extends Controller
             ->toJson();
     }
 
+    public function edit($slug){
+        $par = PAR::query()->where('slug','=', $slug)->first();
+        return view('ppu.par.edit')->with([
+            'par' => $par
+        ]);
+    }
+
     public function print($slug){
         return view('printables.par.print')->with([
             'par' => PAR::query()->where('slug', $slug)->first(),
