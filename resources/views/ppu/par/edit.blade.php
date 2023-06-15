@@ -4,12 +4,25 @@
 @extends('layouts.modal-content',['form_id' => 'edit_form' , 'slug' => $par->slug])
 
 @section('modal-header')
-    Edit: {{$par->propertyno}}
+    Edit Property Acknowledgement Receipt
 @endsection
 
 @section('modal-body')
     <div class="row">
         <input class="hidden" type="text" id="slug" name="slug" value=""/>
+        {!! \App\Swep\ViewHelpers\__form2::textbox('par_code',[
+                    'label' => 'PAR No.:',
+                    'cols' => 4,
+                    'readonly' => 'readonly',
+                    ],
+                $par ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::textbox('updated_at',[
+                            'label' => 'PAR Date:',
+                            'cols' => 4,
+                            'type' => 'date'
+                         ],
+                        $par ?? null) !!}
+        <div class="clearfix"></div>
         {!! \App\Swep\ViewHelpers\__form2::textbox('article',[
             'label' => 'Article:',
             'cols' => 4,

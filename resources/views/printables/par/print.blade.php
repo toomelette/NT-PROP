@@ -15,10 +15,10 @@
             page-break-after: always;
         }
     </style>
-    <div class="printable" style="font-family: Cambria,Arial">
+    <div class="printable" style="font-family: Cambria,Arial;">
 
         <div style="width: 100%;">
-            <div class="" style="margin-bottom: 100px; padding-top: 10px; ">
+            <div class="" style="margin-bottom: 100px; padding-top: 10px; font-family: Cambria,Arial;">
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
@@ -26,11 +26,56 @@
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
-                    <p style="font-size: 20px;"><strong>PROPERTY ACKNOWLEDGEMENT RECEIPT</strong></p>
                 </div>
             </div>
+            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                <tbody>
+                    <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                        <td rowspan="2" style="width: 60%; border-right: 1px solid black">
+                            <p style="font-size: 20px;"><strong>PROPERTY ACKNOWLEDGEMENT RECEIPT</strong></p>
+                        </td>
+                        <td style="margin-top: 5px; justify-content: center; float: left;">
+                            <p>PAR NO.: <span class="text-strong">2023-0001</span></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="margin-top: -15px;justify-content: center; float: left;">
+                            <p>Date: <span class="text-strong" style="margin-left: 17px">{{ date('F j, Y', strtotime($par->created_at))}}</span></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table style="font-family: Cambria,Arial;  width: 100%; border-left: 1px solid black; border-right: 1px solid black">
+                <tbody>
+                    <tr style="border: 1px solid black">
+                        <td style="width: 15%; border-right: 1px solid black;">
+                            Resp. Center:
+                        </td>
+                        <td>
+                            <strong>{{$par->respcenter}}</strong>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black">
+                        <td style="width: 15%; border-right: 1px solid black;">
+                            Acquisitioner:
+                        </td>
+                        <td>
+                            <strong>{{$par->acctemployee_fname}}</strong>
+                        </td>
+                    </tr>
+                    <tr style="border: 1px solid black">
+                        <td style="width: 15%; border-right: 1px solid black;">
+                            Position:
+                        </td>
+                        <td>
+                            <strong>{{$par->acctemployee_post}}</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <table style="width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+
+            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                 <thead>
                     <tr class="text-strong" style="border: 1px solid black;">
                         <td style="border: 1px solid black;">Qty</td>
@@ -41,11 +86,11 @@
                         <td style="border: 1px solid black;">Amount</td>
                     </tr>
                 </thead>
-                <tbody style="height: 450px">
+                <tbody style="height: 350px">
                     <tr style="height: 10px">
                         <td style="vertical-align: top;"></td>
                         <td style="vertical-align: top;"><i>For:</i></td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">{{$par->respcenter}}</td>
+                        <td class="text-strong" style="vertical-align: top;">{{$par->respcenter}}</td>
                         <td style="vertical-align: top;"></td>
                         <td style="vertical-align: top;"></td>
                         <td style="vertical-align: top;"></td>
@@ -53,14 +98,14 @@
                     <tr>
                         <td style="vertical-align: top;">{{$par->qtypercard}}</td>
                         <td style="vertical-align: top;">{{$par->uom}}</td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">{{$par->description}}</td>
+                        <td class="text-strong" style="vertical-align: top;">{{$par->description}}</td>
                         <td style="vertical-align: top;">{{ date('F j, Y', strtotime($par->dateacquired))}}</td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 14px">{{$par->propertyno}}</td>
+                        <td class="text-strong" style="vertical-align: top;">{{$par->propertyno}}</td>
                         <td style="vertical-align: top;">{{number_format($par->acquiredcost,2)}}</td>
                     </tr>
                 </tbody>
             </table>
-            <table style="width: 100%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+            <table style="font-family: Cambria,Arial; width: 100%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                 <thead>
                     <tr>
                         <td style="color: white; width: 5%;">Qty</td>
@@ -78,7 +123,7 @@
                         <td style="vertical-align: top;">
                             Supplier:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">
+                        <td class="text-strong" style="vertical-align: top;">
                             {{$par->supplier}}
                         </td>
                         <td style="vertical-align: top;"></td>
@@ -90,7 +135,7 @@
                         <td style="vertical-align: top;">
                             Invoice Nos./Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">
+                        <td class="text-strong" style="vertical-align: top;">
                             {{$par->invoiceno}}/{{ date('F j, Y', strtotime($par->invoicedate))}}
                         </td>
                         <td style="vertical-align: top;"></td>
@@ -102,7 +147,7 @@
                         <td style="vertical-align: top;">
                             Cost:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">
+                        <td class="text-strong" style="vertical-align: top;">
                             {{number_format($par->acquiredcost,2)}}
                         </td>
                         <td style="vertical-align: top;"></td>
@@ -114,7 +159,7 @@
                         <td style="vertical-align: top;">
                            P.O. No./Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">
+                        <td class="text-strong" style="vertical-align: top;">
                             {{$par->pono}}/{{ date('F j, Y', strtotime($par->podate))}}
                         </td>
                         <td style="vertical-align: top;"></td>
@@ -126,7 +171,7 @@
                         <td style="vertical-align: top;">
                             Account Code:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; font-size: 16px">
+                        <td class="text-strong" style="vertical-align: top;">
                            {{$par->invtacctcode}}
                         </td>
                         <td style="vertical-align: top;"></td>
@@ -134,22 +179,17 @@
                     </tr>
                 </tbody>
             </table>
-            <div style="display: flex; border: 1px solid black">
+            <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
                 <div style="flex: 1; text-align: left; ">
                     <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><i>Received by:</i></h5>
                     <span class="text-strong" style="margin-left: 50px;">
                         <u>{{$par->acctemployee_fname}}</u>
                     </span><br>
-                    <span style="margin-left: 40px">
-                       <i>Signature Over Printer Name</i>
+                    <span style="margin-left: 50px">
+                       <i>{{$par->acctemployee_post}}</i>
                     </span><br>
-                    <span class="text-strong" style="margin-left: 50px;">
-                        <u>{{$par->acctemployee_post}}</u>
-                    </span><br>
-                    <span style="margin-left: 70px">
-                       <i>Position / Office</i>
-                    </span><br>
-                    <span class="text-strong" style="margin-left: 50px;">
+                    <br>
+                    <span class="text-strong" style="margin-left: 70px;">
                         ___________________
                     </span><br>
                     <span style="margin-left: 100px">
@@ -162,14 +202,9 @@
                         <u>NOLI T. TINGSON</u>
                     </span><br>
                     <span style="margin-left: 70px">
-                       <i>Signature Over Printer Name</i>
+                       <i>Supply Officer IV</i>
                     </span><br>
-                    <span class="text-strong" style="margin-left: 70px;">
-                        <u>Supply Officer IV</u>
-                    </span><br>
-                    <span style="margin-left: 70px">
-                       <i>Position / Office</i>
-                    </span><br>
+                    <br>
                     <span class="text-strong" style="margin-left: 70px;">
                         ___________________
                     </span><br>
