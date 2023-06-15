@@ -66,13 +66,12 @@ class PRController extends Controller
         }
 
 
+
         $transAll = Transactions::all();
         $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
+
         $dt = \DataTables::of($trans);
-
-
-
         $dt = $dt->filter(function ($query) use($search){
         if($search != null){
                 $query->where('ref_no', 'like', '%'.$search.'%');
@@ -89,24 +88,26 @@ class PRController extends Controller
                 return !empty($data->received_at) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
             ->addColumn('rfq_date', function($data) use ($transAll) {
-                $item = $transAll->where('cross_slug', $data->slug)
-                    ->where('ref_book', 'RFQ')
-                    ->first();
-                if ($item) {
-                    return Carbon::parse($item->created_at)->format('M. d, Y');
-                } else {
-                    return null;
-                }
+                return Helper::dateFormat($data->rfq->created_at ?? null);
+//                $item = $transAll->where('cross_slug', $data->slug)
+//                    ->where('ref_book', 'RFQ')
+//                    ->first();
+//                if ($item) {
+//                    return Carbon::parse($item->created_at)->format('M. d, Y');
+//                } else {
+//                    return null;
+//                }
             })
             ->addColumn('aq_date', function($data) use ($transAll) {
-                $item = $transAll->where('cross_slug', $data->slug)
-                    ->where('ref_book', 'AQ')
-                    ->first();
-                if ($item) {
-                    return Carbon::parse($item->created_at)->format('M. d, Y');
-                } else {
-                    return null;
-                }
+                return Helper::dateFormat($data->aq->created_at ?? null);
+//                $item = $transAll->where('cross_slug', $data->slug)
+//                    ->where('ref_book', 'AQ')
+//                    ->first();
+//                if ($item) {
+//                    return Carbon::parse($item->created_at)->format('M. d, Y');
+//                } else {
+//                    return null;
+//                }
             })
             ->addColumn('rbac_reso_date',function($data){
                 return "";

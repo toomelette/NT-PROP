@@ -506,4 +506,11 @@ class Helper
 
         return $opt;
     }
+
+    public static function dateFormat($date,$format = 'M. d, Y'){
+        if($date != null){
+            return Carbon::parse($date)->format($format);
+        }
+        return '';
+    }
 }
