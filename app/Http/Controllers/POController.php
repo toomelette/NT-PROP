@@ -89,13 +89,12 @@ class POController extends Controller
         $order->ref_book = $refBook;
 
         $refNumber= $request->ref_number;
-        $trans = Transactions::query()
-            ->where('ref_book', '=', $request->ref_book)
-            ->where('ref_no', '=', $request->ref_number)
-            ->first();
         $rfqtrans = Transactions::query()
-            ->where('cross_slug', '=', $trans->slug)
+            ->where('ref_no', '=', $request->ref_number)
             ->where('ref_book', '=', 'RFQ')
+            ->first();
+        $trans = Transactions::query()
+            ->where('slug', '=', $rfqtrans->cross_slug)
             ->first();
         $aq = Transactions::query()
             ->where('cross_slug', '=', $trans->slug)
@@ -109,8 +108,8 @@ class POController extends Controller
             ->where('quotation_slug','=', $aqQuotation->slug)
             ->get();
         $ana = AwardNoticeAbstract::query()
-            ->where('ref_book', '=', $request->ref_book)
-            ->where('ref_number', '=', $request->ref_number)
+            ->where('ref_book', '=', $trans->ref_book)
+            ->where('ref_number', '=', $trans->ref_no)
             ->first();
         //$transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
         $tranDetailSlugs = $request->itemSlugEdit;
