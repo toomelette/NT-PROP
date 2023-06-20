@@ -12,6 +12,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Property Acknowledgement Receipt</h3>
+                <a class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#add_modal"> <i class="fa fa-plus"></i> Create</a>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -43,14 +44,193 @@
                 </div>
             </div>
         </div>
-        {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_modal','lg') !!}
     </section>
+@endsection
+
+@section('modals')
+    <div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="add_modal_label">
+        <div class="modal-dialog modal-lg" role="document">
+            <form id="add_form">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Create Property Acknowledgement Receipt</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('par_code',[
+                                        'label' => 'PAR No.:',
+                                        'cols' => 4,
+                                        'readonly' => 'readonly',
+                                        ],
+                                    $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('updated_at',[
+                                                'label' => 'PAR Date:',
+                                                'cols' => 4,
+                                                'type' => 'date'
+                                             ],
+                                            $par ?? null) !!}
+                            <div class="clearfix"></div>
+                            {!! \App\Swep\ViewHelpers\__form2::select('respcenter',[
+                                'label' => 'Resp. Center:',
+                                'cols' => 6,
+                                'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
+                            ],
+                            $par ?? null) !!}
+                            <div class="form-group col-md-6 employee_name ">
+                                <label for="employee_name">Acct. Officer:*</label>
+                                <input autocomplete="off" class="form-control " id="employee_name" name="employee_name" type="text" value="" placeholder="Name of employee"><ul class="typeahead dropdown-menu"></ul>
+                            </div>
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
+                                'label' => 'Acct. Officer',
+                                'cols' => 6,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('article',[
+                                  'cols' => 6,
+                                  'label' => 'Article:',
+                                  'class' => 'select2_article',
+                                  'autocomplete' => 'off',
+                                  'options' => [],
+                              ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
+                                  'cols' => 12,
+                                  'label' => 'Description: ',
+                                  'rows' => 2
+                                ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
+                                'label' => 'Property No.:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('uom',[
+                                'label' => 'Unit:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('acquiredcost',[
+                                'label' => 'Acquired Cost:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('qtypercard',[
+                                'label' => 'Qty Per Card:',
+                                'cols' => 3,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('onhandqty',[
+                                'label' => 'Qty Onhand:',
+                                'cols' => 3,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('shortqty',[
+                                'label' => 'Short Qty:',
+                                'cols' => 3,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('shortvalue',[
+                                'label' => 'Short Value:',
+                                'cols' => 3,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
+                                        'label' => 'Date Acquired:',
+                                        'cols' => 4,
+                                        'type' => 'date'
+                                     ],
+                                    $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('remarks',[
+                                'label' => 'Remarks:',
+                                'cols' => 8,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('supplier',[
+                                'label' => 'Supplier:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('invoiceno',[
+                                'label' => 'Invoice No.:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('invoicedate',[
+                                        'label' => 'Invoice Date:',
+                                        'cols' => 4,
+                                        'type' => 'date'
+                                     ],
+                                    $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('pono',[
+                                'label' => 'P.O. No.:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('podate',[
+                                        'label' => 'P.O. Date:',
+                                        'cols' => 4,
+                                        'type' => 'date'
+                                     ],
+                                    $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('invtacctcode',[
+                                'label' => 'Inv. Account Code:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('location',[
+                                'label' => 'Location:',
+                                'cols' => 4,
+                                'options' => \App\Swep\Helpers\Arrays::location(),
+                            ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('acquiredmode',[
+                                'label' => 'Acquisition Mode:',
+                                'cols' => 4,
+                                'options' => \App\Swep\Helpers\Arrays::acquisitionMode(),
+                            ],
+                            $par ?? null) !!}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_modal','lg') !!}
 @endsection
 
 @section('scripts')
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
+            $(".select2_article").select2({
+                ajax: {
+                    url: '{{route("dashboard.ajax.get","articles")}}',
+                    dataType: 'json',
+                    delay : 250,
+                },
+                dropdownParent: $('#add_modal'),
+                placeholder: 'Select item',
+                language : {
+                    "noResults": function(){
+
+                        return "No item found. Click <button type='button' data-target='#add_article_modal' data-toggle='modal' class='btn btn-success btn-xs add'>Add item</button> to add your desired item to the database.";
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            });
+            $('.select2_article').on('select2:select', function (e) {
+                let data = e.params.data;
+                $.each(data.populate,function (i, item) {
+                    $("#add_modal select[name='"+i+"']").val(item).trigger('change');
+                    $("#add_modal input[name='"+i+"']").val(item).trigger('change');
+                })
+            });
+
             //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable

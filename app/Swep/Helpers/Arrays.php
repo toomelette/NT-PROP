@@ -174,6 +174,20 @@ class Arrays
         ];
     }
 
+    public static function acquisitionMode(){
+        return [
+            'DONATION' => 'DONATION',
+            'PURCHASED' => 'PURCHASED',
+        ];
+    }
+
+    public static function location(){
+        return [
+            'BACOLOD' => 'BACOLOD',
+            'LGAREC' => 'LGAREC',
+        ];
+    }
+
     public static function papTypes(){
         $arr = [];
         $ops = Options::query()->where('for','=','papTypes')->get();
