@@ -51,7 +51,8 @@ class PRController extends Controller
     private function printTable(Request $request){
         $trans = Transactions::query()
             ->with(['rfq','aq','anaPr'])
-            ->where('ref_book','=','PR');
+            ->where('ref_book','=','PR')
+            ->where('cancelled_at','=', null);
         $resp_center = null;
         if(!empty($request->year) && $request->year != ''){
             $trans->where('date','like',$request->year.'%');
