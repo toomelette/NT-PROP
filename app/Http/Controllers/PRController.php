@@ -8,6 +8,7 @@ use App\Http\Requests\PR\PRFormRequest;
 use App\Models\AwardNoticeAbstract;
 use App\Models\PR;
 use App\Models\PRItems;
+use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
@@ -162,17 +163,28 @@ class PRController extends Controller
 //            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
 //        }
 
-        $dt = \DataTables::of($trans);
-        if($request->has('item') && $request->item != ''){
-            $dt = $dt->filter(function ($query) use($request){
-                if($request->item != null){
-                    $query->whereHas('transDetails',function ($q) use($request){
-                        return $q->where('item','like','%'.$request->item.'%')
-                            ->orWhere('description','like','%'.$request->item.'%');
-                    });
-                }
+        if($request->has('item') && $request->item != null){
+            $trans->whereIn('slug',function ($q) use ($request){
+                $q->select('transaction_slug')
+                    ->from(with(new TransactionDetails)->getTable())
+                    ->where('item','like','%'.$request->item.'%')
+                    ->orWhere('description','like','%'.$request->item.'%');
             });
+
         }
+
+
+        $dt = \DataTables::of($trans);
+//        if($request->has('item') && $request->item != ''){
+//            $dt = $dt->filter(function ($query) use($request){
+//                if($request->item != null){
+//                    $query->whereHas('transDetails',function ($q) use($request){
+//                        return $q->where('item','like','%'.$request->item.'%')
+//                            ->orWhere('description','like','%'.$request->item.'%');
+//                    });
+//                }
+//            });
+//        }
         /*$dt = $dt->filter(function ($query) use($search){
             if($search != null){
                 $query->where('ref_no', 'like', '%'.$search.'%')
