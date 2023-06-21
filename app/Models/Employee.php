@@ -10,10 +10,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Employee extends Model{
 
-
-
-
-
 	use Sortable, LogsActivity;
     protected $connection = 'mysql';
     protected $table = 'hr_employees';
@@ -26,8 +22,6 @@ class Employee extends Model{
     protected static $logAttributes = ['*'];
     protected static $ignoreChangedAttributes = ['updated_at','ip_updated','user_updated'];
     protected static $logOnlyDirty = true;
-
-
 
     protected $attributes = [
         

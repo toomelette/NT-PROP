@@ -4,7 +4,7 @@
 @extends('layouts.modal-content',['form_id' => 'edit_form' , 'slug' => $par->slug])
 
 @section('modal-header')
-    Edit Property Acknowledgement Receipt
+    <strong>Edit Property Acknowledgement Receipt</strong>
 @endsection
 
 @section('modal-body')
@@ -12,25 +12,60 @@
         <input class="hidden" type="text" id="slug" name="slug" value=""/>
         {!! \App\Swep\ViewHelpers\__form2::textbox('par_code',[
                     'label' => 'PAR No.:',
-                    'cols' => 4,
+                    'cols' => 3,
                     'readonly' => 'readonly',
                     ],
                 $par ?? null) !!}
         {!! \App\Swep\ViewHelpers\__form2::textbox('updated_at',[
                             'label' => 'PAR Date:',
-                            'cols' => 4,
-                            'type' => 'date'
+                            'cols' => 3,
+                            'type' => 'date',
+                            'readonly' => 'readonly',
                          ],
                         $par ?? null) !!}
         <div class="clearfix"></div>
-        {!! \App\Swep\ViewHelpers\__form2::textbox('article',[
-            'label' => 'Article:',
+        {!! \App\Swep\ViewHelpers\__form2::select('respcenter',[
+                                'label' => 'Resp. Center:',
+                                'cols' => 6,
+                                'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
+                            ],
+                            $par ?? null) !!}
+        <div class="form-group col-md-6 employee_name ">
+            <label for="employee_name">Search Employee:*</label>
+            <input autocomplete="off" class="form-control " id="employee_name" name="employee_name" type="text" value="" placeholder="Name of employee"><ul class="typeahead dropdown-menu"></ul>
+        </div>
+        {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
+            'label' => 'Acct. Officer:',
             'cols' => 4,
             ],
         $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('description',[
-            'label' => 'Description:',
-            'cols' => 8,
+        {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_post',[
+            'label' => 'Position:',
+            'cols' => 4,
+            ],
+        $par ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_no',[
+            'label' => 'Emp. No.:',
+            'cols' => 4,
+            ],
+        $par ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::textbox('article',[
+            'label' => 'Article:',
+            'cols' => 6,
+            ],
+        $par ?? null) !!}
+        {{--{!! \App\Swep\ViewHelpers\__form2::select('article',[
+              'cols' => 6,
+              'label' => 'Article:',
+              'class' => 'select2_article',
+              'autocomplete' => 'off',
+              'options' => [],
+          ],
+        $par ?? null) !!}--}}
+        {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
+              'cols' => 6,
+              'label' => 'Description: ',
+              'rows' => 2
             ],
         $par ?? null) !!}
         {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
@@ -76,27 +111,7 @@
                 $par ?? null) !!}
         {!! \App\Swep\ViewHelpers\__form2::textbox('remarks',[
             'label' => 'Remarks:',
-            'cols' => 4,
-            ],
-        $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_no',[
-            'label' => 'Employee No.:',
-            'cols' => 4,
-            ],
-        $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
-            'label' => 'Employee Name:',
-            'cols' => 4,
-            ],
-        $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_post',[
-            'label' => 'Position:',
-            'cols' => 4,
-            ],
-        $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('respcenter',[
-            'label' => 'Resp Center:',
-            'cols' => 4,
+            'cols' => 8,
             ],
         $par ?? null) !!}
         {!! \App\Swep\ViewHelpers\__form2::textbox('supplier',[
@@ -131,15 +146,17 @@
             'cols' => 4,
             ],
         $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('location',[
+        {!! \App\Swep\ViewHelpers\__form2::select('location',[
             'label' => 'Location:',
             'cols' => 4,
-            ],
+            'options' => \App\Swep\Helpers\Arrays::location(),
+        ],
         $par ?? null) !!}
-        {!! \App\Swep\ViewHelpers\__form2::textbox('acquiredmode',[
-            'label' => 'Acquired Mode:',
+        {!! \App\Swep\ViewHelpers\__form2::select('acquiredmode',[
+            'label' => 'Acquisition Mode:',
             'cols' => 4,
-            ],
+            'options' => \App\Swep\Helpers\Arrays::acquisitionMode(),
+        ],
         $par ?? null) !!}
     </div>
 

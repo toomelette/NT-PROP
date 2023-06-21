@@ -185,6 +185,8 @@ class Arrays
         return [
             'BACOLOD' => 'BACOLOD',
             'LGAREC' => 'LGAREC',
+            'OUTSIDESTATION' => 'OUTSIDE STATION',
+            'MDDC' => 'MDDC'
         ];
     }
 

@@ -58,19 +58,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('par_code',[
-                                        'label' => 'PAR No.:',
-                                        'cols' => 4,
-                                        'readonly' => 'readonly',
-                                        ],
-                                    $par ?? null) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('updated_at',[
-                                                'label' => 'PAR Date:',
-                                                'cols' => 4,
-                                                'type' => 'date'
-                                             ],
-                                            $par ?? null) !!}
-                            <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::select('respcenter',[
                                 'label' => 'Resp. Center:',
                                 'cols' => 6,
@@ -78,12 +65,22 @@
                             ],
                             $par ?? null) !!}
                             <div class="form-group col-md-6 employee_name ">
-                                <label for="employee_name">Acct. Officer:*</label>
+                                <label for="employee_name">Search Employee:*</label>
                                 <input autocomplete="off" class="form-control " id="employee_name" name="employee_name" type="text" value="" placeholder="Name of employee"><ul class="typeahead dropdown-menu"></ul>
                             </div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
-                                'label' => 'Acct. Officer',
-                                'cols' => 6,
+                                'label' => 'Acct. Officer:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_post',[
+                                'label' => 'Position:',
+                                'cols' => 4,
+                                ],
+                            $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_no',[
+                                'label' => 'Emp. No.:',
+                                'cols' => 4,
                                 ],
                             $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::select('article',[
@@ -95,7 +92,7 @@
                               ],
                             $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
-                                  'cols' => 12,
+                                  'cols' => 6,
                                   'label' => 'Description: ',
                                   'rows' => 2
                                 ]) !!}
@@ -205,6 +202,29 @@
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
+            $("#add_form").submit(function (e) {
+                e.preventDefault()
+                let form = $(this);
+                loading_btn(form);
+                $.ajax({
+                    url : '{{route("dashboard.par.store")}}',
+                    data : form.serialize(),
+                    type: 'POST',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success: function (res) {
+                        active = res.id;
+                        par_tbl.draw(false);
+                        succeed(form,true,false);
+                        toast('success','PAR successfully added.','Success!');
+                    },
+                    error: function (res) {
+                        errored(form,res);
+                    }
+                })
+            })
+
             $(".select2_article").select2({
                 ajax: {
                     url: '{{route("dashboard.ajax.get","articles")}}',
@@ -216,13 +236,14 @@
                 language : {
                     "noResults": function(){
 
-                        return "No item found. Click <button type='button' data-target='#add_article_modal' data-toggle='modal' class='btn btn-success btn-xs add'>Add item</button> to add your desired item to the database.";
+                        return "No item found.";
                     }
                 },
                 escapeMarkup: function (markup) {
                     return markup;
                 }
             });
+
             $('.select2_article').on('select2:select', function (e) {
                 let data = e.params.data;
                 $.each(data.populate,function (i, item) {
