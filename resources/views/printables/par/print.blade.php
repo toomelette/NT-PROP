@@ -94,7 +94,7 @@
                         <td style="vertical-align: top;">{{$par->qtypercard}}</td>
                         <td style="vertical-align: top;">{{$par->uom}}</td>
                         <td class="text-strong" style="vertical-align: top;">{{$par->description}}</td>
-                        <td style="vertical-align: top;">{{ date('F j, Y', strtotime($par->dateacquired))}}</td>
+                        <td style="vertical-align: top;">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $par->dateacquired)->format('m/d/Y') }}{{--{{ date('F j, Y', strtotime($par->dateacquired))}}--}}</td>
                         <td class="text-strong" style="vertical-align: top;">{{$par->propertyno}}</td>
                         <td style="vertical-align: top; text-align: right">{{number_format($par->acquiredcost,2)}}</td>
                     </tr>
