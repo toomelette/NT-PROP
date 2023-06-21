@@ -112,7 +112,7 @@ class PRController extends Controller
             ->addColumn('date_received',function($data){
                 return !empty($data->received_at) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
-            ->addColumn('rfq_date', function($data) use ($transAll) {
+            ->addColumn('rfq_date', function($data){
                 return Helper::dateFormat($data->rfq->created_at ?? null);
 //                $item = $transAll->where('cross_slug', $data->slug)
 //                    ->where('ref_book', 'RFQ')
@@ -123,7 +123,7 @@ class PRController extends Controller
 //                    return null;
 //                }
             })
-            ->addColumn('aq_date', function($data) use ($transAll) {
+            ->addColumn('aq_date', function($data) {
                 return Helper::dateFormat($data->aq->created_at ?? null);
 //                $item = $transAll->where('cross_slug', $data->slug)
 //                    ->where('ref_book', 'AQ')
