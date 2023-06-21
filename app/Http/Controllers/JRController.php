@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\AwardNoticeAbstract;
 use App\Models\JR;
 use App\Models\JRItems;
+use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\JRService;
@@ -49,6 +50,17 @@ class JRController extends Controller
         if($request->has('year') && $request->year != ''){
             $trans = $trans->where('date','like',$request->year.'%');
         }
+        //search by item
+        if($request->has('item') && $request->item != null){
+            $trans->whereIn('slug',function ($q) use ($request){
+                $q->select('transaction_slug')
+                    ->from(with(new TransactionDetails)->getTable())
+                    ->where('item','like','%'.$request->item.'%')
+                    ->orWhere('description','like','%'.$request->item.'%');
+            });
+
+        }
+
 
 //        $search = $request->get('search')['value'] ?? null;
 //
@@ -67,27 +79,6 @@ class JRController extends Controller
 //        }
 
         $dt = \DataTables::of($trans);
-        if($request->has('item') && $request->item != ''){
-            $dt = $dt->filter(function ($query) use($request){
-                if($request->item != null){
-                    $query->whereHas('transDetails',function ($q) use($request){
-                        return $q->where('item','like','%'.$request->item.'%')
-                            ->orWhere('description','like','%'.$request->item.'%');
-                    });
-                }
-            });
-        }
-
-
-        /*$dt = $dt->filter(function ($query) use($search){
-            if($search != null){
-                $query->where('ref_no', 'like', '%'.$search.'%')
-                    ->orWhereHas('transDetails',function ($q) use($search){
-                        return $q->where('item','like','%'.$search.'%')
-                            ->orWhere('description','like','%'.$search.'%');
-                    });
-            }
-        });*/
 
         $dt = $dt->addColumn('action',function($data){
                 return view('ppu.jr.dtActions')->with([
