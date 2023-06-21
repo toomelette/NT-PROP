@@ -35,7 +35,7 @@
                 <tbody>
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                         <td rowspan="2" style="width: 60%; border-right: 1px solid black">
-                            <p style="font-size: 20px;"><strong>PROPERTY ACKNOWLEDGEMENT RECEIPT</strong></p>
+                            <p style="font-size: 20px;"><strong>PROPERTY ACKNOWLEDGMENT RECEIPT</strong></p>
                         </td>
                         <td style="margin-top: 5px; justify-content: center; float: left;">
                             <p>PAR NO.: <span class="text-strong">2023-0001</span></p>
