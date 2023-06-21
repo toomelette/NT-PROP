@@ -42,7 +42,7 @@
                                         'class' => 'dt_filter filters',
                                         'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
                                         'for' => 'select2_papCode',
-
+                                        'id' => 'resp_center_select2',
                                     ]) !!}
 
                                 </div>
@@ -153,5 +153,6 @@
             url = url+'&'+filterFormData;
             window.open(url);
         })
+        $("#resp_center_select2").select2();
     </script>
 @endsection

@@ -42,6 +42,7 @@
                                         'class' => 'dt_filter filters',
                                         'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
                                         'for' => 'select2_papCode',
+                                        'id' => 'resp_center_select2',
                                     ]) !!}
                                     <div class="col-md-2 ">
                                         <label>Requisitioner:</label>
@@ -528,5 +529,6 @@
         })
 
         $(".select2_requested_by").select2();
+        $("#resp_center_select2").select2();
     </script>
 @endsection
