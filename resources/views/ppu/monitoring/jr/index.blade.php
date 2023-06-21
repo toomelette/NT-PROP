@@ -39,7 +39,7 @@
                                         'cols' => '3 dt_filter-parent-div',
                                         'label' => 'Department/Division/Section:',
                                         'class' => 'dt_filter filters',
-                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
+                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
                                         'for' => 'select2_papCode',
                                     ]) !!}
 

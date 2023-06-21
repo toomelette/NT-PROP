@@ -47,7 +47,11 @@ class Arrays
     }
 
     public static function groupedRespCodes($all = null){
-        if(!empty(Auth::user()->userDetails)){
+        if($all == 'all'){
+            $rcs = PPURespCodes::query()->with(['description'])
+                ->get();
+        }
+        else{
             $rcs = PPURespCodes::query()->with(['description'])
                 ->where(function($query){
                     foreach (Auth::user()->availablePaps as $availablePap){
@@ -58,15 +62,7 @@ class Arrays
                     }
                 })
                 ->get();
-        }else{
-            if($all == 'all'){
-                $rcs = PPURespCodes::query()->with(['description'])
-                    ->get();
-            }else{
-                return [];
-            }
         }
-
         $arr = [];
 
         if(!empty($rcs)){
@@ -183,10 +179,28 @@ class Arrays
 
     public static function location(){
         return [
-            'BACOLOD' => 'BACOLOD',
-            'LGAREC' => 'LGAREC',
-            'OUTSIDESTATION' => 'OUTSIDE STATION',
-            'MDDC' => 'MDDC'
+            'LGAREC' => 'SRA LA GRANJA AGRICULTURAL RESEARCH AND EXTENSION CENTER (LGAREC)',
+            'BACOLODOFFICE' => 'BACOLOD OFFICE',
+            'LMD ILO-ILO OFFICE' => 'LMD ILO-ILO OFFICE',
+            'LMD CEBU OFFICE' => 'LMD CEBU OFFICE',
+            'LMD DUMAGUETE OFFICE' => 'LMD DUMAGUETE OFFICE',
+            'HAWAIIAN' => 'HAWAIIAN',
+            'BACOLOD-MURCIA' => 'BACOLOD-MURCIA',
+            'FIRST FARMERS' => 'FIRST FARMERS',
+            'BINALBAGAN' => 'BINALBAGAN',
+            'SONEDCO/DACONGCOGON' => 'SONEDCO/DACONGCOGON',
+            'SAGAY' => 'SAGAY',
+            'LA CARLOTA' => 'LA CARLOTA',
+            'LOPEZ' => 'LOPEZ',
+            'VICTORIAS' => 'VICTORIAS',
+            'SAN CARLOS' => 'SAN CARLOS',
+            'MA-AO' => 'MA-AO',
+            'TOLONG' => 'TOLONG',
+            'BAIS' => 'BAIS',
+            'CAPIZ' => 'CAPIZ',
+            'PASSI' => 'PASSI',
+            'BOGO-MEDELLIN' => 'BOGO-MEDELLIN',
+            'ORMOC' => 'ORMOC'
         ];
     }
 

@@ -23,9 +23,12 @@
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
                 <div style="float: left; text-align: left; margin-left: 15px">
-                    <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
+                    <p class="no-margin" style="font-size: 14px; margin-bottom: -4px; margin-top: 8px">Republic of the Philippines</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
-                    <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
+                    <p class="no-margin" style="font-size: 14px;">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
+                    <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">
+                        PROPERTY/PROCUREMENT/BUILDING & TRANSPORT MAINTENANCE SECTION
+                    </p>
                 </div>
             </div>
             <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
@@ -40,7 +43,7 @@
                     </tr>
                     <tr>
                         <td style="margin-top: -15px;justify-content: center; float: left;">
-                            <p>Date: <span class="text-strong" style="margin-left: 17px">{{ date('F j, Y', strtotime($par->created_at))}}</span></p>
+                            <p>Date: <span class="text-strong" style="margin-left: 17px">{{ \Carbon\Carbon::now()->format('F j, Y') }}</span></p>
                         </td>
                     </tr>
                 </tbody>
@@ -57,7 +60,7 @@
                     </tr>
                     <tr style="border: 1px solid black">
                         <td style="width: 15%; border-right: 1px solid black;">
-                            Acquisitioner:
+                            Accountable Officer:
                         </td>
                         <td>
                             <strong>{{$par->acctemployee_fname}}</strong>
@@ -80,28 +83,20 @@
                     <tr class="text-strong" style="border: 1px solid black;">
                         <td style="border: 1px solid black;">Qty</td>
                         <td style="border: 1px solid black;">Unit</td>
-                        <td style="border: 1px solid black; width: 50%;">Description</td>
+                        <td style="border: 1px solid black; width: 40%;">Description</td>
                         <td style="border: 1px solid black;">Date Acquired</td>
-                        <td style="border: 1px solid black;">Property Number</td>
-                        <td style="border: 1px solid black;">Amount</td>
+                        <td style="border: 1px solid black; width: 20%;">Property Number</td>
+                        <td style="border: 1px solid black; width: 15%; text-align: right">Amount</td>
                     </tr>
                 </thead>
                 <tbody style="height: 350px">
-                    <tr style="height: 10px">
-                        <td style="vertical-align: top;"></td>
-                        <td style="vertical-align: top;"><i>For:</i></td>
-                        <td class="text-strong" style="vertical-align: top;">{{$par->respcenter}}</td>
-                        <td style="vertical-align: top;"></td>
-                        <td style="vertical-align: top;"></td>
-                        <td style="vertical-align: top;"></td>
-                    </tr>
                     <tr>
                         <td style="vertical-align: top;">{{$par->qtypercard}}</td>
                         <td style="vertical-align: top;">{{$par->uom}}</td>
                         <td class="text-strong" style="vertical-align: top;">{{$par->description}}</td>
                         <td style="vertical-align: top;">{{ date('F j, Y', strtotime($par->dateacquired))}}</td>
                         <td class="text-strong" style="vertical-align: top;">{{$par->propertyno}}</td>
-                        <td style="vertical-align: top;">{{number_format($par->acquiredcost,2)}}</td>
+                        <td style="vertical-align: top; text-align: right">{{number_format($par->acquiredcost,2)}}</td>
                     </tr>
                 </tbody>
             </table>
