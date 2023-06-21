@@ -78,6 +78,7 @@
                 </div>
             </div>
         </div>
+        <iframe id="print_table_frame" src="" style="width: 1px; height: 1px"></iframe>
     </section>
 @endsection
 
@@ -151,7 +152,7 @@
             let filterFormData = filterForm.serialize();
             let url = '{{\Illuminate\Support\Facades\Request::url()}}?print=true';
             url = url+'&'+filterFormData;
-            window.open(url);
+            $("#print_table_frame").attr('src',url);
         })
         $("#resp_center_select2").select2();
     </script>
