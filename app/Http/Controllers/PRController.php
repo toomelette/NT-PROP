@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PR\PRFormRequest;
 use App\Models\AwardNoticeAbstract;
+use App\Models\PPURespCodes;
 use App\Models\PR;
 use App\Models\PRItems;
 use App\Models\TransactionDetails;
@@ -38,10 +39,35 @@ class PRController extends Controller
     }
 
     public function monitoringIndex(Request $request){
+        if($request->has('print') && $request->print == true){
+            return $this->printTable($request);
+        }
         if(\request()->ajax() && \request()->has('draw')){
             return $this->monitoringDataTable($request);
         }
         return view('ppu.monitoring.pr.index');
+    }
+
+    private function printTable(Request $request){
+        $trans = Transactions::query()
+            ->with(['rfq','aq','anaPr'])
+            ->where('ref_book','=','PR');
+        $resp_center = null;
+        if(!empty($request->year) && $request->year != ''){
+            $trans->where('date','like',$request->year.'%');
+        }
+        if(!empty($request->resp_center) && $request->resp_center != ''){
+            $trans->where('resp_center','=',$request->resp_center);
+            $resp_center = PPURespCodes::query()
+                ->where('rc_code','=',$request->resp_center)
+                ->first();
+        }
+        $trans = $trans->get();
+        return view('printables.monitoring.pr')->with([
+            'transactions' => $trans,
+            'resp_center' => $resp_center,
+            'request' => $request,
+        ]);
     }
 
 
@@ -57,7 +83,9 @@ class PRController extends Controller
     }
 
     public function monitoringDataTable(Request $request){
-        $trans = Transactions::query()->where('ref_book','=','PR');
+        $trans = Transactions::query()
+            ->with(['rfq','aq'])
+            ->where('ref_book','=','PR');
 
         if($request->has('resp_center') && $request->resp_center != ''){
             $trans = $trans->where('resp_center','=',$request->resp_center);
@@ -66,10 +94,6 @@ class PRController extends Controller
             $trans = $trans->where('date','like',$request->year.'%');
         }
 
-
-
-        $transAll = Transactions::all();
-        $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
 
         $dt = \DataTables::of($trans);
@@ -113,15 +137,8 @@ class PRController extends Controller
             ->addColumn('rbac_reso_date',function($data){
                 return "";
             })
-            ->addColumn('noa_date',function($data) use ($ana){
-                $item = $ana->where('ref_book', '=', 'PR')
-                        ->where('ref_number', '=', $data->ref_no)
-                        ->last();
-                if ($item) {
-                    return Carbon::parse($item->award_date)->format('M. d, Y');
-                } else {
-                    return null;
-                }
+            ->addColumn('noa_date',function($data){
+                return Helper::dateFormat($data->anaPr->award_date ?? null,'M. d, Y');
             })
             ->addColumn('po_jo_date',function($data){
                 return "";

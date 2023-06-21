@@ -56,6 +56,15 @@ class Transactions extends Model
         return $this->hasOne(Transactions::class,'slug','cross_slug');
     }
 
+    public function anaPr(){
+        return $this->hasOne(AwardNoticeAbstract::class,'ref_number','ref_no')
+            ->where('ref_book','=','PR');
+    }
+    public function anaJr(){
+        return $this->hasOne(AwardNoticeAbstract::class,'ref_number','ref_no')
+            ->where('ref_book','=','JR');
+    }
+
 
 
     public function quotations(){
