@@ -29,6 +29,7 @@
         <tr>
             <th class="text-center" style="width: 30px"></th>
             <th class="text-center">PR No.</th>
+            <th class="text-center">Amount</th>
             <th class="text-center">Date Created</th>
             <th class="text-center">Date Received</th>
             <th class="text-center">RFQ Date</th>
@@ -44,6 +45,7 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td class="text-center">{{$transaction->ref_no}}</td>
+                        <td class="text-right">{{number_format($transaction->abc,2)}}</td>
                         <td class="text-center">{{\App\Swep\Helpers\Helper::dateFormat($transaction->date,'M. d, Y')}}</td>
                         <td class="text-center">{{\App\Swep\Helpers\Helper::dateFormat($transaction->received_at,'M. d, Y')}}</td>
                         <td class="text-center">{{\App\Swep\Helpers\Helper::dateFormat($transaction->rfq->created_at ?? null,'M. d, Y')}}</td>
@@ -54,6 +56,11 @@
                     </tr>
                 @endforeach
             @endif
+            <tr>
+                <td class="text-strong" colspan="2">Total</td>>
+                <td class="text-strong">{{number_format($transactions->sum('abc'),2)}}</td>
+                <td colspan="7"></td>
+            </tr>
         </tbody>
     </table>
 @endsection
