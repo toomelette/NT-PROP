@@ -58,13 +58,55 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
+                                        'label' => 'Date Acquired:',
+                                        'cols' => 4,
+                                        'type' => 'date'
+                                     ],
+                                    $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('sub_major_account_group',[
+                                                            'label' => 'Sub-Major Acct. Group:',
+                                                            'cols' => 4,
+                                                            'options' => \App\Swep\Helpers\Arrays::subMajorAccountGroup(),
+                                                        ],
+                                                        $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('general_ledger_account',[
+                                                            'label' => 'General Ledger Account:',
+                                                            'cols' => 4,
+                                                            'options' => \App\Swep\Helpers\Arrays::generalLedgerAccount(),
+                                                        ],
+                                                        $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('location',[
+                                                            'label' => 'Location:',
+                                                            'cols' => 4,
+                                                            'options' => \App\Swep\Helpers\Arrays::location(),
+                                                        ],
+                                                        $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('serialno',[
+                                                            'label' => 'Serial No.:',
+                                                            'cols' => 4,
+                                                            'readonly' => 'readonly'
+                                                            ],
+                                                        $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
+                                                            'label' => 'Property No.:',
+                                                            'cols' => 4,
+                                                            'readonly' => 'readonly'
+                                                            ],
+                                                        $par ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
+                                                            'label' => 'Fund Cluster:',
+                                                            'cols' => 4,
+                                                            'options' => \App\Swep\Helpers\Arrays::fundSources(),
+                                                        ],
+                                                        $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::select('respcenter',[
                                 'label' => 'Resp. Center:',
-                                'cols' => 6,
+                                'cols' => 8,
                                 'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
                             ],
                             $par ?? null) !!}
-                            <div class="form-group col-md-6 employee_name ">
+                            <div class="form-group col-md-12 employee_name ">
                                 <label for="employee_name">Search Employee:*</label>
                                 <input autocomplete="off" class="form-control " id="employee_name" name="employee_name" type="text" value="" placeholder="Name of employee"><ul class="typeahead dropdown-menu"></ul>
                             </div>
@@ -96,11 +138,7 @@
                                   'label' => 'Description: ',
                                   'rows' => 2
                                 ]) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
-                                'label' => 'Property No.:',
-                                'cols' => 4,
-                                ],
-                            $par ?? null) !!}
+
                             {!! \App\Swep\ViewHelpers\__form2::textbox('uom',[
                                 'label' => 'Unit:',
                                 'cols' => 4,
@@ -113,30 +151,24 @@
                             $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('qtypercard',[
                                 'label' => 'Qty Per Card:',
-                                'cols' => 3,
+                                'cols' => 4,
                                 ],
                             $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('onhandqty',[
                                 'label' => 'Qty Onhand:',
-                                'cols' => 3,
+                                'cols' => 4,
                                 ],
                             $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('shortqty',[
                                 'label' => 'Short Qty:',
-                                'cols' => 3,
+                                'cols' => 4,
                                 ],
                             $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('shortvalue',[
                                 'label' => 'Short Value:',
-                                'cols' => 3,
+                                'cols' => 4,
                                 ],
                             $par ?? null) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
-                                        'label' => 'Date Acquired:',
-                                        'cols' => 4,
-                                        'type' => 'date'
-                                     ],
-                                    $par ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('remarks',[
                                 'label' => 'Remarks:',
                                 'cols' => 8,
@@ -174,12 +206,7 @@
                                 'cols' => 4,
                                 ],
                             $par ?? null) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::select('location',[
-                                'label' => 'Location:',
-                                'cols' => 4,
-                                'options' => \App\Swep\Helpers\Arrays::location(),
-                            ],
-                            $par ?? null) !!}
+
                             {!! \App\Swep\ViewHelpers\__form2::select('acquiredmode',[
                                 'label' => 'Acquisition Mode:',
                                 'cols' => 4,

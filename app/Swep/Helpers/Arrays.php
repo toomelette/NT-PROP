@@ -4,7 +4,9 @@
 namespace App\Swep\Helpers;
 
 
+use App\Models\AccountCode;
 use App\Models\JRType;
+use App\Models\Location;
 use App\Models\Options;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
@@ -167,6 +169,7 @@ class Arrays
         return [
             'COB' => 'COB',
             'SIDA' => 'SIDA',
+            'ACEF' => 'ACEF'
         ];
     }
 
@@ -177,31 +180,37 @@ class Arrays
         ];
     }
 
+    public static function subMajorAccountGroup(){
+        $s = AccountCode::query()->groupBy('sub_major_account_group')->orderBy('sub_major_account_group')->get();
+        $arr = [];
+        if(!empty($s)){
+            foreach ($s as $ss){
+                $arr[$ss->sub_major_account_group] = $ss->sub_major_account_group;
+            }
+        }
+        return $arr;
+    }
+
+    public static function generalLedgerAccount(){
+        $s = AccountCode::query()->groupBy('general_ledger_account')->orderBy('general_ledger_account')->get();
+        $arr = [];
+        if(!empty($s)){
+            foreach ($s as $ss){
+                $arr[$ss->general_ledger_account] = $ss->general_ledger_account;
+            }
+        }
+        return $arr;
+    }
+
     public static function location(){
-        return [
-            'LGAREC' => 'SRA LA GRANJA AGRICULTURAL RESEARCH AND EXTENSION CENTER (LGAREC)',
-            'BACOLODOFFICE' => 'BACOLOD OFFICE',
-            'LMD ILO-ILO OFFICE' => 'LMD ILO-ILO OFFICE',
-            'LMD CEBU OFFICE' => 'LMD CEBU OFFICE',
-            'LMD DUMAGUETE OFFICE' => 'LMD DUMAGUETE OFFICE',
-            'HAWAIIAN' => 'HAWAIIAN',
-            'BACOLOD-MURCIA' => 'BACOLOD-MURCIA',
-            'FIRST FARMERS' => 'FIRST FARMERS',
-            'BINALBAGAN' => 'BINALBAGAN',
-            'SONEDCO/DACONGCOGON' => 'SONEDCO/DACONGCOGON',
-            'SAGAY' => 'SAGAY',
-            'LA CARLOTA' => 'LA CARLOTA',
-            'LOPEZ' => 'LOPEZ',
-            'VICTORIAS' => 'VICTORIAS',
-            'SAN CARLOS' => 'SAN CARLOS',
-            'MA-AO' => 'MA-AO',
-            'TOLONG' => 'TOLONG',
-            'BAIS' => 'BAIS',
-            'CAPIZ' => 'CAPIZ',
-            'PASSI' => 'PASSI',
-            'BOGO-MEDELLIN' => 'BOGO-MEDELLIN',
-            'ORMOC' => 'ORMOC'
-        ];
+        $l = Location::query()->orderBy('name')->get();
+        $arr = [];
+        if(!empty($l)){
+            foreach ($l as $ll){
+                $arr[$ll->code] = $ll->name;
+            }
+        }
+        return $arr;
     }
 
     public static function papTypes(){
