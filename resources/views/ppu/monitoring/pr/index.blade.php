@@ -11,6 +11,7 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">Monitoring</h3>
+                <button class="btn btn-primary btn-sm pull-right" id="print_table_btn" type="button"><i class="fa fa-print"></i> Print table</button>
             </div>
 
             <div class="box-body">
@@ -41,7 +42,7 @@
                                         'class' => 'dt_filter filters',
                                         'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
                                         'for' => 'select2_papCode',
-
+                                        'id' => 'resp_center_select2',
                                     ]) !!}
 
                                 </div>
@@ -77,6 +78,7 @@
                 </div>
             </div>
         </div>
+        <iframe id="print_table_frame" src="" style="width: 1px; height: 1px"></iframe>
     </section>
 @endsection
 
@@ -144,5 +146,14 @@
             let form = $(this).parents('form');
             filterDT(pr_monitoring_tbl);
         })
+
+        $("#print_table_btn").click(function () {
+            let filterForm = $("#filter_form");
+            let filterFormData = filterForm.serialize();
+            let url = '{{\Illuminate\Support\Facades\Request::url()}}?print=true';
+            url = url+'&'+filterFormData;
+            $("#print_table_frame").attr('src',url);
+        })
+        $("#resp_center_select2").select2();
     </script>
 @endsection

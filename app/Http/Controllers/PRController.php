@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PR\PRFormRequest;
 use App\Models\AwardNoticeAbstract;
+use App\Models\PPURespCodes;
 use App\Models\PR;
 use App\Models\PRItems;
+use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
@@ -37,10 +39,36 @@ class PRController extends Controller
     }
 
     public function monitoringIndex(Request $request){
+        if($request->has('print') && $request->print == true){
+            return $this->printTable($request);
+        }
         if(\request()->ajax() && \request()->has('draw')){
             return $this->monitoringDataTable($request);
         }
         return view('ppu.monitoring.pr.index');
+    }
+
+    private function printTable(Request $request){
+        $trans = Transactions::query()
+            ->with(['rfq','aq','anaPr'])
+            ->where('ref_book','=','PR')
+            ->where('cancelled_at','=', null);
+        $resp_center = null;
+        if(!empty($request->year) && $request->year != ''){
+            $trans->where('date','like',$request->year.'%');
+        }
+        if(!empty($request->resp_center) && $request->resp_center != ''){
+            $trans->where('resp_center','=',$request->resp_center);
+            $resp_center = PPURespCodes::query()
+                ->where('rc_code','=',$request->resp_center)
+                ->first();
+        }
+        $trans = $trans->get();
+        return view('printables.monitoring.pr')->with([
+            'transactions' => $trans,
+            'resp_center' => $resp_center,
+            'request' => $request,
+        ]);
     }
 
 
@@ -56,7 +84,9 @@ class PRController extends Controller
     }
 
     public function monitoringDataTable(Request $request){
-        $trans = Transactions::query()->where('ref_book','=','PR');
+        $trans = Transactions::query()
+            ->with(['rfq','aq'])
+            ->where('ref_book','=','PR');
 
         if($request->has('resp_center') && $request->resp_center != ''){
             $trans = $trans->where('resp_center','=',$request->resp_center);
@@ -65,10 +95,6 @@ class PRController extends Controller
             $trans = $trans->where('date','like',$request->year.'%');
         }
 
-
-
-        $transAll = Transactions::all();
-        $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
 
         $dt = \DataTables::of($trans);
@@ -87,7 +113,7 @@ class PRController extends Controller
             ->addColumn('date_received',function($data){
                 return !empty($data->received_at) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
-            ->addColumn('rfq_date', function($data) use ($transAll) {
+            ->addColumn('rfq_date', function($data){
                 return Helper::dateFormat($data->rfq->created_at ?? null);
 //                $item = $transAll->where('cross_slug', $data->slug)
 //                    ->where('ref_book', 'RFQ')
@@ -98,7 +124,7 @@ class PRController extends Controller
 //                    return null;
 //                }
             })
-            ->addColumn('aq_date', function($data) use ($transAll) {
+            ->addColumn('aq_date', function($data) {
                 return Helper::dateFormat($data->aq->created_at ?? null);
 //                $item = $transAll->where('cross_slug', $data->slug)
 //                    ->where('ref_book', 'AQ')
@@ -112,15 +138,8 @@ class PRController extends Controller
             ->addColumn('rbac_reso_date',function($data){
                 return "";
             })
-            ->addColumn('noa_date',function($data) use ($ana){
-                $item = $ana->where('ref_book', '=', 'PR')
-                        ->where('ref_number', '=', $data->ref_no)
-                        ->last();
-                if ($item) {
-                    return Carbon::parse($item->award_date)->format('M. d, Y');
-                } else {
-                    return null;
-                }
+            ->addColumn('noa_date',function($data){
+                return Helper::dateFormat($data->anaPr->award_date ?? null,'M. d, Y');
             })
             ->addColumn('po_jo_date',function($data){
                 return "";
@@ -162,17 +181,28 @@ class PRController extends Controller
 //            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
 //        }
 
-        $dt = \DataTables::of($trans);
-        if($request->has('item') && $request->item != ''){
-            $dt = $dt->filter(function ($query) use($request){
-                if($request->item != null){
-                    $query->whereHas('transDetails',function ($q) use($request){
-                        return $q->where('item','like','%'.$request->item.'%')
-                            ->orWhere('description','like','%'.$request->item.'%');
-                    });
-                }
+        if($request->has('item') && $request->item != null){
+            $trans->whereIn('slug',function ($q) use ($request){
+                $q->select('transaction_slug')
+                    ->from(with(new TransactionDetails)->getTable())
+                    ->where('item','like','%'.$request->item.'%')
+                    ->orWhere('description','like','%'.$request->item.'%');
             });
+
         }
+
+
+        $dt = \DataTables::of($trans);
+//        if($request->has('item') && $request->item != ''){
+//            $dt = $dt->filter(function ($query) use($request){
+//                if($request->item != null){
+//                    $query->whereHas('transDetails',function ($q) use($request){
+//                        return $q->where('item','like','%'.$request->item.'%')
+//                            ->orWhere('description','like','%'.$request->item.'%');
+//                    });
+//                }
+//            });
+//        }
         /*$dt = $dt->filter(function ($query) use($search){
             if($search != null){
                 $query->where('ref_no', 'like', '%'.$search.'%')

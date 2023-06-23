@@ -41,6 +41,7 @@
                                         'class' => 'dt_filter filters',
                                         'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
                                         'for' => 'select2_papCode',
+                                        'id' => 'resp_center_select2',
                                     ]) !!}
 
                                 </div>
@@ -143,5 +144,6 @@
             let form = $(this).parents('form');
             filterDT(jr_monitoring_tbl);
         })
+        $("#resp_center_select2").select2();
     </script>
 @endsection
