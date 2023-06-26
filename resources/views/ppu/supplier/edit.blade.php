@@ -64,8 +64,8 @@
                                             'label' => 'VAT:',
                                             'cols' => 3,
                                             'options' => [
-                                                '0' => 'Yes',
-                                                '1' => 'No'
+                                                '1' => 'Yes',
+                                                '0' => 'No'
                                             ]
                                         ],
         $supplier ?? null) !!}
@@ -73,8 +73,8 @@
                                 'label' => 'Government:',
                                 'cols' => 2,
                                 'options' => [
-                                    '0' => 'Yes',
-                                    '1' => 'No'
+                                    '1' => 'Yes',
+                                    '0' => 'No'
                                 ]
                             ],
         $supplier ?? null) !!}
