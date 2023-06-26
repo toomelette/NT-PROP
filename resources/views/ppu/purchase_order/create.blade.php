@@ -162,7 +162,60 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('input[name="total_gross"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    let refBook = $('#refBook').val();
+                    var totalGross = $(this).val();
+                    let taxBase = totalGross-((12 / 100) * totalGross);
+                    let tb1 = 0;
+                    if($('#isVat').val() === 'True'){
+                        tb1 = (5 / 100) * taxBase;
+                    }
+                    else {
+                        tb1 = (1 / 100) * taxBase;
+                    }
+                    let pOjOTax = 0;
+                    if(refBook === "PR"){
+                        pOjOTax = (1 / 100) * taxBase;
+                    }
+                    else {
+                        pOjOTax = (2 / 100) * taxBase;
+                    }
+                    $('#tax_base_1').val(tb1);
+                    $('#tax_base_2').val(pOjOTax);
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
 
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="total_gross"]').on('blur', function() {
+                let refBook = $('#refBook').val();
+                var totalGross = $(this).val();
+                let taxBase = totalGross-((12 / 100) * totalGross);
+                let tb1 = 0;
+                if($('#isVat').val() === 'True'){
+                    tb1 = (5 / 100) * taxBase;
+                }
+                else {
+                    tb1 = (1 / 100) * taxBase;
+                }
+                let pOjOTax = 0;
+                if(refBook === "PR"){
+                    pOjOTax = (1 / 100) * taxBase;
+                }
+                else {
+                    pOjOTax = (2 / 100) * taxBase;
+                }
+                $('#tax_base_1').val(tb1);
+                $('#tax_base_2').val(pOjOTax);
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+            });
         });
 
         function deleteRow(button) {
@@ -176,7 +229,6 @@
                 let overAllTotal1 = $('input[name="total_gross"]').val();
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
-                alert(overAllTotal);
                 let taxBase = overAllTotal-((12 / 100) * overAllTotal);
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
@@ -195,7 +247,6 @@
                 $('#tax_base_1').val(tb1);
                 $('#tax_base_2').val(pOjOTax);
                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
-                alert(overAllTotal + " - " + totalAmt);
                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                 $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
 
