@@ -202,6 +202,17 @@ class Arrays
         return $arr;
     }
 
+    public static function inventoryAccountCode() {
+        $s = AccountCode::query()->get();
+        $arr = [];
+        if(!empty($s)){
+            foreach ($s as $ss){
+                $arr[$ss->code] = $ss->code . " - " . $ss->description;
+            }
+        }
+        return $arr;
+    }
+
     public static function location(){
         $l = Location::query()->orderBy('name')->get();
         $arr = [];

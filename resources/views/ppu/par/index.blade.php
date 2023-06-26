@@ -201,12 +201,12 @@
                                         'type' => 'date'
                                      ],
                                     $par ?? null) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('invtacctcode',[
+                            {!! \App\Swep\ViewHelpers\__form2::select('invtacctcode',[
                                 'label' => 'Inv. Account Code:',
                                 'cols' => 4,
-                                ],
+                                'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                            ],
                             $par ?? null) !!}
-
                             {!! \App\Swep\ViewHelpers\__form2::select('acquiredmode',[
                                 'label' => 'Acquisition Mode:',
                                 'cols' => 4,
