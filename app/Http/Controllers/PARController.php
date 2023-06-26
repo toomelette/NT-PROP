@@ -46,6 +46,9 @@ class PARController extends Controller
         $par = new PAR();
         $par->slug = Str::random(16);
         $par->par_code = $this->getNextPARNo();
+        $par->sub_major_account_group = $request->sub_major_account_group;
+        $par->general_ledger_account = $request->general_ledger_account;
+        $par->fund_cluster = $request->fund_cluster;
         $par->propuniqueno = "";
         $par->article = $request->article;
         $par->description = $request->description;
