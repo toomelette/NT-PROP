@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RCDesc extends Model
 {
-    protected $table = 'rc_description';
+    protected $table = 'budget_rc_description';
+    protected $connection = 'mysql';
 }

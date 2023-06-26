@@ -22,7 +22,8 @@ class PAP extends Model
             $a->ip_updated = request()->ip();
         });
     }
-    protected $table = 'pap';
+    protected $table = 'budget_pap';
+    protected $connection = 'mysql';
 
     public function responsibilityCenter(){
         return $this->belongsTo(PPURespCodes::class,'resp_center','rc_code');
