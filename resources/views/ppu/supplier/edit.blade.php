@@ -60,6 +60,24 @@
             'cols' => 3,
         ],
         $supplier ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::select('is_vat', [
+                                            'label' => 'VAT:',
+                                            'cols' => 3,
+                                            'options' => [
+                                                '0' => 'Yes',
+                                                '1' => 'No'
+                                            ]
+                                        ],
+        $supplier ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::select('is_government', [
+                                'label' => 'Government:',
+                                'cols' => 2,
+                                'options' => [
+                                    '0' => 'Yes',
+                                    '1' => 'No'
+                                ]
+                            ],
+        $supplier ?? null) !!}
     </div>
 
 @endsection

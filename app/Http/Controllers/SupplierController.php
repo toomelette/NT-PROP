@@ -44,6 +44,8 @@ class SupplierController extends Controller
         $s->phone_number_2 = $request->phone_number_2;
         $s->fax_number = $request->fax_number;
         $s->designation = $request->designation;
+        $s->is_vat = $request->is_vat;
+        $s->is_government = $request->is_government;
         if($s->save()){
             return $s->only('id');
         }
@@ -62,6 +64,8 @@ class SupplierController extends Controller
         $s->phone_number_2 = $request->phone_number_2;
         $s->fax_number = $request->fax_number;
         $s->designation = $request->designation;
+        $s->is_vat = $request->is_vat;
+        $s->is_government = $request->is_government;
         if($s->update()){
             return $s->only('id');
         }
