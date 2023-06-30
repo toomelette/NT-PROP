@@ -20,7 +20,7 @@
                             <table class="table table-bordered table-striped table-hover" id="jo_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
-                                    <th>PO/JO Number</th>
+                                    <th>JO Number</th>
                                     <th>Ref. Book</th>
                                     <th>Mode</th>
                                     <th>Supplier</th>
