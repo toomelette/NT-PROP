@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Create Purchase Order</h1>
+        <h1>Create Job Order</h1>
     </section>
 @endsection
 @section('content2')
@@ -327,7 +327,7 @@
         $('#saveBtn').click(function(e) {
             e.preventDefault();
             let form = $('#po_form');
-            let uri = '{{route("dashboard.po.store")}}';
+            let uri = '{{route("dashboard.jo.store")}}';
             loading_btn(form);
             $.ajax({
                 type: 'POST',
@@ -359,7 +359,7 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.po.print','slug')}}";
+                            let link = "{{route('dashboard.jo.print','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
@@ -373,7 +373,7 @@
         });
 
         $('select[name="supplier"]').change(function() {
-            let uri = '{{route("dashboard.po.findSupplier", ["slug"]) }}';
+            let uri = '{{route("dashboard.jo.findSupplier", ["slug"]) }}';
             uri = uri.replace('slug',$(this).val());
             $.ajax({
                 url : uri,
@@ -404,7 +404,7 @@
                 //let refBook = $('select[name="ref_book"]').val();
                 let supplier = $('select[name="supplier"]').val();
                 if (e.keyCode === 13) {
-                    let uri = '{{route("dashboard.po.findTransByRefNumber", ["refNumber", "refBook", "add", "id"]) }}';
+                    let uri = '{{route("dashboard.jo.findTransByRefNumber", ["refNumber", "refBook", "add", "id"]) }}';
                     uri = uri.replace('refNumber',$(this).val());
                     //uri = uri.replace('refBook',refBook);
                     uri = uri.replace('id',supplier);

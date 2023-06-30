@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Manage Purchase Order</h1>
+        <h1>Manage Job Order</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,13 +11,13 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Purchase Order</h3>
+                <h3 class="box-title">Job Order</h3>
             </div>
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="po_table_container" style="display: none">
-                            <table class="table table-bordered table-striped table-hover" id="po_table" style="width: 100% !important">
+                        <div id="jo_table_container" style="display: none">
+                            <table class="table table-bordered table-striped table-hover" id="jo_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
                                     <th>PO/JO Number</th>
@@ -55,8 +55,8 @@
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
 
-            po_tbl = $("#po_table").DataTable({
-                "ajax" : '{{route("dashboard.po.index")}}',
+            jo_tbl = $("#jo_table").DataTable({
+                "ajax" : '{{route("dashboard.jo.index")}}',
                 "columns": [
                     { "data": "ref_no" },
                     { "data": "ref_book" },
@@ -77,16 +77,16 @@
                 "initComplete": function( settings, json ) {
                     style_datatable("#"+settings.sTableId);
                     $('#tbl_loader').fadeOut(function(){
-                        $("#po_table_container").fadeIn();
+                        $("#jo_table_container").fadeIn();
                         if(find != ''){
-                            po_tbl.search(find).draw();
+                            jo_tbl.search(find).draw();
                         }
                     });
                     //Need to press enter to search
                     $('#'+settings.sTableId+'_filter input').unbind();
                     $('#'+settings.sTableId+'_filter input').bind('keyup', function (e) {
                         if (e.keyCode == 13) {
-                            po_tbl.search(this.value).draw();
+                            jo_tbl.search(this.value).draw();
                         }
                     });
                 },
@@ -101,10 +101,10 @@
                     if(active != ''){
                         if(Array.isArray(active) == true){
                             $.each(active,function (i,item) {
-                                $("#po_table #"+item).addClass('success');
+                                $("#jo_table #"+item).addClass('success');
                             })
                         }
-                        $("#po_table #"+active).addClass('success');
+                        $("#jo_table #"+active).addClass('success');
                     }
                 }
             });
@@ -112,7 +112,7 @@
             $("body").on("click",".edit_btn",function () {
                 let btn = $(this);
                 load_modal2(btn);
-                let uri = '{{route("dashboard.po.edit","slug")}}';
+                let uri = '{{route("dashboard.jo.edit","slug")}}';
                 uri = uri.replace('slug',btn.attr('data'));
                 $.ajax({
                     url : uri,

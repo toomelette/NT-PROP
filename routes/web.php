@@ -164,6 +164,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
     Route::resource('po', 'POController');
 
+    Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');
+    Route::get('/jo/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','JOController@findTransByRefNumber')->name('jo.findTransByRefNumber');
+    Route::get('/jo/findSupplier/{slug}','JOController@findSupplier')->name('jo.findSupplier');
+    Route::resource('jo', 'JOController');
+
     Route::get('/par/{slug}/print','PARController@print')->name('par.print');
     Route::get('/par/edit/{slug}','PARController@edit')->name('par.edit');
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');

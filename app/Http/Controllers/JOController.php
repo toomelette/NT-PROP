@@ -22,20 +22,20 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
-class POController extends Controller
+class JOController extends Controller
 {
     public function index(Request $request){
         if($request->ajax() && $request->has('draw')){
             return $this->dataTable($request);
         }
-        return view('ppu.purchase_order.index');
+        return view('ppu.job_order.index');
     }
 
     public function dataTable($request){
-        $po = Order::query()->where('ref_book', '=', 'PO');
+        $po = Order::query()->where('ref_book', '=', 'JO');
         return DataTables::of($po)
             ->addColumn('action',function($data){
-                return view('ppu.purchase_order.dtActions')->with([
+                return view('ppu.job_order.dtActions')->with([
                     'data' => $data,
                 ]);
             })
@@ -53,7 +53,7 @@ class POController extends Controller
 
     public function create(){
         $suppliers = Suppliers::pluck('name','slug');
-        return view('ppu.purchase_order.create', compact('suppliers'));
+        return view('ppu.job_order.create', compact('suppliers'));
     }
 
     public function findSupplier($slug){
@@ -193,7 +193,7 @@ class POController extends Controller
             $trans = Transactions::query()
                 ->where('slug', '=', $rfqtrans->cross_slug)
                 ->first();
-            if ($trans==null || $trans->ref_book != 'PR') {
+            if ($trans==null || $trans->ref_book != 'JR') {
                 abort(503, 'No record found');
             }
             $aq = Transactions::query()
