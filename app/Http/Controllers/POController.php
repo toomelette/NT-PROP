@@ -174,7 +174,7 @@ class POController extends Controller
             TransactionDetails::insert($arr);
             return $order->only('slug');
         }
-        abort(503,'Error creating Order');
+        abort(503,'Error creating Purchase Order');
     }
 
     public function findTransByRefNumber($refNumber, $refBook, $action, $id){

@@ -132,84 +132,6 @@
             </td>
         </tr>
     </table>
-    @if($trans->transaction->ref_book == 'PR')
-        <table style="width: 100%; height: 390px;" class="tbl-bordered">
-            <thead>
-            <tr>
-                <th class="text-center" style="width:10%; font-size: 16px;">Stock No.</th>
-                <th class="text-center" style="width:10%; font-size: 16px;">Unit</th>
-                <th class="text-center" style="width:50%; font-size: 16px;">Description</th>
-                <th class="text-center" style="width:10%; font-size: 16px;">Qty</th>
-                <th class="text-center" style="width:10%; font-size: 16px;">Unit Cost</th>
-                <th class="text-center" style="width:10%; font-size: 16px;">Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            @if(!empty($td))
-                @php
-                    $nowCount = 0;
-                @endphp
-                @foreach($td as $item)
-                    @php
-                        $nowCount = $nowCount + 1;
-                    @endphp
-                    <tr style="height: 10%">
-                        <td class="text-center " style="vertical-align: top;">{{$item->stock_no}}</td>
-                        <td class="text-center " style="vertical-align: top;">{{strtoupper($item->unit)}}</td>
-                        <td class="text-center " style="vertical-align: top;"><b>{{$item->item}}</b><br>{{strtoupper($item->description)}}</td>
-                        <td class="text-center " style="vertical-align: top;">{{$item->qty}}</td>
-                        <td class="text-right" style="vertical-align: top;">
-                            <b>{{number_format($item->unit_cost,2)}}</b>
-                        </td>
-                        <td class="text-right" style="vertical-align: top;">
-                            <b>{{number_format($item->total_cost,2)}}</b>
-                        </td>
-                    </tr>
-                @endforeach
-            @endif
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="5" class="text-right text-strong">TOTAL (GROSS)</td>
-                <td class="text-strong text-right">
-                    {{number_format($order->total_gross,2)}}
-                </td>
-            </tr>
-            </tfoot>
-        </table>
-
-        <table style="width: 100%; border: 1px solid black;">
-            <tr style="font-size: 14px">
-                <td style="width: 65%; border: 1px solid black;">
-
-                </td>
-                <td style="width: 35%; border: 1px solid black;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        Tax Base: <span style="margin-left: 100px; font-size: 12px">{{number_format($order->total_gross-((12 / 100) * $trans->transaction->abc),2)}}</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <span style="margin-left: 160px; font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <span style="margin-left: 167px; font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
-                        <span style="margin-left: 60px; font-size: 12px">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</span>
-                    </div>
-                </td>
-            </tr>
-        </table>
-        <table style="width: 100%; border: 1px solid black;">
-            <tr style="font-size: 14px">
-                <td class="text-strong" style="width: 85%; border: 1px solid black;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b>(Total Amount in Words) <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($order->total_in_words) }}</u></span></b>
-                    </div>
-                </td>
-                <td class="text-strong text-right" style="width: 20%; border: 1px solid black;">
-                    {{number_format($order->total,2)}}
-                </td>
-            </tr>
-        </table>
-    @else
         {{--------------------------------------------------------
         ------------------------------------------------------
         ------------------------------------------------------
@@ -246,13 +168,15 @@
                 </td>
             </tr>
         </table>
+
+    @if($trans->transaction->jr_type != 'PAKYAW')
         <table style="width: 100%; height: 100px;" class="tbl-bordered">
             <thead>
-                <tr>
-                    <th class="" style="width:100%; font-size: 16px;">Scope of Work</th>
-                    <th class="text-center" style="width:20%; font-size: 16px;"></th>
-                    <th class="text-center" style="width:20%; font-size: 16px;">Amount</th>
-                </tr>
+            <tr>
+                <th class="" style="width:100%; font-size: 16px;">Scope of Work</th>
+                <th class="text-center" style="width:20%; font-size: 16px;"></th>
+                <th class="text-center" style="width:20%; font-size: 16px;">Amount</th>
+            </tr>
             </thead>
             <tbody>
             @if(!empty($td))
@@ -293,7 +217,7 @@
                         Tax Base: <span style="margin-left: 100px; font-size: 12px">{{number_format($order->total_gross-((12 / 100) * $trans->transaction->abc),2)}}</span>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <span style="margin-left: 160px; font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
+                        <span style="margin-left: 166px; font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
                         <span style="margin-left: 167px; font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
@@ -302,19 +226,64 @@
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; border: 1px solid black;">
-            <tr style="font-size: 14px">
-                <td class="text-strong" style="width: 85%; border: 1px solid black;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b>(Total Amount in Words) <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($order->total_in_words) }}</u></span></b>
-                    </div>
-                </td>
-                <td class="text-strong text-right" style="width: 20%; border: 1px solid black;">
-                    {{number_format($order->total,2)}}
+    @else
+        <table style="width: 100%; height: 100px; border-right: 1px solid black; border-left: 1px solid black" class="">
+            <thead>
+            <tr>
+                <th class="text-center" colspan="2" style="width:10%; font-size: 16px;">Scope of Work:</th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+                <th class="text-center" style="width:50%; font-size: 16px;"></th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if(!empty($td))
+                @php
+                    $nowCount = 0;
+                @endphp
+                @foreach($td as $item)
+                    @php
+                        $nowCount = $nowCount + 1;
+                    @endphp
+                    <tr style="height: 10%">
+                        <td class="text-center " style="vertical-align: top;width:10%;">{{$item->stock_no}}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;">{{strtoupper($item->unit)}}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;"><b>{{$item->item}}</b><br>{{strtoupper($item->description)}}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;">{{$item->qty}}</td>
+                        <td class="text-right" style="vertical-align: top;width:10%;">
+                            <b>{{number_format($item->unit_cost,2)}}</b>
+                        </td>
+                        <td class="text-right" style="vertical-align: top;width:10%;">
+                            <b>{{number_format($item->total_cost,2)}}</b>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5" class="text-right text-strong"></td>
+                <td class="text-strong text-right">
+                    <b><u>{{number_format($order->total_gross,2)}}</u></b>
                 </td>
             </tr>
+            </tfoot>
         </table>
     @endif
+    <table style="width: 100%; border: 1px solid black;">
+        <tr style="font-size: 14px">
+            <td class="text-strong" style="width: 85%; border: 1px solid black;">
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b>(Total Amount in Words) <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($order->total_in_words) }}</u></span></b>
+                </div>
+            </td>
+            <td class="text-strong text-right" style="width: 20%; border: 1px solid black;">
+                {{number_format($order->total,2)}}
+            </td>
+        </tr>
+    </table>
     <table style="width: 100%; ">
         <tr style="font-size: 14px">
             <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">

@@ -105,7 +105,7 @@
                                         ],
                                     ]) !!}--}}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                                            'label' => 'RFQ Reference Number:',
+                                            'label' => 'JR Reference Number:',
                                             'cols' => 3,
                                             'required' => 'required'
                                         ]) !!}
@@ -422,27 +422,43 @@
                             let slugs = '';
                             let tableHtml = '<tbody>';
                             let overAllTotal = 0;
-                            for(let i=0; i<res.transDetails.length; i++){
-                                //let num1 = parseFloat(res.transDetails[i].unit_cost);
-                                //let num2 = parseFloat(res.transDetails[i].total_cost);
-                                //num1 = isNaN(num1) ? 0 : num1;
-                                //num2 = isNaN(num2) ? 0 : num2;
-                                let stock = res.transDetails[i].stock_no;
-                                stock = stock === null ? '' : stock;
-                                slugs += res.transDetails[i].slug + '~';
-                                let aqTotalCost = 0;
-                                let aqUnitCost = 0;
-                                for (const aqd of res.aqOfferDetails) {
-                                    if(aqd.item_slug === res.transDetails[i].slug){
-                                        aqTotalCost = parseFloat(aqd.amount);
+                            if(res.trans.jr_type != 'PAKYAW'){
+                                for(let i=0; i<res.transDetails.length; i++){
+                                    //let num1 = parseFloat(res.transDetails[i].unit_cost);
+                                    //let num2 = parseFloat(res.transDetails[i].total_cost);
+                                    //num1 = isNaN(num1) ? 0 : num1;
+                                    //num2 = isNaN(num2) ? 0 : num2;
+                                    let stock = res.transDetails[i].stock_no;
+                                    stock = stock === null ? '' : stock;
+                                    slugs += res.transDetails[i].slug + '~';
+                                    let aqTotalCost = 0;
+                                    let aqUnitCost = 0;
+                                    for (const aqd of res.aqOfferDetails) {
+                                        if(aqd.item_slug === res.transDetails[i].slug){
+                                            aqTotalCost = parseFloat(aqd.amount);
+                                        }
                                     }
-                                }
-                                aqUnitCost = parseFloat(aqTotalCost / res.transDetails[i].qty);
-                                aqTotalCost = isNaN(aqTotalCost) ? 0 : aqTotalCost;
-                                aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
-                                overAllTotal += aqTotalCost;
-                                tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+                                    aqUnitCost = parseFloat(aqTotalCost / res.transDetails[i].qty);
+                                    aqTotalCost = isNaN(aqTotalCost) ? 0 : aqTotalCost;
+                                    aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
+                                    overAllTotal += aqTotalCost;
+                                    tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
 
+                                }
+                            }
+                            else {
+                                for(let i=0; i<res.transDetails.length; i++){
+                                    let num1 = parseFloat(res.transDetails[i].unit_cost);
+                                    let num2 = parseFloat(res.transDetails[i].total_cost);
+                                    num1 = isNaN(num1) ? 0 : num1;
+                                    num2 = isNaN(num2) ? 0 : num2;
+                                    let stock = res.transDetails[i].stock_no;
+                                    stock = stock === null ? '' : stock;
+                                    slugs += res.transDetails[i].slug + '~';
+                                    overAllTotal += num2;
+                                    tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+
+                                }
                             }
                             $('#refBook').val(res.trans.ref_book);
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
@@ -454,27 +470,34 @@
                                 $('input[name="total_in_words"]').val(numberToWords(totalAmt));
                             }
                             else {
-                                let taxBase = overAllTotal-((12 / 100) * overAllTotal);
-                                let tb1 = 0;
-                                if($('#isVat').val() === 'True'){
-                                    tb1 = (5 / 100) * taxBase;
+                                if(res.trans.jr_type == 'PAKYAW'){
+                                    $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                                    $('input[name="total"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                                    $('input[name="total_in_words"]').val(numberToWords(overAllTotal));
                                 }
                                 else {
-                                    tb1 = (1 / 100) * taxBase;
+                                    let taxBase = overAllTotal-((12 / 100) * overAllTotal);
+                                    let tb1 = 0;
+                                    if($('#isVat').val() === 'True'){
+                                        tb1 = (5 / 100) * taxBase;
+                                    }
+                                    else {
+                                        tb1 = (1 / 100) * taxBase;
+                                    }
+                                    let pOjOTax = 0;
+                                    if(res.trans.ref_book === "PR"){
+                                        pOjOTax = (1 / 100) * taxBase;
+                                    }
+                                    else {
+                                        pOjOTax = (2 / 100) * taxBase;
+                                    }
+                                    $('#tax_base_1').val(tb1);
+                                    $('#tax_base_2').val(pOjOTax);
+                                    let totalAmt = overAllTotal - (tb1 + pOjOTax);
+                                    $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
                                 }
-                                let pOjOTax = 0;
-                                if(res.trans.ref_book === "PR"){
-                                    pOjOTax = (1 / 100) * taxBase;
-                                }
-                                else {
-                                    pOjOTax = (2 / 100) * taxBase;
-                                }
-                                $('#tax_base_1').val(tb1);
-                                $('#tax_base_2').val(pOjOTax);
-                                let totalAmt = overAllTotal - (tb1 + pOjOTax);
-                                $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
                             }
                             $('#trans_table').append(tableHtml).removeClass('hidden');
                             console.log(res);
