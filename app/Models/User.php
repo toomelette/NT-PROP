@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -45,7 +46,9 @@ class User extends Authenticatable{
     protected static $ignoreChangedAttributes = ['updated_at','ip_updated','user_updated','last_login_time','is_online','last_activity'];
     protected static $logOnlyDirty = true;
 
-
+    public function getActivitylogOptions():LogOptions {
+        return LogOptions::defaults();
+    }
 
 
     protected $attributes = [
