@@ -229,7 +229,7 @@
                         tb1 = (5 / 100) * taxBase;
                     }
                     else {
-                        tb1 = (1 / 100) * taxBase;
+                        tb1 = (3 / 100) * taxBase;
                     }
                     let pOjOTax = 0;
                     if(refBook === "PR"){
@@ -258,7 +258,7 @@
                     tb1 = (5 / 100) * taxBase;
                 }
                 else {
-                    tb1 = (1 / 100) * taxBase;
+                    tb1 = (3 / 100) * taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -293,7 +293,7 @@
                     tb1 = (5 / 100) * taxBase;
                 }
                 else {
-                    tb1 = (1 / 100) * taxBase;
+                    tb1 = (3 / 100) * taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -460,7 +460,7 @@
                                     tb1 = (5 / 100) * taxBase;
                                 }
                                 else {
-                                    tb1 = (1 / 100) * taxBase;
+                                    tb1 = (3 / 100) * taxBase;
                                 }
                                 let pOjOTax = 0;
                                 if(res.trans.ref_book === "PR"){
