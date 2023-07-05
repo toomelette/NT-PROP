@@ -4,10 +4,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\PAR\PARFormRequest;
-use App\Models\AwardNoticeAbstract;
-use App\Models\PAP;
-use App\Models\PAR;
+use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
+use App\Models\InventoryPPE;
 use App\Swep\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -24,7 +22,7 @@ class PARController extends Controller
     }
 
     public function dataTable($request){
-        $par = PAR::query();
+        $par = InventoryPPE::query();
         return DataTables::of($par)
             ->addColumn('action',function($data){
                 return view('ppu.par.dtActions')->with([
@@ -42,8 +40,8 @@ class PARController extends Controller
             ->toJson();
     }
 
-    public function store(PARFormRequest $request){
-        $par = new PAR();
+    public function store(InventoryPPEFormRequest $request){
+        $par = new InventoryPPE();
         $par->slug = Str::random(16);
         $par->par_code = $this->getNextPARNo();
         $par->sub_major_account_group = $request->sub_major_account_group;
@@ -80,7 +78,7 @@ class PARController extends Controller
     }
 
     public function edit($slug){
-        $par = PAR::query()->where('slug','=', $slug)->first();
+        $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         return view('ppu.par.edit')->with([
             'par' => $par
         ]);
@@ -88,13 +86,13 @@ class PARController extends Controller
 
     public function print($slug){
         return view('printables.par.print')->with([
-            'par' => PAR::query()->where('slug', $slug)->first(),
+            'par' => InventoryPPE::query()->where('slug', $slug)->first(),
         ]);
     }
 
     public function getNextPARNo(){
         $year = Carbon::now()->format('Y');
-        $par = PAR::query()
+        $par = InventoryPPE::query()
             ->where('par_code','like',$year.'%')
             ->orderBy('par_code','desc')
             ->first();

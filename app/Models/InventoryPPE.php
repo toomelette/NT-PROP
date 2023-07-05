@@ -6,7 +6,7 @@ namespace App\Models;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 
-class PAR extends Model
+class InventoryPPE extends Model
 {
     public static function boot()
     {

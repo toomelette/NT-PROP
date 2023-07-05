@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Http\Requests\PAR;
+namespace App\Http\Requests\InventoryPPE;
 
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PARFormRequest extends FormRequest
+class InventoryPPEFormRequest extends FormRequest
 {
     public function authorize(){
         return true;

@@ -174,6 +174,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');
     Route::resource('par', 'PARController');
 
+    Route::get('/rpci/generate','RPCIController@generate')->name('rpci.generate');
+    Route::resource('rpci', 'RPCIController');
+
     Route::resource('supplier', 'SupplierController');
 });
 
