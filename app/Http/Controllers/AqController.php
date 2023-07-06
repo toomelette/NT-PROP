@@ -364,10 +364,15 @@ class AqController extends Controller
 //
 //        return $pdf->stream('sss.pdf');
         $nature_of_work_arr = [];
-        $rfqtrans = Transactions::query()
+        /*$rfqtrans = Transactions::query()
             ->where('cross_slug', '=', $aq->cross_slug)
             ->where('ref_book', '=', 'RFQ')
+            ->first();*/
+        $rfqtrans = Transactions::query()
+            ->where('ref_no', '=', $aq->cross_ref_no)
+            ->where('ref_book', '=', 'RFQ')
             ->first();
+        $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
         $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
         foreach ($transDetails as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;

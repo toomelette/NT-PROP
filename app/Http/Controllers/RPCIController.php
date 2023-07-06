@@ -15,6 +15,10 @@ use Yajra\DataTables\DataTables;
 class RPCIController extends Controller
 {
     public function generate(){
+        return view('ppu.rpci.generate');
+    }
+
+    public function print($fund_cluster){
         return view('printables.rpci.generate')->with([
             'rpciObj' => InventoryPPE::query()->get(),
         ]);
