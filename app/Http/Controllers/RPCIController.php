@@ -15,15 +15,19 @@ use Yajra\DataTables\DataTables;
 
 class RPCIController extends Controller
 {
-    public function generate(){
-        return view('ppu.rpci.generate');
+    public function generateRpcppe(){
+        return view('ppu.rpcppe.generate');
     }
 
-    public function print($fund_cluster){
+    public function rpcppeByCriteria(){
+        return view('ppu.rpcppe.generateByCriteria');
+    }
+
+    public function printRpcppe($fund_cluster){
         $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
         $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
         $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
-        return view('printables.rpci.generate')->with([
+        return view('printables.rpcppe.generate')->with([
             'rpciObj' => $rpciObj,
             'accountCodes' => $accountCodes,
             'accountCodeRecords' => $accountCodeRecords,

@@ -8,7 +8,6 @@
 @section('content2')
     <section class="content col-md-12">
         <div class="box box-solid">
-
             <form id="rpci_form">
                 <div class="box-header with-border">
                 </div>
@@ -16,11 +15,14 @@
                     <div class="embed-responsive embed-responsive-16by9 hidden" style="height: 1019.938px;">
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
-                    {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
-                    'id' => 'fund_cluster',
-                    'label' => 'Fund Cluster:',
-                    'cols' => 3,
-                    'options' => \App\Swep\Helpers\Arrays::fundSources(),
+                    {!! \App\Swep\ViewHelpers\__form2::select('criteria', [
+                        'id' => 'criteria',
+                        'label' => 'Select Criteria:',
+                        'cols' => 3,
+                        'options' => [
+                            'name' => 'Name',
+                            'location' => 'Location',
+                        ],
                     ]) !!}
                     <div class="clearfix"></div>
                     <div class="box-footer pull-left">
@@ -47,7 +49,7 @@
         $(document).ready(function() {
             $('#fund_cluster').change(function() {
                 var selectedValue = $(this).val();
-                var href = "{{ route('dashboard.rpci.print', 'fund_cluster') }}";
+                var href = "{{ route('dashboard.rpcppe.printRpcppe', 'fund_cluster') }}";
                 href = href.replace('fund_cluster', selectedValue);
                 $('a.btn').attr('href', href);
             });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
+use App\Models\AccountCode;
 use App\Models\InventoryPPE;
 use App\Swep\Helpers\Helper;
 use Illuminate\Http\Request;
@@ -102,5 +103,25 @@ class PARController extends Controller
             $newPar = $year.'-'.str_pad(substr($par->par_code,5) + 1, 4,0,STR_PAD_LEFT);
         }
         return $newPar;
+    }
+
+    public function generateRpcppe(){
+        return view('ppu.rpcppe.generate');
+    }
+
+    public function rpcppeByCriteria(){
+        return view('ppu.rpcppe.generateByCriteria');
+    }
+
+    public function printRpcppe($fund_cluster){
+        $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
+        $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
+        $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
+        return view('printables.rpcppe.generate')->with([
+            'rpciObj' => $rpciObj,
+            'accountCodes' => $accountCodes,
+            'accountCodeRecords' => $accountCodeRecords,
+            'funcCluster' => $fund_cluster,
+        ]);
     }
 }
