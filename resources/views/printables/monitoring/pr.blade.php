@@ -29,6 +29,7 @@
         <tr>
             <th class="text-center" style="width: 30px"></th>
             <th class="text-center">PR No.</th>
+            <th class="text-center">PAP Code</th>
             <th class="text-center">Amount</th>
             <th class="text-center">Date Created</th>
             <th class="text-center">Date Received</th>
@@ -45,6 +46,7 @@
                     <tr>
                         <td>{{$loop->iteration}}</td>
                         <td class="text-center">{{$transaction->ref_no}}</td>
+                        <td class="text-center">{{$transaction->pap_code}}</td>
                         <td class="text-right">{{number_format($transaction->abc,2)}}</td>
                         <td class="text-center">{{\App\Swep\Helpers\Helper::dateFormat($transaction->date,'M. d, Y')}}</td>
                         <td class="text-center">{{\App\Swep\Helpers\Helper::dateFormat($transaction->received_at,'M. d, Y')}}</td>
