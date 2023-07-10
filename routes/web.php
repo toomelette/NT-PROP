@@ -172,11 +172,10 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/{slug}/print','PARController@print')->name('par.print');
     Route::get('/par/edit/{slug}','PARController@edit')->name('par.edit');
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');
+    Route::get('/par/{fund_cluster}/printRpcppe','PARController@printRpcppe')->name('rpcppe.printRpcppe');
+    Route::get('/par/generateRpcppeByCriteria','PARController@rpcppeByCriteria')->name('rpcppe.rpcppeByCriteria');
+    Route::get('/par/generateRpcppe','PARController@generateRpcppe')->name('rpcppe.generateRpcppe');
     Route::resource('par', 'PARController');
-
-    Route::get('/rpci/{fund_cluster}/print','RPCIController@print')->name('rpci.print');
-    Route::get('/rpci/generate','RPCIController@generate')->name('rpci.generate');
-    Route::resource('rpci', 'RPCIController');
 
     Route::resource('supplier', 'SupplierController');
 });
