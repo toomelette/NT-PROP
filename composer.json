@@ -16,13 +16,14 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.0",
+        "phpmailer/phpmailer": "^6.8",
         "predis/predis": "^1.1",
         "rats/zkteco": "^002.0",
         "simplesoftwareio/simple-qrcode": "^4.0",
         "spatie/laravel-activitylog": "^4.0",
+        "spatie/laravel-ignition": "^1.0",
         "yajra/laravel-datatables": "^1.5",
-        "yajra/laravel-datatables-html": "^4.0",
-        "spatie/laravel-ignition": "^1.0"
+        "yajra/laravel-datatables-html": "^4.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
@@ -77,4 +78,3 @@
     "minimum-stability": "dev",
     "prefer-stable": true
 }
-

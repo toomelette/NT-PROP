@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\RFQ\RFQFormRequest;
+use App\Jobs\PrepareRFQNotification;
 use App\Models\RFQ;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
+use App\Swep\Helpers\Arrays;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\RFQService;
 use App\Swep\Services\TransactionService;
@@ -209,10 +211,26 @@ class RFQController extends Controller
         else
             $trans->abc = $prOrJr->abc;
 
+
+
+
         if($trans->save()){
             TransactionDetails::insert($arr);
             $prOrJr->is_locked = 1;
             $prOrJr->save();
+
+            //QUEUE EMAIL
+            $to = 'gguance221@gmail.com';
+            $subject = Arrays::acronym($prOrJr->ref_book).' No. '.$prOrJr->ref_no;
+            $body = view('mailables.email_notifier.body-rfq-created')
+                ->with([
+                    'transaction' => $prOrJr,
+                    'rfq' => $trans,
+                ])
+                ->render();
+            PrepareRFQNotification::dispatch($to,$subject,$body);
+
+
             return $trans->only('slug');
         }
         abort(503,'Error creating RFQ');

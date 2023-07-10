@@ -266,4 +266,13 @@ class Arrays
         }
         return $years;
     }
+
+    public static function acronym($acronym){
+        $data = [
+            'PR' => 'Purchase Request',
+            'JR' => 'Job Request',
+            'RFQ' => 'Request for Quotation',
+        ];
+        return $data[$acronym] ?? 'N/A';
+    }
 }

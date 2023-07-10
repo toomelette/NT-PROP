@@ -196,4 +196,8 @@ Route::get('/arrangePap',function (){
    }
 });
 
+Route::get('/mailtest',function (){
+
+});
+
 
