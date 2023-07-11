@@ -70,7 +70,10 @@
                 <td style="vertical-align: bottom; border: 1px solid black; width: 30%" height="80">Signature of Requisitioner</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 30%">{{strtoupper($cr->requisitioner)}}</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 15%">Approved:</td>
-                <td style="vertical-align: bottom; border: 1px solid black; width: 25%"></td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 25%">
+                    <span style="font-size: 14px"><b>NOLI T. TINGSON</b></span><br>
+                    SUPPLY OFFICER IV
+                </td>
             </tr>
         </table>
         <br>
