@@ -25,7 +25,7 @@ Route::get('dashboard/home', 'HomeController@index')->name('dashboard.home')->mi
 Route::get('/dashboard/plantilla/print','PlantillaController@print')->name('plantilla.print');
 
 Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
-    'middleware' => ['check.user_status', 'last_activity','sidenav_mw']
+    'middleware' => ['check.user_status', 'last_activity','sidenav_mw','verify.email']
 ], function () {
     Route::post('dashboard/changePass','UserController@changePassword')->name('all.changePass');
     Route::post('/change_side_nav','SidenavController@change')->name('sidenav.change');
@@ -73,7 +73,7 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
 });
 
 /** Dashboard **/
-Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['check.user_status', 'check.user_route', 'last_activity']], function () {
+Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['check.user_status', 'check.user_route', 'last_activity','verify.email']], function () {
 
 	/** USER **/
 
@@ -178,6 +178,26 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('par', 'PARController');
 
     Route::resource('supplier', 'SupplierController');
+    Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
+});
+
+Route::get('/verifyEmail',function (){
+    if(\Illuminate\Support\Facades\Auth::user()->email != null){
+        return redirect('/');
+    }
+   return view('ppu.verify_email.verify');
+});
+
+Route::post('/verifyEmail',function (\Illuminate\Http\Request $request){
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+    $user = Auth::user();
+    $user->email = $request->email;
+    if($user->save()){
+        return 1;
+    }
+    abort(503,'Error updating email.');
 });
 
 Route::get('test',function (){

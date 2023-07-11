@@ -14,4 +14,5 @@ class PPURespCodes extends Model
     public function description(){
         return $this->belongsTo(RCDesc::class,'rc','rc');
     }
+
 }
