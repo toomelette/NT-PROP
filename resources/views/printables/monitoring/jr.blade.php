@@ -17,7 +17,7 @@
             </p>
         </div>
     </div>
-    <h3 style="font-family: Cambria" class="text-left">PR MONITORING</h3>
+    <h3 style="font-family: Cambria" class="text-left">JR MONITORING</h3>
     <h4 style="font-family: Cambria" class="text-strong text-left">
         {{$resp_center->desc ?? null}}
         @if(($request->has('year') && $request->year != '') && $request->year != \Illuminate\Support\Carbon::now()->format('Y'))
@@ -28,7 +28,7 @@
         <thead>
         <tr>
             <th class="text-center" style="width: 30px"></th>
-            <th class="text-center">PR No.</th>
+            <th class="text-center">JR No.</th>
             <th class="text-center">PAP Code</th>
             <th class="text-center">Amount</th>
             <th class="text-center">Date Created</th>

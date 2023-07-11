@@ -63,7 +63,7 @@ class PRController extends Controller
                 ->where('rc_code','=',$request->resp_center)
                 ->first();
         }
-        $trans = $trans->get();
+        $trans = $trans->orderBy('pap_code')->get();
         return view('printables.monitoring.pr')->with([
             'transactions' => $trans,
             'resp_center' => $resp_center,

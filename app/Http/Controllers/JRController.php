@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\AwardNoticeAbstract;
 use App\Models\JR;
 use App\Models\JRItems;
+use App\Models\PPURespCodes;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
@@ -119,6 +120,9 @@ class JRController extends Controller
     }
 
     public function monitoringIndex(Request $request){
+        if($request->has('print') && $request->print == true){
+            return $this->printTable($request);
+        }
         if(\request()->ajax() && \request()->has('draw')){
             return $this->monitoringDataTable($request);
         }
@@ -313,5 +317,28 @@ class JRController extends Controller
             return $jr->only('slug');
         }
         abort(503,'Error in cancellation of transaction. JRController::cancel()');
+    }
+
+    private function printTable(Request $request){
+        $trans = Transactions::query()
+            ->with(['rfq','aq','anaPr'])
+            ->where('ref_book','=','JR')
+            ->where('cancelled_at','=', null);
+        $resp_center = null;
+        if(!empty($request->year) && $request->year != ''){
+            $trans->where('date','like',$request->year.'%');
+        }
+        if(!empty($request->resp_center) && $request->resp_center != ''){
+            $trans->where('resp_center','=',$request->resp_center);
+            $resp_center = PPURespCodes::query()
+                ->where('rc_code','=',$request->resp_center)
+                ->first();
+        }
+        $trans = $trans->orderBy('pap_code')->get();
+        return view('printables.monitoring.jr')->with([
+            'transactions' => $trans,
+            'resp_center' => $resp_center,
+            'request' => $request,
+        ]);
     }
 }
