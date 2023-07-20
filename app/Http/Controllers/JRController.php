@@ -334,7 +334,7 @@ class JRController extends Controller
                 ->where('rc_code','=',$request->resp_center)
                 ->first();
         }
-        $trans = $trans->orderBy('pap_code')->get();
+        $trans = $trans->orderBy('pap_code')->orderBy('ref_no')->get();
         return view('printables.monitoring.jr')->with([
             'transactions' => $trans,
             'resp_center' => $resp_center,
