@@ -53,8 +53,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::textbox('delivery_date',[
                                 'label' => 'Date of Delivery:',
                                 'cols' => 3,
-                                'type' => 'date',
-                                'required' => 'required'
+                                'type' => 'date'
                              ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('delivery_term',[
                                          'label' => 'Delivery Term:',
