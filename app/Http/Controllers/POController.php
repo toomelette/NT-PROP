@@ -53,7 +53,8 @@ class POController extends Controller
 
     public function create(){
         $suppliers = Suppliers::pluck('name','slug');
-        return view('ppu.purchase_order.create', compact('suppliers'));
+        $po_number = $this->getNextPONo("PO");
+        return view('ppu.purchase_order.create', compact('suppliers', 'po_number'));
     }
 
     public function findSupplier($slug){
@@ -63,14 +64,20 @@ class POController extends Controller
     }
 
     public function store(POFormRequest $request) {
-
+        $refBook = "PO";
+        //$poNUmber = $this->getNextPONo($refBook);
+        $poNumber = $request->po_number;
+        $orderExist = Order::query()->where('ref_no','=',$request->po_number)
+                                    ->where('ref_book', '=', $refBook)->first();
+        if($orderExist != null) {
+            return abort(503,'PO Number already exist.');
+        }
         $randomSlug = Str::random();
-        $refBook = $request->refBook == "PR"?"PO":"JO";
-        $poNUmber = $this->getNextPONo($refBook);
+        //$poNUmber = $this->getNextPONo($refBook);
         $s = Suppliers::query()->where('slug','=', $request->supplier)->first();
 
         $order = new Order();
-        $order->ref_no = $poNUmber;
+        $order->ref_no = $request->po_number;
         $order->slug = $randomSlug;
         $order->supplier = $s->slug;
         $order->supplier_name = $s->name;
@@ -128,7 +135,7 @@ class POController extends Controller
         $transNew->resp_center = $trans->resp_center;
         $transNew->pap_code = $trans->pap_code;
         $transNew->ref_book = $refBook;
-        $transNew->ref_no = $poNUmber;
+        $transNew->ref_no = $poNumber;
         $transNew->cross_slug = $trans->slug;
         $transNew->cross_ref_no = $trans->ref_no;
         $transNew->purpose = $trans->purpose;
@@ -236,7 +243,6 @@ class POController extends Controller
     }
 
     public function getNextPONo($ref_book){
-
         $year = Carbon::now()->format('Y-');
         $trans = Order::query()
             ->where('ref_no','like',$year.'%')
@@ -260,6 +266,27 @@ class POController extends Controller
         /*foreach ($trans->transaction->transDetails as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
         }*/
+        $prtrans = Transactions::query()
+            ->where('slug', '=', $trans->cross_slug)
+            ->first();
+        $ana = AwardNoticeAbstract::query()
+            ->where('ref_book', '=', $prtrans->ref_book)
+            ->where('ref_number', '=', $prtrans->ref_no)
+            ->first();
+        $aq = Transactions::query()
+            ->where('cross_slug', '=', $prtrans->slug)
+            ->where('ref_book', '=', 'AQ')
+            ->first();
+        $supplier = Suppliers::query()->where('name','=', $ana->awardee)->first();
+        $aqQuotation = AQQuotation::query()
+            ->where('aq_slug','=', $aq->slug)
+            ->where('supplier_slug','=', $supplier->slug)
+            ->first();
+        $aqOfferDetails = AQOfferDetails::query()
+            ->where('quotation_slug','=', $aqQuotation->slug)
+            ->get();
+
+
         foreach ($td as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
         }
@@ -268,7 +295,8 @@ class POController extends Controller
             'trans' => $trans,
             'td' => $td,
             'nature_of_work_arr' => $nature_of_work_arr,
-            'rc' => $rc
+            'rc' => $rc,
+            'aqOfferDetails' => $aqOfferDetails
         ]);
     }
 }

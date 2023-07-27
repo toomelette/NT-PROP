@@ -20,8 +20,14 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
-                    <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
+                    <input class="" type="text" id="tax_base_1" name="tax_base_1"/>
                     <input class="hidden" type="text" id="tax_base_2" name="tax_base_2"/>
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('po_number',[
+                                            'label' => 'PO Number:',
+                                            'cols' => 3
+                                        ],
+                                        $po_number ?? null
+                                        ) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('mode',[
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
