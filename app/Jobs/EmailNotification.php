@@ -1,18 +1,20 @@
 <?php
 
+
 namespace App\Jobs;
+
 
 use App\Models\CronLogs;
 use App\Swep\Helpers\Helper;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class PrepareRFQNotification extends Mail implements ShouldQueue
+class EmailNotification extends Mail implements ShouldQueue
 {
+
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
@@ -24,7 +26,7 @@ class PrepareRFQNotification extends Mail implements ShouldQueue
     public $subject;
     public $body;
     public $cc;
-    public function __construct($to,$subject,$body,$cc)
+    public function __construct($to,$subject,$body,$cc = [])
     {
         parent::__construct();
         $this->to = $to;
@@ -38,6 +40,8 @@ class PrepareRFQNotification extends Mail implements ShouldQueue
      *
      * @return void
      */
+
+
     public function handle()
     {
         if(Helper::getSetting('send_email_notification')->int_value == 1){

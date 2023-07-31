@@ -19,7 +19,7 @@ Route::group(['as' => 'auth.'], function () {
 
 
 /** HOME **/
-Route::get('dashboard/home', 'HomeController@index')->name('dashboard.home')->middleware('check.user_status');
+Route::get('dashboard/home', 'HomeController@index')->name('dashboard.home')->middleware(['check.user_status','verify.email']);
 
 
 Route::get('/dashboard/plantilla/print','PlantillaController@print')->name('plantilla.print');

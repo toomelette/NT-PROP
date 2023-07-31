@@ -22,7 +22,8 @@ class EmailRecipientsController extends Controller
     }
 
     private function dataTable(Request $request){
-        $rc = PPURespCodes::query();
+        $rc = PPURespCodes::query()
+            ->with(['emailRecipients']);
         return \DataTables::of($rc)
             ->addColumn('action',function($data){
                return view('ppu.email_recipients.dtActions')->with([
@@ -30,7 +31,9 @@ class EmailRecipientsController extends Controller
                ]);
             })
             ->addColumn('email_addresses',function($data){
-                
+                return view('ppu.email_recipients.emailRecipients')->with([
+                    'data' => $data,
+                ]);
             })
             ->escapeColumns([])
             ->setRowId('rc_code')
@@ -51,27 +54,37 @@ class EmailRecipientsController extends Controller
     }
 
     public function update(EmailRecipientsFormRequest $request,$rcCode){
-        $emails  = collect($request->toArray()['email']);
-        $emails = $emails->map(function ($data) use ($rcCode){
-            return [
-                'slug' => Str::random(),
-                'rc_code' => $rcCode,
-                'email_address' => $data,
-                'user_created' => Auth::user()->user_id,
-                'ip_created' => \request()->ip(),
-                'created_at' => Carbon::now(),
-            ];
-        });
+        if(!empty($request->email)){
+            $emails  = collect($request->toArray()['email']);
+            $emails = $emails->map(function ($data) use ($rcCode){
+                return [
+                    'slug' => Str::random(),
+                    'rc_code' => $rcCode,
+                    'email_address' => $data,
+                    'user_created' => Auth::user()->user_id,
+                    'ip_created' => \request()->ip(),
+                    'created_at' => Carbon::now(),
+                ];
+            });
+            $existingEmails = EmailRecipients::query()
+                ->where('rc_code','=',$rcCode)
+                ->delete();
 
-        $existingEmails = EmailRecipients::query()
-                        ->where('rc_code','=',$rcCode)
-                        ->delete();
-
-        if(EmailRecipients::insert($emails->toArray())){
+            if(EmailRecipients::insert($emails->toArray())){
+                return [
+                    'slug' => $rcCode,
+                ];
+            }
+        }else{
+            $existingEmails = EmailRecipients::query()
+                ->where('rc_code','=',$rcCode)
+                ->delete();
             return [
                 'slug' => $rcCode,
             ];
         }
+
+
         abort(503,'Error saving email address.');
     }
 }

@@ -27,7 +27,7 @@
                             ],$email->email_address) !!}
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-danger remove_row_btn" tabindex="-1"><i class="fa fa-times"></i></button>
+                            <button type="button" class="btn btn-sm btn-danger remove_row_btn" tabindex="-1"><i class="fa fa-times"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -39,7 +39,7 @@
                         ]) !!}
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-danger remove_row_btn" tabindex="-1"><i class="fa fa-times"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger remove_row_btn" tabindex="-1"><i class="fa fa-times"></i></button>
                     </td>
                 </tr>
             @endif
@@ -62,7 +62,7 @@
             ]) !!}
         </td>
         <td>
-            <button class="btn btn-sm btn-danger remove_row_btn" tabindex="-1"><i class="fa fa-times"></i></button>
+            <button type="button" class="btn btn-sm btn-danger remove_row_btn" tabindex="-1"><i class="fa fa-times"></i></button>
         </td>
     </tr>
     </tbody>

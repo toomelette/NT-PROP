@@ -24,5 +24,6 @@ class EmailRecipients extends Model
         });
     }
     protected $table = 'email_recipients';
+    protected $connection = 'mysql_ppu';
     public $timestamps = true;
 }

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\AwardNoticeAbstract\ANAFormRequest;
+use App\Jobs\EmailNotification;
 use App\Models\AwardNoticeAbstract;
 use App\Models\CancellationRequest;
 use App\Models\Suppliers;
 use App\Models\Transactions;
+use App\Swep\Helpers\Arrays;
 use App\Swep\Helpers\Helper;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -67,6 +69,7 @@ class AwardNoticeAbstractController extends Controller
     }
 
     public function store(ANAFormRequest $request){
+
         $trans = Transactions::query()
                 ->where('ref_book', '=', $request->ref_book)
                 ->where('ref_no', '=', $request->ref_number)
@@ -103,7 +106,18 @@ class AwardNoticeAbstractController extends Controller
         $s->contact_name = $request->contact_name;
         $s->signatory = $request->signatory_name;
         $s->designation = $request->signatory_title;
+
+
+        //email notification
+        $to = $trans->userCreated->email;
+        $subject = Arrays::acronym($trans->ref_book).' No. '.$trans->ref_no;
+        $cc = $trans->rc->emailRecipients->pluck('email_address')->toArray();
+        $body = view('mailables.email_notifier.body-ana-created')->with([
+            'transaction' => $trans,
+            'ana' => $s,
+        ])->render();
         if($s->save()){
+            EmailNotification::dispatch($to,$subject,$body,$cc);
             $slug = $s->slug;
             return [
                 'route' => route('dashboard.awardNoticeAbstract.print', $slug),

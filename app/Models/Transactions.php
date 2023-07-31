@@ -40,7 +40,10 @@ class Transactions extends Model
         return $this->belongsTo(PAP::class,'pap_code','pap_code');
     }
 
-
+    public function userCreated(){
+        return $this->hasOne(User::class,'user_id','user_created');
+    }
+    
 
 
 

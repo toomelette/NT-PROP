@@ -1,26 +1,26 @@
 @extends('mailables.email_notifier.mail')
 @section('email-content')
     <p style="font-weight: normal; font-size: 14px">
-        A <strong>Request for Quotation (RFQ)</strong> for your <strong>{{$transaction->ref_book}} No. {{$transaction->ref_no}}</strong> has been created.
+        An <strong>Award Notice Abstract (ANA)</strong> for your <strong>{{$transaction->ref_book}} No. {{$transaction->ref_no}}</strong> has been created.
     </p>
     <hr>
-    <small style="color: #4289fc">{{\App\Swep\Helpers\Arrays::acronym($rfq->ref_book)}} Details:</small>
+    <small style="color: #4289fc">Award Notice Abstract (ANA) Details:</small>
     <table class="details-table" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
 
         <tr>
             <td class="td-style" style="width: 22%">
-                <p style="margin: 0;">{{$rfq->ref_book}} No:</p>
+                <p style="margin: 0;">ANA No:</p>
             </td>
             <td class="td-style">
-                <p style="margin: 0;" class="bold">{{$rfq->ref_no}}</p>
+                <p style="margin: 0;" class="bold">{{$ana->award_notice_number}}</p>
             </td>
         </tr>
         <tr>
             <td class="td-style">
-                <p style="margin: 0;">{{$rfq->ref_book}} Date:</p>
+                <p style="margin: 0;">Award Date:</p>
             </td>
             <td class="td-style">
-                <p style="margin: 0;" class="bold">{{\App\Swep\Helpers\Helper::dateFormat($rfq->created_at,'M. d, Y')}}</p>
+                <p style="margin: 0;" class="bold">{{\App\Swep\Helpers\Helper::dateFormat($ana->award_date,'M. d, Y')}}</p>
             </td>
         </tr>
 

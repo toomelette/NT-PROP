@@ -220,7 +220,8 @@ class RFQController extends Controller
             $prOrJr->save();
 
             //QUEUE EMAIL
-            $to = 'gguance221@gmail.com';
+            $to = $prOrJr->userCreated->email;
+            $cc = $prOrJr->rc->emailRecipients->pluck('email_address')->toArray();
             $subject = Arrays::acronym($prOrJr->ref_book).' No. '.$prOrJr->ref_no;
             $body = view('mailables.email_notifier.body-rfq-created')
                 ->with([
@@ -228,7 +229,7 @@ class RFQController extends Controller
                     'rfq' => $trans,
                 ])
                 ->render();
-            PrepareRFQNotification::dispatch($to,$subject,$body);
+            PrepareRFQNotification::dispatch($to,$subject,$body,$cc);
 
 
             return $trans->only('slug');

@@ -272,6 +272,8 @@ class Arrays
             'PR' => 'Purchase Request',
             'JR' => 'Job Request',
             'RFQ' => 'Request for Quotation',
+            'AQ' => 'Abstract of Quotations',
+            'ANA' => 'Award Notice Abstract',
         ];
         return $data[$acronym] ?? 'N/A';
     }
