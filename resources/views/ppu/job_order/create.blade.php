@@ -22,10 +22,20 @@
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
                     <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
                     <input class="hidden" type="text" id="tax_base_2" name="tax_base_2"/>
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('mode',[
+                    {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
+                                            'options' => [
+                                                'Shopping' => 'Shopping',
+                                                'Small Value Procurement' => 'Small Value Procurement',
+                                                'Direct Retail Purchase' => 'Direct Retail Purchase',
+                                                'Direct Contracting' => 'Direct Contracting'
+                                            ]
                                         ]) !!}
+                    {{--{!! \App\Swep\ViewHelpers\__form2::textbox('mode',[
+                                            'label' => 'Mode of Procurement:',
+                                            'cols' => 3,
+                                        ]) !!}--}}
                     <div class="clearfix"></div>
                     <div class="form-group col-md-3 supplier">
                         <label for="awardee">Supplier: </label>
@@ -66,20 +76,38 @@
                                          'required' => 'required'
                                      ]) !!}
 
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('authorized_official',[
+                    {{--{!! \App\Swep\ViewHelpers\__form2::textbox('authorized_official',[
                                          'label' => 'Authorized Official:',
                                          'cols' => 3,
                                          'required' => 'required'
                                      ],
                                     \App\Swep\Helpers\Helper::getSetting('po_authorized_official')->string_value ?? null
-                                    ) !!}
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('authorized_official_designation',[
+                                    ) !!}--}}
+                    {!! \App\Swep\ViewHelpers\__form2::select('authorized_official', [
+                                            'label' => 'Authorized Official:',
+                                            'cols' => 3,
+                                            'options' => [
+                                                'ATTY. JOHANA S. JADOC' => 'ATTY. JOHANA S. JADOC',
+                                                'HELEN B. LOBATON' => 'HELEN B. LOBATON',
+                                                'WILFREDO R. MONARES' => 'WILFREDO R. MONARES'
+                                            ]
+                                        ]) !!}
+                    {{--{!! \App\Swep\ViewHelpers\__form2::textbox('authorized_official_designation',[
                                          'label' => 'Designation:',
                                          'cols' => 3,
                                          'required' => 'required'
                                      ],
                                     \App\Swep\Helpers\Helper::getSetting('po_authorized_official_designation')->string_value ?? null
-                                    ) !!}
+                                    ) !!}--}}
+                    {!! \App\Swep\ViewHelpers\__form2::select('authorized_official_designation', [
+                                            'label' => 'Designation:',
+                                            'cols' => 3,
+                                            'options' => [
+                                                'MANAGER III, AFD-VISAYAS' => 'MANAGER III, AFD-VISAYAS',
+                                                'MANAGER III, RDE-VISAYAS' => 'MANAGER III, RDE-VISAYAS',
+                                                'MANAGER III, RD-VISAYAS' => 'MANAGER III, RD-VISAYAS'
+                                            ]
+                                        ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('funds_available',[
                                          'label' => 'Chief Accountant:',
                                          'cols' => 3,
@@ -222,7 +250,7 @@
                 if (event.which === 13) { // Check if Enter key is pressed
                     let refBook = $('#refBook').val();
                     var totalGross = $(this).val();
-                    let taxBase = (1.12 * totalGross)-totalGross;
+                    let taxBase = totalGross/1.12;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
                         tb1 = (5 / 100) * taxBase;
@@ -251,7 +279,7 @@
             $('input[name="total_gross"]').on('blur', function() {
                 let refBook = $('#refBook').val();
                 var totalGross = $(this).val();
-                let taxBase = (1.12 * totalGross)-totalGross;
+                let taxBase = totalGross/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;
@@ -286,7 +314,7 @@
                 let overAllTotal1 = $('input[name="total_gross"]').val();
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
-                let taxBase = (1.12 * overAllTotal)-overAllTotal;
+                let taxBase = overAllTotal/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;
@@ -475,7 +503,7 @@
                                     $('input[name="total_in_words"]').val(numberToWords(overAllTotal));
                                 }
                                 else {
-                                    let taxBase = (1.12 * overAllTotal)-overAllTotal;
+                                    let taxBase = overAllTotal/1.12;
                                     let tb1 = 0;
                                     if($('#isVat').val() === 'True'){
                                         tb1 = (5 / 100) * taxBase;

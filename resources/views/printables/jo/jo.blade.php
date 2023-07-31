@@ -70,7 +70,7 @@
                     <b>{{$trans->transaction->ref_book == 'PR'?'P.O. No.:':'J.O. No.:'}} <span style="margin-left: 121px; font-size: 18px"><u>{{$order->ref_no}}</u></span></b>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>Date: <span style="margin-left: 140px; font-size: 18px"><u>{{\Illuminate\Support\Carbon::parse($order->created_at)->format('d F Y')}}</u></span></b>
+                    <b>Date: <span style="margin-left: 140px; font-size: 18px"><u>{{$order->delivery_date!=null?\Illuminate\Support\Carbon::parse($order->delivery_date)->format('F d, Y'):""}}</u></span></b>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
                     <b>Mode of Procurement: <span style="margin-left: 40px; font-size: 18px"><u>{{$order->mode}}</u></span></b>

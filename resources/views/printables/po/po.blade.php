@@ -97,7 +97,7 @@
                     Place of Delivery: <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($order->place_of_delivery) }}</u></span>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    Date of Delivery: <span style="margin-left: 44px; font-size: 14px"><u>{{\Illuminate\Support\Carbon::parse($order->delivery_date)->format('F d, Y')}}</u></span>
+                    Date of Delivery: <span style="margin-left: 44px; font-size: 14px"><u>{{$order->delivery_date!=null?\Illuminate\Support\Carbon::parse($order->delivery_date)->format('F d, Y'):""}}</u></span>
                 </div>
             </td>
             <td style="width: 50%; border: 1px solid black;">
