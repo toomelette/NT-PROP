@@ -87,7 +87,7 @@ class POController extends Controller
         $order->place_of_delivery = $request->place_of_delivery;
         $order->delivery_term = $request->delivery_term;
         $order->payment_term = $request->payment_term;
-        $order->delivery_date = $request->delivery_date;
+        $order->delivery_date = $request->delivery_date??null;
         $order->mode = $request->mode;
         $order->authorized_official = $request->authorized_official;
         $order->authorized_official_designation = $request->authorized_official_designation;
