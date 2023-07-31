@@ -153,7 +153,6 @@
                     @php
                         $nowCount = $nowCount + 1;
                     @endphp
-                    {{$item->slug}}
                     <tr style="height: 10%">
                         <td class="text-center " style="vertical-align: top;">{{$item->stock_no}}</td>
                         <td class="text-center " style="vertical-align: top;">{{strtoupper($item->unit)}}</td>
