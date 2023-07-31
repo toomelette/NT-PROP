@@ -14,7 +14,7 @@ class POFormRequest extends FormRequest
 
     public function rules(){
         return [
-            'delivery_date' => 'required|date_format:Y-m-d',
+            'po_number' => 'required',
         ];
     }
 }
