@@ -14,7 +14,7 @@
             <div class="login-box">
                 <div class="text-center" style="margin-top:10%;">
                     <h1><span style="font-size: 70px; color: grey"><i class="fa fa-info-circle"></i></span></h1>
-                    <h3>Kindly verify your <b>OFFICIAL</b> email address below.</h3>
+                    <h3>Kindly update your <b>OFFICIAL</b> email address below.</h3>
                     <hr>
                     <h4>Your Name:
                         <span class="text-strong">

@@ -28,6 +28,16 @@ class Mail
         $this->mail->Port = 465;                          // port - 587/465
         $this->mail->From = 'no-reply@sra.gov.ph';
         $this->mail->FromName = 'SRA Visayas - PPBTMS';
+
+        $this->mail->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+
+
 //        $this->mail->setFrom('swep.afd@sra.gov.ph', 'SRA Visayas - PPBTMS');
         $this->mail->addEmbeddedImage('/emailheader.png','sra');
         $this->mail->isHTML(true);

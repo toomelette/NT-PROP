@@ -216,7 +216,15 @@ Route::get('/arrangePap',function (){
 });
 
 Route::get('/mailtest',function (){
-
+    if(Helper::getSetting('send_email_notification')->int_value == 1) {
+        \App\Jobs\PRReceivedNotification::dispatch('gguance221@gmail.com', 'SUBJECT', 'BODY', [
+            'geraldjesterguance02@gmail.com',
+            'geraldjesterguance021@gmail.com',
+        ]);
+        return 'Email sent.';
+    }else{
+        dd('send_email_notification not allowed');
+    }
 });
 
 
