@@ -226,7 +226,7 @@
                 if (event.which === 13) { // Check if Enter key is pressed
                     let refBook = $('#refBook').val();
                     var totalGross = $(this).val();
-                    let taxBase = (1.12 * overAllTotal)-overAllTotal;
+                    let taxBase = (1.12 * totalGross)-totalGross;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
                         tb1 = (5 / 100) * taxBase;
@@ -255,7 +255,7 @@
             $('input[name="total_gross"]').on('blur', function() {
                 let refBook = $('#refBook').val();
                 var totalGross = $(this).val();
-                let taxBase = (1.12 * overAllTotal)-overAllTotal;
+                let taxBase = (1.12 * totalGross)-totalGross;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;

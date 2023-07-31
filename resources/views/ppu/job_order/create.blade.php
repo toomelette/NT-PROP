@@ -222,7 +222,7 @@
                 if (event.which === 13) { // Check if Enter key is pressed
                     let refBook = $('#refBook').val();
                     var totalGross = $(this).val();
-                    let taxBase = totalGross-(1.12 * totalGross);
+                    let taxBase = (1.12 * totalGross)-totalGross;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
                         tb1 = (5 / 100) * taxBase;
@@ -251,7 +251,7 @@
             $('input[name="total_gross"]').on('blur', function() {
                 let refBook = $('#refBook').val();
                 var totalGross = $(this).val();
-                let taxBase = totalGross-(1.12 * totalGross);
+                let taxBase = (1.12 * totalGross)-totalGross;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;
@@ -286,7 +286,7 @@
                 let overAllTotal1 = $('input[name="total_gross"]').val();
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
-                let taxBase = overAllTotal-(1.12 * overAllTotal);
+                let taxBase = (1.12 * overAllTotal)-overAllTotal;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;
@@ -475,7 +475,7 @@
                                     $('input[name="total_in_words"]').val(numberToWords(overAllTotal));
                                 }
                                 else {
-                                    let taxBase = overAllTotal-(1.12 * overAllTotal);
+                                    let taxBase = (1.12 * overAllTotal)-overAllTotal;
                                     let tb1 = 0;
                                     if($('#isVat').val() === 'True'){
                                         tb1 = (5 / 100) * taxBase;
