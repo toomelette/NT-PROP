@@ -20,7 +20,7 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
-                    <input class="" type="text" id="tax_base_1" name="tax_base_1"/>
+                    <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
                     <input class="hidden" type="text" id="tax_base_2" name="tax_base_2"/>
                     {!! \App\Swep\ViewHelpers\__form2::textbox('po_number',[
                                             'label' => 'PO Number:',
@@ -221,14 +221,12 @@
             return words.trim();
         }
 
-
-
         $(document).ready(function() {
             $('input[name="total_gross"]').on('keypress', function(event) {
                 if (event.which === 13) { // Check if Enter key is pressed
                     let refBook = $('#refBook').val();
                     var totalGross = $(this).val();
-                    let taxBase = totalGross-(1.12 * totalGross);
+                    let taxBase = (1.12 * overAllTotal)-overAllTotal;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
                         tb1 = (5 / 100) * taxBase;
@@ -257,7 +255,7 @@
             $('input[name="total_gross"]').on('blur', function() {
                 let refBook = $('#refBook').val();
                 var totalGross = $(this).val();
-                let taxBase = totalGross-(1.12 * totalGross);
+                let taxBase = (1.12 * overAllTotal)-overAllTotal;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;
@@ -292,7 +290,7 @@
                 let overAllTotal1 = $('input[name="total_gross"]').val();
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
-                let taxBase = overAllTotal-(1.12 * overAllTotal);
+                let taxBase = (1.12 * overAllTotal)-overAllTotal;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
                     tb1 = (5 / 100) * taxBase;
@@ -459,7 +457,7 @@
                                 $('input[name="total_in_words"]').val(numberToWords(totalAmt));
                             }
                             else {
-                                let taxBase = overAllTotal-(1.12 * overAllTotal);
+                                let taxBase = (1.12 * overAllTotal)-overAllTotal;
                                 let tb1 = 0;
                                 if($('#isVat').val() === 'True'){
                                     tb1 = (5 / 100) * taxBase;
