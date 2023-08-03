@@ -19,13 +19,13 @@ Route::group(['as' => 'auth.'], function () {
 
 
 /** HOME **/
-Route::get('dashboard/home', 'HomeController@index')->name('dashboard.home')->middleware('check.user_status');
+Route::get('dashboard/home', 'HomeController@index')->name('dashboard.home')->middleware(['check.user_status','verify.email']);
 
 
 Route::get('/dashboard/plantilla/print','PlantillaController@print')->name('plantilla.print');
 
 Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
-    'middleware' => ['check.user_status', 'last_activity','sidenav_mw']
+    'middleware' => ['check.user_status', 'last_activity','sidenav_mw','verify.email']
 ], function () {
     Route::post('dashboard/changePass','UserController@changePassword')->name('all.changePass');
     Route::post('/change_side_nav','SidenavController@change')->name('sidenav.change');
@@ -73,7 +73,7 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
 });
 
 /** Dashboard **/
-Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['check.user_status', 'check.user_route', 'last_activity']], function () {
+Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['check.user_status', 'check.user_route', 'last_activity','verify.email']], function () {
 
 	/** USER **/
 
@@ -178,6 +178,26 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('par', 'PARController');
 
     Route::resource('supplier', 'SupplierController');
+    Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
+});
+
+Route::get('/verifyEmail',function (){
+    if(\Illuminate\Support\Facades\Auth::user()->email != null){
+        return redirect('/');
+    }
+   return view('ppu.verify_email.verify');
+});
+
+Route::post('/verifyEmail',function (\Illuminate\Http\Request $request){
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+    $user = Auth::user();
+    $user->email = $request->email;
+    if($user->save()){
+        return 1;
+    }
+    abort(503,'Error updating email.');
 });
 
 Route::get('test',function (){
@@ -193,6 +213,18 @@ Route::get('/arrangePap',function (){
         $resp->desc = $resp->department;
         $resp->save();
    }
+});
+
+Route::get('/mailtest',function (){
+    if(Helper::getSetting('send_email_notification')->int_value == 1) {
+        \App\Jobs\PRReceivedNotification::dispatch('gguance221@gmail.com', 'SUBJECT', 'BODY', [
+            'geraldjesterguance02@gmail.com',
+            'geraldjesterguance021@gmail.com',
+        ]);
+        return 'Email sent.';
+    }else{
+        dd('send_email_notification not allowed');
+    }
 });
 
 

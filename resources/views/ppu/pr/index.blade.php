@@ -455,7 +455,7 @@
                         },
                         success : function (res) {
                             activePr = res.slug;
-                            pr_tbl.draw();
+                            pr_tbl.draw(false);
                         }
                     })
                         .then(response => {

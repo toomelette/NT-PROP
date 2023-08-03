@@ -14,13 +14,13 @@ class Transactions extends Model
     {
         parent::boot();
         static::updating(function($a){
-            $a->user_updated = Auth::user()->user_id;
+            $a->user_updated = Auth::user()->user_id ?? null;
             $a->ip_updated = request()->ip();
             $a->updated_at = \Carbon::now();
         });
 
         static::creating(function ($a){
-            $a->user_created = Auth::user()->user_id;
+            $a->user_created = Auth::user()->user_id ?? null;
             $a->ip_created = request()->ip();
             $a->created_at = \Carbon::now();
         });
@@ -40,7 +40,10 @@ class Transactions extends Model
         return $this->belongsTo(PAP::class,'pap_code','pap_code');
     }
 
-
+    public function userCreated(){
+        return $this->hasOne(User::class,'user_id','user_created');
+    }
+    
 
 
 

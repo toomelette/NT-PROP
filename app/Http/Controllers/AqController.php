@@ -4,12 +4,14 @@
 namespace App\Http\Controllers;
 
 
+use App\Jobs\EmailNotification;
 use App\Models\Offers;
 use App\Models\PPURespCodes;
 use App\Models\Quotations;
 use App\Models\Suppliers;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
+use App\Swep\Helpers\Arrays;
 use App\Swep\Services\AqService;
 use App\Swep\Services\TransactionService;
 use Barryvdh\DomPDF\PDF;
@@ -270,9 +272,20 @@ class AqController extends Controller
             abort(503,'AQ is already final.');
         }
         $aq->is_locked = true;
-        $aq->update();
-        return 1;
 
+        //EMAIL NOTIFICATION
+        $to = $aq->transaction->userCreated->email;
+        $subject =  $subject = Arrays::acronym($aq->transaction->ref_book).' No. '.$aq->transaction->ref_no;
+        $cc = $aq->transaction->rc->emailRecipients->pluck('email_address')->toArray();
+        $body = view('mailables.email_notifier.body-aq-finalized')->with([
+            'transaction' => $aq->transaction,
+            'aq' => $aq,
+        ])->render();
+
+        if($aq->update()){
+            EmailNotification::dispatch($to,$subject,$body,$cc);
+            return 1;
+        };
         abort(503,'Error saving transaction.');
     }
 
