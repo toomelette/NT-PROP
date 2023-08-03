@@ -50,11 +50,29 @@ class POController extends Controller
             ->toJson();
     }
 
-
     public function create(){
-        $suppliers = Suppliers::pluck('name','slug');
+        $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
         $po_number = $this->getNextPONo("PO");
         return view('ppu.purchase_order.create', compact('suppliers', 'po_number'));
+    }
+
+    public function getNextPONo($ref_book){
+        $year = Carbon::now()->format('Y-');
+        $trans = Order::query()
+            ->where('ref_no','like',$year.'%')
+            ->where('ref_book','=', $ref_book)
+            ->orderBy('ref_no','desc')
+            ->limit(1)->first();
+        if(empty($trans)){
+            $poNo = 0;
+        }else{
+//            $prNo = str_replace($year,'',$pr->ref_no);
+            $poNo =  substr($trans->ref_no, -4);
+        }
+
+        $newPOBaseNo = str_pad($poNo +1,4,'0',STR_PAD_LEFT);
+
+        return $year.Carbon::now()->format('m-').$newPOBaseNo;
     }
 
     public function findSupplier($slug){
@@ -95,7 +113,7 @@ class POController extends Controller
         $order->funds_available_designation = $request->funds_available_designation;
         $order->ref_book = $refBook;
 
-        $refNumber= $request->ref_number;
+        //$refNumber= $request->ref_number;
         $rfqtrans = Transactions::query()
             ->where('ref_no', '=', $request->ref_number)
             ->where('ref_book', '=', 'RFQ')
@@ -103,25 +121,6 @@ class POController extends Controller
         $trans = Transactions::query()
             ->where('slug', '=', $rfqtrans->cross_slug)
             ->first();
-        $aq = Transactions::query()
-            ->where('cross_slug', '=', $trans->slug)
-            ->where('ref_book', '=', 'AQ')
-            ->first();
-        $aqQuotation = AQQuotation::query()
-            ->where('aq_slug','=', $aq->slug)
-            ->where('supplier_slug','=', $request->supplier)
-            ->first();
-        $aqOfferDetails = AQOfferDetails::query()
-            ->where('quotation_slug','=', $aqQuotation->slug)
-            ->get();
-        $ana = AwardNoticeAbstract::query()
-            ->where('ref_book', '=', $trans->ref_book)
-            ->where('ref_number', '=', $trans->ref_no)
-            ->first();
-        //$transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
-        $tranDetailSlugs = $request->itemSlugEdit;
-        $slugs = explode("~", $tranDetailSlugs);
-        $transactionDetails = TransactionDetails::whereIn('slug', $slugs)->get();
 
         $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
         $order->total =  Helper::sanitizeAutonum($request->total);
@@ -146,9 +145,26 @@ class POController extends Controller
         $transNew->approved_by_designation = $trans->approved_by_designation;
         $transNew->order_slug = $randomSlug;
 
-        $totalAbc = 0;
+        //$totalAbc = 0;
         $arr = [];
-        foreach ($transactionDetails as $transactionDetail) {
+        if(!empty($request->items)){
+            foreach ($request->items as $item) {
+                array_push($arr,[
+                    'slug' => Str::random(),
+                    'transaction_slug' => $transNewSlug,
+                    'stock_no' => $item['stock_no'],
+                    'unit' => $item['unit'],
+                    'item' => $item['item'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                    'property_no' => $item['property_no'],
+                    'nature_of_work' => $item['nature_of_work'],
+                ]);
+            }
+        }
+        /*foreach ($transactionDetails as $transactionDetail) {
             $aqTotalCost = 0;
             $aqUnitCost = 0;
             foreach($aqOfferDetails as $aqd) {
@@ -174,7 +190,7 @@ class POController extends Controller
                 'nature_of_work' => $transactionDetail->nature_of_work,
             ]);
             //$totalAbc = $totalAbc + $transactionDetail->total_cost;
-        }
+        }*/
 
         if($order->save()){
             $transNew->save();
@@ -241,51 +257,16 @@ class POController extends Controller
             ]);
         }
     }
-
-    public function getNextPONo($ref_book){
-        $year = Carbon::now()->format('Y-');
-        $trans = Order::query()
-            ->where('ref_no','like',$year.'%')
-            ->where('ref_book','=', $ref_book)
-            ->orderBy('ref_no','desc')
-            ->limit(1)->first();
-        if(empty($trans)){
-            $newTrans = $year.Carbon::now()->format('m-').'0001';
-        }else{
-            $newTrans = $year.Carbon::now()->format('m-').str_pad(substr($trans->ref_no,-4) + 1, 4,0,STR_PAD_LEFT);
-        }
-        return $newTrans;
-    }
-
     public function print($slug){
         $order = Order::query()->where('slug','=', $slug)->first();
         $trans = Transactions::query()->where('order_slug','=', $order->slug)->first();
         $nature_of_work_arr = [];
         $td = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
         $rc = PPURespCodes::query()->where('rc_code','=', $trans->resp_center)->first();
+        $supplier = Suppliers::query()->where('slug','=', $order->supplier)->first();
         /*foreach ($trans->transaction->transDetails as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
         }*/
-        $prtrans = Transactions::query()
-            ->where('slug', '=', $trans->cross_slug)
-            ->first();
-        $ana = AwardNoticeAbstract::query()
-            ->where('ref_book', '=', $prtrans->ref_book)
-            ->where('ref_number', '=', $prtrans->ref_no)
-            ->first();
-        $aq = Transactions::query()
-            ->where('cross_slug', '=', $prtrans->slug)
-            ->where('ref_book', '=', 'AQ')
-            ->first();
-        $supplier = Suppliers::query()->where('name','=', $ana->awardee)->first();
-        $aqQuotation = AQQuotation::query()
-            ->where('aq_slug','=', $aq->slug)
-            ->where('supplier_slug','=', $supplier->slug)
-            ->first();
-        $aqOfferDetails = AQOfferDetails::query()
-            ->where('quotation_slug','=', $aqQuotation->slug)
-            ->get();
-
 
         foreach ($td as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
@@ -296,7 +277,7 @@ class POController extends Controller
             'td' => $td,
             'nature_of_work_arr' => $nature_of_work_arr,
             'rc' => $rc,
-            'aqOfferDetails' => $aqOfferDetails
+            'supplier' => $supplier
         ]);
     }
 }

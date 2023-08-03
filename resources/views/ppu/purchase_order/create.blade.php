@@ -61,7 +61,7 @@
                                          'label' => 'Place of Delivery:',
                                          'cols' => 3,
                                          'required' => 'required'
-                                     ]) !!}
+                                     ], 'SRA BACOLOD') !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('delivery_date',[
                                 'label' => 'Date of Delivery:',
                                 'cols' => 3,
@@ -162,10 +162,13 @@
                                         <th>Stock No.</th>
                                         <th>Unit</th>
                                         <th>Item</th>
+                                        <th>Description</th>
                                         <th>Qty</th>
                                         <th>Unit Cost</th>
                                         <th>Total Cost</th>
-                                        <th width="3%"></th>
+                                        <th>Prop. No.</th>
+                                        <th>Nature of Work</th>
+                                        <th style="width: 3%"></th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -253,10 +256,10 @@
                     let taxBase = totalGross/1.12;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
-                        tb1 = (5 / 100) * taxBase;
+                        tb1 = (taxBase/3)-taxBase;
                     }
                     else {
-                        tb1 = (3 / 100) * taxBase;
+                        tb1 = (taxBase/5)-taxBase;
                     }
                     let pOjOTax = 0;
                     if(refBook === "PR"){
@@ -282,10 +285,10 @@
                 let taxBase = totalGross/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (5 / 100) * taxBase;
+                    tb1 = (taxBase/3)-taxBase;
                 }
                 else {
-                    tb1 = (3 / 100) * taxBase;
+                    tb1 = (taxBase/5)-taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -317,10 +320,10 @@
                 let taxBase = overAllTotal/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (5 / 100) * taxBase;
+                    tb1 = (taxBase/3)-taxBase;
                 }
                 else {
-                    tb1 = (3 / 100) * taxBase;
+                    tb1 = (taxBase/5)-taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -459,22 +462,35 @@
                                 slugs += res.transDetails[i].slug + '~';
                                 let aqTotalCost = 0;
                                 let aqUnitCost = 0;
+                                let offerDetails = "";
                                 for (const aqd of res.aqOfferDetails) {
                                     if(aqd.item_slug === res.transDetails[i].slug){
-                                        aqTotalCost = parseFloat(aqd.amount);
+                                        aqUnitCost = parseFloat(aqd.amount);
+                                        offerDetails = aqd.description;
                                     }
                                 }
-                                aqUnitCost = parseFloat(aqTotalCost / res.transDetails[i].qty);
-                                aqTotalCost = isNaN(aqTotalCost) ? 0 : aqTotalCost;
+                                //aqUnitCost = parseFloat(aqTotalCost * res.transDetails[i].qty);
+                                aqTotalCost = isNaN(aqUnitCost) ? 0 : aqUnitCost * res.transDetails[i].qty;
                                 aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
                                 overAllTotal += aqTotalCost;
-                                tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+                                tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text" value="' + offerDetails + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + res.transDetails[i].property_no + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + res.transDetails[i].nature_of_work + '"></td>' +
+                                    '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
+                                    '</tr>';
 
                             }
                             $('#refBook').val(res.trans.ref_book);
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
                             $('#itemSlugEdit').val(slugs);
-                            tableHtml += '</tbody></table>';
+                            tableHtml += '</tbody>';
                             if($('#isGovernment').val() === 'True'){
                                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                                 $('input[name="total"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
@@ -484,10 +500,10 @@
                                 let taxBase = overAllTotal/1.12;
                                 let tb1 = 0;
                                 if($('#isVat').val() === 'True'){
-                                    tb1 = (5 / 100) * taxBase;
+                                    tb1 = (taxBase/3)-taxBase;
                                 }
                                 else {
-                                    tb1 = (3 / 100) * taxBase;
+                                    tb1 = (taxBase/5)-taxBase;
                                 }
                                 let pOjOTax = 0;
                                 if(res.trans.ref_book === "PR"){
