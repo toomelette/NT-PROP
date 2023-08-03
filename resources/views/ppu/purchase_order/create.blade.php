@@ -256,10 +256,10 @@
                     let taxBase = totalGross/1.12;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
-                        tb1 = (taxBase/3)-taxBase;
+                        tb1 = (3 / 100)*taxBase;
                     }
                     else {
-                        tb1 = (taxBase/5)-taxBase;
+                        tb1 = (5 / 100)*taxBase;
                     }
                     let pOjOTax = 0;
                     if(refBook === "PR"){
@@ -285,10 +285,10 @@
                 let taxBase = totalGross/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (taxBase/3)-taxBase;
+                    tb1 = (3 / 100)*taxBase;
                 }
                 else {
-                    tb1 = (taxBase/5)-taxBase;
+                    tb1 = (5 / 100)*taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -320,10 +320,10 @@
                 let taxBase = overAllTotal/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (taxBase/3)-taxBase;
+                    tb1 = (3 / 100)*taxBase;
                 }
                 else {
-                    tb1 = (taxBase/5)-taxBase;
+                    tb1 = (5 / 100)*taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -473,16 +473,18 @@
                                 aqTotalCost = isNaN(aqUnitCost) ? 0 : aqUnitCost * res.transDetails[i].qty;
                                 aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
                                 overAllTotal += aqTotalCost;
+                                let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
+                                let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text" value="' + offerDetails + '"></td>' +
+                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ offerDetails +'</textarea></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + res.transDetails[i].property_no + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + res.transDetails[i].nature_of_work + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
                                     '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
                                     '</tr>';
 
@@ -500,10 +502,10 @@
                                 let taxBase = overAllTotal/1.12;
                                 let tb1 = 0;
                                 if($('#isVat').val() === 'True'){
-                                    tb1 = (taxBase/3)-taxBase;
+                                    tb1 = (3 / 100)*taxBase;
                                 }
                                 else {
-                                    tb1 = (taxBase/5)-taxBase;
+                                    tb1 = (5 / 100)*taxBase;
                                 }
                                 let pOjOTax = 0;
                                 if(res.trans.ref_book === "PR"){
