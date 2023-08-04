@@ -48,7 +48,7 @@
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                 <p class="no-margin">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
-                <p class="no-margin" style="font-size: 30px"><strong>{{$order->ref_book=="PO"?"PURCHASE ORDER":"JOB ORDER"}}</strong></p>
+                <p class="no-margin" style="font-size: 30px"><strong>PURCHASE ORDER</strong></p>
             </td>
         </tr>
     </table>
@@ -80,15 +80,20 @@
                 </div>--}}
             </td>
             <td style="width: 50%">
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>{{$trans->transaction->ref_book == 'PR'?'P.O. No.:':'J.O. No.:'}} <span style="margin-left: 121px; font-size: 18px"><u>{{$order->ref_no}}</u></span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>Date: <span style="margin-left: 140px; font-size: 18px"><u>{{\Illuminate\Support\Carbon::parse($order->created_at)->format('d F Y')}}</u></span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>Mode of Procurement: <span style="margin-left: 40px; font-size: 18px"><u>{{$order->mode}}</u></span></b>
-                </div>
+                <table width="100%" class="tbl-no-pad">
+                    <tr>
+                        <td class="text-strong">P.O. No.</td>
+                        <td class="text-strong" style="font-size: 18px; text-align: center"><u>{{$order->ref_no}}</u></td>
+                    </tr>
+                    <tr>
+                        <td class="text-strong">Date:</td>
+                        <td class="text-strong" style="font-size: 14px; text-align: center"><u>{{\Illuminate\Support\Carbon::parse($order->date)->format('d F Y')}}</u></td>
+                    </tr>
+                    <tr>
+                        <td class="text-strong">Mode of Procurement:</td>
+                        <td class="text-strong" style="font-size: 14px; text-align: center"><u>{{$order->mode}}</u></td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
@@ -239,63 +244,65 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; ">
-        <tr style="font-size: 14px">
-            <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 40px; font-size: 14px">In case failure to make delivery within the time specified above, a penalty of one-tenth
+    <div style="height: 240px">
+        <table style="width: 100%;">
+            <tr style="font-size: 14px">
+                <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 40px; font-size: 14px">In case failure to make delivery within the time specified above, a penalty of one-tenth
                         (1/10) of one percent for every day of delay shall be imposed.</span></b>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
-        <tr style="font-size: 14px">
-            <td style="width: 50%;">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
+            <tr style="font-size: 14px">
+                <td style="width: 50%;">
 
-            </td>
-            <td style="width: 50%">
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 160px; font-size: 14px">Very truly yours,</span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px"><b>{{$order->authorized_official}}</b>
+                </td>
+                <td style="width: 50%">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 160px; font-size: 14px">Very truly yours,</span></b>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 130px; margin-top: 30px; font-size: 16px"><b>{{$order->authorized_official}}</b>
                     </span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 125px; font-size: 14px"><u>{{$order->authorized_official_designation}}</u></span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 140px; font-size: 14px">(Authorized Official)</span></b>
-                </div>
-            </td>
-        </tr>
-    </table>
-    <table style="width: 100%; margin-top: -30px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
-        <tr style="font-size: 14px">
-            <td style="width: 50%;">
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 40px; font-size: 14px">Conforme:</span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px"><b><u>{{$order->supplier_representative}}</u></b>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="margin-left: 125px; font-size: 14px"><u>{{$order->authorized_official_designation}}</u></span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 140px; font-size: 14px">(Authorized Official)</span></b>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="width: 100%; margin-top: -30px; border-left: 1px solid black; border-right: 1px solid black;">
+            <tr style="font-size: 14px">
+                <td style="width: 50%;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 40px; font-size: 14px">Conforme:</span></b>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px">
                     </span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 70px; font-size: 14px">(Signature Over Printer Name of Supplier)</span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start; margin-top: -20px; ">
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 70px; font-size: 14px">(Signature Over Printer Name of Supplier)</span></b>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start; margin-top: -20px; ">
                     <span style="margin-left: 70px; margin-top: 30px; font-size: 18px"><b>___________________________</b>
                     </span>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 170px; font-size: 14px">Date</span></b>
-                </div>
-            </td>
-            <td style="width: 50%">
-            </td>
-        </tr>
-    </table>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 170px; font-size: 14px">Date</span></b>
+                    </div>
+                </td>
+                <td style="width: 50%">
+                </td>
+            </tr>
+        </table>
+    </div>
     <table style="width: 100%; border: 1px solid black;">
         <tr style="font-size: 14px">
             <td style="width:70%; border: 1px solid black;">

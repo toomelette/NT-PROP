@@ -15,6 +15,7 @@ class POFormRequest extends FormRequest
     public function rules(){
         return [
             'po_number' => 'required',
+            'date' => 'required',
         ];
     }
 }

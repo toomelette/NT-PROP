@@ -40,6 +40,12 @@
                                                 'Direct Contracting' => 'Direct Contracting'
                                             ]
                                         ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
+                                'label' => 'PO Date:',
+                                'cols' => 3,
+                                'type' => 'date',
+                                'required' => 'required'
+                             ]) !!}
                     <div class="clearfix"></div>
                     <div class="form-group col-md-3 supplier">
                         <label for="awardee">Supplier: </label>
@@ -196,11 +202,11 @@
 @section('scripts')
     <script type="text/javascript">
         function numberToWords(number) {
-            const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            const units = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
+            const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
 
             if (number === 0) {
-                return 'zero';
+                return 'ZERO';
             }
 
             // Function to convert a two-digit number
@@ -221,11 +227,11 @@
                 } else if (number < 1000) {
                     const digitHundreds = Math.floor(number / 100);
                     const remainingDigits = number % 100;
-                    return units[digitHundreds] + ' hundred ' + convertTwoDigitNumber(remainingDigits);
+                    return units[digitHundreds] + ' HUNDRED ' + convertTwoDigitNumber(remainingDigits);
                 } else if (number < 1000000) {
                     const digitThousands = Math.floor(number / 1000);
                     const remainingDigits = number % 1000;
-                    return convertWholeNumber(digitThousands) + ' thousand ' + convertWholeNumber(remainingDigits);
+                    return convertWholeNumber(digitThousands) + ' THOUSAND ' + convertWholeNumber(remainingDigits);
                 } else {
                     return 'Sorry, the number is too large to convert.';
                 }
@@ -244,7 +250,7 @@
             words += convertWholeNumber(wholePart);
 
             if (decimalPart > 0) {
-                words += ' and ' + convertTwoDigitNumber(decimalPart) + 'cents';
+                words += ' AND ' + convertTwoDigitNumber(decimalPart) + ' CENTS';
             }
 
             return words.trim();
@@ -285,9 +291,9 @@
         function deleteRow(button) {
             const row = button.closest('tr');
             if (row) {
-                let refBook = $('#refBook').val();
-                const sixthTd = row.getElementsByTagName('td')[5]; // Get the 6th td element (index 5)
-                const value = sixthTd.textContent;
+                const sixthTd = row.getElementsByTagName('td')[6]; // Get the 7th td element (index 5)
+                const inputElement = sixthTd.querySelector('input'); // Find the input element within the td
+                const value = inputElement.value;
                 const sanitizedValue = value.replace(/,/g, '');
 
                 let overAllTotal1 = $('input[name="total_gross"]').val();
