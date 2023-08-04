@@ -64,7 +64,7 @@
                     { "data": "supplier_name" },
                     { "data": "supplier_representative" },
                     { "data": "total" },
-                    { "data": "created_at" },
+                    { "data": "date" },
                     { "data": "action" }
                 ],
                 "buttons": [
