@@ -183,7 +183,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/{fund_cluster}/printRpcppe','PARController@printRpcppe')->name('rpcppe.printRpcppe');
     Route::get('/par/generateRpcppeByCriteria','PARController@rpcppeByCriteria')->name('rpcppe.rpcppeByCriteria');
     Route::get('/par/generateRpcppe','PARController@generateRpcppe')->name('rpcppe.generateRpcppe');
-    Route::resource('par', 'PARController');
+    Route::get('/par/{location}/printInventoryCountForm','PARController@printInventoryCountForm')->name('rpcppe.printInventoryCountForm');
+    Route::get('/par/generateInventoryCountFormByCriteria','PARController@generateInventoryCountFormByCriteria')->name('rpcppe.generateICF');
+     Route::resource('par', 'PARController');
 
     Route::resource('supplier', 'SupplierController');
     Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);

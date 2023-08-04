@@ -40,8 +40,12 @@
                 </td>
             </tr>
         </table>
-        <h5 style="text-align: left; margin-left: 30px;"><strong>Fund Cluster: {{$funcCluster}}</strong></h5>
-        <h5 style="text-align: left; margin-left: 30px;"><strong>Inventory Type: {{$accountCode}}</strong></h5>
+        <h5 style="text-align: left; margin-left: 30px;"><strong>Fund Cluster: {{$fundCluster}}</strong></h5>
+        @foreach($accountCodeRecords as $accountCodeRecord)
+            @if($accountCodeRecord->code === $accountCode)
+                <h5 style="text-align: left; margin-left: 30px;"><strong>Inventory Type: {{$accountCode}} - {{$accountCodeRecord->description}}</strong></h5>
+            @endif
+        @endforeach
         <table style="margin-left: 25px; width: 95%; font-size: 14px; font-family: 'Cambria',Times New Roman">
             <tr>
                 <td rowspan="2" valign="top">
