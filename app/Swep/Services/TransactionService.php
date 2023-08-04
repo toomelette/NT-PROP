@@ -43,7 +43,6 @@ class TransactionService extends BaseService
         $cc = $trans->rc->emailRecipients->pluck('email_address')->toArray();
         $subject = Arrays::acronym($trans->ref_book).' No. '.$trans->ref_no;
         $body = view('mailables.email_notifier.body-pr-receipt')->with(['transaction' => $trans])->render();
-
         if($trans->save()){
             PRReceivedNotification::dispatch($to,$subject,$body,$cc);
             return $trans->only('slug');

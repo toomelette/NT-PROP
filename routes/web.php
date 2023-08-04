@@ -70,6 +70,14 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::get('/cancellation_request/myIndex','CancellationRequestController@myIndex')->name('cancellationRequest.myIndex');
 
     Route::resource('ppmp_subaccounts', 'PPMPSubaccountsController');
+
+    Route::get('/my_jr/{slug}/print','MyJrController@print')->name('my_jr.print');
+
+    Route::get('/request_vehicle/create','RequestForVehicleController@create')->name('request_vehicle.create');
+    Route::post('/request_vehicle/store','RequestForVehicleController@store')->name('request_vehicle.store');
+    Route::get('/request_vehicle/{slug}/print_own','RequestForVehicleController@printOwn')->name('request_vehicle.print_own');
+
+    Route::get('/request_vehicle/my_requests','RequestForVehicleController@myRequests')->name('request_vehicle.my_requests');
 });
 
 /** Dashboard **/
@@ -181,6 +189,15 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::resource('supplier', 'SupplierController');
     Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
+
+    Route::get('/request_vehicle/{slug}/print','RequestForVehicleController@print')->name('request_vehicle.print');
+    Route::get('request_vehicle/{slug}/actions','RequestForVehicleController@actions')->name('request_vehicle.actions');
+    Route::post('request_vehicle/{slug}/take_action','RequestForVehicleController@takeAction')->name('request_vehicle.take_action');
+    Route::resource('request_vehicle', \App\Http\Controllers\RequestForVehicleController::class)->except([
+        'create','store'
+    ]);
+
+    Route::resource('vehicles',\App\Http\Controllers\VehiclesController::class);
 });
 
 Route::get('/verifyEmail',function (){
@@ -203,7 +220,7 @@ Route::post('/verifyEmail',function (\Illuminate\Http\Request $request){
 });
 
 Route::get('test',function (){
-    abort(500,'Sayang');
+    dd(\App\Swep\Helpers\Arrays::recipientsOfProcurementUpdates());
 });
 
 Route::get('/arrangePap',function (){
@@ -228,5 +245,6 @@ Route::get('/mailtest',function (){
         dd('send_email_notification not allowed');
     }
 });
+
 
 

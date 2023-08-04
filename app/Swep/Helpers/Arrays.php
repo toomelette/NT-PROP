@@ -5,12 +5,15 @@ namespace App\Swep\Helpers;
 
 
 use App\Models\AccountCode;
+use App\Models\Drivers;
+use App\Models\EmailRecipients;
 use App\Models\JRType;
 use App\Models\Location;
 use App\Models\Options;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Models\Suppliers;
+use App\Models\Vehicles;
 use Illuminate\Support\Facades\Auth;
 
 class Arrays
@@ -276,5 +279,37 @@ class Arrays
             'ANA' => 'Award Notice Abstract',
         ];
         return $data[$acronym] ?? 'N/A';
+    }
+
+    public static function vehicles(){
+        $v = Vehicles::query()
+            ->selectRaw('*, concat(make," ",model," - ",plate_no) as  make_model')
+            ->get();
+        if(!empty($v)){
+            return $v
+                ->sortBy('make_model')
+                ->pluck('make_model','slug')
+                ->toArray();
+        }
+    }
+
+    public static function drivers(){
+        $drivers = Drivers::query()
+            ->with('employee')
+            ->get();
+        if(!empty($drivers)){
+            return $drivers
+                ->sortBy('employee.fullname')
+                ->pluck('employee.fullname','slug')
+                ->toArray();
+        }
+    }
+
+    public static function recipientsOfProcurementUpdates(){
+        $recipients = [];
+        $r = EmailRecipients::query()
+            ->where('receive_procurement_updates','=',1)
+            ->get();
+        return $r->pluck('email_address')->toArray();
     }
 }
