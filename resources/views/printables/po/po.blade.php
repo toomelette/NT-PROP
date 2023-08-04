@@ -234,10 +234,15 @@
     </table>
     <table style="width: 100%; border: 1px solid black;">
         <tr style="font-size: 14px">
-            <td class="text-strong" style="width: 85%; border: 1px solid black;">
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>(Total Amount in Words) <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($order->total_in_words) }}</u></span></b>
-                </div>
+            <td class="text-strong" style="width: 80%; border: 1px solid black;">
+                <table class="">
+                    <tr>
+                        <td class="text-strong" style="width: 30%;">(Total Amount in Words)</td>
+                        <td class="text-strong text-center" style="font-size: 14px; width: 70%; word-wrap:break-word;">
+                            <u>{{strtoupper($order->total_in_words) }}</u>
+                        </td>
+                    </tr>
+                </table>
             </td>
             <td class="text-strong text-right" style="width: 20%; border: 1px solid black;">
                 {{number_format($order->total,2)}}
