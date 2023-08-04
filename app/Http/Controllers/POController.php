@@ -12,6 +12,7 @@ use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Models\Suppliers;
+use App\Models\TaxComputation;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
@@ -78,7 +79,18 @@ class POController extends Controller
     public function findSupplier($slug){
         $s = Suppliers::query()->where('slug','=', $slug)->first();
         $s = $s??null;
-        return $s?? abort(503,'No record found');
+        if($s == null) {
+            return abort(503,'No record found.');
+        }
+        $sVat = $s->is_vat?"VAT":"NON_VAT";
+        $tc = TaxComputation::query()->where('name','=',$sVat)->first();
+        $tcPO = TaxComputation::query()->where('name','=','PO')->first();
+        $result = [
+            'supplier' => $s,
+            'tax_computation' => $tc,
+            'tcPO' => $tcPO
+        ];
+        return $result;
     }
 
     public function store(POFormRequest $request) {

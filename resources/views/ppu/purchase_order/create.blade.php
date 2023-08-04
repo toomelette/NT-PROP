@@ -19,6 +19,8 @@
                     <input class="hidden" type="text" id="slug" name="slug"/>
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
+                    <input class="hidden" type="text" id="vatValue" name="vatValue"/>
+                    <input class="hidden" type="text" id="poValue" name="poValue"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
                     <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
                     <input class="hidden" type="text" id="tax_base_2" name="tax_base_2"/>
@@ -251,25 +253,10 @@
         $(document).ready(function() {
             $('input[name="total_gross"]').on('keypress', function(event) {
                 if (event.which === 13) { // Check if Enter key is pressed
-                    let refBook = $('#refBook').val();
                     var totalGross = $(this).val();
                     let taxBase = totalGross/1.12;
-                    let tb1 = 0;
-                    if($('#isVat').val() === 'True'){
-                        tb1 = (5 / 100)*taxBase;
-                        alert('True');
-                    }
-                    else {
-                        tb1 = (3 / 100)*taxBase;
-                        alert('False');
-                    }
-                    let pOjOTax = 0;
-                    if(refBook === "PR"){
-                        pOjOTax = (1 / 100) * taxBase;
-                    }
-                    else {
-                        pOjOTax = (2 / 100) * taxBase;
-                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1);
                     $('#tax_base_2').val(pOjOTax);
                     let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -282,23 +269,10 @@
             });
 
             $('input[name="total_gross"]').on('blur', function() {
-                let refBook = $('#refBook').val();
                 var totalGross = $(this).val();
                 let taxBase = totalGross/1.12;
-                let tb1 = 0;
-                if($('#isVat').val() === 'True'){
-                    tb1 = (5 / 100)*taxBase;
-                }
-                else {
-                    tb1 = (3 / 100)*taxBase;
-                }
-                let pOjOTax = 0;
-                if(refBook === "PR"){
-                    pOjOTax = (1 / 100) * taxBase;
-                }
-                else {
-                    pOjOTax = (2 / 100) * taxBase;
-                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1);
                 $('#tax_base_2').val(pOjOTax);
                 let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -320,20 +294,8 @@
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
                 let taxBase = overAllTotal/1.12;
-                let tb1 = 0;
-                if($('#isVat').val() === 'True'){
-                    tb1 = (5 / 100)*taxBase;
-                }
-                else {
-                    tb1 = (3 / 100)*taxBase;
-                }
-                let pOjOTax = 0;
-                if(refBook === "PR"){
-                    pOjOTax = (1 / 100) * taxBase;
-                }
-                else {
-                    pOjOTax = (2 / 100) * taxBase;
-                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1);
                 $('#tax_base_2').val(pOjOTax);
                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
@@ -414,11 +376,13 @@
                     {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    $('input[name="supplier_address"]').val(res.address);
-                    $('input[name="supplier_tin"]').val(res.tin);
-                    $('input[name="supplier_representative"]').val(res.contact_person);
-                    $('input[name="isVat"]').val(res.is_vat == 1?"True":"False");
-                    $('input[name="isGovernment"]').val(res.is_government == 1?"True":"False");
+                    $('input[name="supplier_address"]').val(res.supplier.address);
+                    $('input[name="supplier_tin"]').val(res.supplier.tin);
+                    $('input[name="supplier_representative"]').val(res.supplier.contact_person);
+                    $('input[name="isVat"]').val(res.supplier.is_vat == 1?"True":"False");
+                    $('input[name="isGovernment"]').val(res.supplier.is_government == 1?"True":"False");
+                    $('input[name="vatValue"]').val(res.tax_computation.percent);
+                    $('input[name="poValue"]').val(res.tcPO.percent);
                     console.log(res);
                 },
                 error: function (res) {
@@ -502,20 +466,8 @@
                             }
                             else {
                                 let taxBase = overAllTotal/1.12;
-                                let tb1 = 0;
-                                if($('#isVat').val() === 'True'){
-                                    tb1 = (5 / 100)*taxBase;
-                                }
-                                else {
-                                    tb1 = (3 / 100)*taxBase;
-                                }
-                                let pOjOTax = 0;
-                                if(res.trans.ref_book === "PR"){
-                                    pOjOTax = (1 / 100) * taxBase;
-                                }
-                                else {
-                                    pOjOTax = (2 / 100) * taxBase;
-                                }
+                                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                                 $('#tax_base_1').val(tb1);
                                 $('#tax_base_2').val(pOjOTax);
                                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
