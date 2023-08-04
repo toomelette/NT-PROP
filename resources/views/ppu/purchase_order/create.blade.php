@@ -256,10 +256,12 @@
                     let taxBase = totalGross/1.12;
                     let tb1 = 0;
                     if($('#isVat').val() === 'True'){
-                        tb1 = (3 / 100)*taxBase;
+                        tb1 = (5 / 100)*taxBase;
+                        alert('True');
                     }
                     else {
-                        tb1 = (5 / 100)*taxBase;
+                        tb1 = (3 / 100)*taxBase;
+                        alert('False');
                     }
                     let pOjOTax = 0;
                     if(refBook === "PR"){
@@ -285,10 +287,10 @@
                 let taxBase = totalGross/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (3 / 100)*taxBase;
+                    tb1 = (5 / 100)*taxBase;
                 }
                 else {
-                    tb1 = (5 / 100)*taxBase;
+                    tb1 = (3 / 100)*taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -320,10 +322,10 @@
                 let taxBase = overAllTotal/1.12;
                 let tb1 = 0;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (3 / 100)*taxBase;
+                    tb1 = (5 / 100)*taxBase;
                 }
                 else {
-                    tb1 = (5 / 100)*taxBase;
+                    tb1 = (3 / 100)*taxBase;
                 }
                 let pOjOTax = 0;
                 if(refBook === "PR"){
@@ -502,10 +504,10 @@
                                 let taxBase = overAllTotal/1.12;
                                 let tb1 = 0;
                                 if($('#isVat').val() === 'True'){
-                                    tb1 = (3 / 100)*taxBase;
+                                    tb1 = (5 / 100)*taxBase;
                                 }
                                 else {
-                                    tb1 = (5 / 100)*taxBase;
+                                    tb1 = (3 / 100)*taxBase;
                                 }
                                 let pOjOTax = 0;
                                 if(res.trans.ref_book === "PR"){

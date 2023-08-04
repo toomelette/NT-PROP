@@ -204,7 +204,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td style="text-align: right;">{{$supplier->is_vat?"3%":"5%"}}</td>
+                        <td style="text-align: right;">{{$supplier->is_vat?"5%":"3%"}}</td>
                         <td style="text-align: right;">{{number_format($order->tax_base_1,2)}}</td>
                         <td></td>
                     </tr>
