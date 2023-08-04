@@ -198,8 +198,8 @@
 
     <table style="width: 100%; border: 1px solid black;">
         <tr style="font-size: 14px">
-            <td style="width: 65%; border: 1px solid black;">
-
+            <td style="width: 65%; border: 1px solid black; font-size: 12px">
+                {{$order->remarks}}
             </td>
             <td style="width: 35%; border: 1px solid black;">
                 <table width="100%" class="tbl-no-pad">

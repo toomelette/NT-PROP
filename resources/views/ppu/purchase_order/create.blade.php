@@ -146,6 +146,10 @@
                                             'cols' => 3,
                                             'required' => 'required'
                                         ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('remarks',[
+                                            'label' => 'Remarks:',
+                                            'cols' => 6
+                                        ]) !!}
                     <div class="row hidden" id="divRows">
                         <div class="col-md-12">
                             {!! \App\Swep\ViewHelpers\__form2::textbox('total_gross',[
