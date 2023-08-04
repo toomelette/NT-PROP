@@ -47,27 +47,25 @@ class PRReceivedNotification extends Mail implements ShouldQueue
     public function handle()
     {
         if(Helper::getSetting('send_email_notification')->int_value == 1){
-            if($this->to != null){
-                $this->mail->addAddress($this->to);
-                $this->mail->Subject = $this->subject;
-                $this->mail->Body = $this->body;
-                if(count($this->cc) > 0){
-                    foreach ($this->cc as $cc){
-                        $this->mail->addCC($cc);
-                    }
+            $this->mail->addAddress($this->to);
+            $more = Arrays::recipientsOfProcurementUpdates();
+            foreach ($more as  $address){
+                $this->mail->addAddress($address);
+            }
+            $this->mail->Subject = $this->subject;
+            $this->mail->Body = $this->body;
+            if(count($this->cc) > 0){
+                foreach ($this->cc as $cc){
+                    $this->mail->addCC($cc);
                 }
-                if($this->mail->send()){
-                    $s = new CronLogs();
-                    $s->log = 'Email sent.';
-                    $s->type = 1;
-                    $s->save();
-                }else{
-                    $this->release(10);
-                }
-            }else{
+            }
+            if($this->mail->send()){
                 $s = new CronLogs();
-                $s->log = 'Err: No TO address indicated. '.$this->subject;
+                $s->log = 'Email sent.';
+                $s->type = 1;
                 $s->save();
+            }else{
+                $this->release(10);
             }
         }
     }

@@ -31,7 +31,7 @@
             }
         }
     </style>
-
+    <title>Print | SRA Web Portal</title>
 
 </head>
 <body onload="" onafterprint="">
