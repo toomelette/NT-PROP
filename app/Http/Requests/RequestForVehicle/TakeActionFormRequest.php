@@ -14,8 +14,8 @@ class TakeActionFormRequest extends FormRequest
 
     public function rules(){
         return [
-            'details.*.vehicle_assigned' => 'required_if:action_made,APPROVED|string',
-            'details.*.driver_assigned' => 'required_if:action_made,APPROVED|string',
+            'vehicle_assigned' => 'required_if:action_made,APPROVED|string',
+            'driver_assigned' => 'required_if:action_made,APPROVED|string',
             'reason' => 'required_if:action_made,DISAPPROVED',
         ];
     }

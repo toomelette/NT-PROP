@@ -12,7 +12,7 @@ class RequestForVehicleService
 {
     public function findBySlug($slug){
         $r = RequestForVehicle::query()
-            ->with(['passengers','details.vehicle','details.driver','responsibilityCenter'])
+            ->with(['passengers','vehicleAssigned','driverAssigned','responsibilityCenter'])
             ->where('slug','=',$slug)
             ->first();
         if(!empty($r)){

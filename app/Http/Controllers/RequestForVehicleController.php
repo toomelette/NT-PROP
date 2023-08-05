@@ -9,6 +9,7 @@ use App\Http\Requests\RequestForVehicle\TakeActionFormRequest;
 use App\Models\RequestForVehicle;
 use App\Models\RequestForVehicleDetails;
 use App\Models\RequestForVehiclePassengers;
+use App\Swep\Helpers\Helper;
 use App\Swep\Services\RequestForVehicleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -37,6 +38,9 @@ class RequestForVehicleController extends Controller
         $d->rc = $request->rc;
         $d->purpose = $request->purpose;
         $d->requested_by = $request->requested_by;
+        $d->from = $request->from;
+        $d->to = $request->to;
+        $d->destination = $request->destination;
         $d->requested_by_position = $request->requested_by_position;
         $d->approved_by = 'DOROTHY B. RODRIGO';
         $d->approved_by_position = 'ADMINISTRATIVE OFFICER V';
@@ -53,19 +57,7 @@ class RequestForVehicleController extends Controller
             }
             RequestForVehiclePassengers::insert($passengersArray);
         }
-        if(!empty($request->details)){
-            $detailsArray = [];
-            foreach ($request->details as $detail){
-                $datetime = Carbon::parse($detail['datetime_departure'])->format('Y-m-d H:i:s');
-                array_push($detailsArray,[
-                    'slug' => Str::random(),
-                    'request_slug' => $d->slug,
-                    'datetime' => $datetime,
-                    'destination' => $detail['destination'],
-                ]);
-            }
-            RequestForVehicleDetails::insert($detailsArray);
-        }
+
         return $d->only('slug');
     }
 
@@ -104,10 +96,8 @@ class RequestForVehicleController extends Controller
                     'data' => $data,
                 ]);
             })
-            ->addColumn('details',function($data){
-                return view('ppu.request_vehicle.dtDetails')->with([
-                    'data' => $data,
-                ]);
+            ->editColumn('from',function($data){
+                return Helper::dateFormat($data->from,'M. d, Y').(!empty($data->to) ? ' to '.Helper::dateFormat($data->to,'M. d, Y') : '');
             })
             ->addColumn('action',function($data){
                 return view('ppu.request_vehicle.dtActions')->with([
@@ -140,16 +130,8 @@ class RequestForVehicleController extends Controller
         $r->action_at = Carbon::now();
         if($request->action_made == 'APPROVED'){
             $r->action = $request->action_made;
-            if(!empty($request->details)){
-                foreach ($request->details as $detailSlug => $detail){
-                    $d = RequestForVehicleDetails::query()->where('slug','=',$detailSlug)->first();
-                    if(!empty($d)){
-                        $d->vehicle_assigned = $detail['vehicle_assigned'];
-                        $d->driver_assigned = $detail['driver_assigned'];
-                        $d->save();
-                    }
-                }
-            }
+            $r->vehicle_assigned = $request->vehicle_assigned;
+            $r->driver_assigned = $request->driver_assigned;
         }
         else{
             $r->action = $request->action_made;

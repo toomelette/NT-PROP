@@ -31,14 +31,41 @@
                     </div>
                     <div class="row">
                         {!! \App\Swep\ViewHelpers\__form2::textbox('passengers',[
-                            'cols' => 12,
+                            'cols' => 6,
                             'label' => 'Authorized Passengers: (Type and press enter to add more passengers)',
                             'id' => 'passengers_tags',
                             'placeholder' => 'Press enter after typing',
                         ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('from',[
+                            'cols' => 3,
+                            'label' => 'Date & Time of Departure:',
+                            'type' => 'datetime-local',
+                        ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('to',[
+                            'cols' => 3,
+                            'label' => 'Date and Time of Return: (If applicable)',
+                            'type' => 'datetime-local',
+                        ]) !!}
+                    </div>
+                    <div class="row">
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('destination',[
+                           'cols' => 6,
+                           'label' => 'Destination:',
+                       ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                            'cols' => 3,
+                            'label' => 'Requested by:'
+                        ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_position',[
+                            'cols' => 3,
+                            'label' => 'Position:'
+                        ],Auth::user()->employee->position) !!}
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="display: none">
                         <div class="col-md-8">
                             <p class="page-header-sm text-info" style="border-bottom: 1px solid #cedbe1">
                                 Request Details
@@ -59,16 +86,7 @@
                             </table>
                         </div>
                         <div class="col-md-4">
-                            <div class="row">
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
-                                    'cols' => 12,
-                                    'label' => 'Requested by:'
-                                ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_position',[
-                                    'cols' => 12,
-                                    'label' => 'Position:'
-                                ],Auth::user()->employee->position) !!}
-                            </div>
+
                         </div>
                     </div>
                 </div>

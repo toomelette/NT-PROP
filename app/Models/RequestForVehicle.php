@@ -28,10 +28,14 @@ class RequestForVehicle extends Model
     public function passengers(){
         return $this->hasMany(RequestForVehiclePassengers::class,'request_slug','slug');
     }
-    public function details(){
-        return $this->hasMany(RequestForVehicleDetails::class,'request_slug','slug')->orderBy('datetime','asc');
+
+    public function vehicleAssigned(){
+        return $this->hasOne(Vehicles::class,'slug','vehicle_assigned');
     }
 
+    public function driverAssigned(){
+        return $this->hasOne(Drivers::class,'slug','driver_assigned');
+    }
     public function responsibilityCenter(){
         return $this->hasOne(PPURespCodes::class,'rc_code','rc');
     }

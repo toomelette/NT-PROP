@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\JR\JRFormRequest;
+use App\Jobs\EmailNotification;
 use App\Models\JR;
 use App\Models\JRItems;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
+use App\Swep\Helpers\Arrays;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\JRService;
 use Illuminate\Http\Request;
@@ -126,6 +128,13 @@ class MyJrController extends Controller
             if(count($arr ) > 0){
                 TransactionDetails::insert($arr);
             }
+
+            //Send Mail
+            $to = $trans->userCreated->email;
+            $subject = Arrays::acronym($trans->ref_book).' No. '.$trans->ref_no;
+            $cc = $trans->rc->emailRecipients->pluck('email_address')->toArray();
+            $body = view('mailables.email_notifier.body-transaction-created')->with(['transaction' => $trans])->render();
+            EmailNotification::dispatch($to,$subject,$body,$cc);
             return $trans->only('slug');
         }
         abort(503,'Error creating JR. [JRController::store]');

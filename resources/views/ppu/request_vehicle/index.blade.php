@@ -21,7 +21,8 @@
                                     <th>Date</th>
                                     <th>Request No.</th>
                                     <th>Passengers</th>
-                                    <th>Details</th>
+                                    <th>Destination</th>
+                                    <th>Date of Departure</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -63,7 +64,8 @@
                 { "data": "created_at" },
                 { "data": "request_no" },
                 { "data": "passengers" },
-                { "data": "details" },
+                { "data": "destination" },
+                { "data": "from" },
                 { "data": "action" }
             ],
             "buttons": [
@@ -75,7 +77,7 @@
                     "class" : 'w-8p'
                 },
                 {
-                    "targets" : 5,
+                    "targets" : 6,
                     "orderable" : false,
                     "class" : 'action4'
                 },
