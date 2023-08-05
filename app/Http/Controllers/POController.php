@@ -109,6 +109,7 @@ class POController extends Controller
         $order = new Order();
         $order->ref_no = $request->po_number;
         $order->slug = $randomSlug;
+        $order->date = $request->date;
         $order->supplier = $s->slug;
         $order->supplier_name = $s->name;
         $order->supplier_address = $request->supplier_address;
@@ -124,6 +125,7 @@ class POController extends Controller
         $order->funds_available = $request->funds_available;
         $order->funds_available_designation = $request->funds_available_designation;
         $order->ref_book = $refBook;
+        $order->remarks = $request->remarks;
 
         //$refNumber= $request->ref_number;
         $rfqtrans = Transactions::query()
