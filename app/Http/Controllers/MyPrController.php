@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\PR\PRFormRequest;
+use App\Jobs\EmailNotification;
 use App\Models\Articles;
 use App\Models\PR;
 use App\Models\PRItems;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
+use App\Swep\Helpers\Arrays;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
 use Illuminate\Http\Request;
@@ -96,7 +98,7 @@ class MyPrController extends Controller
     }
 
     public function store(PRFormRequest $request){
-//        abort(503,$this->prService->getNextPRNo());
+
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'PR';
@@ -134,6 +136,14 @@ class MyPrController extends Controller
         $trans->abc = $abc;
         if($trans->save()){
             TransactionDetails::insert($arr);
+
+            //Send Mail
+            $to = $trans->userCreated->email;
+            $subject = Arrays::acronym($trans->ref_book).' No. '.$trans->ref_no;
+            $cc = $trans->rc->emailRecipients->pluck('email_address')->toArray();
+            $body = view('mailables.email_notifier.body-transaction-created')->with(['transaction' => $trans])->render();
+            EmailNotification::dispatch($to,$subject,$body,$cc);
+
             return $trans->only('slug');
         }
         abort(503,'Error creating PR. [PRController::store]');

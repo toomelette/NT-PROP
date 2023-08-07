@@ -42,39 +42,18 @@
     </div>
     <div id="approve_container_{{$rand}}" class="cont_{{$rand}}">
         <fieldset disabled="disabled">
-            Request Details:
-            <table class="table table-condensed table-striped table-bordered">
-                <thead>
-                <tr>
-                    <th>Date and Time of Departure</th>
-                    <th>Destination</th>
-                    <th>Vehicle</th>
-                    <th>Driver</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if(!empty($request->details))
-                    @foreach($request->details as $detail)
-                        <tr>
-                            <td>{{\App\Swep\Helpers\Helper::dateFormat($detail->datetime,'M. d, Y | h:i A')}}</td>
-                            <td>{{$detail->destination}}</td>
-                            <td>
-                                {!! \App\Swep\ViewHelpers\__form2::selectOnly('details['.$detail->slug.'][vehicle_assigned]',[
-                                    'options' => \App\Swep\Helpers\Arrays::vehicles(),
-                                    'class' => 'input-sm select2_'.$rand.' details_'.$detail->slug.'_vehicle_assigned',
-                                ]) !!}
-                            </td>
-                            <td>
-                                {!! \App\Swep\ViewHelpers\__form2::selectOnly('details['.$detail->slug.'][driver_assigned]',[
-                                    'options' => \App\Swep\Helpers\Arrays::drivers(),
-                                    'class' => 'input-sm select2_'.$rand.' details_'.$detail->slug.'_vehicle_assigned',
-                                ]) !!}
-                            </td>
-                        </tr>
-                    @endforeach
-                @endif
-                </tbody>
-            </table>
+            <div class="row">
+                {!! \App\Swep\ViewHelpers\__form2::select('vehicle_assigned',[
+                    'cols' => 6,
+                    'label' => 'Assign vehicle',
+                    'options' => \App\Swep\Helpers\Arrays::vehicles(),
+                ]) !!}
+                {!! \App\Swep\ViewHelpers\__form2::select('driver_assigned',[
+                    'cols' => 6,
+                    'label' => 'Assign driver',
+                    'options' => \App\Swep\Helpers\Arrays::drivers(),
+                ]) !!}
+            </div>
         </fieldset>
     </div>
     <div class="radio">

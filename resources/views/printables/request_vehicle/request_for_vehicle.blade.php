@@ -45,47 +45,41 @@
     <table style="width: 100%; font-family: Cambria; font-size: 14px" class="tbl-bordered">
         <tr>
             <td style="width: 10%">Requisitioner</td>
-            <td class="text-strong text-left">{{$request->name}}</td>
+            <td colspan="4" class="text-strong text-left">{{$request->name}}</td>
         </tr>
         <tr>
             <td>Dept/Div:</td>
-            <td class="text-strong text-left">{{$request->responsibilityCenter->desc ?? ''}}</td>
+            <td colspan="4" class="text-strong text-left">{{$request->responsibilityCenter->desc ?? ''}}</td>
         </tr>
         <tr>
             <td>Purpose:</td>
-            <td class="text-strong text-left">{{$request->purpose}}</td>
+            <td colspan="4" class="text-strong text-left">{{$request->purpose}}</td>
         </tr>
         <tr>
             <td>Authorized Passenger(s):</td>
-            <td class="text-strong text-left">{{$request->passengers->implode('name','; ')}}</td>
+            <td colspan="4" class="text-strong text-left">{{$request->passengers->implode('name','; ')}}</td>
         </tr>
-    </table>
-    <br>
 
-    <table style="width: 100%; font-family: Cambria" class="tbl-bordered">
-        <thead>
+
         <tr>
-            <th style="width: 25%; font-size: 11px !important;">Date and Time of Departure</th>
-            <th class="text-center">Destination</th>
-            <th class="text-center">Vehicle Assigned</th>
-            <th class="text-center">Driver Assigned</th>
+            <td>Destination:</td>
+            <td colspan="3" class="text-strong">{{$request->destination}}</td>
         </tr>
-        </thead>
-        <tbody>
-            @if(!empty($request->details))
-                @foreach($request->details as $detail)
-                    <tr>
-                        <td>{{\App\Swep\Helpers\Helper::dateFormat($detail->datetime,'M. d, Y | h:i A')}}</td>
-                        <td>{{$detail->destination}}</td>
-                        <td>{{$detail->vehicle->make ?? ''}} {{$detail->vehicle->model ?? ''}} - {{$detail->vehicle->plate_no ?? ''}}</td>
-                        <td>{{$detail->driver->employee->fullname ?? '-'}}</td>
-                    </tr>
-                @endforeach
-            @endif
-        </tbody>
+        <tr>
+            <td style="width: 20%"><small>Date and Time of Departure</small></td>
+            <td style="width: 30%" class="text-strong">{{\App\Swep\Helpers\Helper::dateFormat($request->from,'F d, Y | h:i A')}}</td>
+            <td style="width: 20%"><small> Date and Time of Return (If applicable)</small></td>
+            <td class="text-strong">{{\App\Swep\Helpers\Helper::dateFormat($request->to,'F d, Y | h:i A')}}</td>
+        </tr>
+        <tr>
+            <td>Vehicle Assigned</td>
+            <td class="text-strong">{{$request->vehicleAssigned->make ?? ''}} {{$request->vehicleAssigned->model ?? ''}} - {{$request->vehicleAssigned->plate_no ?? ''}}</td>
+            <td>Driver Assigned</td>
+            <td class="text-strong">{{$request->driverAssigned->employee->fullname ?? ' - '}}</td>
+        </tr>
     </table>
     <br>
-    <table style="width: 100%; font-family: Cambria;font-size: 14px">
+    <table style="width: 100%; font-family: Cambria">
         <tr>
             <td style="width: 50%">
                 Signature of Requisitioner: <br><br><br>
