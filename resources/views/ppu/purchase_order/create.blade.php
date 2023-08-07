@@ -284,7 +284,10 @@
                     var totalGrossRaw = $('input[name="total_gross"]').val();
                     var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                     var totalGross = parseFloat(cleanedTotalGross);
-                    let taxBase = totalGross/1.12;
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
                     let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                     let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1.toFixed(2));
@@ -302,7 +305,10 @@
                 var totalGrossRaw = $('input[name="total_gross"]').val();
                 var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                 var totalGross = parseFloat(cleanedTotalGross);
-                let taxBase = totalGross/1.12;
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                 let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
@@ -318,7 +324,10 @@
                     var totalGrossRaw = $('input[name="total_gross"]').val();
                     var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                     var totalGross = parseFloat(cleanedTotalGross);
-                    let taxBase = totalGross/1.12;
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
                     let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                     let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1.toFixed(2));
@@ -336,7 +345,10 @@
                 var totalGrossRaw = $('input[name="total_gross"]').val();
                 var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                 var totalGross = parseFloat(cleanedTotalGross);
-                let taxBase = totalGross/1.12;
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                 let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
@@ -352,7 +364,10 @@
                     var totalGrossRaw = $(this).val();
                     var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                     var totalGross = parseFloat(cleanedTotalGross);
-                    let taxBase = totalGross/1.12;
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
                     let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                     let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1.toFixed(2));
@@ -370,7 +385,10 @@
                 var totalGrossRaw = $(this).val();
                 var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                 var totalGross = parseFloat(cleanedTotalGross);
-                let taxBase = totalGross/1.12;
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                 let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
@@ -393,7 +411,10 @@
                 let overAllTotal1 = $('input[name="total_gross"]').val();
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
-                let taxBase = overAllTotal/1.12;
+                let taxBase = overAllTotal;
+                if($('#isVat').val() === 'True'){
+                    taxBase = overAllTotal/1.12;
+                }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                 let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
@@ -436,6 +457,9 @@
                     $('#printIframe').attr('src',res.route);
                     $('#trans_table tbody').remove();
                     $('#slug').val('');
+                    $('#divRows').addClass('hidden');
+                    $('#saveBtn').addClass('hidden');
+                    $('#trans_table').addClass('hidden');
                     succeed(form,true,true);
                     Swal.fire({
                         title: 'Successfully created',
@@ -565,7 +589,10 @@
                                 $('input[name="total_in_words"]').val(numberToWords(totalAmt));
                             }
                             else {
-                                let taxBase = overAllTotal/1.12;
+                                let taxBase = overAllTotal;
+                                if($('#isVat').val() === 'True'){
+                                    taxBase = overAllTotal/1.12;
+                                }
                                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
                                 let pOjOTax = ($('#poValue').val() / 100) * taxBase;
                                 $('#tax_base_1').val(tb1.toFixed(2));
