@@ -197,6 +197,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
         'create','store'
     ]);
 
+    Route::get('/vehicles/schedule','VehiclesController@schedule')->name('vehicles.schedule');
     Route::resource('vehicles',\App\Http\Controllers\VehiclesController::class);
 });
 

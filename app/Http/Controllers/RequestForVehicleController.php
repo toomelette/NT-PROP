@@ -154,8 +154,42 @@ class RequestForVehicleController extends Controller
 
     public function myRequests(Request $request){
         if($request->ajax() && $request->has('draw')){
-            return $this->dataTable($request,'myRequests');
+            return $this->myRequestsDataTable($request);
         }
         return view('ppu.request_vehicle.myRequests');
+    }
+
+    private function myRequestsDataTable(Request $request){
+        $r = RequestForVehicle::query()
+            ->where('user_created','=',Auth::user()->user_id);
+
+        return DataTables::of($r)
+            ->editColumn('requested_by',function($data){
+                return $data->requested_by;
+            })
+            ->addColumn('passengers',function($data){
+                return view('ppu.request_vehicle.dtPassengers')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->editColumn('from',function($data){
+                return Helper::dateFormat($data->from,'M. d, Y').(!empty($data->to) ? ' to '.Helper::dateFormat($data->to,'M. d, Y') : '');
+            })
+            ->addColumn('action',function($data){
+
+                return view('ppu.request_vehicle.myRequestsDtActions')->with([
+                    'data' => $data,
+                ]);
+
+            })
+            ->editColumn('created_at',function($data){
+                return Carbon::parse($data->created_at)->format('M. d, Y');
+            })
+            ->addColumn('assigned',function($data){
+                return ($data->vehicleAssigned->make ?? '').' '.($data->vehicleAssigned->model ?? '').' - '.($data->vehicleAssigned->plate_no ?? '').' '.($data->driverAssigned->employee->fullname ?? '');
+            })
+            ->escapeColumns([])
+            ->setRowId('slug')
+            ->toJson();
     }
 }

@@ -26,7 +26,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
                             <tr>
                                 <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
-                                    <p style="margin: 0;">&reg;SRA WEB PORTAL 2021<br/>
+                                    <p style="margin: 0;">&reg;SRA WEB PORTAL 2023<br/>
                                 </td>
                                 <td align="right">
                                     <!-- <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">

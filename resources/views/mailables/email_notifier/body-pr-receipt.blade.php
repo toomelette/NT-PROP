@@ -47,7 +47,7 @@
         </tr>
        <tr>
            <td colspan="2" style="padding-top: 20px">
-               <p style="">This is auto generated message. No Signature Required.</p>
+               <p style="">This is auto generated message.</p>
                <p style="margin: 0"> <strong>NOLI T. TINGSON</strong> </p>
                <small>Supply Officer IV</small>
            </td>

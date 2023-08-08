@@ -17,12 +17,12 @@
                             <table class="table table-bordered table-striped table-hover" id="articles_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
-                                    <th>Requisitioner</th>
-                                    <th>Date</th>
                                     <th>Request No.</th>
+                                    <th>Date</th>
                                     <th>Passengers</th>
                                     <th>Destination</th>
                                     <th>Date of Departure</th>
+                                    <th>Vehicle and Driver</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -60,12 +60,12 @@
         request_tbl = $("#articles_table").DataTable({
             "ajax" : '{{route("dashboard.request_vehicle.my_requests")}}',
             "columns": [
-                { "data": "requested_by" },
-                { "data": "created_at" },
                 { "data": "request_no" },
+                { "data": "created_at" },
                 { "data": "passengers" },
                 { "data": "destination" },
                 { "data": "from" },
+                { "data": "assigned" },
                 { "data": "action" }
             ],
             "buttons": [
@@ -73,7 +73,7 @@
             ],
             "columnDefs":[
                 {
-                    "targets" : [1,2],
+                    "targets" : [0,1],
                     "class" : 'w-8p'
                 },
                 {
@@ -82,7 +82,7 @@
                     "class" : 'action4'
                 },
             ],
-            "order" : [[1,'desc'],[2,'desc']],
+            "order" : [[0,'desc'],[2,'desc']],
             "responsive": false,
             'dom' : 'lBfrtip',
             "processing": true,
