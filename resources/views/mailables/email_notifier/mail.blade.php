@@ -14,16 +14,7 @@
 
             <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; border: 1px solid #cccccc;">
                 <td align="center" bgcolor="#eaffe3">
-                    <table>
-                        <tr>
-                            <td style="width: 18%"><img src="cid:sra" alt="Creating Email Magic." width="100" height="100" style="display: block;" /></td>
-                            <td style="padding-left: 15px">
-                                <p style="font-weight: bold; margin: 0px">SUGAR REGULATORY ADMINISTRATION</p>
-                                <p style="font-size: 11px; margin: 0px">Property/Procurement/Building and Transport Maintenance Section</p>
-                                <p style="font-size: 13px; margin: 0px">Procurement Management System</p>
-                            </td>
-                        </tr>
-                    </table>
+                    <img src="cid:sra" alt="" style="width: 100%" />
                 </td>
                 <tr>
                     <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
@@ -35,7 +26,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
                             <tr>
                                 <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
-                                    <p style="margin: 0;">&reg;SRA WEB PORTAL 2021<br/>
+                                    <p style="margin: 0;">&reg;SRA WEB PORTAL 2023<br/>
                                 </td>
                                 <td align="right">
                                     <!-- <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse;">

@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 class VehiclesController extends Controller
 {
 
-    public function index(Request $request){
+    public function schedule(Request $request){
         if($request->ajax() && $request->has('fetch')){
             $requestsForVehicle = RequestForVehicle::query()
                 ->with(['vehicleAssigned','passengers'])
@@ -54,8 +54,12 @@ class VehiclesController extends Controller
         }
 
 
-        return view('ppu.vehicles.index')->with([
+        return view('ppu.vehicles.schedule')->with([
 
         ]);
+    }
+
+    public function index(){
+        return view('ppu.vehicles.index');
     }
 }

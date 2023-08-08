@@ -198,6 +198,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
         'create','store'
     ]);
 
+    Route::get('/vehicles/schedule','VehiclesController@schedule')->name('vehicles.schedule');
     Route::resource('vehicles',\App\Http\Controllers\VehiclesController::class);
 });
 
@@ -224,15 +225,8 @@ Route::get('test',function (){
     dd(\App\Swep\Helpers\Arrays::recipientsOfProcurementUpdates());
 });
 
-Route::get('/arrangePap',function (){
-   $resps = \App\Models\PPURespCodes::query()
-       ->where('division','=','')
-       ->where('section','=','')
-       ->get();
-    foreach ($resps as $resp) {
-        $resp->desc = $resp->department;
-        $resp->save();
-   }
+Route::get('/test',function (){
+   dd(public_path());
 });
 
 Route::get('/mailtest',function (){

@@ -39,7 +39,7 @@ class Mail
 
 
 //        $this->mail->setFrom('swep.afd@sra.gov.ph', 'SRA Visayas - PPBTMS');
-        $this->mail->addEmbeddedImage('/emailheader.png','sra');
+        $this->mail->addEmbeddedImage(public_path().'/images/email/ppbtms.png','sra');
         $this->mail->isHTML(true);
     }
 }
