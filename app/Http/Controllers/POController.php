@@ -126,6 +126,8 @@ class POController extends Controller
         $order->funds_available_designation = $request->funds_available_designation;
         $order->ref_book = $refBook;
         $order->remarks = $request->remarks;
+        $order->vat = $request->vatValue;
+        $order->withholding_tax = $request->poValue;
 
         //$refNumber= $request->ref_number;
         $rfqtrans = Transactions::query()

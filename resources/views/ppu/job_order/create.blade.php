@@ -20,8 +20,6 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
-                    <input class="hidden" type="text" id="tax_base_1" name="tax_base_1"/>
-                    <input class="hidden" type="text" id="tax_base_2" name="tax_base_2"/>
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
@@ -32,6 +30,12 @@
                                                 'Direct Contracting' => 'Direct Contracting'
                                             ]
                                         ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
+                                'label' => 'JO Date:',
+                                'cols' => 3,
+                                'type' => 'date',
+                                'required' => 'required'
+                             ]) !!}
                     {{--{!! \App\Swep\ViewHelpers\__form2::textbox('mode',[
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
@@ -59,7 +63,7 @@
                                          'label' => 'Place of Delivery:',
                                          'cols' => 3,
                                          'required' => 'required'
-                                     ]) !!}
+                                    ], 'SRA BACOLOD') !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('delivery_date',[
                                 'label' => 'Date of Delivery:',
                                 'cols' => 3,
@@ -136,8 +140,29 @@
                                             'cols' => 3,
                                             'required' => 'required'
                                         ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('remarks',[
+                                            'label' => 'Remarks:',
+                                            'cols' => 6
+                                        ]) !!}
                     <div class="row hidden" id="divRows">
                         <div class="col-md-12">
+                            <div class="form-group col-md-2 vatValue">
+                                <label for="vatValue">VAT Percent:</label>
+                                <input class="form-control" name="vatValue" id="vatValue" type="text" value="" placeholder="" autocomplete="" required="">
+                            </div>
+                            <div class="form-group col-md-2 tax_base_1">
+                                <label for="tax_base_1">VAT Amount:</label>
+                                <input class="form-control" name="tax_base_1" id="tax_base_1" type="text" value="" placeholder="" autocomplete="" required="">
+                            </div>
+                            <div class="form-group col-md-2 vatValue">
+                                <label for="vatValue">W/TAX Percent:</label>
+                                <input class="form-control" name="joValue" id="joValue" type="text" value="" placeholder="" autocomplete="" required="">
+                            </div>
+                            <div class="form-group col-md-2 tax_base_2">
+                                <label for="tax_base_2">W/TAX Amount:</label>
+                                <input class="form-control" name="tax_base_2" id="tax_base_2" type="text" value="" placeholder="" autocomplete="" required="">
+                            </div>
+                            <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('total_gross',[
                                             'label' => 'Total Gross:',
                                             'cols' => 2,
@@ -156,15 +181,18 @@
                             <div class="" id="tableContainer" style="margin-top: 50px">
                                 <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
                                     <thead>
-                                    <tr class="">
-                                        <th>Stock No.</th>
-                                        <th>Unit</th>
-                                        <th>Item</th>
-                                        <th>Qty</th>
-                                        <th>Unit Cost</th>
-                                        <th>Total Cost</th>
-                                        <th width="3%"></th>
-                                    </tr>
+                                        <tr class="">
+                                            <th>Stock No.</th>
+                                            <th>Unit</th>
+                                            <th>Item</th>
+                                            <th>Description</th>
+                                            <th>Qty</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Cost</th>
+                                            <th>Prop. No.</th>
+                                            <th>Nature of Work</th>
+                                            <th style="width: 3%"></th>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -189,11 +217,11 @@
 @section('scripts')
     <script type="text/javascript">
         function numberToWords(number) {
-            const units = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-            const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+            const units = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
+            const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
 
             if (number === 0) {
-                return 'zero';
+                return 'ZERO';
             }
 
             // Function to convert a two-digit number
@@ -214,11 +242,11 @@
                 } else if (number < 1000) {
                     const digitHundreds = Math.floor(number / 100);
                     const remainingDigits = number % 100;
-                    return units[digitHundreds] + ' hundred ' + convertTwoDigitNumber(remainingDigits);
+                    return units[digitHundreds] + ' HUNDRED ' + convertTwoDigitNumber(remainingDigits);
                 } else if (number < 1000000) {
                     const digitThousands = Math.floor(number / 1000);
                     const remainingDigits = number % 1000;
-                    return convertWholeNumber(digitThousands) + ' thousand ' + convertWholeNumber(remainingDigits);
+                    return convertWholeNumber(digitThousands) + ' THOUSAND ' + convertWholeNumber(remainingDigits);
                 } else {
                     return 'Sorry, the number is too large to convert.';
                 }
@@ -237,36 +265,106 @@
             words += convertWholeNumber(wholePart);
 
             if (decimalPart > 0) {
-                words += ' and ' + convertTwoDigitNumber(decimalPart) + 'cents';
+                words += ' AND ' + convertTwoDigitNumber(decimalPart) + 'CENTS';
             }
 
             return words.trim();
         }
 
-
-
         $(document).ready(function() {
+            $('input[name="vatValue"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $('input[name="total_gross"]').val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="vatValue"]').on('blur', function() {
+                var totalGrossRaw = $('input[name="total_gross"]').val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+
+            $('input[name="joValue"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $('input[name="total_gross"]').val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="joValue"]').on('blur', function() {
+                var totalGrossRaw = $('input[name="total_gross"]').val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+
             $('input[name="total_gross"]').on('keypress', function(event) {
                 if (event.which === 13) { // Check if Enter key is pressed
-                    let refBook = $('#refBook').val();
-                    var totalGross = $(this).val();
-                    let taxBase = totalGross/1.12;
-                    let tb1 = 0;
+                    var totalGrossRaw = $(this).val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
                     if($('#isVat').val() === 'True'){
-                        tb1 = (5 / 100) * taxBase;
+                        taxBase = totalGross/1.12;
                     }
-                    else {
-                        tb1 = (3 / 100) * taxBase;
-                    }
-                    let pOjOTax = 0;
-                    if(refBook === "PR"){
-                        pOjOTax = (1 / 100) * taxBase;
-                    }
-                    else {
-                        pOjOTax = (2 / 100) * taxBase;
-                    }
-                    $('#tax_base_1').val(tb1);
-                    $('#tax_base_2').val(pOjOTax);
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
                     let totalAmt = totalGross - (tb1 + pOjOTax);
                     //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                     $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
@@ -277,25 +375,17 @@
             });
 
             $('input[name="total_gross"]').on('blur', function() {
-                let refBook = $('#refBook').val();
-                var totalGross = $(this).val();
-                let taxBase = totalGross/1.12;
-                let tb1 = 0;
+                var totalGrossRaw = $(this).val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (5 / 100) * taxBase;
+                    taxBase = totalGross/1.12;
                 }
-                else {
-                    tb1 = (3 / 100) * taxBase;
-                }
-                let pOjOTax = 0;
-                if(refBook === "PR"){
-                    pOjOTax = (1 / 100) * taxBase;
-                }
-                else {
-                    pOjOTax = (2 / 100) * taxBase;
-                }
-                $('#tax_base_1').val(tb1);
-                $('#tax_base_2').val(pOjOTax);
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = totalGross - (tb1 + pOjOTax);
                 //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                 $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
@@ -306,31 +396,22 @@
         function deleteRow(button) {
             const row = button.closest('tr');
             if (row) {
-                let refBook = $('#refBook').val();
-                const sixthTd = row.getElementsByTagName('td')[5]; // Get the 6th td element (index 5)
-                const value = sixthTd.textContent;
+                const sixthTd = row.getElementsByTagName('td')[6]; // Get the 7th td element (index 5)
+                const inputElement = sixthTd.querySelector('input'); // Find the input element within the td
+                const value = inputElement.value;
                 const sanitizedValue = value.replace(/,/g, '');
 
                 let overAllTotal1 = $('input[name="total_gross"]').val();
                 const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
                 let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
-                let taxBase = overAllTotal/1.12;
-                let tb1 = 0;
+                let taxBase = overAllTotal;
                 if($('#isVat').val() === 'True'){
-                    tb1 = (5 / 100) * taxBase;
+                    taxBase = overAllTotal/1.12;
                 }
-                else {
-                    tb1 = (3 / 100) * taxBase;
-                }
-                let pOjOTax = 0;
-                if(refBook === "PR"){
-                    pOjOTax = (1 / 100) * taxBase;
-                }
-                else {
-                    pOjOTax = (2 / 100) * taxBase;
-                }
-                $('#tax_base_1').val(tb1);
-                $('#tax_base_2').val(pOjOTax);
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                 $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
@@ -369,6 +450,9 @@
                     $('#printIframe').attr('src',res.route);
                     $('#trans_table tbody').remove();
                     $('#slug').val('');
+                    $('#divRows').addClass('hidden');
+                    $('#saveBtn').addClass('hidden');
+                    $('#trans_table').addClass('hidden');
                     succeed(form,true,true);
                     Swal.fire({
                         title: 'Successfully created',
@@ -414,6 +498,8 @@
                     $('input[name="supplier_representative"]').val(res.contact_person);
                     $('input[name="isVat"]').val(res.is_vat == 1?"True":"False");
                     $('input[name="isGovernment"]').val(res.is_government == 1?"True":"False");
+                    $('input[name="vatValue"]').val(res.tax_computation.percent);
+                    $('input[name="joValue"]').val(res.tcJO.percent);
                     console.log(res);
                 },
                 error: function (res) {
@@ -460,17 +546,30 @@
                                     slugs += res.transDetails[i].slug + '~';
                                     let aqTotalCost = 0;
                                     let aqUnitCost = 0;
+                                    let offerDetails = "";
                                     for (const aqd of res.aqOfferDetails) {
                                         if(aqd.item_slug === res.transDetails[i].slug){
-                                            aqTotalCost = parseFloat(aqd.amount);
+                                            aqUnitCost = parseFloat(aqd.amount);
+                                            offerDetails = aqd.description;
                                         }
                                     }
-                                    aqUnitCost = parseFloat(aqTotalCost / res.transDetails[i].qty);
-                                    aqTotalCost = isNaN(aqTotalCost) ? 0 : aqTotalCost;
+                                    aqTotalCost = isNaN(aqUnitCost) ? 0 : aqUnitCost * res.transDetails[i].qty;
                                     aqUnitCost = isNaN(aqUnitCost) ? 0 : aqUnitCost;
                                     overAllTotal += aqTotalCost;
-                                    tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
-
+                                    let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
+                                    let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
+                                    tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
+                                        '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ offerDetails +'</textarea></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
+                                        '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
+                                        '</tr>';
                                 }
                             }
                             else {
@@ -483,10 +582,25 @@
                                     stock = stock === null ? '' : stock;
                                     slugs += res.transDetails[i].slug + '~';
                                     overAllTotal += num2;
-                                    tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
+                                    let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
+                                    let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
+                                    tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
+                                        '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ offerDetails +'</textarea></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
+                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
+                                        '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
+                                        '</tr>';
+                                    //tableHtml += '<tr id='+res.transDetails[i].slug+'><td>' + stock + '</td><td>' + res.transDetails[i].unit + '</td><td>' + res.transDetails[i].item + '</td><td>' + res.transDetails[i].qty + '</td><td>' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td>' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '</td><td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td></tr>';
 
                                 }
                             }
+
                             $('#refBook').val(res.trans.ref_book);
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
                             $('#itemSlugEdit').val(slugs);
@@ -503,23 +617,14 @@
                                     $('input[name="total_in_words"]').val(numberToWords(overAllTotal));
                                 }
                                 else {
-                                    let taxBase = overAllTotal/1.12;
-                                    let tb1 = 0;
+                                    let taxBase = overAllTotal;
                                     if($('#isVat').val() === 'True'){
-                                        tb1 = (5 / 100) * taxBase;
+                                        taxBase = overAllTotal/1.12;
                                     }
-                                    else {
-                                        tb1 = (3 / 100) * taxBase;
-                                    }
-                                    let pOjOTax = 0;
-                                    if(res.trans.ref_book === "PR"){
-                                        pOjOTax = (1 / 100) * taxBase;
-                                    }
-                                    else {
-                                        pOjOTax = (2 / 100) * taxBase;
-                                    }
-                                    $('#tax_base_1').val(tb1);
-                                    $('#tax_base_2').val(pOjOTax);
+                                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                                    $('#tax_base_1').val(tb1.toFixed(2));
+                                    $('#tax_base_2').val(pOjOTax.toFixed(2));
                                     let totalAmt = overAllTotal - (tb1 + pOjOTax);
                                     $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                                     $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
