@@ -85,8 +85,11 @@ class RequestForVehicleController extends Controller
         return view('ppu.request_vehicle.index');
     }
 
-    private function dataTable(Request $request){
+    private function dataTable(Request $request, $source = null){
         $r = RequestForVehicle::query();
+        if($source != null){
+            $r = $r->where('user_created','=',Auth::user()->user_id);
+        }
         return DataTables::of($r)
             ->editColumn('requested_by',function($data){
                 return $data->requested_by;
@@ -99,10 +102,16 @@ class RequestForVehicleController extends Controller
             ->editColumn('from',function($data){
                 return Helper::dateFormat($data->from,'M. d, Y').(!empty($data->to) ? ' to '.Helper::dateFormat($data->to,'M. d, Y') : '');
             })
-            ->addColumn('action',function($data){
-                return view('ppu.request_vehicle.dtActions')->with([
-                    'data' => $data,
-                ]);
+            ->addColumn('action',function($data) use ($source){
+                if($source == null){
+                    return view('ppu.request_vehicle.dtActions')->with([
+                        'data' => $data,
+                    ]);
+                }else{
+                    return view('ppu.request_vehicle.myRequestsDtActions')->with([
+                        'data' => $data,
+                    ]);
+                }
             })
             ->editColumn('created_at',function($data){
                 return Carbon::parse($data->created_at)->format('M. d, Y');
@@ -141,5 +150,12 @@ class RequestForVehicleController extends Controller
             return $r->only('slug');
         }
         abort(503,'An error occurred');
+    }
+
+    public function myRequests(Request $request){
+        if($request->ajax() && $request->has('draw')){
+            return $this->dataTable($request,'myRequests');
+        }
+        return view('ppu.request_vehicle.myRequests');
     }
 }
