@@ -179,7 +179,7 @@
                         <b><span style="font-size: 14px;">
                         @if(!empty($td))
                             @foreach($td as $item)
-                                {{$item->description}}
+                                {{$item->nature_of_work}}
                                 @endforeach
                                 @endif
                         </span></b>

@@ -9,8 +9,6 @@
     <section class="content col-md-12">
         <div class="box box-solid">
             <form id="po_form">
-                <div class="box-header with-border">
-                </div>
                 <div class="box-body">
                     <div class="embed-responsive embed-responsive-16by9 hidden" style="height: 1019.938px;">
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
@@ -20,6 +18,7 @@
                     <input class="" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="" type="text" id="isVat" name="isVat"/>
                     <input class="" type="text" id="isGovernment" name="isGovernment"/>
+                    <div class="clearfix"></div>
                     {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
                                             'label' => 'PO Number:',
                                             'cols' => 3,
@@ -158,10 +157,40 @@
                                             'required' => 'required'
                                         ],
                                         $order ?? null) !!}
-
-                            @foreach($trans->transDetails as $transDetail)
-                                {{$transDetail->item}}
-                            @endforeach
+                            <div class="" id="tableContainer" style="margin-top: 50px">
+                                <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
+                                    <thead>
+                                        <tr class="">
+                                            <th>Stock No.</th>
+                                            <th>Unit</th>
+                                            <th>Item</th>
+                                            <th>Description</th>
+                                            <th>Qty</th>
+                                            <th>Unit Cost</th>
+                                            <th>Total Cost</th>
+                                            <th>Prop. No.</th>
+                                            <th>Nature of Work</th>
+                                            <th style="width: 3%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($trans->transDetails as $transDetail)
+                                            <tr id="{{$transDetail->slug}}">
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][stock_no]" name="items['{{$transDetail->slug}}'][stock_no]" type="text" value="{{$transDetail->stock_no}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit]" name="items['{{$transDetail->slug}}'][unit]" type="text" value="{{$transDetail->unit}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][item]" name="items['{{$transDetail->slug}}'][item]" type="text" value="{{$transDetail->item}}"></td>
+                                                <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][description]" name="items['{{$transDetail->slug}}'][description]" type="text">{{$transDetail->description}}</textarea></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][qty]" name="items['{{$transDetail->slug}}'][qty]" type="text" value="{{$transDetail->qty}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit_cost]" name="items['{{$transDetail->slug}}'][unit_cost]" type="text" value="{{$transDetail->unit_cost}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][total_cost]" name="items['{{$transDetail->slug}}'][total_cost]" type="text" value="{{$transDetail->total_cost}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][property_no]" name="items['{{$transDetail->slug}}'][property_no]" type="text" value="{{$transDetail->property_no}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][nature_of_work]" name="items['{{$transDetail->slug}}'][nature_of_work]" type="text" value="{{$transDetail->nature_of_work}}"></td>
+                                                <td><button type="button" class="btn btn-danger btn-sm delete-btn" data-slug="{{$transDetail->slug}}" onclick="deleteRow(this)"><i class="fa fa-times"></i></button></td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
