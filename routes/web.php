@@ -171,6 +171,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/po/{slug}/edit','POController@edit')->name('po.edit');
     Route::get('/po/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','POController@findTransByRefNumber')->name('po.findTransByRefNumber');
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
+    Route::patch('/po/update/{slug}','POController@update')->name('po.update');
     Route::resource('po', 'POController');
 
     Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');

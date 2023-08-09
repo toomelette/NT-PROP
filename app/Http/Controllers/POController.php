@@ -93,6 +93,57 @@ class POController extends Controller
         return $result;
     }
 
+    public function update(FormRequest $request,$slug){
+        $trans = Transactions::query()->where('order_slug','=', $slug)->first();
+        $order = Order::query()->where('slug', '=', $slug)->first();
+        $order->mode = $request->mode;
+        $order->date = $request->date;
+        $order->supplier_address = $request->supplier_address;
+        $order->supplier_tin = $request->supplier_tin;
+        $order->supplier_representative = $request->supplier_representative;
+        $order->place_of_delivery = $request->place_of_delivery;
+        $order->delivery_term = $request->delivery_term;
+        $order->payment_term = $request->payment_term;
+        $order->delivery_date = $request->delivery_date??null;
+        $order->authorized_official = $request->authorized_official;
+        $order->authorized_official_designation = $request->authorized_official_designation;
+        $order->funds_available = $request->funds_available;
+        $order->funds_available_designation = $request->funds_available_designation;
+        $order->remarks = $request->remarks;
+        $order->vat = $request->vatValue;
+        $order->withholding_tax = $request->poValue;
+        $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
+        $order->total =  Helper::sanitizeAutonum($request->total);
+        $order->total_in_words = $request->total_in_words;
+        $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
+        $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
+
+        $arr = [];
+        if(!empty($request->items)){
+            foreach ($request->items as $item) {
+                array_push($arr,[
+                    'slug' => Str::random(),
+                    'transaction_slug' => $trans->slug,
+                    'stock_no' => $item['stock_no'],
+                    'unit' => $item['unit'],
+                    'item' => $item['item'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                    'property_no' => $item['property_no'],
+                    'nature_of_work' => $item['nature_of_work'],
+                ]);
+            }
+        }
+        $trans->transDetails()->delete();
+        if($order->save()){
+            TransactionDetails::insert($arr);
+            return $order->only('slug');
+        }
+        abort(503,'Error updating purchase order.');
+    }
+
     public function store(POFormRequest $request) {
         $refBook = "PO";
         //$poNUmber = $this->getNextPONo($refBook);
@@ -280,7 +331,8 @@ class POController extends Controller
         //$trans->transDetails()->delete();
         return view('ppu.purchase_order.edit')->with([
             'order' => $order,
-            'trans' => $trans
+            'trans' => $trans,
+            'slug' => $slug,
         ]);
     }
 
