@@ -93,6 +93,17 @@ class POController extends Controller
         return $result;
     }
 
+    public function edit($slug) {
+        $order = Order::query()->where('slug','=', $slug)->first();
+        $trans = Transactions::query()->where('order_slug','=', $slug)->first();
+        //$trans->transDetails()->delete();
+        return view('ppu.purchase_order.edit')->with([
+            'order' => $order,
+            'trans' => $trans,
+            'slug' => $slug,
+        ]);
+    }
+
     public function update(FormRequest $request,$slug){
         $trans = Transactions::query()->where('order_slug','=', $slug)->first();
         $order = Order::query()->where('slug', '=', $slug)->first();
@@ -323,17 +334,6 @@ class POController extends Controller
                 'transDetails' => $transDetails
             ]);
         }
-    }
-
-    public function edit($slug) {
-        $order = Order::query()->where('slug','=', $slug)->first();
-        $trans = Transactions::query()->where('order_slug','=', $slug)->first();
-        //$trans->transDetails()->delete();
-        return view('ppu.purchase_order.edit')->with([
-            'order' => $order,
-            'trans' => $trans,
-            'slug' => $slug,
-        ]);
     }
 
     public function print($slug){

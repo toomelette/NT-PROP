@@ -94,6 +94,17 @@ class JOController extends Controller
         return $year.Carbon::now()->format('m-').$newPOBaseNo;
     }
 
+    public function edit($slug) {
+        $order = Order::query()->where('slug','=', $slug)->first();
+        $trans = Transactions::query()->where('order_slug','=', $slug)->first();
+        //$trans->transDetails()->delete();
+        return view('ppu.job_order.edit')->with([
+            'order' => $order,
+            'trans' => $trans,
+            'slug' => $slug,
+        ]);
+    }
+
     public function store(JOFormRequest $request) {
 
         $randomSlug = Str::random();
