@@ -50,8 +50,8 @@
             <thead >
             <tr>
                 <th style="text-align: center; width: 10%" rowspan="2">Article/Item/Description</th>
-                <th style="text-align: center; width: 26%" rowspan="2">Accountable Person</th>
-                <th style="text-align: center; width: 7%" rowspan="2">Date Acquired</th>
+                <th style="text-align: center; width: 10%" rowspan="2">Description</th>
+                {{--<th style="text-align: center; width: 7%" rowspan="2">Date Acquired</th>--}}
                 <th style="text-align: center; width: 12%" rowspan="2">Old Property No. Assigned</th>
                 <th style="text-align: center; width: 12%" rowspan="2">New Property No. Assigned (To be filled up during validation)</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Unit of Measure</th>
@@ -70,9 +70,9 @@
             @foreach($rpciObj as $rpci)
                 @if($rpci->invtacctcode === $accountCode)
                     <tr>
-                        <td>{{$rpci->article}} - {{$rpci->description}} / </td>
-                        <td style="text-align: center;">{{$rpci->acctemployee_fname}}</td>
-                        <td style="text-align: center; width: 10%">{{$rpci->dateacquired}}</td>
+                        <td>{{$rpci->article}}</td>
+                        <td>{{$rpci->description}} / </td>
+                        {{--<td style="text-align: center; width: 10%">{{$rpci->dateacquired}}</td>--}}
                         <td style="text-align: center;">{{$rpci->old_property_no}}</td>
                         <td style="text-align: center;"></td>
                         <td style="text-align: center;">{{$rpci->uom}}</td>

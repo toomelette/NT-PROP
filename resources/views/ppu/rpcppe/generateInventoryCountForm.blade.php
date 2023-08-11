@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Generate RPCPPE</h1>
+        <h1>Generate ICF</h1>
     </section>
 @endsection
 @section('content2')
