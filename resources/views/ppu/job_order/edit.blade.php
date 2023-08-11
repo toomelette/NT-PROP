@@ -14,7 +14,7 @@
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
                     <input class="hidden" type="text" id="refBook" name="refBook"/>
-                    <input class="hidden" type="text" id="slug" name="slug"/>
+                    <input class="hidden" type="text" id="slug" name="slug" value="{{$slug}}"/>
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
@@ -134,7 +134,7 @@
                             </div>
                             <div class="form-group col-md-2 vatValue">
                                 <label for="vatValue">W/TAX Percent:</label>
-                                <input class="form-control" name="poValue" id="poValue" type="text" value="{{$order->withholding_tax}}" placeholder="" autocomplete="" required="">
+                                <input class="form-control" name="joValue" id="joValue" type="text" value="{{$order->withholding_tax}}" placeholder="" autocomplete="" required="">
                             </div>
                             <div class="form-group col-md-2 tax_base_2">
                                 <label for="tax_base_2">W/TAX Amount:</label>
@@ -210,6 +210,267 @@
 
 @section('scripts')
     <script type="text/javascript">
+        function numberToWords(number) {
+            const units = ['', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE', 'TEN', 'ELEVEN', 'TWELVE', 'THIRTEEN', 'FOURTEEN', 'FIFTEEN', 'SIXTEEN', 'SEVENTEEN', 'EIGHTEEN', 'NINETEEN'];
+            const tens = ['', '', 'TWENTY', 'THIRTY', 'FORTY', 'FIFTY', 'SIXTY', 'SEVENTY', 'EIGHTY', 'NINETY'];
 
+            if (number === 0) {
+                return 'ZERO';
+            }
+
+            // Function to convert a two-digit number
+            function convertTwoDigitNumber(number) {
+                if (number < 20) {
+                    return units[number];
+                } else {
+                    const digitOne = Math.floor(number / 10);
+                    const digitTwo = number % 10;
+                    return tens[digitOne] + ' ' + units[digitTwo];
+                }
+            }
+
+            // Function to convert a whole number
+            function convertWholeNumber(number) {
+                if (number < 100) {
+                    return convertTwoDigitNumber(number);
+                } else if (number < 1000) {
+                    const digitHundreds = Math.floor(number / 100);
+                    const remainingDigits = number % 100;
+                    return units[digitHundreds] + ' HUNDRED ' + convertTwoDigitNumber(remainingDigits);
+                } else if (number < 1000000) {
+                    const digitThousands = Math.floor(number / 1000);
+                    const remainingDigits = number % 1000;
+                    return convertWholeNumber(digitThousands) + ' THOUSAND ' + convertWholeNumber(remainingDigits);
+                } else {
+                    return 'Sorry, the number is too large to convert.';
+                }
+            }
+
+            let words = '';
+
+            if (number < 0) {
+                words += 'minus ';
+                number = Math.abs(number);
+            }
+
+            const wholePart = Math.floor(number);
+            const decimalPart = Math.round((number - wholePart) * 100);
+
+            words += convertWholeNumber(wholePart);
+
+            if (decimalPart > 0) {
+                words += ' AND ' + convertTwoDigitNumber(decimalPart) + 'CENTS';
+            }
+
+            return words.trim();
+        }
+
+        $(document).ready(function() {
+            $('input[name="vatValue"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $('input[name="total_gross"]').val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="vatValue"]').on('blur', function() {
+                var totalGrossRaw = $('input[name="total_gross"]').val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+
+            $('input[name="joValue"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $('input[name="total_gross"]').val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="joValue"]').on('blur', function() {
+                var totalGrossRaw = $('input[name="total_gross"]').val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+
+            $('input[name="total_gross"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $(this).val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="total_gross"]').on('blur', function() {
+                var totalGrossRaw = $(this).val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+        });
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            if (row) {
+                const sixthTd = row.getElementsByTagName('td')[6]; // Get the 7th td element (index 5)
+                const inputElement = sixthTd.querySelector('input'); // Find the input element within the td
+                const value = inputElement.value;
+                const sanitizedValue = value.replace(/,/g, '');
+
+                let overAllTotal1 = $('input[name="total_gross"]').val();
+                const overAllTotal1sanitizedValue = overAllTotal1.replace(/,/g, '');
+                let overAllTotal = overAllTotal1sanitizedValue - sanitizedValue;
+                let taxBase = overAllTotal;
+                if($('#isVat').val() === 'True'){
+                    taxBase = overAllTotal/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = overAllTotal - (tb1 + pOjOTax);
+                $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                row.remove();
+                updateSlugs(row.id);
+            }
+        }
+
+        function updateSlugs(slug) {
+            const slugsInput = document.getElementById('itemSlugEdit');
+            let slugs = slugsInput.value.split('~');
+            const index = slugs.indexOf(slug);
+
+            if (index !== -1) {
+                slugs.splice(index, 1);
+                slugsInput.value = slugs.join('~');
+            }
+        }
+
+        $('#saveBtn').click(function(e) {
+            e.preventDefault();
+            let form = $('#jo_form');
+            let uri = '{{route("dashboard.jo.update","slug")}}';
+            uri = uri.replace('slug',$('#slug').val());
+            loading_btn(form);
+            $.ajax({
+                type: 'PATCH',
+                url: uri,
+                data: form.serialize(),
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function(res) {
+                    console.log(res);
+                    toast('success','Successfully Updated.','Success!');
+                    $('#printIframe').attr('src',res.route);
+                    succeed(form,true,true);
+                    Swal.fire({
+                        title: 'Successfully Updated',
+                        icon: 'success',
+                        html:
+                            'Click the print button below to print.',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-print"></i> Print',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonText:
+                            'Dismiss',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let link = "{{route('dashboard.jo.print','slug')}}";
+                            link = link.replace('slug',res.slug);
+                            window.open(link, '_blank');
+                        }
+                    })
+                },
+                error: function(res) {
+                    // Display an alert with the error message
+                    toast('error',res.responseJSON.message,'Error!');
+                }
+            });
+        });
     </script>
 @endsection
