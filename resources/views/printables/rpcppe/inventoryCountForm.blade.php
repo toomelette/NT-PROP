@@ -49,7 +49,7 @@
         <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
             <thead >
             <tr>
-                <th style="text-align: center; width: 10%" rowspan="2">Article/Item/Description</th>
+                <th style="text-align: center; width: 10%" rowspan="2">Article/Item</th>
                 <th style="text-align: center; width: 10%" rowspan="2">Description</th>
                 {{--<th style="text-align: center; width: 7%" rowspan="2">Date Acquired</th>--}}
                 <th style="text-align: center; width: 12%" rowspan="2">Old Property No. Assigned</th>
@@ -71,7 +71,7 @@
                 @if($rpci->invtacctcode === $accountCode)
                     <tr>
                         <td>{{$rpci->article}}</td>
-                        <td>{{$rpci->description}} / </td>
+                        <td>{{$rpci->description}}</td>
                         {{--<td style="text-align: center; width: 10%">{{$rpci->dateacquired}}</td>--}}
                         <td style="text-align: center;">{{$rpci->old_property_no}}</td>
                         <td style="text-align: center;"></td>
