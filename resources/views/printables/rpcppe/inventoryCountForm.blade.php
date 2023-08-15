@@ -24,7 +24,7 @@
     </style>
 @foreach($accountCodes as $accountCode)
     <div class="page-breaks">
-        <table style="width: 100%; margin-left: 0; font-family: 'Cambria',Times New Roman">
+        <table style="width: 100%; margin-left: -30px; font-family: 'Cambria',Times New Roman">
             <tr>
                 <td>
 
@@ -73,8 +73,8 @@
                         <td>{{$rpci->article}}</td>
                         <td>{{$rpci->description}}</td>
                         {{--<td style="text-align: center; width: 10%">{{$rpci->dateacquired}}</td>--}}
-                        <td style="text-align: center;">{{$rpci->old_property_no}}</td>
-                        <td style="text-align: center;"></td>
+                        <td style="text-align: center;">{{$rpci->old_propertyno}}</td>
+                        <td style="text-align: center;">{{$rpci->propertyno}}</td>
                         <td style="text-align: center;">{{$rpci->uom}}</td>
                         <td style="text-align: right;">{{ number_format($rpci->acquiredcost, 2) }}</td>
                         <td style="text-align: center;">{{$rpci->qtypercard}}</td>

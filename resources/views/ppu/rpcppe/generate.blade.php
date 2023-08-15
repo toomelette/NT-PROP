@@ -51,6 +51,8 @@
                 href = href.replace('fund_cluster', selectedValue);
                 $('a.btn').attr('href', href);
             });
+           /* var href = "{{ route('dashboard.rpcppe.printRpcppe', 'all') }}";
+            $('a.btn').attr('href', href);*/
         });
 
     </script>

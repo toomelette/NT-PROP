@@ -119,6 +119,12 @@ class PARController extends Controller
     }
 
     public function printRpcppe($fund_cluster){
+        /*if($fund_cluster == 'all'){
+            $rpciObj = InventoryPPE::query()->orderBy('invtacctcode')->get();
+        }
+        else{
+            $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
+        }*/
         $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
         $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
         $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
@@ -126,7 +132,7 @@ class PARController extends Controller
             'rpciObj' => $rpciObj,
             'accountCodes' => $accountCodes,
             'accountCodeRecords' => $accountCodeRecords,
-            'funcCluster' => $fund_cluster,
+            'fundCluster' => $fund_cluster,
         ]);
     }
 
