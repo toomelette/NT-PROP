@@ -172,7 +172,8 @@ class Arrays
         return [
             'COB' => 'COB',
             'SIDA' => 'SIDA',
-            'ACEF' => 'ACEF'
+            'ACEF' => 'ACEF',
+            'DONATION' => 'DONATION'
         ];
     }
 
