@@ -39,7 +39,7 @@
                 </td>
             </tr>
         </table>
-        <h5 style="text-align: left; margin-left: 30px;"><strong>Location: {{$location->name}}</strong></h5>
+        <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Location: {{$location->name}}</strong></h5>
         @foreach($accountCodeRecords as $accountCodeRecord)
             @if($accountCodeRecord->code === $accountCode)
             <h5 style="text-align: left; margin-left: 30px;"><strong>Inventory Type: {{$accountCode}} - {{$accountCodeRecord->description}}</strong></h5>
