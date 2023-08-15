@@ -92,13 +92,13 @@
             <tfoot>
             <tr>
                 <td></td>
-                <td colspan="3">
+                <td colspan="4">
                     <strong>GRAND TOTAL OF ACCT. {{$accountCode}}</strong>
                 </td>
                 <td style="text-align: right;">
                     {{ number_format($totalAcquiredCost, 2) }}
                 </td>
-                <td colspan="6"></td>
+                <td colspan="5"></td>
             </tr>
             </tfoot>
         </table>
