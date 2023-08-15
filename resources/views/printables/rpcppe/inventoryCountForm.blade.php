@@ -50,7 +50,7 @@
             <thead >
             <tr>
                 <th style="text-align: center; width: 10%" rowspan="2">Article/Item</th>
-                <th style="text-align: center; width: 10%" rowspan="2">Description</th>
+                <th style="text-align: center; width: 30%" rowspan="2">Description</th>
                 {{--<th style="text-align: center; width: 7%" rowspan="2">Date Acquired</th>--}}
                 <th style="text-align: center; width: 12%" rowspan="2">Old Property No. Assigned</th>
                 <th style="text-align: center; width: 12%" rowspan="2">New Property No. Assigned (To be filled up during validation)</th>
@@ -58,8 +58,8 @@
                 <th style="text-align: center; width: 5%" rowspan="2">Unit Value</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Quantity per Property Card</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Quantity per Physical Count</th>
-                <th style="text-align: center; width: 10%" rowspan="2">Location/Whereabouts</th>
-                <th style="text-align: center; width: 15%" rowspan="2">Condition</th>
+                <th style="text-align: center; width: 5%" rowspan="2">Location/Whereabouts</th>
+                <th style="text-align: center; width: 5%" rowspan="2">Condition</th>
                 <th style="text-align: center; width: 15%" rowspan="2">REMARKS</th>
             </tr>
             </thead>
