@@ -19,6 +19,13 @@
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
                     <div class="clearfix"></div>
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
+                                            'label' => 'JO Number:',
+                                            'cols' => 3,
+                                            'readonly' => 'readonly'
+                                        ],
+                                        $order ?? null
+                                        ) !!}
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,

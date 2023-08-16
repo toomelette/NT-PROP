@@ -14,6 +14,7 @@ class JOFormRequest extends FormRequest
 
     public function rules(){
         return [
+            'jo_number' => 'required',
             'date' => 'required',
         ];
     }

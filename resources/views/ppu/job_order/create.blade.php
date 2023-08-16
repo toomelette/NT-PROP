@@ -20,6 +20,12 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('jo_number',[
+                                            'label' => 'JO Number:',
+                                            'cols' => 3
+                                        ],
+                                        $jo_number ?? null
+                                        ) !!}
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,

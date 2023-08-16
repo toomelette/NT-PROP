@@ -55,7 +55,8 @@ class JOController extends Controller
 
     public function create(){
         $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
-        return view('ppu.job_order.create', compact('suppliers'));
+        $jo_number = $this->getNextJONo("JO");
+        return view('ppu.job_order.create', compact('suppliers', 'jo_number'));
     }
 
     public function findSupplier($slug){
@@ -160,11 +161,17 @@ class JOController extends Controller
 
         $randomSlug = Str::random();
         $refBook = "JO";
-        $joNUmber = $this->getNextJONo($refBook);
+        //$joNUmber = $this->getNextJONo($refBook);
+        $joNumber = $request->jo_number;
+        $orderExist = Order::query()->where('ref_no','=',$request->jo_number)
+            ->where('ref_book', '=', $refBook)->first();
+        if($orderExist != null) {
+            return abort(503,'JO Number already exist.');
+        }
         $s = Suppliers::query()->where('slug','=', $request->supplier)->first();
 
         $order = new Order();
-        $order->ref_no = $joNUmber;
+        $order->ref_no = $joNumber;
         $order->slug = $randomSlug;
         $order->supplier = $s->slug;
         $order->supplier_name = $s->name;
@@ -202,7 +209,7 @@ class JOController extends Controller
         $transNew->resp_center = $trans->resp_center;
         $transNew->pap_code = $trans->pap_code;
         $transNew->ref_book = $refBook;
-        $transNew->ref_no = $joNUmber;
+        $transNew->ref_no = $joNumber;
         $transNew->cross_slug = $trans->slug;
         $transNew->cross_ref_no = $trans->ref_no;
         $transNew->purpose = $trans->purpose;
