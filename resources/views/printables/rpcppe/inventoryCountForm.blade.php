@@ -102,6 +102,24 @@
             </tr>
             </tfoot>
         </table>
+
+
+        <table style="width: 100%; margin-left: 30px; margin-top: 70px; font-family: 'Cambria',Times New Roman">
+            <tr>
+                <td class="text-top">Prepared by:</td>
+                <td class="text-top">Reviewed by:</td>
+            </tr>
+            <tr>
+                <td class="text-top text-center">
+                    ___________________________________<br>
+                    Inventory Committee Member
+                </td>
+                <td class="text-top text-center">
+                    ___________________________________<br>
+                    Inventory Committee
+                </td>
+            </tr>
+        </table>
     </div>
     @endforeach
 @endsection
