@@ -184,6 +184,14 @@ class Arrays
         ];
     }
 
+    public static function condition(){
+        return [
+            'MISSING' => 'MISSING',
+            'SERVICEABLE' => 'SERVICEABLE',
+            'UNSERVICEABLE' => 'UNSERVICEABLE'
+        ];
+    }
+
     public static function subMajorAccountGroup(){
         $s = AccountCode::query()->groupBy('sub_major_account_group')->orderBy('sub_major_account_group')->get();
         $arr = [];

@@ -181,6 +181,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::patch('/jo/update/{slug}','JOController@update')->name('jo.update');
     Route::resource('jo', 'JOController');
 
+    Route::get('/par/create','PARController@create')->name('par.create');
     Route::get('/par/{slug}/print','PARController@print')->name('par.print');
     Route::get('/par/edit/{slug}','PARController@edit')->name('par.edit');
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');

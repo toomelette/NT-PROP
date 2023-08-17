@@ -42,6 +42,10 @@ class PARController extends Controller
             ->toJson();
     }
 
+    public function create(){
+        return view('ppu.par.create');
+    }
+
     public function store(InventoryPPEFormRequest $request){
         $par = new InventoryPPE();
         $par->slug = Str::random(16);
