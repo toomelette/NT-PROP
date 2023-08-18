@@ -195,7 +195,8 @@ class Arrays
         return [
             'MISSING' => 'MISSING',
             'SERVICEABLE' => 'SERVICEABLE',
-            'UNSERVICEABLE' => 'UNSERVICEABLE'
+            'UNSERVICEABLE' => 'UNSERVICEABLE',
+            'FOUND AT STN' => 'FOUND AT STN'
         ];
     }
 

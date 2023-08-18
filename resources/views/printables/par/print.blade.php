@@ -55,7 +55,7 @@
                             Resp. Center:
                         </td>
                         <td>
-                            <strong>{{$par->respcenter}}</strong>
+                            <strong>{{$respCenter->desc}}</strong>
                         </td>
                     </tr>
                     <tr style="border: 1px solid black">

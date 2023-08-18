@@ -10,6 +10,8 @@ use App\Models\Articles;
 use App\Models\Employee;
 use App\Models\InventoryPPE;
 use App\Models\Location;
+use App\Models\PPURespCodes;
+use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -159,8 +161,10 @@ class PARController extends Controller
     }
 
     public function print($slug){
+        $inv = InventoryPPE::query()->where('slug', $slug)->first();
+        $respCenter = PPURespCodes::query()->where('rc_code', $inv->respcenter)->first();
         return view('printables.par.print')->with([
-            'par' => InventoryPPE::query()->where('slug', $slug)->first(),
+            'par' => $inv, 'respCenter' => $respCenter
         ]);
     }
 
