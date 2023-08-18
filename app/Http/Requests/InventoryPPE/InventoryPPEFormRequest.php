@@ -15,10 +15,9 @@ class InventoryPPEFormRequest extends FormRequest
     
     public function rules(){
         return [
-           'article' => [
-               'required',
-               Rule::unique('inventory_ppe','article'),
-           ],
+            'dateacquired' => 'required',
+            'serial_no' => 'required',
+            'article' => 'required'
         ];
     }
 }

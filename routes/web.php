@@ -182,6 +182,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('jo', 'JOController');
 
     Route::get('/par/create','PARController@create')->name('par.create');
+    Route::get('/par/getEmployee/{slug}','PARController@getEmployee')->name('par.getEmployee');
     Route::get('/par/getInventoryAccountCode/{slug}','PARController@getInventoryAccountCode')->name('par.getInventoryAccountCode');
     Route::get('/par/{slug}/print','PARController@print')->name('par.print');
     Route::get('/par/edit/{slug}','PARController@edit')->name('par.edit');

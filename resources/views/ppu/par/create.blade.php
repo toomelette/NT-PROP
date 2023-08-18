@@ -35,6 +35,11 @@
                                     'cols' => 4,
                                     'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
                                 ]) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::select('ref_book',[
+                                                                'label' => 'Reference Book:',
+                                                                'cols' => 4,
+                                                                'options' => \App\Swep\Helpers\Arrays::refBook(),
+                                                            ]) !!}
                                 <div class="clearfix"></div>
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('sub_major_account_group',[
                                                                 'label' => 'Sub-Major Acct. Group:',
@@ -168,7 +173,7 @@
                                 'options' => \App\Swep\Helpers\Arrays::condition(),
                             ]) !!}
                                 <div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Save</button>
+                                    <button type="button" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Save</button>
                                     <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
                                 </div>
                             </div>
@@ -184,6 +189,30 @@
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
+            $("input[name='acctemployee_no']").on('keyup', function(event) {
+                if (event.type === "keyup" && event.keyCode === 13) {
+                    var inputValue = $(this).val();
+                    let uri = '{{route("dashboard.par.getEmployee","slug")}}';
+                    uri = uri.replace('slug',inputValue);
+                    $.ajax({
+                        url: uri,
+                        method: "GET",
+                        data: { selectedValue: inputValue },
+                        success: function(response) {
+                            console.log("AJAX Success:", response);
+                            var middleName = response.middlename;
+                            var middleInitial = middleName.charAt(0);
+                            $("input[name='acctemployee_fname']").val(response.firstname +' '+ middleInitial + '. ' + response.lastname);
+                            $("input[name='acctemployee_post']").val(response.position);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
+                            console.error("AJAX error:", error);
+                        }
+                    });
+                }
+            });
+
             $("select[name='location']").change(function() {
                 var selectedValue = $(this).val();
                 var dateValue = $("input[name='dateacquired']").val();
@@ -213,9 +242,9 @@
                 });
             });
 
-            $("#add_form").submit(function (e) {
+            $("#saveBtn").click(function(e) {
                 e.preventDefault();
-                let form = $(this);
+                let form = $('#add_form');
                 loading_btn(form);
                 $.ajax({
                     url : '{{route("dashboard.par.store")}}',
@@ -227,9 +256,31 @@
                     success: function (res) {
                         succeed(form,true,false);
                         toast('success','PAR successfully added.','Success!');
+                        Swal.fire({
+                            title: 'PAR Successfully created',
+                            icon: 'success',
+                            html:
+                                'Click the print button below to print.',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonText:
+                                '<i class="fa fa-print"></i> Print',
+                            confirmButtonAriaLabel: 'Thumbs up, great!',
+                            cancelButtonText:
+                                'Dismiss',
+                            cancelButtonAriaLabel: 'Thumbs down'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                let link = "{{route('dashboard.par.print','slug')}}";
+                                link = link.replace('slug',res.slug);
+                                window.open(link, '_blank');
+                            }
+                        })
                     },
                     error: function (res) {
                         errored(form,res);
+                        toast('error',res.responseJSON.message,'Error!');
                     }
                 })
             });

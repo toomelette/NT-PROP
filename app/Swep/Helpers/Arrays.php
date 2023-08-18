@@ -177,6 +177,13 @@ class Arrays
         ];
     }
 
+    public static function refBook(){
+        return [
+            'BCD' => 'BCD',
+            'LGAREC' => 'LGAREC'
+        ];
+    }
+
     public static function acquisitionMode(){
         return [
             'DONATION' => 'DONATION',

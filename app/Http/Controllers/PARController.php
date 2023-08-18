@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
 use App\Models\AccountCode;
 use App\Models\Articles;
+use App\Models\Employee;
 use App\Models\InventoryPPE;
 use App\Models\Location;
 use App\Swep\Helpers\Helper;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use function Termwind\ValueObjects\w;
 
 class PARController extends Controller
 {
@@ -56,7 +58,12 @@ class PARController extends Controller
         return [$s, $newSerialNo];
     }
 
-    public function store(Request $request){
+    public function getEmployee($slug){
+        $e = Employee::query()->where('employee_no','=', $slug)->first();
+        return $e??abort(503,'No Employee found.');
+    }
+
+    public function store(InventoryPPEFormRequest $request){
         $article = Articles::query()->where('stockNo','=', $request->article)->first();
         $parExists = InventoryPPE::query()->where('serial_no','=', $request->serial_no)->first();
         if($parExists != null){
@@ -70,6 +77,7 @@ class PARController extends Controller
         $par->article = $article->article;
         $par->description = $request->description;
         $par->invtacctcode = $request->invtacctcode;
+        $par->ref_book = $request->ref_book;
         $par->sub_major_account_group = $request->sub_major_account_group;
         $par->general_ledger_account = $request->general_ledger_account;
         $par->location = $request->location;
@@ -97,7 +105,7 @@ class PARController extends Controller
         $par->acquiredmode = $request->acquiredmode;
         $par->condition = $request->condition;
         if($par->save()){
-            return $par->only('id');
+            return $par->only('slug');
         }
         abort(503,'Error saving PAR.');
     }
@@ -117,6 +125,7 @@ class PARController extends Controller
         $par->article = $article->article;
         $par->description = $request->description;
         $par->invtacctcode = $request->invtacctcode;
+        $par->ref_book = $request->ref_book;
         $par->sub_major_account_group = $request->sub_major_account_group;
         $par->general_ledger_account = $request->general_ledger_account;
         $par->location = $request->location;
