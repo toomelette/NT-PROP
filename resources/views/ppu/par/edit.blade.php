@@ -20,13 +20,19 @@
                                                                         'type' => 'date'
                                                                      ],
                                                                     $par ?? null) !!}
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('article',[
-                                                                'label' => 'Article:',
-                                                                'cols' => 4
-                                                                ],
-                                        $par ?? null) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::select('article',[
+                                                              'cols' => 5,
+                                                              'label' => 'Update Article:',
+                                                              'class' => 'select2_article',
+                                                              'autocomplete' => 'off',
+                                                              'options' => [],
+                                                          ]) !!}
+                                <div class="form-group col-md-5 article_old">
+                                    <label for="article_old">Article:</label>
+                                    <input class="form-control " name="article_old" type="text" value="{{$par->article}}" placeholder="Article OLD">
+                                </div>
                                 {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
-                                      'cols' => 6,
+                                      'cols' => 12,
                                       'label' => 'Description: ',
                                       'rows' => 2
                                     ],
@@ -235,6 +241,34 @@
                     error: function (res) {
                         errored(form,res);
                     }
+                })
+            });
+
+            $(".select2_article").select2({
+                ajax: {
+                    url: '{{route("dashboard.ajax.get","articles")}}',
+                    dataType: 'json',
+                    delay : 250,
+                },
+                dropdownParent: $('#edit_form'),
+                placeholder: 'Select item',
+                language : {
+                    "noResults": function(){
+
+                        return "No item found.";
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                }
+            });
+
+            $('.select2_article').on('select2:select', function (e) {
+                let data = e.params.data;
+                console.log(data);
+                $.each(data.populate,function (i, item) {
+                    /*$("#select[name='"+i+"']").val(item).trigger('change');
+                    $("#input[name='"+i+"']").val(item).trigger('change');*/
                 })
             });
         })

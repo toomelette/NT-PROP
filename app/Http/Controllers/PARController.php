@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
 use App\Models\AccountCode;
+use App\Models\Articles;
 use App\Models\InventoryPPE;
 use App\Models\Location;
 use App\Swep\Helpers\Helper;
@@ -93,9 +94,10 @@ class PARController extends Controller
 
     public function update(Request $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
+        $article = Articles::query()->where('stockNo','=', $request->article)->first();
 
         $par->dateacquired = $request->dateacquired;
-        $par->article = $request->article;
+        $par->article = $article->article;
         $par->description = $request->description;
         $par->sub_major_account_group = $request->sub_major_account_group;
         $par->general_ledger_account = $request->general_ledger_account;
