@@ -38,7 +38,7 @@
                             <p style="font-size: 20px;"><strong>PROPERTY ACKNOWLEDGMENT RECEIPT</strong></p>
                         </td>
                         <td style="margin-top: 5px; justify-content: center; float: left;">
-                            <p>PAR NO.: <span class="text-strong">2023-0001</span></p>
+                            <p>PAR NO.: <span class="text-strong">{{$par->par_code}}</span></p>
                         </td>
                     </tr>
                     <tr>
