@@ -27,7 +27,7 @@
                                     <th>Qty Onhand</th>
                                     <th>Acquired Cost</th>
                                     <th>Date Acquired</th>
-                                    <th>Action</th>
+                                    <th width="10%">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>

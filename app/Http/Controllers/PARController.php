@@ -77,6 +77,7 @@ class PARController extends Controller
         $par->invtacctcode = $request->invtacctcode;
         $par->location = $request->location;
         $par->acquiredmode = $request->acquiredmode;
+        $par->condition = $request->condition;
         if($par->save()){
             return $par->only('id');
         }
@@ -88,6 +89,45 @@ class PARController extends Controller
         return view('ppu.par.edit')->with([
             'par' => $par
         ]);
+    }
+
+    public function update(Request $request, $slug){
+        $par = InventoryPPE::query()->where('slug','=', $slug)->first();
+
+        $par->dateacquired = $request->dateacquired;
+        $par->article = $request->article;
+        $par->description = $request->description;
+        $par->sub_major_account_group = $request->sub_major_account_group;
+        $par->general_ledger_account = $request->general_ledger_account;
+        $par->location = $request->location;
+        $par->serial_no = $request->serial_no;
+        $par->propertyno = $request->propertyno;
+        $par->fund_cluster = $request->fund_cluster;
+        $par->invtacctcode = $request->invtacctcode;
+        $par->respcenter = $request->respcenter;
+        $par->acctemployee_no = $request->acctemployee_no;
+        $par->acctemployee_fname = $request->acctemployee_fname;
+        $par->acctemployee_post = $request->acctemployee_post;
+
+        //$par->propuniqueno = "";
+        $par->uom = $request->uom;
+        $par->acquiredcost = Helper::sanitizeAutonum($request->acquiredcost);
+        $par->qtypercard = $request->qtypercard;
+        $par->onhandqty = $request->onhandqty;
+        $par->shortqty= $request->shortqty;
+        $par->shortvalue = $request->shortvalue;
+        $par->remarks = $request->remarks;
+        $par->supplier = $request->supplier;
+        $par->invoiceno = $request->invoiceno;
+        $par->invoicedate = $request->invoicedate;
+        $par->pono = $request->pono;
+        $par->podate = $request->podate;
+        $par->acquiredmode = $request->acquiredmode;
+        $par->condition = $request->condition;
+        if($par->update()){
+            return $par->only('id');
+        }
+        abort(503,'Error updating PAR.');
     }
 
     public function print($slug){

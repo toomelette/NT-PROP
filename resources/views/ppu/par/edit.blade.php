@@ -8,7 +8,8 @@
 @section('content2')
     <section class="content">
         <div role="document">
-            <form id="add_form">
+            <form id="edit_form">
+                <input class="hidden" type="text" id="slug" name="slug" value="{{$par->slug}}"/>
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
@@ -46,7 +47,7 @@
                                                                 'options' => \App\Swep\Helpers\Arrays::location(),
                                                             ],
                                                             $par ?? null) !!}
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('serialno',[
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('serial_no',[
                                                                 'label' => 'Serial No.:',
                                                                 'cols' => 4
                                                                 ],
@@ -61,6 +62,11 @@
                                                                 'cols' => 4,
                                                                 'options' => \App\Swep\Helpers\Arrays::fundSources(),
                                                             ],
+                                                            $par ?? null) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('invtacctcode',[
+                                                                'label' => 'Inv. Acc. Code:',
+                                                                'cols' => 4
+                                                                ],
                                                             $par ?? null) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('respcenter',[
                                     'label' => 'Resp. Center:',
@@ -101,11 +107,16 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('uom',[
+                                {!! \App\Swep\ViewHelpers\__form2::select('uom',[
                                                                 'label' => 'Unit:',
                                                                 'cols' => 4,
+                                                                'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
                                                                 ],
                                                             $par ?? null) !!}
+                                <div class="form-group col-md-4 uom_2">
+                                    <label for="uom_2">OLD Unit:</label>
+                                    <input class="form-control " name="uom_2" type="text" value="{{$par->uom}}" placeholder="Unit">
+                                </div>
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acquiredcost',[
                                     'label' => 'Acquired Cost:',
                                     'cols' => 4,
@@ -184,11 +195,14 @@
                                 'options' => \App\Swep\Helpers\Arrays::condition(),
                             ],
                             $par ?? null) !!}
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
+                                    <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </form>
         </div>
     </section>
@@ -198,22 +212,25 @@
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
-            $("#add_form").submit(function (e) {
+            $("#saveBtn").click(function(e) {
                 e.preventDefault();
-                let form = $(this);
+                let form = $('#edit_form');
+                let uri = '{{route("dashboard.par.update","slug")}}';
+                uri = uri.replace('slug',$('#slug').val());
                 loading_btn(form);
                 $.ajax({
-                    url : '{{route("dashboard.par.store")}}',
+                    url : uri,
                     data : form.serialize(),
-                    type: 'POST',
+                    type: 'PATCH',
                     headers: {
                         {!! __html::token_header() !!}
                     },
                     success: function (res) {
-                        active = res.id;
-                        par_tbl.draw(false);
-                        succeed(form,true,false);
-                        toast('success','PAR successfully added.','Success!');
+                        succeed(form,true,true);
+                        toast('info','PAR successfully updated.','Updated');
+                        setTimeout(function() {
+                            window.location.href = $("#backBtn").attr("href");
+                        }, 3000);
                     },
                     error: function (res) {
                         errored(form,res);
