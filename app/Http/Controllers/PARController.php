@@ -47,36 +47,53 @@ class PARController extends Controller
         return view('ppu.par.create');
     }
 
-    public function store(InventoryPPEFormRequest $request){
+    public function getInventoryAccountCode($slug){
+        $s = AccountCode::query()->where('code','=', $slug)->first();
+        $inv = InventoryPPE::query()->orderBy('serial_no', 'desc')->first();
+        $numericSerialNo = ltrim($inv->serial_no, '0');
+        $incrementedSerialNo = $numericSerialNo + 1;
+        $newSerialNo = str_pad($incrementedSerialNo, strlen($inv->serial_no), '0', STR_PAD_LEFT);
+        return [$s, $newSerialNo];
+    }
+
+    public function store(Request $request){
+        $article = Articles::query()->where('stockNo','=', $request->article)->first();
+        $parExists = InventoryPPE::query()->where('serial_no','=', $request->serial_no)->first();
+        if($parExists != null){
+            abort(503,'Serial No already exist. Try to plus 1 on the serial number.');
+        }
+
         $par = new InventoryPPE();
         $par->slug = Str::random(16);
         $par->par_code = $this->getNextPARNo();
+        $par->dateacquired = $request->dateacquired;
+        $par->article = $article->article;
+        $par->description = $request->description;
+        $par->invtacctcode = $request->invtacctcode;
         $par->sub_major_account_group = $request->sub_major_account_group;
         $par->general_ledger_account = $request->general_ledger_account;
-        $par->fund_cluster = $request->fund_cluster;
-        $par->propuniqueno = "";
-        $par->article = $request->article;
-        $par->description = $request->description;
+        $par->location = $request->location;
+        $par->serial_no = $request->serial_no;
         $par->propertyno = $request->propertyno;
+        $par->fund_cluster = $request->fund_cluster;
+        $par->respcenter = $request->respcenter;
+        $par->acctemployee_no = $request->acctemployee_no;
+        $par->acctemployee_fname = $request->acctemployee_fname;
+        $par->acctemployee_post = $request->acctemployee_post;
+
+        //$par->propuniqueno = "";
         $par->uom = $request->uom;
         $par->acquiredcost = Helper::sanitizeAutonum($request->acquiredcost);
         $par->qtypercard = $request->qtypercard;
         $par->onhandqty = $request->onhandqty;
         $par->shortqty= $request->shortqty;
         $par->shortvalue = $request->shortvalue;
-        $par->dateacquired = $request->dateacquired;
         $par->remarks = $request->remarks;
-        $par->acctemployee_no = $request->acctemployee_no;
-        $par->acctemployee_fname = $request->acctemployee_fname;
-        $par->acctemployee_post = $request->acctemployee_post;
-        $par->respcenter = $request->respcenter;
         $par->supplier = $request->supplier;
         $par->invoiceno = $request->invoiceno;
         $par->invoicedate = $request->invoicedate;
         $par->pono = $request->pono;
         $par->podate = $request->podate;
-        $par->invtacctcode = $request->invtacctcode;
-        $par->location = $request->location;
         $par->acquiredmode = $request->acquiredmode;
         $par->condition = $request->condition;
         if($par->save()){
@@ -99,13 +116,13 @@ class PARController extends Controller
         $par->dateacquired = $request->dateacquired;
         $par->article = $article->article;
         $par->description = $request->description;
+        $par->invtacctcode = $request->invtacctcode;
         $par->sub_major_account_group = $request->sub_major_account_group;
         $par->general_ledger_account = $request->general_ledger_account;
         $par->location = $request->location;
         $par->serial_no = $request->serial_no;
         $par->propertyno = $request->propertyno;
         $par->fund_cluster = $request->fund_cluster;
-        $par->invtacctcode = $request->invtacctcode;
         $par->respcenter = $request->respcenter;
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
