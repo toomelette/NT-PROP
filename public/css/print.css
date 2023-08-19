@@ -80,6 +80,14 @@ table.print-table th,table.print-table td{
 .tbl-padded>thead>tr>th, .tbl-padded>tbody>tr>th, .tbl-padded>tfoot>tr>th, .tbl-padded>thead>tr>td, .tbl-padded>tbody>tr>td, .tbl-padded>tfoot>tr>td{
     padding: 2px 2px;
 }
+
+
+
+.tbl-not-padded>thead>tr>th, .tbl-not-padded>tbody>tr>th, .tbl-not-padded>tfoot>tr>th, .tbl-not-padded>thead>tr>td, .tbl-not-padded>tbody>tr>td, .tbl-not-padded>tfoot>tr>td{
+    padding: 0px !important;
+}
+
+
 .tbl-bordered-v{
     border: 1px solid black;
 }

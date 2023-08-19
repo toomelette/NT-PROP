@@ -293,6 +293,20 @@
                     { "data": "dateacquired" },
                     { "data": "action" }
                 ],
+                columnDefs: [
+                    {
+                        targets : 2,
+                        class: 'w-30p',
+                    },
+                    {
+                        targets : 5,
+                        class: 'text-right',
+                    },
+                    {
+                        targets : [3,4],
+                        class: 'w-6p',
+                    }
+                ],
                 "buttons": [
                     {!! __js::dt_buttons() !!}
                 ],

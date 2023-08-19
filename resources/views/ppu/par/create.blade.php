@@ -32,7 +32,6 @@
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
                                     'label' => 'Date Acquired:',
                                     'cols' => 2,
@@ -46,21 +45,33 @@
                                       'options' => [],
                                   ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
-                                      'cols' => 6,
-                                      'label' => 'Description: ',
-                                      'rows' => 2
-                                    ]) !!}
+                                  'cols' => 6,
+                                  'label' => 'Description: ',
+                                  'rows' => 2
+                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('invtacctcode',[
                                     'label' => 'Inventory Account Code:',
                                     'cols' => 4,
                                     'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                    'id' => 'inventory-account-code',
                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('ref_book',[
-                                                                'label' => 'Reference Book:',
-                                                                'cols' => 4,
-                                                                'options' => \App\Swep\Helpers\Arrays::refBook(),
-                                                            ]) !!}
-                                <div class="clearfix"></div>
+                                    'label' => 'Reference Book:',
+                                    'cols' => 2,
+                                    'options' => \App\Swep\Helpers\Arrays::refBook(),
+                                ]) !!}
+
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('ppe_serial_no',[
+                                        'label' => 'PPE Serial No.:',
+                                        'cols' => 2,
+                                    ]) !!}
+
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('ppe_model',[
+                                        'label' => 'PPE Model:',
+                                        'cols' => 4,
+                                ]) !!}
+                            </div>
+                            <div class="row">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('sub_major_account_group',[
                                                                 'label' => 'Sub-Major Acct. Group:',
                                                                 'cols' => 4
@@ -203,7 +214,7 @@
                                 'options' => \App\Swep\Helpers\Arrays::condition(),
                             ]) !!}
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Save</button>
+                                    <button type="submit" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn"><i class="fa fa-check"></i> Save</button>
                                     <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
                                 </div>
                             </div>
@@ -277,9 +288,9 @@
                 });
             });
 
-            $("#saveBtn").click(function(e) {
+            $("#add_form").submit(function(e) {
                 e.preventDefault();
-                let form = $('#add_form');
+                let form = $(this);
                 loading_btn(form);
                 $.ajax({
                     url : '{{route("dashboard.par.store")}}',
@@ -367,5 +378,7 @@
                 }
             });
         })
+
+        $("#inventory-account-code").select2();
     </script>
 @endsection

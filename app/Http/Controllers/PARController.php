@@ -42,6 +42,16 @@ class PARController extends Controller
             ->editColumn('dateacquired',function($data){
                 return $data->dateacquired ? Carbon::parse($data->dateacquired)->format('M. d, Y') : '';
             })
+            ->editColumn('description',function ($data){
+                return view('ppu.par.dtDescription')->with([
+                    'data' => $data,
+                ]);
+            })
+            ->editColumn('article',function($data){
+                return view('ppu.par.dtArticle')->with([
+                    'data' => $data,
+                ]);
+            })
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();
@@ -90,6 +100,8 @@ class PARController extends Controller
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
         $par->acctemployee_post = $request->acctemployee_post;
+        $par->ppe_model = $request->ppe_model;
+        $par->ppe_serial_no = $request->ppe_serial_no;
 
         //$par->propuniqueno = "";
         $par->uom = $request->uom;
@@ -119,7 +131,7 @@ class PARController extends Controller
         ]);
     }
 
-    public function update(Request $request, $slug){
+    public function update(InventoryPPEFormRequest $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         $article = Articles::query()->where('stockNo','=', $request->article)->first();
 
@@ -138,6 +150,8 @@ class PARController extends Controller
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
         $par->acctemployee_post = $request->acctemployee_post;
+        $par->ppe_model = $request->ppe_model;
+        $par->ppe_serial_no = $request->ppe_serial_no;
 
         //$par->propuniqueno = "";
         $par->uom = $request->uom;
@@ -222,6 +236,16 @@ class PARController extends Controller
             'accountCodes' => $accountCodes,
             'accountCodeRecords' => $accountCodeRecords,
             'location' => $location,
+        ]);
+    }
+
+    public function printPropertyTag($slug){
+        $par = InventoryPPE::query()->where('slug','=',$slug)->first();
+        if(empty($par)){
+            abort(503,'PAR not found.');
+        }
+        return view('printables.par.property_tag')->with([
+            'par' => $par,
         ]);
     }
 }
