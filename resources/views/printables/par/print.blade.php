@@ -93,13 +93,15 @@
                     <tr>
                         <td style="vertical-align: top;">{{$par->qtypercard}}</td>
                         <td style="vertical-align: top;">{{$par->uom}}</td>
-                        <td class="text-strong" style="vertical-align: top;">
-                            {{$par->article}}<br>
+                        <td class="" style="vertical-align: top;">
+                            <b>{{$par->article}}</b><br>
+                            <span style="white-space: pre-line; font-style: italic" >
                             {{$par->description}}
+                            </span>
                         </td>
                         <td style="vertical-align: top;">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $par->dateacquired)->format('m/d/Y') }}{{--{{ date('F j, Y', strtotime($par->dateacquired))}}--}}</td>
                         <td class="text-strong" style="vertical-align: top;">{{$par->propertyno}}</td>
-                        <td style="vertical-align: top; text-align: right">{{number_format($par->acquiredcost,2)}}</td>
+                        <td style="vertical-align: top; text-align: right" class="text-strong">{{number_format($par->acquiredcost,2)}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -116,24 +118,20 @@
                 </thead>
                 <tbody style="border: 1px solid black">
                     <tr style="border: 1px solid black">
-                        <td style="vertical-align: top;"></td>
-                        <td style="vertical-align: top;"></td>
-                        <td style="border-right: 1px solid black; vertical-align: top;">
-                            Supplier:
+                        <td style="border-right: 1px solid black; width: 15%; vertical-align: top;">
+                            Suppliers:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;">
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 34%">
                             {{$par->supplier}}
                         </td>
                         <td style="border-right: 1px solid black; vertical-align: top;">
                             P.O. No./Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top;">
+                        <td class="text-strong" style="vertical-align: top; width: 15%;">
                             {{$par->pono}}/{{ date('F j, Y', strtotime($par->podate))}}
                         </td>
                     </tr>
                     <tr style="border: 1px solid black">
-                        <td style="vertical-align: top;"></td>
-                        <td style="vertical-align: top;"></td>
                         <td style="border-right: 1px solid black; vertical-align: top;">
                             Invoice Nos./Date:
                         </td>
@@ -148,8 +146,6 @@
                         </td>
                     </tr>
                     <tr style="border: 1px solid black">
-                        <td style="vertical-align: top;"></td>
-                        <td style="vertical-align: top;"></td>
                         <td style="border-right: 1px solid black;vertical-align: top;">
                             Cost:
                         </td>

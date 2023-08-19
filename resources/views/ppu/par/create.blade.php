@@ -6,6 +6,26 @@
     </section>
 @endsection
 @section('content2')
+    @php
+        $employees = \App\Models\Employee::query()
+            ->where('locations','=','VISAYAS')
+            ->orWhere('locations','=','LUZON/MINDANAO')
+            ->where(function ($q){
+                return $q->where('is_active','=','ACTIVE');
+            })
+            ->orderBy('fullname','asc')
+            ->get();
+
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
     <section class="content">
         <div role="document">
             <form id="add_form">
@@ -14,17 +34,17 @@
                         <div class="row">
                             <div class="col-md-12">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
-                                                                        'label' => 'Date Acquired:',
-                                                                        'cols' => 2,
-                                                                        'type' => 'date'
-                                                                     ]) !!}
+                                    'label' => 'Date Acquired:',
+                                    'cols' => 2,
+                                    'type' => 'date'
+                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('article',[
-                                                              'cols' => 4,
-                                                              'label' => 'Select Article:',
-                                                              'class' => 'select2_article',
-                                                              'autocomplete' => 'off',
-                                                              'options' => [],
-                                                          ]) !!}
+                                      'cols' => 4,
+                                      'label' => 'Select Article:',
+                                      'class' => 'select2_article',
+                                      'autocomplete' => 'off',
+                                      'options' => [],
+                                  ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
                                       'cols' => 6,
                                       'label' => 'Description: ',
@@ -81,14 +101,24 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
+                                {!! \App\Swep\ViewHelpers\__form2::select('select-employee',[
+                                    'label' => 'Accountable Officer:',
+                                    'cols' => 4,
+                                    'options' => [],
+                                    'id' => 'select-employee',
+                                ]) !!}
+
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_no',[
                                     'label' => 'Emp. No.:',
                                     'cols' => 4,
                                     ]) !!}
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
-                                                                'label' => 'Acct. Officer:',
-                                                                'cols' => 4,
-                                                                ]) !!}
+
+                                <div class="hidden">
+                                    {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
+                                    'label' => 'Acct. Officer:',
+                                    'cols' => 4,
+                                    ]) !!}
+                                </div>
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_post',[
                                     'label' => 'Position:',
                                     'cols' => 4,
@@ -185,8 +215,13 @@
     </section>
 @endsection
 
+
 @section('scripts')
     <script type="text/javascript">
+
+        var data = {!!$employeesCollection!!};
+
+
         let active;
         $(document).ready(function () {
             $("input[name='acctemployee_no']").on('keyup', function(event) {
@@ -313,6 +348,24 @@
                 })
             });
 
+            $("#select-employee").select2({
+                data : data,
+            });
+            $("#select-employee").change(function (){
+                let value = $(this).val();
+                if(value != ''){
+                    let index = data.findIndex( object => {
+                        return object.id == value;
+                    });
+                    $("#add_form input[name='acctemployee_no']").val(data[index].employee_no);
+                    $("#add_form input[name='acctemployee_fname']").val(data[index].fullname);
+                    $("#add_form input[name='acctemployee_post']").val(data[index].position);
+                }else{
+                    $("#add_form input[name='acctemployee_no']").val('');
+                    $("#add_form input[name='acctemployee_fname']").val('');
+                    $("#add_form input[name='acctemployee_post']").val('');
+                }
+            });
         })
     </script>
 @endsection
