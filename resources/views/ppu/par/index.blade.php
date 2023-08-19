@@ -1,7 +1,6 @@
 @extends('layouts.admin-master')
 
 @section('content')
-
     <section class="content-header">
         <h1>Property Acknowledgement Receipt</h1>
     </section>
@@ -12,7 +11,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Property Acknowledgement Receipt</h3>
-                <a class="btn btn-primary btn-sm pull-right" data-toggle="modal" data-target="#add_modal"> <i class="fa fa-plus"></i> Create</a>
+                <a class="btn btn-primary btn-sm pull-right" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -28,7 +27,7 @@
                                     <th>Qty Onhand</th>
                                     <th>Acquired Cost</th>
                                     <th>Date Acquired</th>
-                                    <th>Action</th>
+                                    <th width="10%">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -222,7 +221,6 @@
             </form>
         </div>
     </div>
-    {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_modal','lg') !!}
 @endsection
 
 @section('scripts')
@@ -335,27 +333,6 @@
                         $("#par_table #"+active).addClass('success');
                     }
                 }
-            });
-
-            $("body").on("click",".edit_btn",function () {
-                let btn = $(this);
-                load_modal2(btn);
-                let uri = '{{route("dashboard.par.edit","slug")}}';
-                uri = uri.replace('slug',btn.attr('data'));
-                $.ajax({
-                    url : uri,
-                    type: 'GET',
-                    headers: {
-                        {!! __html::token_header() !!}
-                    },
-                    success: function (res) {
-                        populate_modal2(btn,res);
-                    },
-                    error: function (res) {
-                        console.log(res);
-                        populate_modal2_error(res);
-                    }
-                })
             });
         })
     </script>

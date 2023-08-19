@@ -2,14 +2,13 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Edit Property Acknowledgement Receipt</h1>
+        <h1>Create Property Acknowledgement Receipt</h1>
     </section>
 @endsection
 @section('content2')
     <section class="content">
         <div role="document">
-            <form id="edit_form">
-                <input class="hidden" type="text" id="slug" name="slug" value="{{$par->slug}}"/>
+            <form id="add_form">
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
@@ -18,68 +17,61 @@
                                                                         'label' => 'Date Acquired:',
                                                                         'cols' => 2,
                                                                         'type' => 'date'
-                                                                     ],
-                                                                    $par ?? null) !!}
+                                                                     ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('article',[
-                                                              'cols' => 5,
-                                                              'label' => 'Update Article:',
+                                                              'cols' => 4,
+                                                              'label' => 'Select Article:',
                                                               'class' => 'select2_article',
                                                               'autocomplete' => 'off',
                                                               'options' => [],
                                                           ]) !!}
-                                <div class="form-group col-md-5 article_old">
-                                    <label for="article_old">Article:</label>
-                                    <input class="form-control " name="article_old" type="text" value="{{$par->article}}" placeholder="Article OLD">
-                                </div>
                                 {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
-                                      'cols' => 12,
+                                      'cols' => 6,
                                       'label' => 'Description: ',
                                       'rows' => 2
-                                    ],
-                                        $par ?? null) !!}
+                                    ]) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::select('invtacctcode',[
+                                    'label' => 'Inventory Account Code:',
+                                    'cols' => 4,
+                                    'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                ]) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::select('ref_book',[
+                                                                'label' => 'Reference Book:',
+                                                                'cols' => 4,
+                                                                'options' => \App\Swep\Helpers\Arrays::refBook(),
+                                                            ]) !!}
+                                <div class="clearfix"></div>
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('sub_major_account_group',[
                                                                 'label' => 'Sub-Major Acct. Group:',
                                                                 'cols' => 4
-                                                                ],
-                                        $par ?? null) !!}
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('general_ledger_account',[
                                                                 'label' => 'General Ledger Account:',
                                                                 'cols' => 4
-                                                                ],
-                                        $par ?? null) !!}
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('location',[
                                                                 'label' => 'Location:',
                                                                 'cols' => 4,
                                                                 'options' => \App\Swep\Helpers\Arrays::location(),
-                                                            ],
-                                                            $par ?? null) !!}
+                                                            ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('serial_no',[
                                                                 'label' => 'Serial No.:',
                                                                 'cols' => 4
-                                                                ],
-                                                            $par ?? null) !!}
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
                                                                 'label' => 'Property No.:',
                                                                 'cols' => 4
-                                                                ],
-                                                            $par ?? null) !!}
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
                                                                 'label' => 'Fund Cluster:',
                                                                 'cols' => 4,
                                                                 'options' => \App\Swep\Helpers\Arrays::fundSources(),
-                                                            ],
-                                                            $par ?? null) !!}
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('invtacctcode',[
-                                                                'label' => 'Inv. Acc. Code:',
-                                                                'cols' => 4
-                                                                ],
-                                                            $par ?? null) !!}
+                                                            ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('respcenter',[
                                     'label' => 'Resp. Center:',
                                     'cols' => 8,
                                     'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
-                                ],
-                                $par ?? null) !!}
+                                ]) !!}
                             </div>
                         </div>
                     </div>
@@ -92,18 +84,15 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_no',[
                                     'label' => 'Emp. No.:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
                                                                 'label' => 'Acct. Officer:',
                                                                 'cols' => 4,
-                                                                ],
-                                                            $par ?? null) !!}
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_post',[
                                     'label' => 'Position:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                             </div>
                         </div>
                     </div>
@@ -117,37 +106,27 @@
                                                                 'label' => 'Unit:',
                                                                 'cols' => 4,
                                                                 'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
-                                                                ],
-                                                            $par ?? null) !!}
-                                <div class="form-group col-md-4 uom_2">
-                                    <label for="uom_2">OLD Unit:</label>
-                                    <input class="form-control " name="uom_2" type="text" value="{{$par->uom}}" placeholder="Unit">
-                                </div>
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acquiredcost',[
                                     'label' => 'Acquired Cost:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('qtypercard',[
                                     'label' => 'Qty Per Card:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('onhandqty',[
                                     'label' => 'Qty Onhand:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('shortqty',[
                                     'label' => 'Short Qty:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('shortvalue',[
                                     'label' => 'Short Value:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                             </div>
                         </div>
                     </div>
@@ -160,49 +139,41 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('remarks',[
                                                                 'label' => 'Remarks:',
                                                                 'cols' => 8,
-                                                                ],
-                                                            $par ?? null) !!}
+                                                                ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('supplier',[
                                     'label' => 'Supplier:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('invoiceno',[
                                     'label' => 'Invoice No.:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('invoicedate',[
                                             'label' => 'Invoice Date:',
                                             'cols' => 4,
                                             'type' => 'date'
-                                         ],
-                                        $par ?? null) !!}
+                                         ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('pono',[
                                     'label' => 'P.O. No.:',
                                     'cols' => 4,
-                                    ],
-                                $par ?? null) !!}
+                                    ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('podate',[
                                             'label' => 'P.O. Date:',
                                             'cols' => 4,
                                             'type' => 'date'
-                                         ],
-                                        $par ?? null) !!}
+                                         ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('acquiredmode',[
                                 'label' => 'Acquisition Mode:',
                                 'cols' => 4,
                                 'options' => \App\Swep\Helpers\Arrays::acquisitionMode(),
-                            ],
-                            $par ?? null) !!}
+                            ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('condition',[
                                 'label' => 'Condition:',
                                 'cols' => 4,
                                 'options' => \App\Swep\Helpers\Arrays::condition(),
-                            ],
-                            $par ?? null) !!}
+                            ]) !!}
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
+                                    <button type="button" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Save</button>
                                     <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
                                 </div>
                             </div>
@@ -218,28 +189,98 @@
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
+            $("input[name='acctemployee_no']").on('keyup', function(event) {
+                if (event.type === "keyup" && event.keyCode === 13) {
+                    var inputValue = $(this).val();
+                    let uri = '{{route("dashboard.par.getEmployee","slug")}}';
+                    uri = uri.replace('slug',inputValue);
+                    $.ajax({
+                        url: uri,
+                        method: "GET",
+                        data: { selectedValue: inputValue },
+                        success: function(response) {
+                            console.log("AJAX Success:", response);
+                            var middleName = response.middlename;
+                            var middleInitial = middleName.charAt(0);
+                            $("input[name='acctemployee_fname']").val(response.firstname +' '+ middleInitial + '. ' + response.lastname);
+                            $("input[name='acctemployee_post']").val(response.position);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
+                            console.error("AJAX error:", error);
+                        }
+                    });
+                }
+            });
+
+            $("select[name='location']").change(function() {
+                var selectedValue = $(this).val();
+                var dateValue = $("input[name='dateacquired']").val();
+                var year = (new Date(dateValue)).getFullYear();
+                let propertyNo = year+'-'+$("input[name='sub_major_account_group']").val()+'-'+$("input[name='general_ledger_account']").val()+'-'+$("input[name='serial_no']").val()+'-'+selectedValue;
+                $("input[name='propertyno']").val(propertyNo);
+            });
+
+            $("select[name='invtacctcode']").change(function() {
+                var selectedValue = $(this).val();
+                // Make an AJAX request
+                let uri = '{{route("dashboard.par.getInventoryAccountCode","slug")}}';
+                uri = uri.replace('slug',selectedValue);
+                $.ajax({
+                    url: uri,
+                    method: "GET",
+                    data: { selectedValue: selectedValue },
+                    success: function(response) {
+                        $("input[name='serial_no']").val(response[1]);
+                        $("input[name='sub_major_account_group']").val(response[0].sub_major_account_group);
+                        $("input[name='general_ledger_account']").val(response[0].general_ledger_account);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error("AJAX error:", error);
+                    }
+                });
+            });
+
             $("#saveBtn").click(function(e) {
                 e.preventDefault();
-                let form = $('#edit_form');
-                let uri = '{{route("dashboard.par.update","slug")}}';
-                uri = uri.replace('slug',$('#slug').val());
+                let form = $('#add_form');
                 loading_btn(form);
                 $.ajax({
-                    url : uri,
+                    url : '{{route("dashboard.par.store")}}',
                     data : form.serialize(),
-                    type: 'PATCH',
+                    type: 'POST',
                     headers: {
                         {!! __html::token_header() !!}
                     },
                     success: function (res) {
-                        succeed(form,true,true);
-                        toast('info','PAR successfully updated.','Updated');
-                        setTimeout(function() {
-                            window.location.href = $("#backBtn").attr("href");
-                        }, 3000);
+                        succeed(form,true,false);
+                        toast('success','PAR successfully added.','Success!');
+                        Swal.fire({
+                            title: 'PAR Successfully created',
+                            icon: 'success',
+                            html:
+                                'Click the print button below to print.',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonText:
+                                '<i class="fa fa-print"></i> Print',
+                            confirmButtonAriaLabel: 'Thumbs up, great!',
+                            cancelButtonText:
+                                'Dismiss',
+                            cancelButtonAriaLabel: 'Thumbs down'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                let link = "{{route('dashboard.par.print','slug')}}";
+                                link = link.replace('slug',res.slug);
+                                window.open(link, '_blank');
+                            }
+                        })
                     },
                     error: function (res) {
                         errored(form,res);
+                        toast('error',res.responseJSON.message,'Error!');
                     }
                 })
             });
@@ -250,7 +291,7 @@
                     dataType: 'json',
                     delay : 250,
                 },
-                dropdownParent: $('#edit_form'),
+                dropdownParent: $('#add_form'),
                 placeholder: 'Select item',
                 language : {
                     "noResults": function(){
@@ -271,6 +312,7 @@
                     $("#input[name='"+i+"']").val(item).trigger('change');*/
                 })
             });
+
         })
     </script>
 @endsection

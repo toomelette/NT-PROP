@@ -24,7 +24,7 @@
     </style>
 @foreach($accountCodes as $accountCode)
     <div class="page-breaks">
-        <table style="width: 100%; margin-left: 0; font-family: 'Cambria',Times New Roman">
+        <table style="width: 100%; margin-left: -30px; font-family: 'Cambria',Times New Roman">
             <tr>
                 <td>
 
@@ -39,7 +39,7 @@
                 </td>
             </tr>
         </table>
-        <h5 style="text-align: left; margin-left: 30px;"><strong>Location: {{$location->name}}</strong></h5>
+        <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Location: {{$location->name}}</strong></h5>
         @foreach($accountCodeRecords as $accountCodeRecord)
             @if($accountCodeRecord->code === $accountCode)
             <h5 style="text-align: left; margin-left: 30px;"><strong>Inventory Type: {{$accountCode}} - {{$accountCodeRecord->description}}</strong></h5>
@@ -49,17 +49,17 @@
         <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
             <thead >
             <tr>
-                <th style="text-align: center; width: 10%" rowspan="2">Article/Item/Description</th>
-                <th style="text-align: center; width: 26%" rowspan="2">Accountable Person</th>
-                <th style="text-align: center; width: 7%" rowspan="2">Date Acquired</th>
+                <th style="text-align: center; width: 10%" rowspan="2">Article/Item</th>
+                <th style="text-align: center; width: 30%" rowspan="2">Description</th>
+                {{--<th style="text-align: center; width: 7%" rowspan="2">Date Acquired</th>--}}
                 <th style="text-align: center; width: 12%" rowspan="2">Old Property No. Assigned</th>
                 <th style="text-align: center; width: 12%" rowspan="2">New Property No. Assigned (To be filled up during validation)</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Unit of Measure</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Unit Value</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Quantity per Property Card</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Quantity per Physical Count</th>
-                <th style="text-align: center; width: 10%" rowspan="2">Location/Whereabouts</th>
-                <th style="text-align: center; width: 15%" rowspan="2">Condition</th>
+                <th style="text-align: center; width: 5%" rowspan="2">Location/Whereabouts</th>
+                <th style="text-align: center; width: 5%" rowspan="2">Condition</th>
                 <th style="text-align: center; width: 15%" rowspan="2">REMARKS</th>
             </tr>
             </thead>
@@ -70,11 +70,11 @@
             @foreach($rpciObj as $rpci)
                 @if($rpci->invtacctcode === $accountCode)
                     <tr>
-                        <td>{{$rpci->article}} - {{$rpci->description}} / </td>
-                        <td style="text-align: center;">{{$rpci->acctemployee_fname}}</td>
-                        <td style="text-align: center; width: 10%">{{$rpci->dateacquired}}</td>
-                        <td style="text-align: center;">{{$rpci->old_property_no}}</td>
-                        <td style="text-align: center;"></td>
+                        <td>{{$rpci->article}}</td>
+                        <td>{{$rpci->description}}</td>
+                        {{--<td style="text-align: center; width: 10%">{{$rpci->dateacquired}}</td>--}}
+                        <td style="text-align: center;">{{$rpci->old_propertyno}}</td>
+                        <td style="text-align: center;">{{$rpci->propertyno}}</td>
                         <td style="text-align: center;">{{$rpci->uom}}</td>
                         <td style="text-align: right;">{{ number_format($rpci->acquiredcost, 2) }}</td>
                         <td style="text-align: center;">{{$rpci->qtypercard}}</td>
@@ -92,15 +92,33 @@
             <tfoot>
             <tr>
                 <td></td>
-                <td colspan="3">
+                <td colspan="4">
                     <strong>GRAND TOTAL OF ACCT. {{$accountCode}}</strong>
                 </td>
                 <td style="text-align: right;">
                     {{ number_format($totalAcquiredCost, 2) }}
                 </td>
-                <td colspan="6"></td>
+                <td colspan="5"></td>
             </tr>
             </tfoot>
+        </table>
+
+
+        <table style="width: 100%; margin-left: 30px; margin-top: 70px; font-family: 'Cambria',Times New Roman">
+            <tr>
+                <td class="text-top">Prepared by:</td>
+                <td class="text-top">Reviewed by:</td>
+            </tr>
+            <tr>
+                <td class="text-top text-center">
+                    ___________________________________<br>
+                    Inventory Committee Member
+                </td>
+                <td class="text-top text-center">
+                    ___________________________________<br>
+                    Inventory Committee
+                </td>
+            </tr>
         </table>
     </div>
     @endforeach

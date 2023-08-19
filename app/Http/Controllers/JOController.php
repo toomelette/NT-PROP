@@ -55,7 +55,8 @@ class JOController extends Controller
 
     public function create(){
         $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
-        return view('ppu.job_order.create', compact('suppliers'));
+        $jo_number = $this->getNextJONo("JO");
+        return view('ppu.job_order.create', compact('suppliers', 'jo_number'));
     }
 
     public function findSupplier($slug){
@@ -94,15 +95,83 @@ class JOController extends Controller
         return $year.Carbon::now()->format('m-').$newPOBaseNo;
     }
 
+    public function edit($slug) {
+        $order = Order::query()->where('slug','=', $slug)->first();
+        $trans = Transactions::query()->where('order_slug','=', $slug)->first();
+        //$trans->transDetails()->delete();
+        return view('ppu.job_order.edit')->with([
+            'order' => $order,
+            'trans' => $trans,
+            'slug' => $slug,
+        ]);
+    }
+
+    public function update(FormRequest $request,$slug) {
+        $trans = Transactions::query()->where('order_slug', '=', $slug)->first();
+        $order = Order::query()->where('slug', '=', $slug)->first();
+        $order->mode = $request->mode;
+        $order->date = $request->date;
+        $order->supplier_address = $request->supplier_address;
+        $order->supplier_tin = $request->supplier_tin;
+        $order->supplier_representative = $request->supplier_representative;
+        $order->place_of_delivery = $request->place_of_delivery;
+        $order->delivery_term = $request->delivery_term;
+        $order->payment_term = $request->payment_term;
+        $order->delivery_date = $request->delivery_date??null;
+        $order->authorized_official = $request->authorized_official;
+        $order->authorized_official_designation = $request->authorized_official_designation;
+        $order->funds_available = $request->funds_available;
+        $order->funds_available_designation = $request->funds_available_designation;
+        $order->remarks = $request->remarks;
+        $order->vat = $request->vatValue;
+        $order->withholding_tax = $request->joValue;
+        $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
+        $order->total =  Helper::sanitizeAutonum($request->total);
+        $order->total_in_words = $request->total_in_words;
+        $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
+        $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
+
+        $arr = [];
+        if(!empty($request->items)){
+            foreach ($request->items as $item) {
+                array_push($arr,[
+                    'slug' => Str::random(),
+                    'transaction_slug' => $trans->slug,
+                    'stock_no' => $item['stock_no'],
+                    'unit' => $item['unit'],
+                    'item' => $item['item'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                    'property_no' => $item['property_no'],
+                    'nature_of_work' => $item['nature_of_work'],
+                ]);
+            }
+        }
+        $trans->transDetails()->delete();
+        if($order->save()){
+            TransactionDetails::insert($arr);
+            return $order->only('slug');
+        }
+        abort(503,'Error updating job order.');
+    }
+
     public function store(JOFormRequest $request) {
 
         $randomSlug = Str::random();
         $refBook = "JO";
-        $joNUmber = $this->getNextJONo($refBook);
+        //$joNUmber = $this->getNextJONo($refBook);
+        $joNumber = $request->jo_number;
+        $orderExist = Order::query()->where('ref_no','=',$request->jo_number)
+            ->where('ref_book', '=', $refBook)->first();
+        if($orderExist != null) {
+            return abort(503,'JO Number already exist.');
+        }
         $s = Suppliers::query()->where('slug','=', $request->supplier)->first();
 
         $order = new Order();
-        $order->ref_no = $joNUmber;
+        $order->ref_no = $joNumber;
         $order->slug = $randomSlug;
         $order->supplier = $s->slug;
         $order->supplier_name = $s->name;
@@ -140,7 +209,7 @@ class JOController extends Controller
         $transNew->resp_center = $trans->resp_center;
         $transNew->pap_code = $trans->pap_code;
         $transNew->ref_book = $refBook;
-        $transNew->ref_no = $joNUmber;
+        $transNew->ref_no = $joNumber;
         $transNew->cross_slug = $trans->slug;
         $transNew->cross_ref_no = $trans->ref_no;
         $transNew->purpose = $trans->purpose;

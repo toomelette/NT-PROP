@@ -1,8 +1,8 @@
 
 <div class="btn-group">
-    <button type="button" class="btn btn-default btn-sm edit_btn" data="{{$data->slug}}" data-toggle="modal" data-target="#edit_modal" title="" data-placement="left" data-original-title="Edit">
+    <a class="btn btn-default btn-sm edit_btn" href="{{route('dashboard.po.edit',$data->slug)}}">
         <i class="fa fa-edit"></i>
-    </button>
+    </a>
     <a class="btn btn-default btn-sm" href="{{route('dashboard.po.print',$data->slug)}}" target="_blank">
         <i class="fa fa-print"></i>
     </a>

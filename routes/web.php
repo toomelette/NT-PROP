@@ -168,15 +168,22 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/purchase_order/print/{slug}','PurchaseOrderController@print')->name('purchaseOrder.print');*/
 
     Route::get('/po/{slug}/print','POController@print')->name('po.print');
+    Route::get('/po/{slug}/edit','POController@edit')->name('po.edit');
     Route::get('/po/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','POController@findTransByRefNumber')->name('po.findTransByRefNumber');
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
+    Route::patch('/po/update/{slug}','POController@update')->name('po.update');
     Route::resource('po', 'POController');
 
     Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');
+    Route::get('/jo/{slug}/edit','JOController@edit')->name('jo.edit');
     Route::get('/jo/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','JOController@findTransByRefNumber')->name('jo.findTransByRefNumber');
     Route::get('/jo/findSupplier/{slug}','JOController@findSupplier')->name('jo.findSupplier');
+    Route::patch('/jo/update/{slug}','JOController@update')->name('jo.update');
     Route::resource('jo', 'JOController');
 
+    Route::get('/par/create','PARController@create')->name('par.create');
+    Route::get('/par/getEmployee/{slug}','PARController@getEmployee')->name('par.getEmployee');
+    Route::get('/par/getInventoryAccountCode/{slug}','PARController@getInventoryAccountCode')->name('par.getInventoryAccountCode');
     Route::get('/par/{slug}/print','PARController@print')->name('par.print');
     Route::get('/par/edit/{slug}','PARController@edit')->name('par.edit');
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');

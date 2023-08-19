@@ -172,7 +172,15 @@ class Arrays
         return [
             'COB' => 'COB',
             'SIDA' => 'SIDA',
-            'ACEF' => 'ACEF'
+            'ACEF' => 'ACEF',
+            'DONATION' => 'DONATION'
+        ];
+    }
+
+    public static function refBook(){
+        return [
+            'BCD' => 'BCD',
+            'LGAREC' => 'LGAREC'
         ];
     }
 
@@ -180,6 +188,15 @@ class Arrays
         return [
             'DONATION' => 'DONATION',
             'PURCHASED' => 'PURCHASED',
+        ];
+    }
+
+    public static function condition(){
+        return [
+            'MISSING' => 'MISSING',
+            'SERVICEABLE' => 'SERVICEABLE',
+            'UNSERVICEABLE' => 'UNSERVICEABLE',
+            'FOUND AT STN' => 'FOUND AT STN'
         ];
     }
 
