@@ -238,6 +238,7 @@ Route::get('/mailtest',function (){
     }else{
         dd('send_email_notification not allowed');
     }
+
 });
 
 
