@@ -499,11 +499,11 @@
                     {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    $('input[name="supplier_address"]').val(res.address);
-                    $('input[name="supplier_tin"]').val(res.tin);
-                    $('input[name="supplier_representative"]').val(res.contact_person);
-                    $('input[name="isVat"]').val(res.is_vat == 1?"True":"False");
-                    $('input[name="isGovernment"]').val(res.is_government == 1?"True":"False");
+                    $('input[name="supplier_address"]').val(res.supplier.address);
+                    $('input[name="supplier_tin"]').val(res.supplier.tin);
+                    $('input[name="supplier_representative"]').val(res.supplier.contact_person);
+                    $('input[name="isVat"]').val(res.supplier.is_vat == 1?"True":"False");
+                    $('input[name="isGovernment"]').val(res.supplier.is_government == 1?"True":"False");
                     $('input[name="vatValue"]').val(res.tax_computation.percent);
                     $('input[name="joValue"]').val(res.tcJO.percent);
                     console.log(res);
@@ -573,7 +573,7 @@
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + aqUnitCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + aqTotalCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
-                                        '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
+                                        '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text">'+ natureOfWork +'</textarea></td>' +
                                         '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
                                         '</tr>';
                                 }
