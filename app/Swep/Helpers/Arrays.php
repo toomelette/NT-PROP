@@ -233,6 +233,13 @@ class Arrays
         return $arr;
     }
 
+    public static function icfCriteria(){
+        return [
+            'EMPLOYEE' => 'EMPLOYEE',
+            'LOCATION' => 'LOCATION'
+        ];
+    }
+
     public static function location(){
         $l = Location::query()->orderBy('name')->get();
         $arr = [];

@@ -175,6 +175,7 @@ class JOController extends Controller
         $order = new Order();
         $order->ref_no = $joNumber;
         $order->slug = $randomSlug;
+        $order->date = $request->date;
         $order->supplier = $s->slug;
         $order->supplier_name = $s->name;
         $order->supplier_address = $request->supplier_address;
