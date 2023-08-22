@@ -235,7 +235,11 @@
                     <table width="100%" class="tbl-no-pad">
                         <tr>
                             <td>Tax Base:</td>
-                            <td style="text-align: right;">{{number_format($order->total_gross/1.12,2)}}</td>
+                            @if($supplier->is_vat == true)
+                                <td style="text-align: right;">{{number_format($order->total_gross,2)}}</td>
+                            @else
+                                <td style="text-align: right;">{{number_format($order->total_gross/1.12,2)}}</td>
+                            @endif
                             <td></td>
                         </tr>
                         <tr>

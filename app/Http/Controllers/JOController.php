@@ -337,6 +337,7 @@ class JOController extends Controller
 
     public function print($slug){
         $order = Order::query()->where('slug','=', $slug)->first();
+        $supplier = Suppliers::query()->where('slug', '=', $order->supplier)->first();
         $trans = Transactions::query()->where('order_slug','=', $order->slug)->first();
         $nature_of_work_arr = [];
         $td = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
@@ -352,7 +353,8 @@ class JOController extends Controller
             'trans' => $trans,
             'td' => $td,
             'nature_of_work_arr' => $nature_of_work_arr,
-            'rc' => $rc
+            'rc' => $rc,
+            'supplier' => $supplier
         ]);
     }
 }
