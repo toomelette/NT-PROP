@@ -15,18 +15,18 @@
                         <div class="row">
                             <div class="col-md-12">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
-                                                                        'label' => 'Date Acquired:',
-                                                                        'cols' => 2,
-                                                                        'type' => 'date'
-                                                                     ],
-                                                                    $par ?? null) !!}
+                                    'label' => 'Date Acquired:',
+                                    'cols' => 2,
+                                    'type' => 'date'
+                                 ],
+                                $par ?? null) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('article',[
-                                                              'cols' => 5,
-                                                              'label' => 'Update Article:',
-                                                              'class' => 'select2_article',
-                                                              'autocomplete' => 'off',
-                                                              'options' => [],
-                                                          ]) !!}
+                                      'cols' => 5,
+                                      'label' => 'Update Article:',
+                                      'class' => 'select2_article',
+                                      'autocomplete' => 'off',
+                                      'options' => [],
+                                  ]) !!}
                                 <div class="form-group col-md-5 article_old">
                                     <label for="article_old">Article:</label>
                                     <input class="form-control " name="article_old" type="text" value="{{$par->article}}" placeholder="Article OLD">
@@ -37,6 +37,28 @@
                                       'rows' => 2
                                     ],
                                         $par ?? null) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::select('invtacctcode',[
+                                    'label' => 'Inventory Account Code:',
+                                    'cols' => 4,
+                                    'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                    'id' => 'inventory-account-code',
+                                ],$par ?? null) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::select('ref_book',[
+                                    'label' => 'Reference Book:',
+                                    'cols' => 2,
+                                    'options' => \App\Swep\Helpers\Arrays::refBook(),
+                                ],$par ?? null) !!}
+
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('ppe_serial_no',[
+                                    'label' => 'PPE Serial No.:',
+                                    'cols' => 2,
+                                ],$par ?? null) !!}
+
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('ppe_model',[
+                                        'label' => 'PPE Model:',
+                                        'cols' => 4,
+                                ],$par ?? null) !!}
+
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('sub_major_account_group',[
                                                                 'label' => 'Sub-Major Acct. Group:',
                                                                 'cols' => 4
@@ -202,7 +224,7 @@
                             ],
                             $par ?? null) !!}
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
+                                    <button type="submit" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
                                     <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
                                 </div>
                             </div>
@@ -218,9 +240,9 @@
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
-            $("#saveBtn").click(function(e) {
+            $("#edit_form").submit(function(e) {
                 e.preventDefault();
-                let form = $('#edit_form');
+                let form = $(this);
                 let uri = '{{route("dashboard.par.update","slug")}}';
                 uri = uri.replace('slug',$('#slug').val());
                 loading_btn(form);

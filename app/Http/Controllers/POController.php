@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\PO\POFormRequest;
+use App\Jobs\EmailNotification;
 use App\Models\AQOfferDetails;
 use App\Models\AQQuotation;
 use App\Models\AwardNoticeAbstract;
@@ -15,6 +16,7 @@ use App\Models\Suppliers;
 use App\Models\TaxComputation;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
+use App\Swep\Helpers\Arrays;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\TransactionService;
 use Illuminate\Foundation\Http\FormRequest;
@@ -270,9 +272,25 @@ class POController extends Controller
             //$totalAbc = $totalAbc + $transactionDetail->total_cost;
         }*/
 
+
         if($order->save()){
-            $transNew->save();
-            TransactionDetails::insert($arr);
+            //EMAIL NOTIFICATION
+            $to = $transNew->transaction->userCreated->email;
+            $subject = Arrays::acronym($transNew->transaction->ref_book).' No. '.$transNew->transaction->ref_no;
+            $cc = $transNew->rc->emailRecipients->pluck('email_address')->toArray();
+            $body = view('mailables.email_notifier.body-po-created')->with([
+                'prOrJr' => $transNew->transaction,
+                'po' => $transNew,
+            ])->render();
+
+            if($transNew->save()){
+                TransactionDetails::insert($arr);
+                //QUEUE EMAIL
+                EmailNotification::dispatch($to,$subject,$body,$cc);
+            }else{
+                abort(503,'Error saving PO.');
+            }
+
             return $order->only('slug');
         }
         abort(503,'Error creating Purchase Order');

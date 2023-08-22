@@ -157,11 +157,11 @@ class AwardNoticeAbstractController extends Controller
         $ana->fax_number = $request->fax_number;
         $ana->corporate_title = $request->corporate_title;
         $ana->awardee_tin = $supplier->tin;
-
         $ana->organization_name = $request->organization_name;
         $ana->contact_name = $request->contact_name;
         $ana->signatory = $request->signatory;
         $ana->designation = $request->designation;
+
         if($ana->update()){
             return $ana->only('id');
         }
