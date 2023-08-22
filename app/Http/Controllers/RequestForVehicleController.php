@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestForVehicle\RequestForVehicleFormRequest;
 use App\Http\Requests\RequestForVehicle\TakeActionFormRequest;
+use App\Jobs\EmailNotification;
+use App\Models\EmailRecipients;
 use App\Models\RequestForVehicle;
 use App\Models\RequestForVehicleDetails;
 use App\Models\RequestForVehiclePassengers;
@@ -44,21 +46,35 @@ class RequestForVehicleController extends Controller
         $d->requested_by_position = $request->requested_by_position;
         $d->approved_by = 'DOROTHY B. RODRIGO';
         $d->approved_by_position = 'ADMINISTRATIVE OFFICER V';
-        $d->save();
-        $passengers = explode(',',$request->passengers);
-        if(count($passengers) > 0){
-            $passengersArray = [];
-            foreach ($passengers as $passenger){
-                array_push($passengersArray,[
-                    'slug' => Str::random(),
-                    'request_slug' => $d->slug,
-                    'name' => $passenger,
-                ]);
+
+
+        if($d->save()){
+            $passengers = explode(',',$request->passengers);
+            if(count($passengers) > 0){
+                $passengersArray = [];
+                foreach ($passengers as $passenger){
+                    array_push($passengersArray,[
+                        'slug' => Str::random(),
+                        'request_slug' => $d->slug,
+                        'name' => $passenger,
+                    ]);
+                }
+                RequestForVehiclePassengers::insert($passengersArray);
             }
-            RequestForVehiclePassengers::insert($passengersArray);
+
+            $emailRecipient = EmailRecipients::query()->where('receive_transportation_updates','=',1)->first();
+            $to = $emailRecipient->email_address ?? 'gguance221@gmail.com';
+            $subject = 'Request for Shuttle Service - '.$d->request_no;
+            $cc = [];
+            $body = view('mailables.request_for_vehicle.body-rfs-created')->with([
+                'r' => $d,
+            ])->render();
+            EmailNotification::dispatch($to,$subject,$body,$cc);
         }
 
+
         return $d->only('slug');
+
     }
 
     public function printOwn($slug){
