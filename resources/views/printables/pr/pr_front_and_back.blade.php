@@ -138,6 +138,19 @@
             <td class="text-center">{{$pr->approved_by_designation}}</td>
         </tr>
     </table>
+    <table style="width: 100%; font-family: Cambria; font-size: 10px" class="tbl-bordered">
+        <tr>
+            <td>BUDGET <br><br></td>
+            <td class="text-top" style="width: 11%">PPBTMS</td>
+            <td class="text-top" style="width: 11%">RBAC</td>
+            <td class="text-top" style="width: 11%">PPBTMS</td>
+            <td class="text-top" style="width: 11%">ACCOUNTING</td>
+            <td class="text-top" style="width: 11%">BUGDET</td>
+            <td class="text-top" style="width: 11%">MGR3</td>
+            <td class="text-top" style="width: 11%">COA</td>
+            <td class="text-top" style="width: 11%">PPBTMS</td>
+        </tr>
+    </table>
 @endsection
 
 @section('scripts')
