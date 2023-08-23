@@ -9,6 +9,7 @@ use App\Models\Drivers;
 use App\Models\EmailRecipients;
 use App\Models\JRType;
 use App\Models\Location;
+use App\Models\ModeOfProcurement;
 use App\Models\Options;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
@@ -233,12 +234,30 @@ class Arrays
         return $arr;
     }
 
+    public static function icfCriteria(){
+        return [
+            'EMPLOYEE' => 'EMPLOYEE',
+            'LOCATION' => 'LOCATION'
+        ];
+    }
+
     public static function location(){
         $l = Location::query()->orderBy('name')->get();
         $arr = [];
         if(!empty($l)){
             foreach ($l as $ll){
                 $arr[$ll->code] = $ll->name;
+            }
+        }
+        return $arr;
+    }
+
+    public static function ModeOfProcurement(){
+        $m = ModeOfProcurement::query()->orderBy('name')->get();
+        $arr = [];
+        if(!empty($m)){
+            foreach ($m as $mm){
+                $arr[$mm->name] = $mm->name;
             }
         }
         return $arr;
