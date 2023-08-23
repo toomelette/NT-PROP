@@ -29,13 +29,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'Competitive Bidding' => 'Competitive Bidding',
-                                                'Direct Contracting' => 'Direct Contracting',
-                                                'Direct Retail Purchase' => 'Direct Retail Purchase',
-                                                'Shopping' => 'Shopping',
-                                                'Small Value Procurement' => 'Small Value Procurement',
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
                                 'label' => 'PO Date:',
