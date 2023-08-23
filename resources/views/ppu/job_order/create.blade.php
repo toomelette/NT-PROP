@@ -33,7 +33,8 @@
                                                 'Shopping' => 'Shopping',
                                                 'Small Value Procurement' => 'Small Value Procurement',
                                                 'Direct Retail Purchase' => 'Direct Retail Purchase',
-                                                'Direct Contracting' => 'Direct Contracting'
+                                                'Direct Contracting' => 'Direct Contracting',
+                                                'Competitive Bidding' => 'Competitive Bidding'
                                             ]
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
