@@ -30,11 +30,11 @@
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
                                             'options' => [
+                                                'Competitive Bidding' => 'Competitive Bidding',
+                                                'Direct Contracting' => 'Direct Contracting',
+                                                'Direct Retail Purchase' => 'Direct Retail Purchase',
                                                 'Shopping' => 'Shopping',
                                                 'Small Value Procurement' => 'Small Value Procurement',
-                                                'Direct Retail Purchase' => 'Direct Retail Purchase',
-                                                'Direct Contracting' => 'Direct Contracting',
-                                                'Competitive Bidding' => 'Competitive Bidding'
                                             ]
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
