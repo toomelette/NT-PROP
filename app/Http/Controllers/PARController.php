@@ -226,16 +226,30 @@ class PARController extends Controller
         ]);
     }
 
-    public function printInventoryCountForm($location){
-        $rpciObj = InventoryPPE::query()->where('location', '=', $location)->orderBy('invtacctcode')->get();
+    public function printInventoryCountForm($value){
+        $rpciObj = InventoryPPE::query()->where('location', '=', $value)->orderBy('invtacctcode')->get();
+        if ($rpciObj->isEmpty()) {
+            $rpciObj = InventoryPPE::query()->where('acctemployee_no', '=', $value)->orderBy('invtacctcode')->get();
+        }
         $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
         $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
-        $location = Location::query()->where('code','=',$location)->first();
+        $location = Location::query()->where('code','=',$value)->first();
+        if ($location == null) {
+            $emp = Employee::query()->where('employee_no','=',$value)->first();
+            $loc = Location::query()->get();
+            return view('printables.rpcppe.inventoryCountFormByEmployee')->with([
+                'rpciObj' => $rpciObj,
+                'accountCodes' => $accountCodes,
+                'accountCodeRecords' => $accountCodeRecords,
+                'emp' => $emp,
+                'location' => $loc
+            ]);
+        }
         return view('printables.rpcppe.inventoryCountForm')->with([
             'rpciObj' => $rpciObj,
             'accountCodes' => $accountCodes,
             'accountCodeRecords' => $accountCodeRecords,
-            'location' => $location,
+            'location' => $location
         ]);
     }
 
