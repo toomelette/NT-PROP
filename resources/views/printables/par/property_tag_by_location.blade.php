@@ -46,7 +46,7 @@
                                                                     </table>
                                                                     @if(Request::get('type') == 'onetime')
                                                                         <p class="no-margin text-strong text-center" style="font-size: 11px">ONE-TIME CLEANSING OF PROPERTY, PLANT, AND EQUIPMENT</p>
-                                                                        <p class="text-center" style="font-size: 10px">in accordance to COA Circular No. 2020-006, dated Jan. 31, 2020</p>
+                                                                        <p class="text-center" style="font-size: 10px">in accordance with COA Circular No. 2020-006, dated Jan. 31, 2020</p>
                                                                     @else
                                                                         <p class="no-margin text-strong text-center">GOVERNMENT PROPERTY</p>
                                                                         <p class="text-center" style="font-size: 10px">COA Circular No. 80-124, JANUARY 1980</p>
