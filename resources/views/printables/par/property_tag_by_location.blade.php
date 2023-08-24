@@ -119,7 +119,7 @@
                                                                         <tr>
                                                                             <td class="text-center">Date</td>
                                                                             <td></td>
-                                                                            <td class="text-center">Property Custodian</td>
+                                                                            <td class="text-center">Inventory Committee</td>
                                                                         </tr>
 
                                                                     </table>
