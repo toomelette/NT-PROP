@@ -514,5 +514,13 @@ class Helper
         return '';
     }
 
+    public static function toNumber($number,$places = 2,$placeholder = ''){
+        if($number == null || $number == 0){
+            return $placeholder;
+        }else{
+            return number_format($number,$places);
+        }
+    }
+
 
 }

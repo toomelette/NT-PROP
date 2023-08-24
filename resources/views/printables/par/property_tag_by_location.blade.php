@@ -12,8 +12,27 @@
         }
 
     </style>
-    <div style="font-family: Cambria;">
 
+    @php
+    $arr = collect([
+            [
+                1,2,
+            ],
+            [
+                1,2,
+            ],
+            [
+                1,2,
+            ],
+            [
+                1,2,
+            ]
+        ]);
+    if(count($pars) < 1){
+        $pars = $arr;
+    }
+    @endphp
+    <div style="font-family: Cambria;">
         <table style="width: 20cm;">
             <tbody>
 
@@ -55,42 +74,42 @@
                                                                         <tr>
                                                                             <td style="width: 35%">Station</td>
                                                                             <td style="width: 8px">:</td>
-                                                                            <td class="b-bottom">{{\App\Swep\Helpers\Arrays::location()[$par->location] ?? '-'}}</td>
+                                                                            <td class="b-bottom">{{\App\Swep\Helpers\Arrays::location()[$par->location ?? 0] ?? ''}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Accountable Person</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{strtoupper($par->acctemployee_fname)}}</td>
+                                                                            <td class="b-bottom">{{strtoupper($par->acctemployee_fname ?? '')}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Article/Item</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{$par->article}}</td>
+                                                                            <td class="b-bottom">{{$par->article ?? ''}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Description</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{\Illuminate\Support\Str::limit($par->description,30)}}</td>
+                                                                            <td class="b-bottom">{{\Illuminate\Support\Str::limit($par->description ?? '',30)}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Model Number</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{$par->ppe_model}}</td>
+                                                                            <td class="b-bottom">{{$par->ppe_model ?? null}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Serial Number</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{$par->ppe_serial_no}}</td>
+                                                                            <td class="b-bottom">{{$par->ppe_serial_no ?? null}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Acquisition Date</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{\App\Swep\Helpers\Helper::dateFormat($par->dateacquired,'m/d/Y')}}</td>
+                                                                            <td class="b-bottom">{{\App\Swep\Helpers\Helper::dateFormat($par->dateacquired ?? null,'m/d/Y')}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Acquisition Cost</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{number_format($par->acquiredcost,2)}}</td>
+                                                                            <td class="b-bottom">{{\App\Swep\Helpers\Helper::toNumber($par->acquiredcost ?? null,2)}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>
@@ -101,12 +120,12 @@
                                                                                 @endif
                                                                             </td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{$par->propertyno}}</td>
+                                                                            <td class="b-bottom">{{$par->propertyno ?? null}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td>Condition</td>
                                                                             <td>:</td>
-                                                                            <td class="b-bottom">{{$par->condition}}</td>
+                                                                            <td class="b-bottom">{{$par->condition ?? null}}</td>
                                                                         </tr>
                                                                         <tr>
                                                                             <td class="b-bottom">
