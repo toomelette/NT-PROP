@@ -31,6 +31,9 @@
     if(count($pars) < 1){
         $pars = $arr;
     }
+    if(\Illuminate\Support\Facades\Request::get('location') == ''){
+        $pars = $arr;
+    }
     @endphp
     <div style="font-family: Cambria;">
         <table style="width: 20cm;">
@@ -62,7 +65,9 @@
                                                                                 <p class="no-margin" style="font-size: 10px">Araneta Street, Singcang, Bacolod city</p>
                                                                             </td>
                                                                             <td style="width: 40px">
-                                                                                {{\SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate('{"property_no":"'.$par->propertyno.'"}')}}
+                                                                                @if(\Illuminate\Support\Facades\Request::get('location') != '')
+                                                                                    {{\SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate('{"property_no":"'.$par->propertyno.'"}')}}
+                                                                                @endif
                                                                             </td>
                                                                         </tr>
                                                                     </table>
