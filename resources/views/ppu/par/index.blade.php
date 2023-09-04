@@ -11,7 +11,10 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Property Acknowledgement Receipt</h3>
-                <a class="btn btn-primary btn-sm pull-right" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>
+                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                </div>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -47,6 +50,39 @@
 @endsection
 
 @section('modals')
+    <div class="modal fade" id="property-tag-by-location" tabindex="-1" role="dialog" aria-labelledby="property-tag-by-location_label">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <form id="property-tag-by-location-form">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Tag by location</h4>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      {!! \App\Swep\ViewHelpers\__form2::select('location',[
+                          'label' => 'Location:',
+                          'cols' => 12,
+                          'options' => \App\Swep\Helpers\Arrays::location(),
+                      ]) !!}
+                      {!! \App\Swep\ViewHelpers\__form2::select('type',[
+                          'label' => 'Type:',
+                          'cols' => 12,
+                          'options' => [
+                              'regular' => 'Regular Procurement',
+                              'onetime' => 'One-time cleansing',
+                            ],
+                      ]) !!}
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary btn-sm">Generate</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="add_modal_label">
         <div class="modal-dialog modal-lg" role="document">
             <form id="add_form">
@@ -348,6 +384,13 @@
                     }
                 }
             });
+        })
+
+        $("#property-tag-by-location-form").submit(function (e){
+            e.preventDefault();
+            let url = '{{route("dashboard.par.index")}}?print_by_location=true&';
+            let form = $(this);
+            window.open(url+form.serialize(), '_blank');
         })
     </script>
 @endsection

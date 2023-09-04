@@ -25,7 +25,19 @@ class PARController extends Controller
         if($request->ajax() && $request->has('draw')){
             return $this->dataTable($request);
         }
+
+        if($request->has('print_by_location')){
+            return  $this->printPropertyTagByLocation($request);
+        }
         return view('ppu.par.index');
+    }
+
+    public function printPropertyTagByLocation(Request $request){
+        $pars = InventoryPPE::query()->where('location','=',$request->location)
+            ->get();
+        return view('printables.par.property_tag_by_location')->with([
+            'pars' => $pars->chunk(2),
+        ]);
     }
 
     public function dataTable($request){
