@@ -20,19 +20,10 @@ use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller{
-    
-
-
-
 	protected $home;
 
-
-
-
     public function __construct(HomeService $home){
-
         $this->home = $home;
-
     }
 
     private function birthdayCelebrantsView($this_month){
