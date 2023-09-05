@@ -174,10 +174,10 @@
                 <tr style="height: 10%">
                     <td class="text-center " style="vertical-align: top;">{{$item->stock_no}}</td>
                     <td class="text-center " style="vertical-align: top;">{{strtoupper($item->unit)}}</td>
-                    <td class="text-center " style="vertical-align: top;">
+                    <td class="" style="vertical-align: top;">
                         <b>{{$item->item}}</b>
                         <br>
-                        {!! nl2br(e(str_replace('*', "\n", strtoupper($item->description)))) !!}
+                        {!! nl2br(e(preg_replace('/\*(\s*)/', '*', strtoupper($item->description)))) !!}
                     </td>
                     <td class="text-center " style="vertical-align: top;">{{$item->qty}}</td>
                     <td class="text-right" style="vertical-align: top;">
