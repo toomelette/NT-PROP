@@ -127,7 +127,7 @@
                         <td style="border-right: 1px solid black; vertical-align: top;">
                             P.O. No./Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; width: 15%;">
+                        <td class="text-strong" style="vertical-align: top; width: 100%;">
                             {{$par->pono}}/{{ date('F j, Y', strtotime($par->podate))}}
                         </td>
                     </tr>
