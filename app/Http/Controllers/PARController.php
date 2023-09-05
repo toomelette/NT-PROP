@@ -109,6 +109,7 @@ class PARController extends Controller
         $par->propertyno = $request->propertyno;
         $par->fund_cluster = $request->fund_cluster;
         $par->respcenter = $request->respcenter;
+        $par->office = $request->office;
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
         $par->acctemployee_post = $request->acctemployee_post;
@@ -159,6 +160,7 @@ class PARController extends Controller
         $par->propertyno = $request->propertyno;
         $par->fund_cluster = $request->fund_cluster;
         $par->respcenter = $request->respcenter;
+        $par->office = $request->office;
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
         $par->acctemployee_post = $request->acctemployee_post;

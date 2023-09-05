@@ -102,6 +102,11 @@
                                     'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
                                 ],
                                 $par ?? null) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('office',[
+                                                                'label' => 'Office:',
+                                                                'cols' => 4
+                                                                ],
+                                $par ?? null) !!}
                             </div>
                         </div>
                     </div>

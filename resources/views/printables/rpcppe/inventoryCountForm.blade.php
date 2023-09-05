@@ -59,6 +59,7 @@
                 <th style="text-align: center; width: 5%" rowspan="2">Quantity per Property Card</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Quantity per Physical Count</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Location/Whereabouts</th>
+                <th style="text-align: center; width: 5%" rowspan="2">Office</th>
                 <th style="text-align: center; width: 5%" rowspan="2">Condition</th>
                 <th style="text-align: center; width: 15%" rowspan="2">REMARKS</th>
             </tr>
@@ -80,6 +81,7 @@
                         <td style="text-align: center;">{{$rpci->qtypercard}}</td>
                         <td style="text-align: center;">{{$rpci->onhandqty}}</td>
                         <td style="text-align: center;">{{$location->name}}</td>
+                        <td style="text-align: center;">{{$rpci->office}}</td>
                         <td></td>
                         <td>{{$rpci->remarks}}</td>
                     </tr>
