@@ -207,7 +207,7 @@
                         $nowCount = $nowCount + 1;
                     @endphp
                     <tr style="">
-                        <td class="text-strong" style="vertical-align: top;">{!! nl2br(e(preg_replace('/\*(\s*)/', '*', strtoupper($item->description)))) !!}</td>
+                        <td class="text-strong" style="vertical-align: top;">{!! nl2br(e(preg_replace('/\*(\s*)/', '*', $item->description))) !!}</td>
                         <td class="text-center" style="vertical-align: top;">{{strtoupper($item->unit)}}</td>
                         <td class="text-right" style="vertical-align: top;">
                             <b>{{number_format($item->total_cost,2)}}</b>
@@ -290,7 +290,7 @@
                     <tr style="height: 10%">
                         <td class="text-center " style="vertical-align: top;width:10%;">{{$item->stock_no}}</td>
                         <td class="text-center " style="vertical-align: top;width:10%;">{{strtoupper($item->unit)}}</td>
-                        <td class="text-center " style="vertical-align: top;width:10%;"><b>{{$item->item}}</b><br>{{strtoupper($item->description)}}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;"><b>{{$item->item}}</b><br>{!! nl2br(e(preg_replace('/\*(\s*)/', '*', $item->description))) !!}</td>
                         <td class="text-center " style="vertical-align: top;width:10%;">{{$item->qty}}</td>
                         <td class="text-right" style="vertical-align: top;width:10%;">
                             <b>{{number_format($item->unit_cost,2)}}</b>
