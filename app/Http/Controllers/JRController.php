@@ -171,7 +171,10 @@ class JRController extends Controller
                     return null;
                 }
             })
-            ->addColumn('aq_date', function($data) use ($transAll) {
+            ->addColumn('aq_date', function($data) {
+                return '<span class="">'.Helper::dateFormat($data->aq->created_at ?? null).'<br><a>'.($data->aq->ref_no ?? null).'</a></span>';
+            })
+            /*->addColumn('aq_date', function($data) use ($transAll) {
                 $item = $transAll->where('cross_slug', $data->slug)
                     ->where('ref_book', 'AQ')
                     ->first();
@@ -180,7 +183,7 @@ class JRController extends Controller
                 } else {
                     return null;
                 }
-            })
+            })*/
             ->addColumn('rbac_reso_date',function($data){
                 return "";
             })

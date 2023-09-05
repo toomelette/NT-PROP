@@ -63,7 +63,7 @@
                             <th style="width: 10%">AQ Date</th>
                             <th style="width: 15%">RBAC Reso Date</th>
                             <th style="width: 10%">NOA Date</th>
-                            <th style="width: 10%">PO/JO Date</th>
+                            <th style="width: 10%">JO Date</th>
                             <th style="width: 10%">Action</th>
                         </tr>
                         </thead>

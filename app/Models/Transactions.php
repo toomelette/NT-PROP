@@ -53,6 +53,14 @@ class Transactions extends Model
         return $this->hasOne(Transactions::class,'cross_slug','slug')->where('ref_book','=','AQ');
     }
 
+    public function po(){
+        return $this->hasMany(Order::class,'slug', 'order_slug')->where('ref_book','=','PO');
+    }
+
+    public function jo(){
+        return $this->hasMany(Order::class,'slug', 'order_slug')->where('ref_book','=','JO');
+    }
+
     public function transaction(){
         return $this->hasOne(Transactions::class,'slug','cross_slug');
     }
