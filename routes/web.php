@@ -14,7 +14,7 @@ Route::group(['as' => 'auth.'], function () {
     Route::post('/username_lookup','Auth\AccountRecoveryController@username_lookup')->name('username_lookup');
     Route::post('/reset_password','Auth\AccountRecoveryController@reset_password')->name('reset_password');
     Route::post('/verify_email','Auth\AccountRecoveryController@verify_email')->name('verify_email');
-    Route::get('/reset_password_via_email','Auth\AccountRecoveryController@reset_password_via_email')->name('reset_password_via_email');
+    Route::get('/reset_password _via_email','Auth\AccountRecoveryController@reset_password_via_email')->name('reset_password_via_email');
 });
 
 
@@ -196,6 +196,17 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('par', 'PARController');
 
     Route::resource('ics', 'ICSController');
+
+    Route::get('/iar/create','IARController@create')->name('iar.create');
+    Route::get('/iar/findTransByRefNumber/{refNumber}','IARController@findTransByRefNumber')->name('iar.findTransByRefNumber');
+    Route::post('/iar/store','IARController@store')->name('iar.store');
+    Route::get('/po/{slug}/print','IARController@print')->name('iar.print');
+    Route::get('/iar/index','IARController@index')->name('iar.index');
+    Route::get('/iar/edit/{slug}','IARController@edit')->name('iar.edit');
+
+
+
+
 
     Route::resource('supplier', 'SupplierController');
     Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
