@@ -14,11 +14,11 @@
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
-                <div style="float: left; text-align: left; margin-left: 15px">
+                <div style="float: left; text-align: left; margin-left: 15px; margin-top: 10px">
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
-                    <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">
+                    <p class="no-margin text-strong" style="font-size: 14px;">
                         PROPERTY/PROCUREMENT/BUILDING & TRANSPORT MAINTENANCE SECTION
                     </p>
                 </div>
@@ -28,7 +28,7 @@
                 </span>
 
 
-                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 90px">
                     <tbody>
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                         <td rowspan="2" style="width: 55%; border-right: 1px solid black">
@@ -163,57 +163,58 @@
 
     <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
                     <div style="flex: 1; text-align: left; "><br>
-                        <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b> <span class="text-strong" style="margin-left: 30px;">
-                        _________________________________
-                    </span></h5><br>
+                        <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b> <span class="text-strong" style="margin-left: 30px; text-decoration: underline;">
+                            {{ \Carbon\Carbon::createFromFormat('Y-m-d', $iar->date_inspected)->format('F d, Y')}}
+                        </span></h5><br>
+
 
                         <div style="display: flex; align-items: center;">
-                            <input style="margin-left: 10px; margin-bottom: 15px;" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                            <label style="margin-left: 10px; margin-bottom: 15px; margin-right: 10px;">Inspected, verified and found in order as to quantity and specifications</label>
+                                <input style="margin-left: 10px; margin-bottom: 15px;" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
+                                <label style="margin-left: 10px; margin-bottom: 15px; margin-right: 10px;">Inspected, verified and found in order as to quantity and specifications</label>
+                            </div>
+                            <br>
+
+
+                            <span class="text-strong" style="margin-left: 53px; margin-top: 10px">
+                            _________________________________________________
+                            </span><br>
+                            <span style="margin-left: 51px">
+                           <b>Inspection Office/Inspection Committee</b>
+                            </span>
                         </div>
-                        <br>
 
+                        <div style="flex: 1; text-align: left; border-left: 1px solid black"><br>
+                            <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Received:</b>
+                            <span class="text-strong" style="margin-left: 30px;">
+                            _________________________________
+                            </span>
+                            </h5>
 
-                        <span class="text-strong" style="margin-left: 53px; margin-top: 10px">
-                        _________________________________________________
-                        </span><br>
-                        <span style="margin-left: 51px">
-                       <b>Inspection Office/Inspection Committee</b>
-                        </span>
-                    </div>
+                            <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
+                            <label style="text-align: center; margin-left: 10px; margin-right: 10px">Complete</label><br><br>
+                            <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
+                            <label style="text-align: center; margin-left: 10px; margin-right: 10px">Partial (Please specify quantity)</label><br><br>
 
-                    <div style="flex: 1; text-align: left; border-left: 1px solid black"><br>
-                        <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Received:</b>
-                        <span class="text-strong" style="margin-left: 30px;">
-                        _________________________________
-                        </span>
-                        </h5>
+                            <span class="text-strong" style="margin-left: 60px;">
+                            _________________________________________________
+                            </span><br>
+                            <span style="margin-left: 140px; margin-bottom: 30px">
+                           <b>Property Officer</b>
+                            </span>
+                        </div>
 
-                        <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                        <label style="text-align: center; margin-left: 10px; margin-right: 10px">Complete</label><br><br>
-                        <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                        <label style="text-align: center; margin-left: 10px; margin-right: 10px">Partial (Please specify quantity)</label><br><br>
-
-                        <span class="text-strong" style="margin-left: 60px;">
-                        _________________________________________________
-                        </span><br>
-                        <span style="margin-left: 140px; margin-bottom: 30px">
-                       <b>Property Officer</b>
-                        </span>
-                    </div>
-
-    </div>
+        </div>
 
 
 
 
-@endsection
+    @endsection
 
-@section('scripts')
-    <script type="text/javascript">
-        $(document).ready(function () {
-            print();
-            // close();
-        })
-    </script>
-@endsection
+    @section('scripts')
+        <script type="text/javascript">
+            $(document).ready(function () {
+                print();
+                // close();
+            })
+        </script>
+    @endsection
