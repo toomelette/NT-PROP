@@ -70,221 +70,221 @@ class HomeService extends BaseService{
             ->where('resp_codes.rc', '=', '010')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $OBCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '010')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $IADCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '020')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $IADCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '020')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $OACount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '030')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $OACountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '030')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $LEGALCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '040')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $LEGALCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '040')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $PPSPDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '050')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $PPSPDCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '050')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $AFDLMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '060')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $AFDLMCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '060')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $AFDVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '065')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $AFDVISCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '065')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $RDELMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '070')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $RDELMCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '070')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $RDEVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '075')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $RDEVISCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '075')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $RDLMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '080')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $RDLMCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '080')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $RDVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '085')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $RDVISCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '085')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $GADCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '090')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $GADCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '090')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $SIDABFPCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '100')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $SIDABFPCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '100')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $SIDASCPCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '110')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $SIDASCPCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '110')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $SIDAHRDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '120')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $SIDAHRDCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '120')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $SIDAFMRCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '130')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $SIDAFMRCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '130')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $SIDARDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '140')
             ->where('transactions.ref_book', '=', 'PR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
         $SIDARDCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '140')
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
-            ->count('transactions.id');
+            ->sum('transactions.abc');
 
         $obj = [(object)['name'=>'OB', 'count'=>$OBCount, 'countJR'=>$OBCountJR],
             (object)['name'=>'IAD', 'count'=>$IADCount, 'countJR'=>$IADCountJR],

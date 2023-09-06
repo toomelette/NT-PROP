@@ -44,8 +44,8 @@
                   <tr>
                    {{-- <td>--}}{{--{{ $number }}--}}{{--</td>--}}
                     <td class="text-strong">{{ $rc->name }}</td>
-                    <td style="text-align: center;">{{ $rc->count }}</td>
-                    <td style="text-align: center;">{{ $rc->countJR }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->count,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->countJR,2) }}</td>
                   </tr>
                 @endforeach
                 </tbody>
@@ -53,9 +53,24 @@
             </div>
           </div>
           <div class="row">
-            <label class="col-md-8">Total:</label>
-            <label style="" class="col-md-2 text-strong">{{$prTotal}}</label>
-            <label style="" class="col-md-2 text-strong">{{$jrTotal}}</label>
+            <div class="col-md-12">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th style="width:40%">
+                    Total:
+                  </th>
+                  <th style="text-align: right">
+                    Php {{ number_format($prTotal,2) }}
+                  </th>
+                  <th style="text-align: right;">
+                    Php {{ number_format($jrTotal,2) }}
+                  </th>
+                </tr>
+                </thead>
+              </table>
+            </div>
+
           </div>
         </div>
       </div>
