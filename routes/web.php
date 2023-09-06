@@ -167,7 +167,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::post('/purchase_order/store','PurchaseOrderController@store')->name('purchaseOrder.store');
     Route::get('/purchase_order/print/{slug}','PurchaseOrderController@print')->name('purchaseOrder.print');*/
 
-    Route::get('/po/{slug}/print','POController@print')->name('po.print');
+    Route::get('/po/{slug}/print1','POController@print1')->name('po.print1');
     Route::get('/po/{slug}/edit','POController@edit')->name('po.edit');
     Route::get('/po/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','POController@findTransByRefNumber')->name('po.findTransByRefNumber');
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');

@@ -463,7 +463,7 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.po.print','slug')}}";
+                            let link = "{{route('dashboard.po.print1','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }

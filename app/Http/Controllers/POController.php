@@ -354,7 +354,7 @@ class POController extends Controller
         }
     }
 
-    public function print($slug){
+    public function print1($slug){
         $order = Order::query()->where('slug','=', $slug)->first();
         $trans = Transactions::query()->where('order_slug','=', $order->slug)->first();
         $nature_of_work_arr = [];
