@@ -16,32 +16,37 @@
                 </div>
                 <div style="float: left; text-align: left; margin-left: 15px">
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
-                    <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Department of Agriculture</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
-                    <p style="font-size: 18px;"><strong>INSPECTION AND ACCEPTANCE REPORT</strong></p>
+                    <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">
+                        PROPERTY/PROCUREMENT/BUILDING & TRANSPORT MAINTENANCE SECTION
+                    </p>
                 </div>
 
                 <span class="" style="float: right">
                     {{ QrCode::size(50)->generate(route("dashboard.iar.index",$iar->slug)) }}
                 </span>
 
-                <table style="width: 100%; border: #0a0a0a;">
 
-                    <tr style="border: 1px solid black">
-                        <td style="border-right: 1px solid black; width: 15%; vertical-align: top;">
-                            Supplier:
+                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                    <tbody>
+                    <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                        <td rowspan="2" style="width: 55%; border-right: 1px solid black">
+                            <p style="font-size: 20px;"><strong>INSPECTION AND ACCEPTANCE REPORT</strong></p>
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 15%">
-                            {{$iar->supplier}}
-                        </td>
-                        <td style="border-right: 1px solid black; vertical-align: center;">
-                            IAR No:
-                        </td>
-                        <td class="text-strong" style="vertical-align: center; width: 15%;">
-                            {{$iar->ref_no}}
+                        <td style="margin-top: 5px; justify-content: center; float: left;">
+                            <p>IAR No: <span class="text-strong">{{$iar->ref_no}}</span></p>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="border-right: 1px solid black; vertical-align: center;">
+                            <p>Supplier: <span class="text-strong">{{$iar->supplier}}</span></p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table style="width: 100%; border: #0a0a0a;">
 
                     <tr style="border: 1px solid black; width: 100%;">
 
@@ -110,12 +115,12 @@
                 <table style="font-family: Cambria,Arial; width: 100%; text-align: center; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
                     <thead>
                     <tr class="text-strong" style="border: 1px solid black; width: 100%">
-                        <td style="border: 1px solid black; width: 10%;">Stock No:</td>
-                        <td style="border: 1px solid black; width: 15%;">Quantity</td>
-                        <td style="border: 1px solid black; width: 10%;">Unit</td>
-                        <td style="border: 1px solid black; width: 35%; text-align: left;">Description</td>
+                        <td style="border: 1px solid black; width: 8%;">Stock No:</td>
+                        <td style="border: 1px solid black; width: 8%;">Quantity</td>
+                        <td style="border: 1px solid black; width: 8%;">Unit</td>
+                        <td style="border: 1px solid black; width: 41%; text-align: center;">Description</td>
                         <td style="border: 1px solid black; width: 15%">Unit Cost</td>
-                        <td style="border: 1px solid black; width: 15%; text-align: right">Total</td>
+                        <td style="border: 1px solid black; width: 15%; text-align: center">Total Cost</td>
                     </tr>
                     </thead>
                     <tbody style="height: 350px">
@@ -123,13 +128,13 @@
                                 $totalCost = 0;
                             @endphp
                         @foreach($iar->transDetails as $item)
-                            <tr class="text-strong" style="border: 1px solid black; width: 100%">
-                                <td style="vertical-align: top; width: 10%;">{{$item->stock_no}}</td>
-                                <td style="vertical-align: top; width: 15%;">{{$item->qty}}</td>
-                                <td style="vertical-align: top; width: 10%;">{{$item->unit}}</td>
-                                <td class="" style="vertical-align: top; width: 35%; text-align: left;">
-                                    <b>{{$item->item}}</b><br>
-                                    <span style="white-space: pre-line; font-style: italic" >
+                            <tr class="text-strong" style="width: 100%">
+                                <td style="vertical-align: top; width: 8%;">{{$item->stock_no}}</td>
+                                <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
+                                <td style="vertical-align: top; width: 8%;">{{$item->unit}}</td>
+                                <td class="" style="vertical-align: top; width: 41%; text-align: left;">
+                                    <b style="font-size: 12px;">{{$item->item}}</b><br>
+                                    <span style="white-space: pre-line; font-size: 10px; font-style: italic" >
                                     {{$item->description ? $item->description : ""}}
                                     </span>
                                 </td>
