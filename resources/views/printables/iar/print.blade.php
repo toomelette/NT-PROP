@@ -168,8 +168,8 @@
                     </span></h5><br>
 
                         <div style="display: flex; align-items: center;">
-                            <input style="margin-left: 10px;" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                            <label style="margin-left: 10px; margin-right: 10px;">Inspected, verified and found in order as to quantity and specifications</label>
+                            <input style="margin-left: 10px; margin-bottom: 15px;" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
+                            <label style="margin-left: 10px; margin-bottom: 15px; margin-right: 10px;">Inspected, verified and found in order as to quantity and specifications</label>
                         </div>
                         <br>
 
