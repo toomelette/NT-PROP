@@ -63,7 +63,7 @@
                             <th style="width: 10%">AQ Date</th>
                             <th style="width: 15%">RBAC Reso Date</th>
                             <th style="width: 10%">NOA Date</th>
-                            <th style="width: 10%">PO/JO Date</th>
+                            <th style="width: 10%">PO Date</th>
                             <th style="width: 10%">Action</th>
                         </tr>
                         </thead>
@@ -100,7 +100,7 @@
                     {"data": "aq_date"},
                     {"data": "rbac_reso_date"},
                     {"data": "noa_date"},
-                    {"data": "po_jo_date"},
+                    {"data": "po_date"},
                     {"data": "action"}
                 ],
                 "buttons": [

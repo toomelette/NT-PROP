@@ -196,6 +196,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('par', 'PARController');
 
 
+
     Route::get('/iar/create','IARController@create')->name('iar.create');
     Route::get('/iar/findTransByRefNumber/{refNumber}','IARController@findTransByRefNumber')->name('iar.findTransByRefNumber');
     Route::post('/iar/store','IARController@store')->name('iar.store');

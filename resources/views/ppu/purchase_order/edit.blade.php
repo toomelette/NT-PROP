@@ -29,12 +29,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'Shopping' => 'Shopping',
-                                                'Small Value Procurement' => 'Small Value Procurement',
-                                                'Direct Retail Purchase' => 'Direct Retail Purchase',
-                                                'Direct Contracting' => 'Direct Contracting'
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
                                         ],
                                         $order ?? null
                                         ) !!}
@@ -192,7 +187,7 @@
                                                 <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit_cost]" name="items['{{$transDetail->slug}}'][unit_cost]" type="text" value="{{$transDetail->unit_cost}}"></td>
                                                 <td><input class="form-control" id="items['{{$transDetail->slug}}'][total_cost]" name="items['{{$transDetail->slug}}'][total_cost]" type="text" value="{{$transDetail->total_cost}}"></td>
                                                 <td><input class="form-control" id="items['{{$transDetail->slug}}'][property_no]" name="items['{{$transDetail->slug}}'][property_no]" type="text" value="{{$transDetail->property_no}}"></td>
-                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][nature_of_work]" name="items['{{$transDetail->slug}}'][nature_of_work]" type="text" value="{{$transDetail->nature_of_work}}"></td>
+                                                <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][nature_of_work]" name="items['{{$transDetail->slug}}'][nature_of_work]" type="text">{{$transDetail->nature_of_work}}</textarea></td>
                                                 <td><button type="button" class="btn btn-danger btn-sm delete-btn" data-slug="{{$transDetail->slug}}" onclick="deleteRow(this)"><i class="fa fa-times"></i></button></td>
                                             </tr>
                                         @endforeach

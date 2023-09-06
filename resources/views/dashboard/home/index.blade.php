@@ -13,35 +13,39 @@
     <div class="col-md-6">
       <div class="panel">
         <div class="panel-body">
-          <label>PR & JR per Responsibility Center</label>
+          <label>Procurement per Responsibility Center</label>
           <hr class="no-margin">
           <div style="max-height: 355px;overflow-x: hidden; padding-top: 15px" id="">
             <div class="nav-tabs-custom" id="prContainer">
               <table class="table table-bordered">
                 <thead>
                 <tr>
-                  <th>No.</th>
+                  {{--<th>No.</th>--}}
                   <th>Responsibility Center</th>
-                  <th style="text-align: center;">Total</th>
+                  <th style="text-align: center;">PR</th>
+                  <th style="text-align: center;">JR</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
                   $prTotal = 0;
-                  $number = 0;
-                  usort($trans_by_resp_center_bar, function($a, $b) {
+                  $jrTotal = 0;
+                  //$number = 0;
+                  usort($trans_by_resp_center_pr_jr, function($a, $b) {
                         return $b->count - $a->count;
                     });
                 @endphp
-                @foreach($trans_by_resp_center_bar as $rc)
+                @foreach($trans_by_resp_center_pr_jr as $rc)
                   @php
                     $prTotal += $rc->count;
-                    $number++;
+                    $jrTotal += $rc->countJR;
+                    //$number++;
                   @endphp
                   <tr>
-                    <td>{{ $number }}</td>
+                   {{-- <td>--}}{{--{{ $number }}--}}{{--</td>--}}
                     <td class="text-strong">{{ $rc->name }}</td>
                     <td style="text-align: center;">{{ $rc->count }}</td>
+                    <td style="text-align: center;">{{ $rc->countJR }}</td>
                   </tr>
                 @endforeach
                 </tbody>
@@ -49,19 +53,42 @@
             </div>
           </div>
           <div class="row">
-            <label class="col-md-9">Total:</label>
-            <label style="text-align: center;" class="col-md-3 text-strong">{{$prTotal}}</label>
+            <label class="col-md-8">Total:</label>
+            <label style="" class="col-md-2 text-strong">{{$prTotal}}</label>
+            <label style="" class="col-md-2 text-strong">{{$jrTotal}}</label>
           </div>
         </div>
       </div>
     </div>
 
     <div class="col-lg-6" style="padding: 0">
-      <div class="col-lg-12 col-xs-12">
+      <div class="col-lg-6 col-xs-12">
         <div class="small-box bg-aqua">
           <div class="inner">
             <h3>{{$trans_pr}}</h3>
             <p>Purchase Request</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-xs-12">
+        <div class="small-box bg-aqua">
+          <div class="inner">
+            <h3>{{$trans_jr}}</h3>
+            <p>Job Request</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-person-add"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-xs-12">
+        <div class="small-box bg-green">
+          <div class="inner">
+            <h3>{{$trans_rfq}}</h3>
+            <p>RFQ</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -80,18 +107,7 @@
         </div>
       </div>
       <div class="col-lg-6 col-xs-12">
-        <div class="small-box bg-yellow">
-          <div class="inner">
-            <h3>{{$trans_jr}}</h3>
-            <p>Job Request</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-person-add"></i>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-6 col-xs-12">
-        <div class="small-box bg-red">
+        <div class="small-box bg-aqua">
           <div class="inner">
             <h3>{{$trans_po}}</h3>
             <p>Purchase Order</p>
@@ -104,8 +120,32 @@
       <div class="col-lg-6 col-xs-12">
         <div class="small-box bg-aqua">
           <div class="inner">
-            <h3>{{$trans_rfq}}</h3>
-            <p>RFQ</p>
+            <h3>{{$trans_jo}}</h3>
+            <p>Job Order</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-xs-12">
+        <div class="small-box bg-red">
+          <div class="inner">
+            <h3>{{$trans_pr_cancelled}}</h3>
+            <p>Cancelled PR</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-stats-bars"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-xs-12">
+        <div class="small-box bg-orange">
+          <div class="inner">
+            <h3>{{$trans_jr_cancelled}}</h3>
+            <p>Cancelled JR</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>

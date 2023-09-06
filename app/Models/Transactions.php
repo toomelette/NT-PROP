@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -43,9 +44,6 @@ class Transactions extends Model
     public function userCreated(){
         return $this->hasOne(User::class,'user_id','user_created');
     }
-    
-
-
 
     public function rfq(){
         return $this->hasOne(Transactions::class,'cross_slug','slug')->where('ref_book','=','RFQ');
@@ -53,6 +51,14 @@ class Transactions extends Model
 
     public function aq(){
         return $this->hasOne(Transactions::class,'cross_slug','slug')->where('ref_book','=','AQ');
+    }
+
+    public function po(){
+        return $this->hasMany(Order::class,'slug', 'order_slug')->where('ref_book','=','PO');
+    }
+
+    public function jo(){
+        return $this->hasMany(Order::class,'slug', 'order_slug')->where('ref_book','=','JO');
     }
 
     public function transaction(){
@@ -68,8 +74,6 @@ class Transactions extends Model
             ->where('ref_book','=','JR');
     }
 
-
-
     public function quotations(){
         return $this->hasMany(Quotations::class,'aq_slug','slug');
     }
@@ -83,5 +87,9 @@ class Transactions extends Model
 
     public function scopeAllAq($query){
         return $query->where('ref_book','=','AQ');
+    }
+
+    public function scopeJoOnly(Builder $query){
+        $query->where('ref_book','=','JO');
     }
 }

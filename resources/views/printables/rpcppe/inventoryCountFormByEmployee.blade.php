@@ -39,7 +39,7 @@
                 </td>
             </tr>
         </table>
-        <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Location: {{$location->name}}</strong></h5>
+        <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Employee: {{$emp->fullname}}</strong></h5>
         @foreach($accountCodeRecords as $accountCodeRecord)
             @if($accountCodeRecord->code === $accountCode)
             <h5 style="text-align: left; margin-left: 30px;"><strong>Inventory Type: {{$accountCode}} - {{$accountCodeRecord->description}}</strong></h5>
@@ -67,6 +67,7 @@
             <tbody>
             @php
                 $totalAcquiredCost = 0;
+                $locName = "";
             @endphp
             @foreach($rpciObj as $rpci)
                 @if($rpci->invtacctcode === $accountCode)
@@ -80,7 +81,14 @@
                         <td style="text-align: right;">{{ number_format($rpci->acquiredcost, 2) }}</td>
                         <td style="text-align: center;">{{$rpci->qtypercard}}</td>
                         <td style="text-align: center;">{{$rpci->onhandqty}}</td>
-                        <td style="text-align: center;">{{$location->name}}</td>
+                        @foreach($location as $loc)
+                            @if($loc->code === $rpci->location)
+                                @php
+                                    $locName = $loc->name;
+                                @endphp
+                            @endif
+                        @endforeach
+                        <td style="text-align: center;">{{$locName}}</td>
                         <td style="text-align: center;">{{$rpci->office}}</td>
                         <td></td>
                         <td>{{$rpci->remarks}}</td>

@@ -103,6 +103,10 @@
                                     'cols' => 8,
                                     'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
                                 ]) !!}
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('office',[
+                                                                'label' => 'Office:',
+                                                                'cols' => 4
+                                                                ]) !!}
                             </div>
                         </div>
                     </div>
@@ -362,19 +366,20 @@
             $("#select-employee").select2({
                 data : data,
             });
+
             $("#select-employee").change(function (){
                 let value = $(this).val();
                 if(value != ''){
                     let index = data.findIndex( object => {
                         return object.id == value;
                     });
-                    $("#add_form input[name='acctemployee_no']").val(data[index].employee_no);
-                    $("#add_form input[name='acctemployee_fname']").val(data[index].fullname);
-                    $("#add_form input[name='acctemployee_post']").val(data[index].position);
+                    $("input[name='acctemployee_no']").val(data[index].employee_no);
+                    $("input[name='acctemployee_fname']").val(data[index].fullname);
+                    $("input[name='acctemployee_post']").val(data[index].position);
                 }else{
-                    $("#add_form input[name='acctemployee_no']").val('');
-                    $("#add_form input[name='acctemployee_fname']").val('');
-                    $("#add_form input[name='acctemployee_post']").val('');
+                    $("input[name='acctemployee_no']").val('');
+                    $("input[name='acctemployee_fname']").val('');
+                    $("input[name='acctemployee_post']").val('');
                 }
             });
         })

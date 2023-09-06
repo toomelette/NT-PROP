@@ -29,12 +29,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'Shopping' => 'Shopping',
-                                                'Small Value Procurement' => 'Small Value Procurement',
-                                                'Direct Retail Purchase' => 'Direct Retail Purchase',
-                                                'Direct Contracting' => 'Direct Contracting'
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
                                 'label' => 'JO Date:',
@@ -594,7 +589,7 @@
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
-                                        '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ offerDetails +'</textarea></td>' +
+                                        '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+  res.transDetails[i].description +'</textarea></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + num1.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                         '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + num2.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
@@ -610,7 +605,7 @@
                             $('#refBook').val(res.trans.ref_book);
                             slugs = slugs.slice(0, -1); // Remove the last '~' character
                             $('#itemSlugEdit').val(slugs);
-                            tableHtml += '</tbody></table>';
+                            tableHtml += '</tbody>';
                             if($('#isGovernment').val() === 'True'){
                                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                                 $('input[name="total"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));

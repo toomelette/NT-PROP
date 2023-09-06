@@ -85,7 +85,7 @@ class PRController extends Controller
 
     public function monitoringDataTable(Request $request){
         $trans = Transactions::query()
-            ->with(['rfq','aq'])
+            ->with(['rfq','aq','po'])
             ->where('ref_book','=','PR');
 
         if($request->has('resp_center') && $request->resp_center != ''){
@@ -125,7 +125,11 @@ class PRController extends Controller
 //                }
             })
             ->addColumn('aq_date', function($data) {
-                return Helper::dateFormat($data->aq->created_at ?? null);
+                /*return ($data->aq ?? null).
+                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->aq->created_at ?? null).
+                    '<br>'.($data->aq->ref_n ?? null).
+                    '</div>';*/
+                return '<span class="">'.Helper::dateFormat($data->aq->created_at ?? null).'<br><a>'.($data->aq->ref_no ?? null).'</a></span>';
 //                $item = $transAll->where('cross_slug', $data->slug)
 //                    ->where('ref_book', 'AQ')
 //                    ->first();
@@ -141,8 +145,12 @@ class PRController extends Controller
             ->addColumn('noa_date',function($data){
                 return Helper::dateFormat($data->anaPr->award_date ?? null,'M. d, Y');
             })
-            ->addColumn('po_jo_date',function($data){
-                return "";
+            ->addColumn('po_date',function($data){
+                $output = "";
+                foreach ($data->po as $item) {
+                    $output += $item->date. '<br>';
+                }
+                return $output;
             })
             ->addColumn('action',function($data){
                 return "";

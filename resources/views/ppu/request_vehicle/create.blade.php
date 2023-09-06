@@ -9,90 +9,75 @@
 @section('content2')
 
     <section class="content">
+        <button class="hidden" id="go-btn">GO</button>
         <form id="create_request_form">
             <div class="box box-solid">
-                <div class="box-body">
-                    <div class="row">
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('name',[
-                            'cols' => 4,
-                            'label' => 'Requisitioner:',
-                        ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
+                <div id="form-container">
+                    <div class="box-body">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('name',[
+                                'cols' => 4,
+                                'label' => 'Requisitioner:',
+                            ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::select('rc',[
-                            'cols' => 3,
-                            'label' => 'Dept/Div:',
-                            'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
-                        ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::select('rc',[
+                                'cols' => 3,
+                                'label' => 'Dept/Div:',
+                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
+                            ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('purpose',[
-                            'cols' => 5,
-                            'label' => 'Purpose:',
-                        ]) !!}
-                    </div>
-                    <div class="row">
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('passengers',[
-                            'cols' => 6,
-                            'label' => 'Authorized Passengers: (Type and press enter to add more passengers)',
-                            'id' => 'passengers_tags',
-                            'placeholder' => 'Press enter after typing',
-                        ]) !!}
-
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('from',[
-                            'cols' => 3,
-                            'label' => 'Date & Time of Departure:',
-                            'type' => 'datetime-local',
-                        ]) !!}
-
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('to',[
-                            'cols' => 3,
-                            'label' => 'Date and Time of Return: (If applicable)',
-                            'type' => 'datetime-local',
-                        ]) !!}
-                    </div>
-                    <div class="row">
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('destination',[
-                           'cols' => 6,
-                           'label' => 'Destination:',
-                       ]) !!}
-
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
-                            'cols' => 3,
-                            'label' => 'Requested by:'
-                        ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_position',[
-                            'cols' => 3,
-                            'label' => 'Position:'
-                        ],Auth::user()->employee->position) !!}
-                    </div>
-
-                    <div class="row" style="display: none">
-                        <div class="col-md-8">
-                            <p class="page-header-sm text-info" style="border-bottom: 1px solid #cedbe1">
-                                Request Details
-                            </p>
-                            <table class="table table-condensed table-bordered table-striped" id="details_table">
-                                <thead>
-                                <tr>
-                                    <th style="width: 300px">Date and Time of Departure</th>
-                                    <th>Destination</th>
-                                    <th style="width: 70px">
-                                        <button type="button" class="btn btn-success btn-xs" id="add_row_btn"><i class="fa fa-plus"></i> Add row</button>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('purpose',[
+                                'cols' => 5,
+                                'label' => 'Purpose:',
+                            ]) !!}
                         </div>
-                        <div class="col-md-4">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('passengers',[
+                                'cols' => 6,
+                                'label' => 'Authorized Passengers: (Type and press enter to add more passengers)',
+                                'id' => 'passengers_tags',
+                                'placeholder' => 'Press enter after typing',
+                            ]) !!}
 
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('from',[
+                                'cols' => 3,
+                                'label' => 'Date & Time of Departure:',
+                                'type' => 'datetime-local',
+                            ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('to',[
+                                'cols' => 3,
+                                'label' => 'Date and Time of Return: (If applicable)',
+                                'type' => 'datetime-local',
+                            ]) !!}
                         </div>
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('destination',[
+                               'cols' => 6,
+                               'label' => 'Destination:',
+                           ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                                'cols' => 3,
+                                'label' => 'Requested by:'
+                            ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_position',[
+                                'cols' => 3,
+                                'label' => 'Position:'
+                            ],Auth::user()->employee->position) !!}
+                        </div>
+
+                    </div>
+                    <div class="box-footer with-border">
+                        <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-check"></i> Save and submit</button>
                     </div>
                 </div>
+                <div class="text-center" style="display: none" id="check-container">
+                    <img style="width: 300px" class="" src="{{asset('images/check.gif')}}"/>
 
-                <div class="box-footer with-border">
-                    <button type="submit" class="btn btn-sm btn-primary pull-right"><i class="fa fa-check"></i> Save and submit</button>
+                    <h3>Request successfully created.</h3>
+                    <a class="btn btn-sm btn-success" id="print-btn" type="button" target="_blank"><i class="fa fa-print"></i> Print Request</a>
+                    <br><br>
                 </div>
             </div>
         </form>
@@ -151,19 +136,25 @@
                     {!! __html::token_header() !!}
                 },
                 success: function (res) {
+                    $("#form-container").slideUp();
+                    $("#check-container").slideDown();
+                    let slug = res.slug;
+                    let printTarget = '{{route('dashboard.request_vehicle.print_own','slug')}}';
+                    printTarget = printTarget.replaceAll('slug',slug);
+                    $("#print-btn").attr('href',printTarget);
                     succeed(form,true,false);
-                    $("#details_table .remove_row_btn").each(function () {
-                        $(this).trigger('click');
 
-                    });
-                    $("#add_row_btn").trigger('click');
                 },
                 error: function (res) {
                     errored(form,res);
-                    toast('error','Please fill out the required fields properly.','Error');
+                    toast('error','Please fill out the required fields.','Error');
                 }
             })
         })
+
+        $("#go-btn").click(function (){
+
+        });
 
         $('.bootstrap-tagsinput input').on('keypress', function(e){
             if (e.keyCode == 13){
