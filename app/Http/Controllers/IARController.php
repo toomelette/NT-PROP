@@ -42,8 +42,6 @@ class IARController extends Controller
 
     public function create()
     {
-
-
         return view('ppu.iar.create');
     }
 
@@ -120,8 +118,6 @@ class IARController extends Controller
             return $transNew->only('slug');
         }
         abort(503, 'Error saving IAR');
-
-
     }
 
     public function getNextIARno()
@@ -155,10 +151,60 @@ class IARController extends Controller
         ]);
     }
     public function edit($slug){
-        $par = InventoryPPE::query()->where('slug','=', $slug)->first();
-        return view('ppu.par.edit')->with([
-            'par' => $par
+        $iar = Transactions::query()->where('slug','=', $slug)->first();
+        return view('ppu.iar.edit')->with([
+            'iar' => $iar
         ]);
+    }
+
+
+
+    public function update(FormRequest $request, $slug)
+    {
+        // Find the existing transaction by slug
+        $trans = Transactions::query()->where('slug', '=', $slug)->first();
+
+        if (!$trans) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+
+        $trans->po_date = $trans->po_date;
+        $trans->po_number = $trans->po_number;
+        $trans->invoice_date = $trans->invoice_date;
+        $trans->invoice_number = $trans->invoice_number;
+        $trans->date_inspected = $trans->date_inspected;
+        $trans->supplier = $trans->supplier;
+        $trans->resp_center = $trans->resp_center;
+        $trans->ref_no = $trans->ref_no;
+        $trans->requested_by = $trans->requested_by;
+
+        $totalabc = 0;
+        $arr = [];
+        if (!empty($request->items)) {
+            foreach ($request->items as $item) {
+                array_push($arr, [
+                    'slug' => Str::random(),
+                    'transaction_slug' => $trans->slug,
+                    'stock_no' => $item['stock_no'],
+                    'unit' => $item['unit'],
+                    'item' => $item['item'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                    'property_no' => $item['property_no'],
+                    'nature_of_work' => $item['nature_of_work'],
+                ]);
+                $totalabc = $totalabc + Helper::sanitizeAutonum($item['total_cost']);
+            }
+        }
+        $trans->abc = $totalabc;
+        $trans->transDetails()->delete();
+        if ($trans->save()) {
+            TransactionDetails::insert($arr);
+            return $trans->only('slug');
+        }
+        abort(503, 'Error saving IAR');
     }
 
 }

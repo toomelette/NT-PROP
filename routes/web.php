@@ -202,7 +202,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::post('/iar/store','IARController@store')->name('iar.store');
     Route::get('/po/{slug}/print','IARController@print')->name('iar.print');
     Route::get('/iar/index','IARController@index')->name('iar.index');
-    Route::get('/iar/edit/{slug}','IARController@edit')->name('iar.edit');
+    Route::get('/iar/{slug}/edit','IARController@edit')->name('iar.edit');
+    Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
 
 
 

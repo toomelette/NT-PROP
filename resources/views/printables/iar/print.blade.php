@@ -138,7 +138,7 @@
                                     {{$item->description ? $item->description : ""}}
                                     </span>
                                 </td>
-                                <td class="text-strong" style="vertical-align: top; width: 15%;">{{$item->unit_cost,2}}</td>
+                                <td class="text-strong" style="vertical-align: top; width: 15%;">{{number_format($item->unit_cost,2)}}</td>
                                 <td style="vertical-align: top; width: 15%; text-align: right" class="text-strong">{{number_format($item->total_cost,2)}}</td>
                             </tr>
                             @php
