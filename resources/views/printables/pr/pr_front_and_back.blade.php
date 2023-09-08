@@ -138,7 +138,7 @@
             <td class="text-center">{{$pr->approved_by_designation}}</td>
         </tr>
     </table>
-    <table style="width: 100%; font-family: Cambria; font-size: 10px" class="tbl-bordered">
+    <table style="width: 100%; font-family: Cambria; font-size: 10px; display: none" class="tbl-bordered">
         <tr>
             <td>BUDGET <br><br></td>
             <td class="text-top" style="width: 11%">PPBTMS</td>
