@@ -16,23 +16,26 @@
         <table class="mains" style="width: 100%">
             <tbody>
             <tr>
-                <td style="width: 9.5cm;background-color: #ca1d1d; margin-left: 0.2cm">
+                <td style="width: 9.6cm;background-color: #ca1d1d; margin-left: 0.2cm">
                     <table class="tbl-not-padded" style="margin-top: 0.2cm; margin-bottom: 0.2cm">
                         <tr>
                             <td style="width: 0.2cm"></td>
-                            <td style="width: 8.9cm">
+                            <td style="width: 9.2cm">
                                 <table style="background-color: white; width: 100%;">
                                     <tr>
                                         <td>
                                             <table style="width: 100%">
                                                 <tr>
-                                                    <td>
+                                                    <td style="width: 50px">
                                                         <img src="{{ asset('images/sra_old.png') }}" style="width:40px; float: left">
                                                     </td>
-                                                    <td class="">
+                                                    <td class="" style="font-size: 10px">
                                                         <p class="no-margin">Republic of the Philippines</p>
                                                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                                                         <p class="no-margin" style="font-size: 10px">Araneta Street, Singcang, Bacolod city</p>
+                                                    </td>
+                                                    <td style="width: 40px">
+                                                        {{\SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate('{"property_no":"'.$par->propertyno.'"}')}}
                                                     </td>
                                                 </tr>
                                             </table>
