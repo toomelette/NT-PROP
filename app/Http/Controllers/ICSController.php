@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Order;
+use App\Models\Suppliers;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -27,8 +28,19 @@ class ICSController extends Controller
                     'data' => $data,
                 ]);
             })
+            ->editColumn('abc',function($data){
+                return number_format($data->abc,2);
+            })
+            ->editColumn('date',function($data){
+                return $data->date ? Carbon::parse($data->date)->format('M. d, Y') : '';
+            })
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+    }
+
+    public function create(){
+        $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
+        return view('ppu.ics.create', compact('suppliers'));
     }
 }

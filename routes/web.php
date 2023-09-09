@@ -195,6 +195,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/generateInventoryCountFormByCriteria','PARController@generateInventoryCountFormByCriteria')->name('rpcppe.generateICF');
     Route::resource('par', 'PARController');
 
+    Route::get('/ics/create','ICSController@create')->name('ics.create');
     Route::resource('ics', 'ICSController');
 
     Route::get('/iar/create','IARController@create')->name('iar.create');

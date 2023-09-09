@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Manage Purchase Order</h1>
+        <h1>Inventory Custodian Slip</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,7 +11,10 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Inventory Custodian Slip</h3>
+                <h3 class="box-title">Manage Inventory Custodian Slip</h3>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.ics.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                </div>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -60,11 +63,12 @@
                 "ajax" : '{{route("dashboard.ics.index")}}',
                 "columns": [
                     { "data": "ref_no" },
-                    { "data": "ref_book" },
-                    { "data": "mode" },
-                    { "data": "supplier_name" },
-                    { "data": "supplier_representative" },
-                    { "data": "total" },
+                    { "data": "requested_by_designation" },
+                    { "data": "po_number" },
+                    { "data": "invoice_number" },
+                    { "data": "account_code" },
+                    { "data": "fund_cluster" },
+                    { "data": "abc" },
                     { "data": "date" },
                     { "data": "action" }
                 ],
