@@ -36,15 +36,6 @@
                                 {!! Form::select('supplier', $suppliers, null, ['class' => 'form-control']) !!}
                             </div>--}}
                             <div class="clearfix"></div>
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('po_number',[
-                                'label' => 'PO No:',
-                                'cols' => 3,
-                             ]) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('po_date',[
-                               'label' => 'PO Date:',
-                               'cols' => 3,
-                               'type' => 'date',
-                            ]) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_number',[
                               'label' => 'Invoice No:',
                               'cols' => 3,
@@ -115,6 +106,7 @@
                                             <th>Qty</th>
                                             <th>Unit Cost</th>
                                             <th>Total Cost</th>
+                                            <th>Useful Life</th>
                                             <th>Prop. No.</th>
                                             <th>Nature of Work</th>
                                             <th style="width: 3%"></th>
@@ -215,6 +207,7 @@
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + res.transDetails[i].unit_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + res.transDetails[i].total_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][estimated_useful_life]" name="items['+res.transDetails[i].slug+'][estimated_useful_life]" type="text" value="' +  res.transDetails[i].estimated_useful_life + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
                                     '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +

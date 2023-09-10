@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Order;
+use App\Models\PPURespCodes;
 use App\Models\Suppliers;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
@@ -62,6 +63,8 @@ class ICSController extends Controller
     public function store(FormRequest $request){
         $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
                 ->where('ref_book','=','IAR')->first();
+        $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
+        $order = Order::query()->where('slug', $po->order_slug)->first();
         $trans = new Transactions();
         $transNewSlug = Str::random();
         $trans->slug = $transNewSlug;
@@ -73,8 +76,8 @@ class ICSController extends Controller
         $trans->account_code = $request->account_code;
         $trans->fund_cluster = $request->fund_cluster;
         $trans->supplier = $iar->supplier;
-        $trans->po_number = $request->po_number;
-        $trans->po_date = $request->po_date;
+        $trans->po_number = $po->ref_no;
+        $trans->po_date = $order->date;
         $trans->invoice_number = $request->invoice_number;
         $trans->invoice_date = $request->invoice_date;
         $trans->approved_by = $request->approved_by;
@@ -115,9 +118,12 @@ class ICSController extends Controller
         return $trans->only('slug');
     }
 
-    public function print($slug) {
-        $trans = Transactions::query()->where('slug','=', $slug)->first();
-        dd($trans);
-        return $trans;
+    public function print($slug){
+        $ics = Transactions::query()->where('slug', $slug)->first();
+        $iar = Transactions::query()->where('slug', '=', $ics->cross_slug)->first();
+        return view('printables.ics.print')->with([
+            'ics' => $ics,
+            'iar' => $iar
+        ]);
     }
 }
