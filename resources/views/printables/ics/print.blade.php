@@ -39,7 +39,7 @@
                         </tr>
                         <tr>
                             <td style="border-right: 1px solid black; vertical-align: center;">
-                               Entity Name: <span class="text-strong">{{$ics->user_received}}</span>
+                               Entity Name: <span class="text-strong">{{$rc->desc}}</span>
                             </td>
                         </tr>
                         <tr>

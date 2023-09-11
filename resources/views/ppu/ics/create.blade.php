@@ -16,10 +16,6 @@
                                         'label' => 'ICS No:',
                                         'cols' => 3,
                                     ]) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('user_received',[
-                                        'label' => 'Entity Name:',
-                                        'cols' => 3,
-                                    ]) !!}
                             {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
                                     'label' => 'Account Code:',
                                     'cols' => 3,
@@ -31,11 +27,6 @@
                                                                 'cols' => 3,
                                                                 'options' => \App\Swep\Helpers\Arrays::fundSources(),
                                                             ]) !!}
-                            {{--<div class="form-group col-md-6 supplier">
-                                <label for="awardee">Supplier: </label>
-                                {!! Form::select('supplier', $suppliers, null, ['class' => 'form-control']) !!}
-                            </div>--}}
-                            <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_number',[
                               'label' => 'Invoice No:',
                               'cols' => 3,

@@ -69,6 +69,7 @@ class ICSController extends Controller
         $transNewSlug = Str::random();
         $trans->slug = $transNewSlug;
         $trans->cross_slug = $iar->slug;
+        $trans->resp_center = $iar->resp_center;
         $trans->ref_no = $request->ref_no;
         $trans->ref_book = 'ICS';
         $trans->purpose = $iar->purpose;
@@ -102,6 +103,7 @@ class ICSController extends Controller
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                    'estimated_useful_life' => $item['estimated_useful_life'],
                     'property_no' => $item['property_no'],
                     'nature_of_work' => $item['nature_of_work'],
                 ]);
@@ -118,12 +120,65 @@ class ICSController extends Controller
         return $trans->only('slug');
     }
 
+    public function edit($slug) {
+        $trans = Transactions::query()->where('slug',$slug)->first();
+        return view('ppu.ics.edit')->with(['trans'=>$trans]);
+    }
+
+    public function update(FormRequest $request, $slug){
+        $trans = Transactions::query()->where('slug', '=', $slug)->first();
+        $trans->ref_no = $request->ref_no;
+        $trans->account_code = $request->account_code;
+        $trans->fund_cluster = $request->fund_cluster;
+        $trans->invoice_number = $request->invoice_number;
+        $trans->invoice_date = $request->invoice_date;
+        $trans->approved_by = $request->approved_by;
+        $trans->approved_by_designation = $request->approved_by_designation;
+        $trans->date = $request->date;
+        $trans->requested_by = $request->requested_by;
+        $trans->requested_by_designation = $request->requested_by_designation;
+        $trans->received_at = $request->received_at;
+
+        $totalAbc = 0;
+        $arr = [];
+        if(!empty($request->items)){
+            foreach ($request->items as $item) {
+                array_push($arr,[
+                    'slug' => Str::random(),
+                    'transaction_slug' => $trans->slug,
+                    'stock_no' => $item['stock_no'],
+                    'unit' => $item['unit'],
+                    'item' => $item['item'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                    'estimated_useful_life' => $item['estimated_useful_life'],
+                    'property_no' => $item['property_no'],
+                    'nature_of_work' => $item['nature_of_work'],
+                ]);
+                $totalAbc = $totalAbc + Helper::sanitizeAutonum($item['total_cost']);
+            }
+        }
+        $trans->abc = $totalAbc;
+        $trans->transDetails()->delete();
+        if($trans->save()){
+            TransactionDetails::insert($arr);
+        }
+        else
+            abort(503,'Error saving ICS.');
+
+        return $trans->only('slug');
+    }
+
     public function print($slug){
         $ics = Transactions::query()->where('slug', $slug)->first();
         $iar = Transactions::query()->where('slug', '=', $ics->cross_slug)->first();
+        $rc = PPURespCodes::query()->where('rc_code','=',$ics->resp_center)->first();
         return view('printables.ics.print')->with([
             'ics' => $ics,
-            'iar' => $iar
+            'iar' => $iar,
+            'rc' => $rc
         ]);
     }
 }
