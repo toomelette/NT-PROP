@@ -14,7 +14,7 @@
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
-                <div style="float: left; text-align: left; margin-left: 15px; margin-top: 10px">
+                <div style="float: left; font-family: cambria; text-align: left; margin-left: 15px; margin-top: 10px">
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
@@ -31,8 +31,8 @@
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 90px">
                     <tbody>
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                        <td rowspan="2" style="width: 55%; border-right: 1px solid black">
-                            <p style="font-size: 20px;"><strong>INSPECTION AND ACCEPTANCE REPORT</strong></p>
+                        <td rowspan="2" style="width: 49%; border-right: 1px solid black">
+                            <p style="font-size: 19px;"><strong>INSPECTION AND ACCEPTANCE REPORT</strong></p>
                         </td>
                         <td style="margin-top: 5px; justify-content: center; float: left;">
                             <p>IAR No: <span class="text-strong">{{$iar->ref_no}}</span></p>
@@ -46,21 +46,21 @@
                     </tbody>
                 </table>
 
-                <table style="width: 100%; border: #0a0a0a;">
+                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;">
 
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
+                        <td style="border-right: 1px solid black; width: 14%; vertical-align: top;">
                             PO Number:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 12.5%">
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
                             {{$iar->po_number}}
                         </td>
-                        <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
-                            PO Date:
+                        <td style="border-right: 1px solid black; width: 14%; vertical-align: top;">
+                            PR/JR No:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; width: 12.5%;">
-                        {{$iar->po_date}}
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
+                            {{$pr->ref_no}}
                         </td>
 
                     </tr>
@@ -73,11 +73,12 @@
                         <td class="text-strong" style="border-right: 1px solid black;  width: 12.5%">
                         {{$iar->invoice_number}}
                         </td>
-                        <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
-                        Invoice Date:
+
+                        <td style="border-right: 1px solid black; vertical-align: top; width: 10%">
+                            PO Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; width: 12.5%;">
-                        {{$iar->invoice_date}}
+                        <td class="text-strong" style="vertical-align: top; width: 40%;">
+                            {{$iar->po_date}}
                         </td>
 
                     </tr>
@@ -85,27 +86,27 @@
                     <tr style="border: 1px solid black; width: 100%;">
 
                         <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
-                            Requisitioning Office/Department:
+                            Requisitioning Office:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black;  width: 12.5%">
                             {{$rc->desc}}
                         </td>
+
+                        <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
+                            Invoice Date:
+                        </td>
+                        <td class="text-strong" style="vertical-align: top; width: 12.5%;">
+                            {{$iar->invoice_date}}
+                        </td>
+                    </tr>
+
+                    <tr style="border: 1px solid black; width: 100%;">
+
                         <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
                             Requested By:
                         </td>
                         <td class="text-strong" style="vertical-align: top; width: 12.5%;">
                             {{$iar->requested_by}}
-                        </td>
-
-                    </tr>
-
-                    <tr style="border: 1px solid black; width: 100%;">
-
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
-                            PR/JR No:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 12.5%">
-                            {{$pr->ref_no}}
                         </td>
 
                     </tr>
@@ -123,7 +124,7 @@
                         <td style="border: 1px solid black; width: 15%; text-align: center">Total Cost</td>
                     </tr>
                     </thead>
-                    <tbody style="height: 350px">
+                    <tbody style="font-family: Cambria,Arial; height: 350px">
                             @php
                                 $totalCost = 0;
                             @endphp
@@ -163,19 +164,19 @@
 
     <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
                     <div style="flex: 1; text-align: left; "><br>
-                        <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b> <span class="text-strong" style="margin-left: 30px; text-decoration: underline;">
+                        <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b> <span class="" style="margin-left: 30px; text-decoration: underline;">
                             {{ \Carbon\Carbon::createFromFormat('Y-m-d', $iar->date_inspected)->format('F d, Y')}}
                         </span></h5><br>
 
 
                         <div style="display: flex; align-items: center;">
                                 <input style="margin-left: 10px; margin-bottom: 15px;" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                                <label style="margin-left: 10px; margin-bottom: 15px; margin-right: 10px;">Inspected, verified and found in order as to quantity and specifications</label>
+                                <label style="font-weight:normal; margin-left: 10px; margin-bottom: 15px; margin-right: 10px;">Inspected, verified and found in order as to quantity and specifications</label>
                             </div>
                             <br>
 
 
-                            <span class="text-strong" style="margin-left: 53px; margin-top: 10px">
+                            <span class="" style="margin-left: 53px; margin-top: 10px">
                             _________________________________________________
                             </span><br>
                             <span style="margin-left: 51px">
@@ -184,18 +185,18 @@
                         </div>
 
                         <div style="flex: 1; text-align: left; border-left: 1px solid black"><br>
-                            <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Received:</b>
-                            <span class="text-strong" style="margin-left: 30px;">
+                            <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Received:</b>
+                            <span class="" style="margin-left: 30px;">
                             _________________________________
                             </span>
                             </h5>
 
                             <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                            <label style="text-align: center; margin-left: 10px; margin-right: 10px">Complete</label><br><br>
+                            <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px" >Complete</label><br><br>
                             <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                            <label style="text-align: center; margin-left: 10px; margin-right: 10px">Partial (Please specify quantity)</label><br><br>
+                            <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px">Partial (Please specify quantity)</label><br><br>
 
-                            <span class="text-strong" style="margin-left: 60px;">
+                            <span class="" style="margin-left: 60px;">
                             _________________________________________________
                             </span><br>
                             <span style="margin-left: 140px; margin-bottom: 30px">

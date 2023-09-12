@@ -19,6 +19,28 @@ use Illuminate\Support\Carbon;
 class RISController extends Controller
 {
 
+    public function index(Request $request)
+    {
+        if ($request->ajax() && $request->has('draw')) {
+            return $this->dataTable($request);
+        }
+        return view('ppu.ris.index');
+    }
+
+    public function dataTable($request)
+    {
+        $ris = Transactions::query()->where('ref_book', '=', 'RIS');
+        return DataTables::of($ris)
+            ->addColumn('action', function ($data) {
+                return view('ppu.ris.dtActions')->with([
+                    'data' => $data
+                ]);
+            })
+            ->escapeColumns([])
+            ->setRowId('id')
+            ->toJson();
+    }
+
     public function create()
     {
         return view('ppu.ris.create');
@@ -59,16 +81,14 @@ class RISController extends Controller
         $transNew->requested_by_designation = $trans->requested_by_designation;
         $transNew->approved_by = $trans->approved_by;
         $transNew->approved_by_designation = $trans->approved_by_designation;
-        $transNew->account_code = $trans->account_code;
+        $transNew->account_code = $request->account_code;
         $transNew->fund_cluster = $trans->fund_cluster;
         $transNew->po_number = $request->ref_number;
         $transNew->po_date = $request->po_date;
         $transNew->invoice_number = $trans->invoice_number;
         $transNew->invoice_date = $trans->invoice_date;
         $transNew->date_inspected = $trans->date_inspected;
-        $transNew->supplier = $trans->supplier_name;
-        $transNew->actual_qty = $request->actual_qty;
-        $transNew->remarks = $request->remarks;
+        $transNew->supplier = $trans->supplier;
 
         $totalabc = 0;
         $arr = [];
