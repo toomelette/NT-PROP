@@ -150,6 +150,7 @@ class IARController extends Controller
             'pr' => $pr
         ]);
     }
+
     public function edit($slug){
         $iar = Transactions::query()->where('slug','=', $slug)->first();
         return view('ppu.iar.edit')->with([
