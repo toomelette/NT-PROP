@@ -194,8 +194,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/{location}/printInventoryCountForm','PARController@printInventoryCountForm')->name('rpcppe.printInventoryCountForm');
     Route::get('/par/generateInventoryCountFormByCriteria','PARController@generateInventoryCountFormByCriteria')->name('rpcppe.generateICF');
     Route::resource('par', 'PARController');
+<<<<<<< HEAD
     Route::resource('ics', 'ICSController');
 
+=======
+>>>>>>> 9fe203be42a5596d0bfccbe364236d9736c176c5
 
     Route::get('/iar/create','IARController@create')->name('iar.create');
     Route::get('/iar/findTransByRefNumber/{refNumber}','IARController@findTransByRefNumber')->name('iar.findTransByRefNumber');
@@ -205,6 +208,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/iar/{slug}/edit','IARController@edit')->name('iar.edit');
     Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
 
+<<<<<<< HEAD
 
     Route::get('/ris/create','RISController@create')->name('ris.create');
     Route::get('/ris/findTransByRefNumber/{refNumber}','RISController@findTransByRefNumber')->name('ris.findTransByRefNumber');
@@ -218,6 +222,15 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
 
 
+=======
+    Route::get('/ics/create','ICSController@create')->name('ics.create');
+    Route::get('/ics/findIAR/{refNumber}','ICSController@findIAR')->name('ics.findIAR');
+    Route::post('/ics/store','ICSController@store')->name('ics.store');
+    Route::get('/ics/{slug}/print','ICSController@print')->name('ics.print');
+    Route::get('/ics/{slug}/edit','ICSController@edit')->name('ics.edit');
+    Route::patch('/ics/update/{slug}','ICSController@update')->name('ics.update');
+    Route::resource('ics', 'ICSController');
+>>>>>>> 9fe203be42a5596d0bfccbe364236d9736c176c5
 
     Route::resource('supplier', 'SupplierController');
     Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
