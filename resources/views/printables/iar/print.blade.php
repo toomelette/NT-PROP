@@ -1,5 +1,7 @@
 @php
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
+    $rand = \Illuminate\Support\Str::random();
+
 @endphp
 
 @extends('printables.print_layouts.print_layout_main')
@@ -8,6 +10,9 @@
 @endsection
 
 @section('wrapper')
+
+
+
     <div class="printable">
         <div style="width: 100%;">
             <div class="" style="margin-bottom: 100px; padding-top: 20px;">
@@ -56,7 +61,7 @@
                     </tbody>
                 </table>
 
-                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;">
+                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
 
                     <tr style="border: 1px solid black; width: 100%;">
 
@@ -109,7 +114,7 @@
                         </td>
                     </tr>
 
-                    <tr style="border: 1px solid black; width: 100%;">
+                    <tr style=" border-left: 1px solid black; border-right: 1px solid black; width: 100%;">
 
                         <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
                             Requested By:
@@ -122,7 +127,7 @@
 
                 </table>
 
-                <table style="font-family: Cambria,Arial; width: 100%; text-align: center; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                <table  id="items_table_{{$rand}}" style="font-family: Cambria,Arial; width: 100%; text-align: center;  border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
                     <thead>
                     <tr class="text-strong" style="border: 1px solid black; width: 100%">
                         <td style="border: 1px solid black; width: 8%;">Stock No:</td>
@@ -156,14 +161,22 @@
                             @endphp
 
                         @endforeach
+                            <tr>
+                                <td id="adjuster"></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                     </tbody>
                 </table>
-                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
-                    <td style="border: 1px solid black;  width: 75%; text-align: right" class="text-strong">TOTAL </td>
-                    <td style="border: 1px solid black; vertical-align: top; text-align: right" class="text-strong">{{number_format($totalCost,2)}}</td>
+                <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black; border-right: 1px solid black; ">
+                    <td style=" width: 75%; text-align: right; border-right: 1px solid black;" class="text-strong">TOTAL </td>
+                    <td style=" vertical-align: top; text-align: right" class="text-strong">{{number_format($totalCost,2)}}</td>
                 </table>
 
-                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
+                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; ">
                     <tr rowspan="2" style="width: 100%; border-right: 1px solid black">
                         <td style="text-align: center; width: 50%; font-size: 20px; border-right: 1px solid black"><strong>INSPECTION</strong></td>
                         <td style="text-align: center; font-size: 20px;"><strong>ACCEPTANCE</strong></td>
@@ -185,7 +198,7 @@
                             <br>
 
 
-                            <span class="" style="margin-left: 53px; margin-top: 10px">
+                            <span class="" style="margin-left: 53px; margin-top: 15px">
                             _________________________________________________
                             </span><br>
                             <span style="margin-left: 51px">
@@ -199,22 +212,17 @@
                             _________________________________
                             </span>
                             </h5>
-                            <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
+                            <input style="margin-left: 70px; margin-top: 25px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
                             <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px" >Complete</label><br>
-                            <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
+                            <input style="margin-left: 70px; margin-top: 10px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
                             <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px; margin-bottom: 25px">Partial (Please specify quantity)</label>
-
-                            <span style="margin-left: 140px;">
+                            <br><br>
+                            <span style="margin-left: 127px; ">
                             <b>NOLI T. TINGSON</b><br>
-                            <b style="margin-left: 140px">Supply Officer V</b>
+                            <b style="margin-left: 130px">Supply Officer V</b>
 
                             </span>
-                            <span class="" style="margin-left: 60px;">
-                                <b>_________________________________________________</b>
-                            </span><br>
-                            <span style="margin-left: 140px; margin-bottom: 30px">
-                           <b>Property Officer</b>
-                            </span>
+
                         </div>
 
         </div>
@@ -225,10 +233,19 @@
     @endsection
 
     @section('scripts')
-        <script type="text/javascript">
+
+
+     <script type="text/javascript">
             $(document).ready(function () {
-                print();
-                // close();
+                let set = 380;
+                if($("#items_table_{{$rand}}").height() < set){
+                    let rem = set - $("#items_table_{{$rand}}").height();
+                    $("#adjuster").css('height',rem)
+                    @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
+                    print();
+                    // window.close();
+                    @endif
+                }
             })
-        </script>
+     </script>
     @endsection
