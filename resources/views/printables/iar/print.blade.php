@@ -101,10 +101,10 @@
                             {{$rc->desc}}
                         </td>
 
-                        <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
+                        <td style="border-right: 1px solid black; vertical-align: center; width: 12.5%">
                             Invoice Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; width: 12.5%;">
+                        <td class="text-strong" style="vertical-align: center; width: 12.5%;">
                             {{$iar->invoice_date}}
                         </td>
                     </tr>
