@@ -10,7 +10,7 @@
 @section('wrapper')
     <div class="printable">
         <div style="width: 100%;">
-            <div class="" style="margin-bottom: 100px; padding-top: 10px;">
+            <div class="" style="margin-bottom: 100px; padding-top: 20px;">
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
@@ -28,21 +28,31 @@
                 </span>
 
 
-                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 90px">
+                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 105px">
                     <tbody>
+
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                         <td rowspan="2" style="width: 49%; border-right: 1px solid black">
-                            <p style="font-size: 19px;"><strong>INSPECTION AND ACCEPTANCE REPORT</strong></p>
+                            <p style="font-size: 18px;"><strong>INSPECTION AND ACCEPTANCE REPORT</strong></p>
                         </td>
-                        <td style="margin-top: 5px; justify-content: center; float: left;">
-                            <p>IAR No: <span class="text-strong">{{$iar->ref_no}}</span></p>
+
+                        <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; position: relative;">
+                            IAR No:
+                        </td>
+                        <td style="" class="text-strong ">
+                            {{$iar->ref_no}}
                         </td>
                     </tr>
-                    <tr>
-                        <td style="border-right: 1px solid black; vertical-align: center;">
-                            <p>Supplier: <span class="text-strong">{{$iar->supplier}}</span></p>
+
+                        <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
+                        Supplier:
                         </td>
+                        <td style="border-top: 1px solid black;" class="text-strong ">
+                            {{$iar->supplier}}
+                        </td>
+
                     </tr>
+
                     </tbody>
                 </table>
 
@@ -62,7 +72,6 @@
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
                             {{$pr->ref_no}}
                         </td>
-
                     </tr>
 
                     <tr style="border: 1px solid black; width: 100%;">
@@ -124,7 +133,7 @@
                         <td style="border: 1px solid black; width: 15%; text-align: center">Total Cost</td>
                     </tr>
                     </thead>
-                    <tbody style="font-family: Cambria,Arial; height: 350px">
+                    <tbody style="font-family: Cambria,Arial;">
                             @php
                                 $totalCost = 0;
                             @endphp
@@ -134,8 +143,8 @@
                                 <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->unit}}</td>
                                 <td class="" style="vertical-align: top; width: 41%; text-align: left;">
-                                    <b style="font-size: 12px;">{{$item->item}}</b><br>
-                                    <span style="white-space: pre-line; font-size: 10px; font-style: italic" >
+                                    <b style="font-size: 11px;">{{$item->item}}</b><br>
+                                    <span style="font-size: 9px; font-style: italic" >
                                     {{$item->description ? $item->description : ""}}
                                     </span>
                                 </td>
@@ -150,13 +159,13 @@
                     </tbody>
                 </table>
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
-                    <td style="border: 1px solid black; width: 75%; text-align: right">TOTAL </td>
+                    <td style="border: 1px solid black;  width: 75%; text-align: right" class="text-strong">TOTAL </td>
                     <td style="border: 1px solid black; vertical-align: top; text-align: right" class="text-strong">{{number_format($totalCost,2)}}</td>
                 </table>
 
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
-                    <tr rowspan="2" style="width: 60%; border-right: 1px solid black">
-                        <td style="text-align: center; font-size: 20px;"><strong>INSPECTION</strong></td>
+                    <tr rowspan="2" style="width: 100%; border-right: 1px solid black">
+                        <td style="text-align: center; width: 50%; font-size: 20px; border-right: 1px solid black"><strong>INSPECTION</strong></td>
                         <td style="text-align: center; font-size: 20px;"><strong>ACCEPTANCE</strong></td>
                     </tr>
                 </table>
@@ -185,19 +194,23 @@
                         </div>
 
                         <div style="flex: 1; text-align: left; border-left: 1px solid black"><br>
-                            <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Received:</b>
+                            <h5 class="" style="margin-left: 5px; margin-bottom: 10px;"><b>Date Received:</b>
                             <span class="" style="margin-left: 30px;">
                             _________________________________
                             </span>
                             </h5>
-
                             <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                            <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px" >Complete</label><br><br>
+                            <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px" >Complete</label><br>
                             <input style="margin-left: 70px" type="checkbox" name="inspectionCheckbox" id="inspectionCheckbox">
-                            <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px">Partial (Please specify quantity)</label><br><br>
+                            <label style="font-weight:normal; text-align: center; margin-left: 10px; margin-right: 10px; margin-bottom: 25px">Partial (Please specify quantity)</label>
 
+                            <span style="margin-left: 140px;">
+                            <b>NOLI T. TINGSON</b><br>
+                            <b style="margin-left: 140px">Supply Officer V</b>
+
+                            </span>
                             <span class="" style="margin-left: 60px;">
-                            _________________________________________________
+                                <b>_________________________________________________</b>
                             </span><br>
                             <span style="margin-left: 140px; margin-bottom: 30px">
                            <b>Property Officer</b>
