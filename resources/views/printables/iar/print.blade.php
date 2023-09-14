@@ -186,9 +186,11 @@
 
     <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
                     <div style="flex: 1; text-align: left; "><br>
-                        <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b> <span class="" style="margin-left: 30px; text-decoration: underline;">
-                            {{ \Carbon\Carbon::createFromFormat('Y-m-d', $iar->date_inspected)->format('F d, Y')}}
-                        </span></h5><br>
+                        <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b>
+                                <span class="" style="margin-left: 30px;">
+                            _______________________________
+                            </span>
+                        </h5><br>
 
 
                         <div style="display: flex; align-items: center;">
@@ -219,7 +221,7 @@
                             <br><br>
                             <span style="margin-left: 127px; ">
                             <b>NOLI T. TINGSON</b><br>
-                            <b style="margin-left: 130px">Supply Officer V</b>
+                            <b style="margin-left: 130px; font-weight: normal">Supply Officer IV</b>
 
                             </span>
 
