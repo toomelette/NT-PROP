@@ -38,7 +38,7 @@
             page-break-after: always;
         }
     </style>
-    <table style="width: 100%; margin-left: -40px;">
+    <table style="width: 100%; margin-left: -40px; font-family: 'Cambria',Times New Roman">
         <tr>
             <td style="width: 20%">
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
@@ -52,54 +52,32 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black; margin-top: 20px">
-        <tr style="font-size: 14px">
-            <td style="width: 50%; border: 1px solid black;">
-                <table width="100%" class="tbl-no-pad">
-                    <tr>
-                        <td class="text-strong">Supplier:</td>
-                        <td class="text-strong" style="font-size: 18px; text-align: center"><u>{{ strtoupper($order->supplier_name) }}</u></td>
-                    </tr>
-                    <tr>
-                        <td class="text-strong">Address:</td>
-                        <td class="text-strong" style="font-size: 14px; text-align: center"><u>{{$order->supplier_address}}</u></td>
-                    </tr>
-                    <tr>
-                        <td class="text-strong">TIN:</td>
-                        <td class="text-strong" style="font-size: 14px; text-align: center"><u>{{$order->supplier_tin}}</u></td>
-                    </tr>
-                </table>
-                {{--<div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>Supplier: <span style="margin-left: 40px; font-size: 18px"><u>{{ strtoupper($order->supplier_name) }}</u></span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>Address: <span style="margin-left: 40px; font-size: 14px"><u>{{$order->supplier_address}}</u></span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>TIN: <span style="margin-left: 65px; font-size: 14px"><u>{{$order->supplier_tin}}</u></span></b>
-                </div>--}}
-            </td>
-            <td style="width: 50%">
-                <table width="100%" class="tbl-no-pad">
-                    <tr>
-                        <td class="text-strong">P.O. No.</td>
-                        <td class="text-strong" style="font-size: 18px; text-align: center"><u>{{$order->ref_no}}</u></td>
-                    </tr>
-                    <tr>
-                        <td class="text-strong">Date:</td>
-                        <td class="text-strong" style="font-size: 14px; text-align: center"><u>{{\Illuminate\Support\Carbon::parse($order->date)->format('d F Y')}}</u></td>
-                    </tr>
-                    <tr>
-                        <td class="text-strong">Mode of Procurement:</td>
-                        <td class="text-strong" style="font-size: 14px; text-align: center"><u>{{$order->mode}}</u></td>
-                    </tr>
-                </table>
-            </td>
+    <table style="font-weight: bold; border-collapse: collapse; width: 100%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman">
+        <tbody>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px; width: 10%">Supplier:</td>
+            <td style="border: 1px solid black; padding: 8px; width: 40%; font-size: 16px;">{{ strtoupper($order->supplier_name) }}</td>
+            <td style="border: 1px solid black; padding: 8px; width: 15%">P.O. No.</td>
+            <td style="border: 1px solid black; padding: 8px; width: 35%; font-size: 16px;">{{$order->ref_no}}</td>
         </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px; ">Address:</td>
+            <td style="border: 1px solid black; padding: 8px; font-size: 14px;">{{$order->supplier_address}}</td>
+            <td style="border: 1px solid black; padding: 8px; ">Date:</td>
+            <td style="border: 1px solid black; padding: 8px; font-size: 14px;">{{\Illuminate\Support\Carbon::parse($order->date)->format('d F Y')}}</td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid black; padding: 8px; ">TIN:</td>
+            <td style="border: 1px solid black; padding: 8px; font-size: 14px;">{{$order->supplier_tin}}</td>
+            <td style="border: 1px solid black; padding: 8px; ">Mode of Procurement:</td>
+            <td style="border: 1px solid black; padding: 8px; font-size: 14px;">{{$order->mode}}</td>
+        </tr>
+        </tbody>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+
+    <table style="width: 100%; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
-            <td style="border: 1px solid black;">
+            <td style="">
                 <div>
                     Gentlemen:<br>
                     <b><span style="margin-left: 40px; font-size: 14px">
@@ -109,7 +87,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 50%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -129,7 +107,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 33%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
@@ -151,15 +129,15 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; height: 390px;" class="tbl-bordered">
+    <table id="items_table_{{$rand}}" style="width: 100%; height: 390px; font-family: 'Cambria',Times New Roman; border-left: 1px solid black; border-right: 1px solid black">
         <thead>
         <tr>
-            <th class="text-center" style="width:10%; font-size: 16px;">Stock No.</th>
-            <th class="text-center" style="width:10%; font-size: 16px;">Unit</th>
-            <th class="text-center" style="width:50%; font-size: 16px;">Description</th>
-            <th class="text-center" style="width:10%; font-size: 16px;">Qty</th>
-            <th class="text-center" style="width:10%; font-size: 16px;">Unit Cost</th>
-            <th class="text-center" style="width:10%; font-size: 16px;">Amount</th>
+            <th class="text-center" style="border: 1px solid black; width:15%; font-size: 16px;">Stock No.</th>
+            <th class="text-center" style="border: 1px solid black; width:10%; font-size: 16px;">Unit</th>
+            <th class="text-center" style="border: 1px solid black; width:40%; font-size: 16px;">Description</th>
+            <th class="text-center" style="border: 1px solid black; width:10%; font-size: 16px;">Qty</th>
+            <th class="text-center" style="border: 1px solid black; width:15%; font-size: 16px;">Unit Cost</th>
+            <th class="text-center" style="border: 1px solid black; width:10%; font-size: 16px;">Amount</th>
         </tr>
         </thead>
         <tbody>
@@ -189,24 +167,32 @@
                 </tr>
             @endforeach
         @endif
+        <tr>
+            <td id="adjuster"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="5" class="text-right text-strong">TOTAL (GROSS)</td>
-            <td class="text-strong text-right">
+            <td colspan="5" class="text-right text-strong" style="border: 1px solid black">TOTAL (GROSS)</td>
+            <td class="text-strong text-right" style="border: 1px solid black;">
                 {{number_format($order->total_gross,2)}}
             </td>
         </tr>
         </tfoot>
     </table>
 
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
-            <td style="width: 65%; border: 1px solid black; font-size: 12px">
+            <td style="width: 65%; border-left: 1px solid black; border-right: 1px solid black; font-size: 12px">
                 {{$order->remarks}}
             </td>
-            <td style="width: 35%; border: 1px solid black;">
-                <table width="100%" class="tbl-no-pad">
+            <td style="width: 35%; border-left: 1px solid black; border-right: 1px solid black;">
+                <table class="tbl-no-pad" style="width: 100%;">
                     <tr>
                         <td>Tax Base:</td>
                         @if($supplier->is_vat == true)
@@ -240,7 +226,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td class="text-strong" style="width: 80%; border: 1px solid black;">
                 <table class="">
@@ -257,7 +243,7 @@
             </td>
         </tr>
     </table>
-    <div style="height: 240px">
+    <div style="height: 240px; font-family: 'Cambria',Times New Roman">
         <table style="width: 100%;">
             <tr style="font-size: 14px">
                 <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
@@ -268,55 +254,80 @@
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
-            <tr style="font-size: 14px">
-                <td style="width: 50%;">
+        <table style="width: 50%; float: left; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+            <tbody>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center;">&nbsp;</td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="width: 50%; float: right; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+            <tbody>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 14px"><b>Very truly yours,</b></td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center;"></td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 16px"><b>{{$order->authorized_official}}</b></td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 14px"><u>{{$order->authorized_official_designation}}</u></td>
+            </tr>
+            </tbody>
+        </table>
+        <table style="width: 50%; float: right; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+            <tbody>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 14px">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 16px">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 16px">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 14px">&nbsp;</td>
+            </tr>
+            </tbody>
+        </table>
 
-                </td>
-                <td style="width: 50%">
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 160px; font-size: 14px">Very truly yours,</span></b>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 130px; margin-top: 30px; font-size: 16px"><b>{{$order->authorized_official}}</b>
-                    </span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <span style="margin-left: 125px; font-size: 14px"><u>{{$order->authorized_official_designation}}</u></span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 140px; font-size: 14px">(Authorized Official)</span></b>
-                    </div>
-                </td>
+        <table style="width: 50%; float: left; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+            <tbody>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; font-size: 14px"><b>Conforme:</b></td>
             </tr>
-        </table>
-        <table style="width: 100%; margin-top: -30px; border-left: 1px solid black; border-right: 1px solid black;">
-            <tr style="font-size: 14px">
-                <td style="width: 50%;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 40px; font-size: 14px">Conforme:</span></b>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <span style="margin-left: 120px; margin-top: 30px; font-size: 16px">
-                    </span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 70px; font-size: 14px">(Signature Over Printer Name of Supplier)</span></b>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start; margin-top: -20px; ">
-                    <span style="margin-left: 70px; margin-top: 30px; font-size: 18px"><b>___________________________</b>
-                    </span>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 170px; font-size: 14px">Date</span></b>
-                    </div>
-                </td>
-                <td style="width: 50%">
-                </td>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; font-size: 14px">&nbsp;</td>
             </tr>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center; font-size: 14px"><b>(Signature Over Printer Name of Supplier)</b></td>
+            </tr>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center; font-size: 14px">________________________________</td>
+            </tr>
+            <tr>
+                <td style="border-left: 1px solid black; padding: 8px; text-align: center; font-size: 14px"><b>Date</b></td>
+            </tr>
+            </tbody>
         </table>
+
     </div>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; margin-top: -20px; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width:70%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -329,12 +340,9 @@
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
                     <span style="margin-left: 135px; font-size: 14px"><u>{{$order->funds_available_designation}}</u></span>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 133px; font-size: 14px">Chief Accountant</span></b>
-                </div>
             </td>
             <td style="width: 30%">
-                <div style="margin-top: -35px; margin-bottom: 35px;">
+                <div style="margin-top: -10px; margin-bottom: 35px;">
                     BUR No. <span style="margin-left: 40px; font-size: 14px">________________</span>
                 </div>
                 <div style="">
@@ -348,8 +356,17 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            print();
+            //print();
             // close();
+            let set = 625;
+            if($("#items_table_{{$rand}}").height() < set){
+                let rem = set - $("#items_table_{{$rand}}").height();
+                $("#adjuster").css('height',rem)
+                @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
+                print();
+                // window.close();
+                @endif
+            }
         })
     </script>
 @endsection

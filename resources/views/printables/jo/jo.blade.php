@@ -38,7 +38,7 @@
             page-break-after: always;
         }
     </style>
-    <table style="width: 100%; margin-left: -40px;">
+    <table style="width: 100%; margin-left: -40px; font-family: 'Cambria',Times New Roman">
         <tr>
             <td style="width: 20%">
                 <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
@@ -52,7 +52,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black; margin-top: 20px">
+    <table style="width: 100%; border: 1px solid black; margin-top: 20px; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 50%; border: 1px solid black;">
                 <table width="100%" class="tbl-no-pad">
@@ -97,7 +97,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="border: 1px solid black;">
                 <div>
@@ -109,7 +109,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 50%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -129,7 +129,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 33%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
@@ -151,16 +151,8 @@
             </td>
         </tr>
     </table>
-        {{--------------------------------------------------------
-        ------------------------------------------------------
-        ------------------------------------------------------
-        ------------------------------------------------------
-        ------------------------------------------------------
-        ------------------------------------------------------
-        ------------------------------------------------------
-        --------------------------------------------------------}}
 
-        <table style="width: 100%; border: 1px solid black;">
+        <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="border: 1px solid black; text-align: center;">
                     <div>
@@ -171,7 +163,7 @@
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; border: 1px solid black;">
+        <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="border: 1px solid black; text-align: center;">
                     <div>
@@ -189,7 +181,7 @@
         </table>
 
     @if($trans->transaction->jr_type != 'PAKYAW')
-        <table style="width: 100%; height: 100px;" class="tbl-bordered">
+        <table style="width: 100%; height: 100px; font-family: 'Cambria',Times New Roman" class="tbl-bordered">
             <thead>
             <tr>
                 <th class="" style="width:100%; font-size: 16px;">Scope of Work</th>
@@ -226,7 +218,7 @@
             </tfoot>
         </table>
 
-        <table style="width: 100%; border: 1px solid black;">
+        <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="width: 65%; border: 1px solid black; font-size: 12px">
                     {{$order->remarks}}
@@ -267,7 +259,7 @@
             </tr>
         </table>
     @else
-        <table style="width: 100%; height: 100px; border-right: 1px solid black; border-left: 1px solid black" class="">
+        <table id="items_table_{{$rand}}" style="width: 100%; height: 100px; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman" class="">
             <thead>
             <tr>
                 <th class="text-center" colspan="2" style="width:10%; font-size: 16px;">Scope of Work:</th>
@@ -301,6 +293,14 @@
                     </tr>
                 @endforeach
             @endif
+            <tr>
+                <td id="adjuster"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
             </tbody>
             <tfoot>
             <tr>
@@ -312,7 +312,7 @@
             </tfoot>
         </table>
     @endif
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td class="text-strong" style="width: 80%; border: 1px solid black;">
                 <table class="">
@@ -329,8 +329,8 @@
             </td>
         </tr>
     </table>
-    <div style="height: 240px">
-        <table style="width: 100%;">
+    <div style="height: 240px; font-family: 'Cambria',Times New Roman">
+        <table style="width: 100%; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -340,7 +340,7 @@
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
+        <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="width: 50%;">
 
@@ -356,13 +356,10 @@
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
                         <span style="margin-left: 125px; font-size: 14px"><u>{{$order->authorized_official_designation}}</u></span>
                     </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 140px; font-size: 14px">(Authorized Official)</span></b>
-                    </div>
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; margin-top: -30px; border-left: 1px solid black; border-right: 1px solid black;">
+        <table style="width: 100%; margin-top: -30px; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="width: 50%;">
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -388,7 +385,7 @@
             </tr>
         </table>
     </div>
-    <table style="width: 100%; border: 1px solid black;">
+    <table style="width: 100%; margin-top: -20px; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width:70%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -401,12 +398,9 @@
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
                     <span style="margin-left: 135px; font-size: 14px"><u>{{$order->funds_available_designation}}</u></span>
                 </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 133px; font-size: 14px">Chief Accountant</span></b>
-                </div>
             </td>
             <td style="width: 30%">
-                <div style="margin-top: -35px; margin-bottom: 35px;">
+                <div style="margin-top: -10px; margin-bottom: 35px;">
                     BUR No. <span style="margin-left: 40px; font-size: 14px">________________</span>
                 </div>
                 <div style="">
@@ -420,8 +414,17 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            print();
+            //print();
             // close();
+            let set = 625;
+            if($("#items_table_{{$rand}}").height() < set){
+                let rem = set - $("#items_table_{{$rand}}").height();
+                $("#adjuster").css('height',rem)
+                @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
+                print();
+                // window.close();
+                @endif
+            }
         })
     </script>
 @endsection
