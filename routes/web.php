@@ -195,6 +195,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/generateInventoryCountFormByCriteria','PARController@generateInventoryCountFormByCriteria')->name('rpcppe.generateICF');
     Route::resource('par', 'PARController');
 
+    Route::resource('ics', 'ICSController');
+
+
     Route::get('/iar/create','IARController@create')->name('iar.create');
     Route::get('/iar/findTransByRefNumber/{refNumber}','IARController@findTransByRefNumber')->name('iar.findTransByRefNumber');
     Route::post('/iar/store','IARController@store')->name('iar.store');
@@ -202,6 +205,23 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/iar/index','IARController@index')->name('iar.index');
     Route::get('/iar/{slug}/edit','IARController@edit')->name('iar.edit');
     Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
+
+
+
+    Route::get('/ris/create','RISController@create')->name('ris.create');
+    Route::get('/ris/findTransByRefNumber/{refNumber}','RISController@findTransByRefNumber')->name('ris.findTransByRefNumber');
+    Route::post('/ris/store','RISController@store')->name('ris.store');
+    Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
+    Route::get('/ris/index','RISController@index')->name('ris.index');
+    Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
+    Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
+
+
+
+
+
+
+
 
     Route::get('/ics/create','ICSController@create')->name('ics.create');
     Route::get('/ics/findIAR/{refNumber}','ICSController@findIAR')->name('ics.findIAR');

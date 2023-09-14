@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Inspection and Acceptance Report</h1>
+        <h1>Requisition and Issue Slip</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,25 +11,21 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Inspection and Acceptance Report</h3>
-                <div class="btn-group pull-right">
-{{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
-                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.iar.create')}}" > <i class="fa fa-plus"></i> Create</a>
-                </div>
+                <h3 class="box-title">Requisition and Issue Slip</h3>
             </div>
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="iar_table_container" style="display: none">
-                            <table class="table table-bordered table-striped table-hover" id="iar_table" style="width: 100% !important">
+                        <div id="ris_table_container" style="display: none">
+                            <table class="table table-bordered table-striped table-hover" id="ris_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
-                                    <th>IAR Number</th>
+                                    <th>RIS Number</th>
+                                    <th>Department/Division</th>
                                     <th>Supplier</th>
+                                    <th>Account Code</th>
                                     <th>Invoice Number</th>
-                                    <th>Requisitioning Office/Department</th>
-                                    <th>Requested By</th>
-                                    <th>PR/JR Number</th>
+                                    <th>PO Number</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -58,15 +54,15 @@
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
 
-            iar_tbl = $("#iar_table").DataTable({
-                "ajax" : '{{route("dashboard.iar.index")}}',
+            ris_tbl = $("#ris_table").DataTable({
+                "ajax" : '{{route("dashboard.ris.index")}}',
                 "columns": [
                     { "data": "ref_no" },
-                    { "data": "supplier" },
-                    { "data": "invoice_number" },
                     { "data": "resp_center" },
-                    { "data": "requested_by" },
-                    { "data": "cross_ref_no" },
+                    { "data": "supplier" },
+                    { "data": "account_code" },
+                    { "data": "invoice_number" },
+                    { "data": "po_number" },
                     { "data": "action" }
                 ],
                 "buttons": [
@@ -79,16 +75,16 @@
                 "initComplete": function( settings, json ) {
                     style_datatable("#"+settings.sTableId);
                     $('#tbl_loader').fadeOut(function(){
-                        $("#iar_table_container").fadeIn();
+                        $("#ris_table_container").fadeIn();
                         if(find != ''){
-                            iar_tbl.search(find).draw();
+                            ris_tbl.search(find).draw();
                         }
                     });
                     //Need to press enter to search
                     $('#'+settings.sTableId+'_filter input').unbind();
                     $('#'+settings.sTableId+'_filter input').bind('keyup', function (e) {
                         if (e.keyCode == 13) {
-                            iar_tbl.search(this.value).draw();
+                            ris_tbl.search(this.value).draw();
                         }
                     });
                 },
@@ -103,10 +99,10 @@
                     if(active != ''){
                         if(Array.isArray(active) == true){
                             $.each(active,function (i,item) {
-                                $("#iar_table #"+item).addClass('success');
+                                $("#ris_table #"+item).addClass('success');
                             })
                         }
-                        $("#iar_table #"+active).addClass('success');
+                        $("#ris_table #"+active).addClass('success');
                     }
                 }
             });
