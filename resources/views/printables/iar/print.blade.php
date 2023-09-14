@@ -134,8 +134,8 @@
                         <td style="border: 1px solid black; width: 8%;">Quantity</td>
                         <td style="border: 1px solid black; width: 8%;">Unit</td>
                         <td style="border: 1px solid black; width: 41%; text-align: center;">Description</td>
-                        <td style="border: 1px solid black; width: 15%">Unit Cost</td>
-                        <td style="border: 1px solid black; width: 15%; text-align: center">Total Cost</td>
+                        <td style="border: 1px solid black; width: 15%;">Unit Cost</td>
+                        <td style="border: 1px solid black; width: 15%;">Total Cost</td>
                     </tr>
                     </thead>
                     <tbody style="font-family: Cambria,Arial;">
@@ -143,18 +143,18 @@
                                 $totalCost = 0;
                             @endphp
                         @foreach($iar->transDetails as $item)
-                            <tr class="text-strong" style="width: 100%">
+                            <tr style="width: 100%">
                                 <td style="vertical-align: top; width: 8%;">{{$item->stock_no}}</td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->unit}}</td>
                                 <td class="" style="vertical-align: top; width: 41%; text-align: left;">
-                                    <b style="font-size: 11px;">{{$item->item}}</b><br>
+                                    <b style="font-size: 11px; font-weight: normal  ">{{$item->item}}</b><br>
                                     <span style="font-size: 9px; font-style: italic" >
                                     {{$item->description ? $item->description : ""}}
                                     </span>
                                 </td>
-                                <td class="text-strong" style="vertical-align: top; width: 15%;">{{number_format($item->unit_cost,2)}}</td>
-                                <td style="vertical-align: top; width: 15%; text-align: right" class="text-strong">{{number_format($item->total_cost,2)}}</td>
+                                <td style="vertical-align: top; width: 15%; text-align: justify; text-align: right">{{number_format($item->unit_cost,2)}}</td>
+                                <td style="vertical-align: top; width: 15%; text-align: justify; text-align: right" >{{number_format($item->total_cost,2)}}</td>
                             </tr>
                             @php
                                 $totalCost += $item->total_cost;
@@ -178,8 +178,8 @@
 
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; ">
                     <tr rowspan="2" style="width: 100%; border-right: 1px solid black">
-                        <td style="text-align: center; width: 50%; font-size: 20px; border-right: 1px solid black"><strong>INSPECTION</strong></td>
-                        <td style="text-align: center; font-size: 20px;"><strong>ACCEPTANCE</strong></td>
+                        <td style="text-align: center; width: 50%; font-size: 16px; border-right: 1px solid black"><strong>INSPECTION</strong></td>
+                        <td style="text-align: center; font-size: 16px;"><strong>ACCEPTANCE</strong></td>
                     </tr>
                 </table>
 
