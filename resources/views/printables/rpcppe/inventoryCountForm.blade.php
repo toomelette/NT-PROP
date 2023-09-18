@@ -27,7 +27,6 @@
         <table style="width: 100%; margin-left: -30px; font-family: 'Cambria',Times New Roman">
             <tr>
                 <td>
-
                 </td>
                 <td style="font-size: 20px">
                     <p class="no-margin text-strong">INVENTORY COUNT FORM</p>
@@ -42,7 +41,7 @@
         <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Location: {{$location->name}}</strong></h5>
         @foreach($accountCodeRecords as $accountCodeRecord)
             @if($accountCodeRecord->code === $accountCode)
-            <h5 style="text-align: left; margin-left: 30px;"><strong>Inventory Type: {{$accountCode}} - {{$accountCodeRecord->description}}</strong></h5>
+            <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Inventory Type: {{$accountCode}} - {{$accountCodeRecord->description}}</strong></h5>
             @endif
         @endforeach
 
@@ -95,7 +94,7 @@
             <tr>
                 <td></td>
                 <td colspan="4">
-                    <strong>GRAND TOTAL OF ACCT. {{$accountCode}}</strong>
+                    <strong>TOTAL - {{$accountCode}}</strong>
                 </td>
                 <td style="text-align: right;">
                     {{ number_format($totalAcquiredCost, 2) }}
