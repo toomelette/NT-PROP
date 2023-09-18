@@ -201,7 +201,7 @@ class IARController extends Controller
         }
         $trans->abc = $totalabc;
         $trans->transDetails()->delete();
-        if ($trans->save()) {
+        if ($trans->update()) {
             TransactionDetails::insert($arr);
             return $trans->only('slug');
         }

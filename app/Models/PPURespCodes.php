@@ -21,3 +21,4 @@ class PPURespCodes extends Model
     }
 
 }
+

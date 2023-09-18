@@ -229,25 +229,22 @@
 
         </div>
 
+@endsection
+
+@section('scripts')
 
 
-
-    @endsection
-
-    @section('scripts')
-
-
-     <script type="text/javascript">
-            $(document).ready(function () {
-                let set = 380;
-                if($("#items_table_{{$rand}}").height() < set){
-                    let rem = set - $("#items_table_{{$rand}}").height();
-                    $("#adjuster").css('height',rem)
-                    @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
-                    print();
-                    // window.close();
-                    @endif
-                }
-            })
-     </script>
-    @endsection
+ <script type="text/javascript">
+        $(document).ready(function () {
+            let set = 380;
+            if($("#items_table_{{$rand}}").height() < set){
+                let rem = set - $("#items_table_{{$rand}}").height();
+                $("#adjuster").css('height',rem)
+                @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
+                print();
+                // window.close();
+                @endif
+            }
+        })
+ </script>
+@endsection

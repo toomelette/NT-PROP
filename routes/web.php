@@ -214,7 +214,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
     Route::get('/ris/index','RISController@index')->name('ris.index');
     Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
-    Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
+    Route::patch('/ris/update/{slug}','RISController@update')->name('ris.update');
 
 
 

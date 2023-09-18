@@ -7,132 +7,132 @@
 @endsection
 @section('content2')
 
-    <section class="content col-md-12">
-
-        <div role="document">
+<section class="content">
+    <div class="box box-solid">
             <form id="add_form">
 
-                <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Create RIS</h3>
+                        <button class="btn btn-primary btn-sm pull-right"  type="submit">
+                            <i class="fa fa-check"></i> Save
+                        </button>
+
+                        <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>
+                    </div>
+
                     <div class="box-body">
+                        <div class="row">
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                           'label' => 'IAR No.:',
-                           'cols' => 3,
+                            {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
+                               'cols' => 6,
+                               'label' => 'PAP Code:',
+                               'options' => [],
+                               'class' => 'select2_papCode',
+                           ]) !!}
 
-                        ]) !!}
-
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[
-                           'label' => 'Department/Division:',
-                           'cols' => 3,
-                          'id' => 'resp_center',
-                        ]) !!}
-
-{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('ris_no',[--}}
-{{--                           'label' => 'RIS No.:',--}}
-{{--                           'cols' => 3,--}}
-{{--                          'id' => 'ris_no',--}}
-{{--                        ]) !!}--}}
-
-{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('ris_date',[--}}
-{{--                            'label' => 'Date:',--}}
-{{--                            'cols' => 3,--}}
-{{--                            'type' => 'date',--}}
-{{--                            'id' => 'ris_date',--}}
-{{--                         ]) !!}--}}
-
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('supplier',[
-                               'label' => 'Supplier:',
+                            {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
+                               'label' => 'Department/Division:',
                                'cols' => 3,
-                              'id' => 'supplier',
+                               'id' => 'resp_center',
+                               'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
                             ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
-                                   'label' => 'Account Code:',
-                                   'cols' => 3,
-                                   'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
-                                   'id' => 'inventory-account-code',
-                               ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
+                               'label' => 'RIS Date:',
+                               'cols' => 3,
+                               'type' => 'date',
+                            ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
+                              'cols' => 6,
+                              'label' => 'Purpose',
+                              'rows' => 1
+                            ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
+                                'label' => 'SAI Number:',
+                                'cols' => 3,
+                                'id' => 'sai_no',
+                             ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('sai_date',[
+                              'cols' => 3,
+                              'label' => 'SAI Date:',
+                              'type' => 'date',
+                            ]) !!}
+                        </div>
+                        <div class="row">
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                                  'cols' => 3,
+                                  'label' => 'Requested by: ',
+                                ]) !!}
 
 
-{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('sai_no',[--}}
-{{--                           'label' => 'SAI No.:',--}}
-{{--                           'cols' => 3,--}}
-{{--                          'id' => 'sai_no',--}}
-{{--                        ]) !!}--}}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
+                                  'cols' => 3,
+                                  'label' => 'Approved by: ',
+                                ]) !!}
 
-{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('sai_date',[--}}
-{{--                          'label' => 'Date:',--}}
-{{--                          'cols' => 3,--}}
-{{--                          'type' => 'date',--}}
-{{--                          'id' => 'sai_date',--}}
-{{--                        ]) !!}--}}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('issued_by',[
+                                  'cols' => 3,
+                                  'label' => 'Issued by: ',
+                                ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_number',[
-                            'label' => 'Invoice Number:',
-                            'cols' => 3,
-                            'id' => 'invoice_number',
-                         ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('received_by',[
+                              'cols' => 3,
+                              'label' => 'Received by:',
+                            ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_date',[
-                           'label' => 'Invoice Date:',
-                           'cols' => 3,
-                           'type' => 'date',
-                           'id' => 'invoice_date',
-                        ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
+                                  'cols' => 3,
+                                  'label' => 'Requested by (Designation): ',
+                                ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('po_number',[
-                            'label' => 'PO Number:',
-                            'cols' => 3,
-                            'id' => 'po_number',
-                         ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by_designation',[
+                                  'cols' => 3,
+                                  'label' => 'Approved by (Designation): ',
+                                ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('po_date',[
-                           'label' => 'PO Date:',
-                           'cols' => 3,
-                           'type' => 'date',
-                           'id' => 'po_date',
-                        ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('issued_by_designation',[
+                              'cols' => 3,
+                              'label' => 'Issued by (Designation): ',
+                            ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
-                         'label' => 'Purpose:',
-                         'cols' => 3,
-                         'id' => 'purpose',
-                       ]) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('received_by_designation',[
+                              'cols' => 3,
+                              'label' => 'Received by (Designation): ',
+                            ]) !!}
 
-                    </div>
-                </div>
-
-                <div class="box box-success">
-                    <div class="box-body">
-
-                        <div class="" id="tableContainer" style="margin-top: 50px">
-                            <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
-                                <thead>
-                                <tr class="">
-                                    <th>Stock No.</th>
-                                    <th>Unit</th>
-                                    <th>Description</th>
-                                    <th>Qty</th>
-                                    <th>Actual Qty</th>
-                                    <th>Remarks</th>
-                                    <th style="width: 3%"></th>
-                                </tr>
-                                </thead>
-                            </table>
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-12" style="min-height: 500px">
+                                <button data-target="#ris_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=ris_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+                                    <table id="ris_items_table" class="table-bordered table table-condensed table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 8%">Stock No.</th>
+                                            <th style="width: 8%">Unit</th>
+                                            <th style="width: 25%">Item</th>
+                                            <th style="width: 25%">Description</th>
+                                            <th style="width: 8%">Qty</th>
+                                            <th style="width: 8%">Actual Qty</th>
+                                            <th style="width: 25%">Remarks</th>
+                                            <th style="width: 50px"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @include('dynamic_rows.ris_items')
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="pull-right">
-                    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
-
-                </div>
-
             </form>
         </div>
-
-    </section>
+    </div>
+</section>
 @endsection
 
 
@@ -143,26 +143,44 @@
 @section('scripts')
     <script type="text/javascript">
 
+        $(".select2_papCode").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","pap_codes")}}',
+                dataType: 'json',
+                delay : 250,
+                data: function (params) {
+                    var query = {
+                        search: params.term,
+                        page: params.page || 1
+                    }
+                    return query;
+                }
+            },
+            placeholder: 'Type PAP Code/Title/Description',
+        });
 
-        $('#saveBtn').click(function(e) {
+        $("#add_form").submit(function(e) {
             e.preventDefault();
-            let form = $('#add_form');
-            let uri = '{{route("dashboard.ris.store")}}';
+            let form = $(this);
             loading_btn(form);
-
             $.ajax({
-                url : uri,
-                data: form.serialize(),
+                url : '{{route("dashboard.ris.store")}}',
+                data : form.serialize(),
                 type: 'POST',
                 headers: {
                     {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    console.log(res);
-                    toast('success','RIS Successfully created.','Success!');
-                    succeed(form,true,true);
+                    succeed(form,true,false);
+                    $(".select2_papCode").select2("val", "");
+                    $(".select2_papCode").trigger('change');
+                    $(".remove_row_btn").each(function () {
+                        $(this).click();
+                    })
+                    $(".add_button").click();
+                    toast('success','RIS successfully added.','Success!');
                     Swal.fire({
-                        title: 'Successfully created',
+                        title: 'RIS Successfully created',
                         icon: 'success',
                         html:
                             'Click the print button below to print.',
@@ -184,76 +202,29 @@
                     })
                 },
                 error: function (res) {
+                    errored(form,res);
                     toast('error',res.responseJSON.message,'Error!');
                 }
-            });
-
-
+            })
         });
 
-        function deleteRow(button) {
-            const row = button.closest('tr');
-            row.remove();
-        }
+        $(".select2_item").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            placeholder: 'Select item',
+        });
 
+        $('.select2_item').on('select2:select', function (e) {
+            let t = $(this);
+            let parentTrId = t.parents('tr').attr('id');
+            let data = e.params.data;
 
-        $('input[name="ref_number"]').unbind().bind('keyup', function(e) {
-            if($('input[name="ref_number"]').val() === ''){
-                toast('error','Reference Number cannot be empty','Invalid!');
-            }
-            else {
-                if (e.keyCode === 13) {
-                    e.preventDefault();
-                    let uri = '{{route("dashboard.ris.findTransByRefNumber", "refNumber") }}';
-                    uri = uri.replace('refNumber',$(this).val());
-                    $.ajax({
-                        url : uri,
-                        type: 'GET',
-                        headers: {
-                            {!! __html::token_header() !!}
-                        },
-                        success: function (res) {
-                            console.log(res);
-
-                            $("#resp_center").val(res.rc.department);
-                            $("#supplier").val(res.trans.supplier);
-                            $("#invoice_number").val(res.trans.invoice_number);
-                            $("#invoice_date").val(res.trans.invoice_date);
-                            $("#po_number").val(res.trans.po_number);
-                            $("#po_date").val(res.trans.po_date);
-                            $("#purpose").val(res.trans.purpose);
-
-
-                            $('#trans_table tbody').remove();
-                            let tableHtml = '<tbody>';
-                            for(let i=0; i<res.transDetails.length; i++){
-                                let stock = res.transDetails[i].stock_no;
-                                stock = stock === null ? '' : stock;
-                                let actual_qty = res.transDetails[i].actual_qty == null ? "" : res.transDetails[i].actual_qty;
-                                let remarks = res.transDetails[i].remarks == null ? "" : res.transDetails[i].remarks;
-                                tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
-                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ res.transDetails[i].description +'</textarea></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][actual_qty]" name="items['+res.transDetails[i].slug+'][actual_qty]" type="text" value="' + actual_qty + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][remarks]" name="items['+res.transDetails[i].slug+'][remarks]" type="text" value="' + remarks +'"></td>' +
-                                    '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
-                                    '</tr>';
-
-                            }
-                            tableHtml += '</tbody>';
-                            $('#trans_table').append(tableHtml).removeClass('hidden');
-
-
-
-                        },
-                        error: function (res) {
-                            toast('error',res.responseJSON.message,'Error!');
-                        }
-                    })
-                }
-            }
+            $("#"+parentTrId+" [for='stockNo']").val(data.id);
+            $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
+            $("#"+parentTrId+" [for='itemName']").val(data.text);
         });
 
 
