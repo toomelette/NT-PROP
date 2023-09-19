@@ -11,7 +11,11 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Requisition and Issue Slip</h3>
+                <h3 class="box-title">Manage Requisition and Issue Slip</h3>
+                <div class="btn-group pull-right">
+                    {{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
+                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.ris.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                </div>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -19,14 +23,15 @@
                         <div id="ris_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="ris_table" style="width: 100% !important">
                                 <thead>
-                                <tr class="">
-                                    <th>RIS Number</th>
-                                    <th>Department/Division</th>
-                                    <th>Supplier</th>
-                                    <th>Account Code</th>
-                                    <th>Invoice Number</th>
-                                    <th>PO Number</th>
-                                    <th>Action</th>
+                                <tr style="width: 100%">
+                                    <th style="width: 8%">RIS Number</th>
+                                    <th style="width: 8%">Department</th>
+                                    <th style="width: 8%">PAP Code</th>
+                                    <th style="width: 30%">Item</th>
+                                    <th style="width: 8%">Quantity</th>
+                                    <th style="width: 8%">Actual Quantity</th>
+                                    <th style="width: 15%">Requested By:</th>
+                                    <th style="width: 5%">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -54,15 +59,16 @@
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
 
-            ris_tbl = $("#ris_table").DataTable({
+            iar_tbl = $("#ris_table").DataTable({
                 "ajax" : '{{route("dashboard.ris.index")}}',
                 "columns": [
                     { "data": "ref_no" },
                     { "data": "resp_center" },
-                    { "data": "supplier" },
-                    { "data": "account_code" },
-                    { "data": "invoice_number" },
-                    { "data": "po_number" },
+                    { "data": "pap_code" },
+                    { "data": "item" },
+                    { "data": "qty" },
+                    { "data": "actual_qty" },
+                    { "data": "requested_by" },
                     { "data": "action" }
                 ],
                 "buttons": [
@@ -99,10 +105,10 @@
                     if(active != ''){
                         if(Array.isArray(active) == true){
                             $.each(active,function (i,item) {
-                                $("#ris_table #"+item).addClass('success');
+                                $("#ris_tbl #"+item).addClass('success');
                             })
                         }
-                        $("#ris_table #"+active).addClass('success');
+                        $("#ris_tbl #"+active).addClass('success');
                     }
                 }
             });

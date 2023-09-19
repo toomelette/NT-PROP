@@ -160,6 +160,8 @@
         $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
         $("#"+parentTrId+" [for='unit_cost']").html('Est: '+$.number(data.populate.unit_cost,2));
     });
+
+
     $(".select2_papCode").select2({
         ajax: {
             url: '{{route("dashboard.ajax.get","pap_codes")}}',
