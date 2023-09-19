@@ -78,15 +78,15 @@
             </table>
 
 
-            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+            <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
                 <thead>
-                    <tr class="text-strong" style="border: 1px solid black;">
-                        <td style="border: 1px solid black;">Qty</td>
-                        <td style="border: 1px solid black;">Unit</td>
-                        <td style="border: 1px solid black; width: 40%;">Description</td>
-                        <td style="border: 1px solid black;">Date Acquired</td>
-                        <td style="border: 1px solid black; width: 20%;">Property Number</td>
-                        <td style="border: 1px solid black; width: 16%; text-align: right">Amount</td>
+                    <tr class="text-strong" style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
+                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Qty</td>
+                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Unit</td>
+                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Description</td>
+                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Date Acquired</td>
+                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Property Number</td>
+                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Amount</td>
                     </tr>
                 </thead>
                 <tbody style="height: 350px">
@@ -157,39 +157,55 @@
                     </tr>
                 </tbody>
             </table>
-            <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
-                <div style="flex: 1; text-align: left; ">
-                    <h5 class="text-strong" style="margin-left: 5px; margin-bottom: 30px;"><i>Received by:</i></h5>
-                    <span class="text-strong" style="margin-left: 50px;">
-                        <u>{{$par->acctemployee_fname}}</u>
-                    </span><br>
-                    <span style="margin-left: 50px">
-                       <i>{{$par->acctemployee_post}}</i>
-                    </span><br>
-                    <br>
-                    <span class="text-strong" style="margin-left: 70px;">
-                        ___________________
-                    </span><br>
-                    <span style="margin-left: 100px">
-                       <i>Date</i>
-                    </span>
-                </div>
-                <div  style="flex: 1">
-                    <h5 class="text-strong" style="margin-left: -100px; margin-bottom: 30px;"><i>Received from:</i></h5>
-                    <span class="text-strong" style="margin-left: 70px;">
-                        <u>NOLI T. TINGSON</u>
-                    </span><br>
-                    <span style="margin-left: 70px">
-                       <i>Supply Officer IV</i>
-                    </span><br>
-                    <br>
-                    <span class="text-strong" style="margin-left: 70px;">
-                        ___________________
-                    </span><br>
-                    <span style="margin-left: 60px">
-                       <i>Date</i>
-                    </span>
-                </div>
+            <div style="width: 100%; display: flex; font-family: Cambria,Arial; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black">
+
+                <table style="width:50%; border-collapse: collapse;margin-right: 10px;">
+                    <tr>
+                        <th>Received by:</th>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr class="text-strong" style="text-align: center;" >
+                        <td><u>{{$par->acctemployee_fname}}</u></td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td><i>{{ucwords(strtolower($par->acctemployee_post))}}</i></td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>_____________________________________</td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>Date</td>
+                    </tr>
+                </table>
+
+                <table style="width: 50%; border-collapse: collapse;">
+                    <tr>
+                        <th>Received from:</th>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr class="text-strong" style="text-align: center;" >
+                        <td><u>NOLI T. TINGSON</u></td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td><i>Supply Officer IV</i></td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>_____________________________________</td>
+                    </tr>
+                    <tr style="text-align: center;" >
+                        <td>Date</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

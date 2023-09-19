@@ -172,6 +172,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/po/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','POController@findTransByRefNumber')->name('po.findTransByRefNumber');
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
     Route::patch('/po/update/{slug}','POController@update')->name('po.update');
+    Route::get('/po/createpublicbidding','POController@createpublicbidding')->name('po.createpublicbidding');
     Route::resource('po', 'POController');
 
     Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');
@@ -197,7 +198,6 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::resource('ics', 'ICSController');
 
-
     Route::get('/iar/create','IARController@create')->name('iar.create');
     Route::get('/iar/findTransByRefNumber/{refNumber}','IARController@findTransByRefNumber')->name('iar.findTransByRefNumber');
     Route::post('/iar/store','IARController@store')->name('iar.store');
@@ -206,8 +206,6 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/iar/{slug}/edit','IARController@edit')->name('iar.edit');
     Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
 
-
-
     Route::get('/ris/create','RISController@create')->name('ris.create');
     Route::get('/ris/findTransByRefNumber/{refNumber}','RISController@findTransByRefNumber')->name('ris.findTransByRefNumber');
     Route::post('/ris/store','RISController@store')->name('ris.store');
@@ -215,13 +213,6 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/ris/index','RISController@index')->name('ris.index');
     Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
     Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
-
-
-
-
-
-
-
 
     Route::get('/ics/create','ICSController@create')->name('ics.create');
     Route::get('/ics/findIAR/{refNumber}','ICSController@findIAR')->name('ics.findIAR');

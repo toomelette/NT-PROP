@@ -59,6 +59,12 @@ class POController extends Controller
         return view('ppu.purchase_order.create', compact('suppliers', 'po_number'));
     }
 
+    public function createpublicbidding(){
+        $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
+        $po_number = $this->getNextPONo("PO");
+        return view('ppu.purchase_order.createpublicbidding', compact('suppliers', 'po_number'));
+    }
+
     public function getNextPONo($ref_book){
         $year = Carbon::now()->format('Y-');
         $trans = Order::query()
@@ -297,58 +303,74 @@ class POController extends Controller
     }
 
     public function findTransByRefNumber($refNumber, $refBook, $action, $id){
-        if($action == "add"){
-            /*$rfqtrans = Transactions::query()
-                ->where('cross_slug', '=', $trans->slug)
-                ->where('ref_book', '=', 'RFQ')
-                ->first();*/
-            $rfqtrans = Transactions::query()
-                ->where('ref_no', '=', $refNumber)
-                ->where('ref_book', '=', 'RFQ')
-                ->first();
-            if ($rfqtrans==null) {
-                abort(503, 'No RFQ Found for this Reference Number.');
+        if($refBook != 'publicBIdding'){
+            if($action == "add"){
+                /*$rfqtrans = Transactions::query()
+                    ->where('cross_slug', '=', $trans->slug)
+                    ->where('ref_book', '=', 'RFQ')
+                    ->first();*/
+                $rfqtrans = Transactions::query()
+                    ->where('ref_no', '=', $refNumber)
+                    ->where('ref_book', '=', 'RFQ')
+                    ->first();
+                if ($rfqtrans==null) {
+                    abort(503, 'No RFQ Found for this Reference Number.');
+                }
+                $trans = Transactions::query()
+                    ->where('slug', '=', $rfqtrans->cross_slug)
+                    ->first();
+                if ($trans==null || $trans->ref_book != 'PR') {
+                    abort(503, 'No record found');
+                }
+                $aq = Transactions::query()
+                    ->where('cross_slug', '=', $trans->slug)
+                    ->where('ref_book', '=', 'AQ')
+                    ->first();
+                if ($aq==null) {
+                    abort(503, 'No AQ Found for this Reference Number.');
+                }
+                $aqQuotation = AQQuotation::query()
+                    ->where('aq_slug','=', $aq->slug)
+                    ->where('supplier_slug','=', $id)
+                    ->first();
+                $aqQuotation = $aqQuotation??null;
+                if ($aqQuotation==null) {
+                    abort(503, 'Not a supplier for this Reference Number.');
+                }
+                $aqOfferDetails = AQOfferDetails::query()
+                    ->where('quotation_slug','=', $aqQuotation->slug)
+                    ->get();
+                /*$rfqtrans = $rfqtrans??null;
+                if ($rfqtrans==null) {
+                    abort(503, 'No RFQ found.');
+                }*/
+
+                $trans = $trans??null;
+                $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+                return response()->json([
+                    'trans' => $trans,
+                    'transDetails' => $transDetails,
+                    'aqOfferDetails' => $aqOfferDetails
+                ]);
             }
+            else if($action == "edit"){
+                $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $id)->get();
+                return response()->json([
+                    'transDetails' => $transDetails
+                ]);
+            }
+        }
+        else {
             $trans = Transactions::query()
-                ->where('slug', '=', $rfqtrans->cross_slug)
+                ->where('ref_no', '=', $refNumber)
+                ->where('ref_book', '=', 'PR')
                 ->first();
-            if ($trans==null || $trans->ref_book != 'PR') {
+            if ($trans==null) {
                 abort(503, 'No record found');
             }
-            $aq = Transactions::query()
-                ->where('cross_slug', '=', $trans->slug)
-                ->where('ref_book', '=', 'AQ')
-                ->first();
-            if ($aq==null) {
-                abort(503, 'No AQ Found for this Reference Number.');
-            }
-            $aqQuotation = AQQuotation::query()
-                ->where('aq_slug','=', $aq->slug)
-                ->where('supplier_slug','=', $id)
-                ->first();
-            $aqQuotation = $aqQuotation??null;
-            if ($aqQuotation==null) {
-                abort(503, 'Not a supplier for this Reference Number.');
-            }
-            $aqOfferDetails = AQOfferDetails::query()
-                ->where('quotation_slug','=', $aqQuotation->slug)
-                ->get();
-            /*$rfqtrans = $rfqtrans??null;
-            if ($rfqtrans==null) {
-                abort(503, 'No RFQ found.');
-            }*/
-
-            $trans = $trans??null;
-            $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+            $transDetails = $trans->transDetails;
             return response()->json([
                 'trans' => $trans,
-                'transDetails' => $transDetails,
-                'aqOfferDetails' => $aqOfferDetails
-            ]);
-        }
-        else if($action == "edit"){
-            $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $id)->get();
-            return response()->json([
                 'transDetails' => $transDetails
             ]);
         }
