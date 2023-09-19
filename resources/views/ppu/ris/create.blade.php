@@ -18,7 +18,7 @@
                     <div class="box box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Create RIS</h3>
-                            <button class="btn btn-primary btn-sm pull-right"  type="button">
+                            <button class="btn btn-primary btn-sm pull-right"  id="saveBtn" type="button">
                                 <i class="fa fa-check"></i> Save
                             </button>
                             <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>
