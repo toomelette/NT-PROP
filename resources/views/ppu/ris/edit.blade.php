@@ -11,20 +11,20 @@
 
 @section('content2')
 
-<section class="content col-md-12">
-    <div class="box box-success">
+    <section class="content col-md-12">
+        <div role="document">
         <form id="edit_form">
 
-            <div class="box-header with-border">
-                <h3 class="box-title">Edit RIS</h3>
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h4 class="box-title">Edit RIS</h4>
                 <button class="btn btn-primary btn-sm pull-right"  type="submit">
                     <i class="fa fa-check"></i> Save
                 </button>
                 <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>
-            </div>
+                </div>
 
             <div class="box-body">
-                <div class="row">
 
                     <input type="hidden" name="slug" id="slug" value="{{$ris->slug}}">
 
@@ -82,8 +82,6 @@
 
                 </div>
             </div>
-
-
 
                 <div class="box box-success">
                     <div class="box-body">
