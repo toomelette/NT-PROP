@@ -28,15 +28,15 @@
 
                     <input type="hidden" name="slug" id="slug" value="{{$ris->slug}}">
 
-                    {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
-                           'cols' => 6,
-                           'label' => 'PAP Code:',
-                           'options' => [],
-                           'class' => 'select2_pap_code_'.$rand,
-                           'select2_preSelected' => ($ris->pap->pap_code ?? null).' | '.($ris->pap->pap_title ?? null)
-                       ],
-                       $ris ?? null
-                       ) !!}
+{{--                    {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[--}}
+{{--                           'cols' => 6,--}}
+{{--                           'label' => 'PAP Code:',--}}
+{{--                           'options' => [],--}}
+{{--                           'class' => 'select2_pap_code_'.$rand,--}}
+{{--                           'select2_preSelected' => ($ris->pap->pap_code ?? null).' | '.($ris->pap->pap_title ?? null)--}}
+{{--                       ],--}}
+{{--                       $ris ?? null--}}
+{{--                       ) !!}--}}
 
                     {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                        'label' => 'Department/Division:',
@@ -55,13 +55,7 @@
                     $ris ?? null
                     ) !!}
 
-                    {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
-                      'cols' => 6,
-                      'label' => 'Purpose',
-                      'rows' => 1
-                    ],
-                    $ris ?? null
-                    ) !!}
+
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
                         'label' => 'SAI Number:',
@@ -78,6 +72,14 @@
                     ],
                     $ris ?? null
                     ) !!}
+
+                {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
+                'cols' => 6,
+                'label' => 'Purpose',
+                'rows' => 1
+              ],
+              $ris ?? null
+              ) !!}
 
 
                 </div>
@@ -219,8 +221,8 @@
             },
             success: function (res) {
                 succeed(form,true,false);
-                $(".select2_papCode").select2("val", "");
-                $(".select2_papCode").trigger('change');
+                // $(".select2_papCode").select2("val", "");
+                // $(".select2_papCode").trigger('change');
                 $(".remove_row_btn").each(function () {
                     $(this).click();
                 })
@@ -274,14 +276,14 @@
         $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
     });
 
-    $(".select2_pap_code_{{$rand}}").select2({
-        ajax: {
-            url: '{{route("dashboard.ajax.get","pap_codes")}}',
-            dataType: 'json',
-            delay : 250,
-        },
-        placeholder: 'Type PAP Code/Title/Description',
-    });
+    {{--$(".select2_pap_code_{{$rand}}").select2({--}}
+    {{--    ajax: {--}}
+    {{--        url: '{{route("dashboard.ajax.get","pap_codes")}}',--}}
+    {{--        dataType: 'json',--}}
+    {{--        delay : 250,--}}
+    {{--    },--}}
+    {{--    placeholder: 'Type PAP Code/Title/Description',--}}
+    {{--});--}}
 
 
     </script>

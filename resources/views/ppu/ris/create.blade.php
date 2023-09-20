@@ -18,7 +18,7 @@
                     <div class="box box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Create RIS</h3>
-                            <button class="btn btn-primary btn-sm pull-right"  id="saveBtn" type="button">
+                            <button class="btn btn-primary btn-sm pull-right"  id="saveBtn" type="submit">
                                 <i class="fa fa-check"></i> Save
                             </button>
                             <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>
@@ -26,15 +26,15 @@
 
                         <div class="box-body">
 
-                            {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
-                               'cols' => 6,
-                               'label' => 'PAP Code:',
-                               'options' => [],
-                               'class' => 'select2_papCode',
-                           ]) !!}
+{{--                            {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[--}}
+{{--                               'cols' => 6,--}}
+{{--                               'label' => 'PAP Code:',--}}
+{{--                               'options' => [],--}}
+{{--                               'class' => 'select2_papCode',--}}
+{{--                           ]) !!}--}}
 
                             {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
-                               'label' => 'Department/Division:',
+                               'label' => 'Responsibility Center',
                                'cols' => 3,
                                'id' => 'resp_center',
                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
@@ -46,11 +46,7 @@
                                'type' => 'date',
                             ]) !!}
 
-                            {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
-                              'cols' => 6,
-                              'label' => 'Purpose',
-                              'rows' => 1
-                            ]) !!}
+
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
                                 'label' => 'SAI Number:',
@@ -62,6 +58,12 @@
                               'cols' => 3,
                               'label' => 'SAI Date:',
                               'type' => 'date',
+                            ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
+                              'cols' => 6,
+                              'label' => 'Purpose',
+                              'rows' => 1
                             ]) !!}
                         </div>
                     </div>
@@ -149,21 +151,21 @@
 @section('scripts')
     <script type="text/javascript">
 
-        $(".select2_papCode").select2({
-            ajax: {
-                url: '{{route("dashboard.ajax.get","pap_codes")}}',
-                dataType: 'json',
-                delay : 250,
-                data: function (params) {
-                    var query = {
-                        search: params.term,
-                        page: params.page || 1
-                    }
-                    return query;
-                }
-            },
-            placeholder: 'Type PAP Code/Title/Description',
-        });
+        {{--$(".select2_papCode").select2({--}}
+        {{--    ajax: {--}}
+        {{--        url: '{{route("dashboard.ajax.get","pap_codes")}}',--}}
+        {{--        dataType: 'json',--}}
+        {{--        delay : 250,--}}
+        {{--        data: function (params) {--}}
+        {{--            var query = {--}}
+        {{--                search: params.term,--}}
+        {{--                page: params.page || 1--}}
+        {{--            }--}}
+        {{--            return query;--}}
+        {{--        }--}}
+        {{--    },--}}
+        {{--    placeholder: 'Type PAP Code/Title/Description',--}}
+        {{--});--}}
 
         $("#add_form").submit(function(e) {
             e.preventDefault();
@@ -178,8 +180,8 @@
                 },
                 success: function (res) {
                     succeed(form,true,false);
-                    $(".select2_papCode").select2("val", "");
-                    $(".select2_papCode").trigger('change');
+                    // $(".select2_papCode").select2("val", "");
+                    // $(".select2_papCode").trigger('change');
                     $(".remove_row_btn").each(function () {
                         $(this).click();
                     })

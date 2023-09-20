@@ -26,7 +26,6 @@
                                 <tr style="width: 100%">
                                     <th style="width: 8%">RIS Number</th>
                                     <th style="width: 8%">Department</th>
-                                    <th style="width: 8%">PAP Code</th>
                                     <th style="width: 30%">Item</th>
                                     <th style="width: 8%">Quantity</th>
                                     <th style="width: 8%">Actual Quantity</th>
@@ -64,7 +63,6 @@
                 "columns": [
                     { "data": "ref_no" },
                     { "data": "resp_center" },
-                    { "data": "pap_code" },
                     { "data": "item" },
                     { "data": "qty" },
                     { "data": "actual_qty" },

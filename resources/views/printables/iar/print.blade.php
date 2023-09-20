@@ -224,9 +224,7 @@
                             <b style="margin-left: 130px; font-weight: normal">Supply Officer IV</b>
 
                             </span>
-
                         </div>
-
         </div>
 
 @endsection

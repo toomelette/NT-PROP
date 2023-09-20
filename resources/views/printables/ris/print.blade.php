@@ -38,7 +38,7 @@
 
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                         <td rowspan="2" style="width: 49%; border-right: 1px solid black; font-size: 24px">
-                            <strong>Requisition and Issue Slip</strong>
+                            <strong>REQUISITION AND ISSUE SLIP</strong>
                         </td>
 
                         <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; position: relative;">
@@ -63,30 +63,25 @@
 
                 <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
 
+
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 14%; vertical-align: center;">
-                            PAP Code:
+                        <td rowspan="2" style="border-right: 1px solid black; width: 14%; vertical-align: center;">
+                            Responsibility Center:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 35%">
-                            {{$ris->pap_code}}
-                        </td>
-                        <td style="border-right: 1px solid black; width: 14%; vertical-align: center;">
-                            Department:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 35%">
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 35%">
                             {{$rc->desc}}
+                        </td>
+
+                        <td style="border-right: 1px solid black; width: 14%; vertical-align: center;">
+                            SAI No.:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 35%">
+                            {{$ris->sai}}
                         </td>
                     </tr>
 
                     <tr style=" border-right: 1px solid black; border-left: 1px solid black; width: 100%;">
-
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
-                            SAI No.:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black;  width: 12.5%">
-                            {{$ris->sai}}
-                        </td>
 
                         <td style="border-right: 1px solid black; vertical-align: center; width: 10%">
                             SAI Date:
@@ -101,15 +96,21 @@
 
                 <table  id="items_table_{{$rand}}" style="font-family: Cambria,Arial; width: 100%; text-align: center;  border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
                     <thead>
-                    <tr class="text-strong" style="border: 1px solid black; width: 100%">
-                        <td style="border: 1px solid black; width: 8%;">Stock No:</td>
-                        <td style="border: 1px solid black; width: 8%;">Unit</td>
-                        <td style="border: 1px solid black; width: 30%; text-align: center;">Item</td>
-                        <td style="border: 1px solid black; width: 8%;">Quantity</td>
-                        <td style="border: 1px solid black; width: 8%;">Actual Quantity</td>
-                        <td style="border: 1px solid black; width: 25%;">Remarks</td>
-                    </tr>
+                        <tr class="text-strong" style="border: 1px solid black; width: 100%">
+                            <td colspan="4" style="border: 1px solid black; font-size: 16px; width: 8%;">REQUISITION</td>
+                            <td colspan="2" style="border: 1px solid black; font-size: 16px; width: 25%;">ISSUANCE</td>
+                        </tr>
+                        <tr class="text-strong" style="border: 1px solid black; width: 100%">
+                            <td style="border: 1px solid black; width: 8%;">Stock No:</td>
+                            <td style="border: 1px solid black; width: 8%;">Unit</td>
+                            <td style="border: 1px solid black; width: 30%; text-align: center;">Item</td>
+                            <td style="border: 1px solid black; width: 8%;">Quantity</td>
+                            <td style="border: 1px solid black; width: 8%;">Actual Quantity</td>
+                            <td style="border: 1px solid black; width: 25%;">Remarks</td>
+                        </tr>
                     </thead>
+
+
                     <tbody style="font-family: Cambria,Arial;">
 
                         @foreach($ris->transDetails as $item)
@@ -140,65 +141,69 @@
                 </table>
 
 
-                <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black;  border-right: 1px solid black; ">
-                    <tr rowspan="2" style="width: 100%; border-right: 1px solid black">
-                        <td style="border-right: 1px solid black; width: 15%; vertical-align: top;">
-                            <b>Purpose: </b>
-                        </td>
-                        <td class="" style="border-right: 1px solid black; vertical-align: top;  width: 85%">
-                            {{$ris->purpose}}
-                        </td>
-                    </tr>
-                </table>
+            <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black;  border-right: 1px solid black; ">
+                <tr rowspan="2" style="width: 100%; border-right: 1px solid black">
+                    <td style="border-right: 1px solid black; width: 15%; vertical-align: top;">
+                        <b>Purpose: </b>
+                    </td>
+                    <td class="" style="border-right: 1px solid black; vertical-align: top;  width: 85%">
+                        {{$ris->purpose}}
+                    </td>
+                </tr>
+            </table>
 
         <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
             <div style="flex: 1; text-align: center; ">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Requested by:</b></h5><br>
+                <h5 class="" style="margin-left: 5px; margin-bottom: 30px; text-align: justify; float: left">Requested by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b>{{$ris->requested_by}}</b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->requested_by_designation}}
-                </td>
+                </td><br>
+                <h5 class="" style="margin-left: 5px; float: left">Date:</h5>
 
             </div>
 
             <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px;"><b>Approved by:</b></h5><br><br>
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Approved by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b>{{$ris->approved_by}}</b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->approved_by_designation}}
-                </td>
+                </td><br>
+                <h5 class="" style="margin-left: 5px; float: left">Date:</h5>
 
 
 
             </div>
 
             <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px;"><b>Issued by:</b></h5><br><br>
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Issued by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b>{{$ris->prepared_by}}</b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->prepared_by_position}}
-                </td>
+                </td><br>
+                <h5 class="" style="margin-left: 5px; float: left">Date:</h5>
 
             </div>
 
             <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px;"><b>Received by:</b></h5><br><br>
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Received by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b>{{$ris->certified_by}}</b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->certified_by_designation}}
-                </td>
+                </td><br>
+                <h5 class="" style="margin-left: 5px; float: left">Date:</h5>
 
             </div>
 
@@ -214,7 +219,7 @@
 
      <script type="text/javascript">
             $(document).ready(function () {
-                let set = 380;
+                let set = 560;
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem)
