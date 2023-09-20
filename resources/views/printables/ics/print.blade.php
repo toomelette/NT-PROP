@@ -45,7 +45,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid black;">
                             <td style="border-right: 1px solid black; vertical-align: center;">
-                               Entity Name:
+                               Resp. Center:
                             </td>
                             <td style="border-right: 1px solid black; vertical-align: center;">
                                <span class="text-strong">{{$rc->desc}}</span>
