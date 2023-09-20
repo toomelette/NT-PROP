@@ -15,7 +15,7 @@
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
-                <div style="float: left; text-align: left; margin-left: 15px; margin-top: 10px">
+                <div style="font-family: Cambria,Arial; float: left; text-align: left; margin-left: 15px; margin-top: 10px">
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
@@ -32,7 +32,7 @@
                     <tbody style="margin: 0; padding: 0">
                         <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                             <td rowspan="5" style="font-size: 30px; width: 50%; border-right: 1px solid black">
-                                <strong>Inventory Custodian Slip</strong>
+                                <strong>INVENTORY CUSTODIAN SLIP</strong>
                             </td>
                         </tr>
                         <tr style="margin-top: 5px; border-bottom: 1px solid black;">
@@ -70,7 +70,7 @@
                     </tbody>
                 </table>
 
-                <table style="width: 100%; border: #0a0a0a;">
+                <table style="width: 100%; border: #0a0a0a; font-family: Cambria,Arial; ">
 
                     <tr style="border: 1px solid black; width: 100%;">
 
