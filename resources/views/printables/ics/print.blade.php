@@ -194,7 +194,7 @@
             $(document).ready(function () {
                 //print();
                 // close();
-                let set = 600;
+                let set = 500;
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem);
