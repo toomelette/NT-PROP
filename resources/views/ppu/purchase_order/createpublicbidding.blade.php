@@ -186,6 +186,7 @@
                                 <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
                                     <thead>
                                     <tr class="">
+                                        <th></th>
                                         <th>Stock No.</th>
                                         <th>Unit</th>
                                         <th>Item</th>
@@ -436,57 +437,6 @@
             }
         }
 
-        $('#saveBtn').click(function(e) {
-            e.preventDefault();
-            let form = $('#po_form');
-            let uri = '{{route("dashboard.po.store")}}';
-            loading_btn(form);
-            $.ajax({
-                type: 'POST',
-                url: uri,
-                data: form.serialize(),
-                headers: {
-                    {!! __html::token_header() !!}
-                },
-                success: function(res) {
-                    console.log(res);
-                    toast('success','Successfully created.','Success!');
-                    $('#printIframe').attr('src',res.route);
-                    $('#trans_table tbody').remove();
-                    $('#slug').val('');
-                    $('#divRows').addClass('hidden');
-                    $('#saveBtn').addClass('hidden');
-                    $('#trans_table').addClass('hidden');
-                    succeed(form,true,true);
-                    Swal.fire({
-                        title: 'Successfully created',
-                        icon: 'success',
-                        html:
-                            'Click the print button below to print.',
-                        showCloseButton: true,
-                        showCancelButton: true,
-                        focusConfirm: false,
-                        confirmButtonText:
-                            '<i class="fa fa-print"></i> Print',
-                        confirmButtonAriaLabel: 'Thumbs up, great!',
-                        cancelButtonText:
-                            'Dismiss',
-                        cancelButtonAriaLabel: 'Thumbs down'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            let link = "{{route('dashboard.po.print1','slug')}}";
-                            link = link.replace('slug',res.slug);
-                            window.open(link, '_blank');
-                        }
-                    })
-                },
-                error: function(res) {
-                    // Display an alert with the error message
-                    toast('error',res.responseJSON.message,'Error!');
-                }
-            });
-        });
-
         $('select[name="supplier"]').change(function() {
             let uri = '{{route("dashboard.po.findSupplier", ["slug"]) }}';
             uri = uri.replace('slug',$(this).val());
@@ -549,6 +499,7 @@
                                 let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
                                 let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
+                                    '<td><input class="form-control hidden" id="items['+res.transDetails[i].slug+'][transaction_slug]" name="items['+res.transDetails[i].slug+'][transaction_slug]" type="text" value="' + res.transDetails[i].transaction_slug + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
@@ -599,6 +550,58 @@
                     })
                 }
             }
+        });
+
+
+        $('#saveBtn').click(function(e) {
+            e.preventDefault();
+            let form = $('#po_form');
+            let uri = '{{route("dashboard.po.store")}}';
+            loading_btn(form);
+            $.ajax({
+                type: 'POST',
+                url: uri,
+                data: form.serialize(),
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function(res) {
+                    console.log(res);
+                    toast('success','Successfully created.','Success!');
+                    $('#printIframe').attr('src',res.route);
+                    $('#trans_table tbody').remove();
+                    $('#slug').val('');
+                    $('#divRows').addClass('hidden');
+                    $('#saveBtn').addClass('hidden');
+                    $('#trans_table').addClass('hidden');
+                    succeed(form,true,true);
+                    Swal.fire({
+                        title: 'Successfully created',
+                        icon: 'success',
+                        html:
+                            'Click the print button below to print.',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-print"></i> Print',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonText:
+                            'Dismiss',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let link = "{{route('dashboard.po.print1','slug')}}";
+                            link = link.replace('slug',res.slug);
+                            window.open(link, '_blank');
+                        }
+                    })
+                },
+                error: function(res) {
+                    // Display an alert with the error message
+                    toast('error',res.responseJSON.message,'Error!');
+                }
+            });
         });
     </script>
 @endsection

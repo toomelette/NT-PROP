@@ -15,7 +15,7 @@
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                 </div>
-                <div style="float: left; text-align: left; margin-left: 15px; margin-top: 10px">
+                <div style="font-family: Cambria,Arial; float: left; text-align: left; margin-left: 15px; margin-top: 10px">
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Republic of the Philippines</p>
                     <p class="no-margin text-strong" style="font-size: 14px; margin-bottom: -4px">SUGAR REGULATORY ADMINISTRATION</p>
                     <p class="no-margin" style="font-size: 14px; margin-bottom: -4px">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
@@ -31,8 +31,8 @@
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 110px">
                     <tbody style="margin: 0; padding: 0">
                         <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                            <td rowspan="5" style="font-size: 32px; width: 50%; border-right: 1px solid black">
-                                <strong>Inventory Custodian Slip</strong>
+                            <td rowspan="5" style="font-size: 25px; width: 50%; border-right: 1px solid black">
+                                <strong>INVENTORY CUSTODIAN SLIP</strong>
                             </td>
                         </tr>
                         <tr style="margin-top: 5px; border-bottom: 1px solid black;">
@@ -45,7 +45,7 @@
                         </tr>
                         <tr style="border-bottom: 1px solid black;">
                             <td style="border-right: 1px solid black; vertical-align: center;">
-                               Entity Name:
+                               Resp. Center:
                             </td>
                             <td style="border-right: 1px solid black; vertical-align: center;">
                                <span class="text-strong">{{$rc->desc}}</span>
@@ -70,7 +70,7 @@
                     </tbody>
                 </table>
 
-                <table style="width: 100%; border: #0a0a0a;">
+                <table style="width: 100%; border: #0a0a0a; font-family: Cambria,Arial; ">
 
                     <tr style="border: 1px solid black; width: 100%;">
 
@@ -148,7 +148,7 @@
                                     </span>
                                 </td>
                                 <td style="vertical-align: top; ">{{$item->stock_no}}</td>
-                                <td style="vertical-align: top; ">{{$item->estimated_useful_life ? $item->estimated_useful_life : ""}}</td>
+                                <td style="vertical-align: top; ">{{$item->estimated_useful_life == null ? $item->estimated_useful_life : ""}}</td>
                             </tr>
                             @php
                                 $totalCost += $item->total_cost;
@@ -194,7 +194,7 @@
             $(document).ready(function () {
                 //print();
                 // close();
-                let set = 600;
+                let set = 500;
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem);

@@ -10,6 +10,7 @@ use App\Models\AQOfferDetails;
 use App\Models\AQQuotation;
 use App\Models\AwardNoticeAbstract;
 use App\Models\Order;
+use App\Models\PODetails;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Models\Suppliers;
@@ -199,55 +200,88 @@ class POController extends Controller
         $order->vat = $request->vatValue;
         $order->withholding_tax = $request->poValue;
 
-        //$refNumber= $request->ref_number;
-        $rfqtrans = Transactions::query()
-            ->where('ref_no', '=', $request->ref_number)
-            ->where('ref_book', '=', 'RFQ')
-            ->first();
-        $trans = Transactions::query()
-            ->where('slug', '=', $rfqtrans->cross_slug)
-            ->first();
-
         $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
         $order->total =  Helper::sanitizeAutonum($request->total);
         $order->total_in_words = $request->total_in_words;
         $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
         $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
 
-        $transNewSlug = Str::random();
-        $transNew = new Transactions();
-        $transNew->slug = $transNewSlug;
-        $transNew->resp_center = $trans->resp_center;
-        $transNew->pap_code = $trans->pap_code;
-        $transNew->ref_book = $refBook;
-        $transNew->ref_no = $poNumber;
-        $transNew->cross_slug = $trans->slug;
-        $transNew->cross_ref_no = $trans->ref_no;
-        $transNew->purpose = $trans->purpose;
-        $transNew->jr_type =$trans->jr_type;
-        $transNew->requested_by = $trans->requested_by;
-        $transNew->requested_by_designation = $trans->requested_by_designation;
-        $transNew->approved_by = $trans->approved_by;
-        $transNew->approved_by_designation = $trans->approved_by_designation;
-        $transNew->order_slug = $randomSlug;
+        if($request->mode == "Public Bidding"){
+            $refNumberArray = preg_split('/\s*,\s*/', $request->ref_number, -1, PREG_SPLIT_NO_EMPTY);
+            dd($request->items);
+            /*$totalAbc = 0;
+            $arr = [];
+            if(!empty($request->items)){
+                foreach ($request->items as $item) {
+                    array_push($arr,[
+                        'slug' => Str::random(),
+                        'transaction_slug' => $transNewSlug,
+                        'stock_no' => $item['stock_no'],
+                        'unit' => $item['unit'],
+                        'item' => $item['item'],
+                        'description' => $item['description'],
+                        'qty' => $item['qty'],
+                        'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                        'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                        'property_no' => $item['property_no'],
+                        'nature_of_work' => $item['nature_of_work'],
+                    ]);
+                }
+            }*/
 
-        //$totalAbc = 0;
-        $arr = [];
-        if(!empty($request->items)){
-            foreach ($request->items as $item) {
-                array_push($arr,[
-                    'slug' => Str::random(),
-                    'transaction_slug' => $transNewSlug,
-                    'stock_no' => $item['stock_no'],
-                    'unit' => $item['unit'],
-                    'item' => $item['item'],
-                    'description' => $item['description'],
-                    'qty' => $item['qty'],
-                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
-                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
-                    'property_no' => $item['property_no'],
-                    'nature_of_work' => $item['nature_of_work'],
-                ]);
+            foreach ($refNumberArray as $refNumber) {
+                $poDetails = new PODetails();
+                $poDetails->slug = Str::random();
+                $poDetails->order_slug = $order->slug;
+                $poDetails->pr_number = $refNumber;
+                $poDetails->save();
+            }
+        }
+        else {
+            //$refNumber= $request->ref_number;
+            $rfqtrans = Transactions::query()
+                ->where('ref_no', '=', $request->ref_number)
+                ->where('ref_book', '=', 'RFQ')
+                ->first();
+            $trans = Transactions::query()
+                ->where('slug', '=', $rfqtrans->cross_slug)
+                ->first();
+
+            $transNewSlug = Str::random();
+            $transNew = new Transactions();
+            $transNew->slug = $transNewSlug;
+            $transNew->resp_center = $trans->resp_center;
+            $transNew->pap_code = $trans->pap_code;
+            $transNew->ref_book = $refBook;
+            $transNew->ref_no = $poNumber;
+            $transNew->cross_slug = $trans->slug;
+            $transNew->cross_ref_no = $trans->ref_no;
+            $transNew->purpose = $trans->purpose;
+            $transNew->jr_type =$trans->jr_type;
+            $transNew->requested_by = $trans->requested_by;
+            $transNew->requested_by_designation = $trans->requested_by_designation;
+            $transNew->approved_by = $trans->approved_by;
+            $transNew->approved_by_designation = $trans->approved_by_designation;
+            $transNew->order_slug = $randomSlug;
+
+            //$totalAbc = 0;
+            $arr = [];
+            if(!empty($request->items)){
+                foreach ($request->items as $item) {
+                    array_push($arr,[
+                        'slug' => Str::random(),
+                        'transaction_slug' => $transNewSlug,
+                        'stock_no' => $item['stock_no'],
+                        'unit' => $item['unit'],
+                        'item' => $item['item'],
+                        'description' => $item['description'],
+                        'qty' => $item['qty'],
+                        'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                        'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
+                        'property_no' => $item['property_no'],
+                        'nature_of_work' => $item['nature_of_work'],
+                    ]);
+                }
             }
         }
 
