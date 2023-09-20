@@ -148,7 +148,7 @@
                                     </span>
                                 </td>
                                 <td style="vertical-align: top; ">{{$item->stock_no}}</td>
-                                <td style="vertical-align: top; ">{{$item->estimated_useful_life ? $item->estimated_useful_life : ""}}</td>
+                                <td style="vertical-align: top; ">{{$item->estimated_useful_life == null ? $item->estimated_useful_life : ""}}</td>
                             </tr>
                             @php
                                 $totalCost += $item->total_cost;
