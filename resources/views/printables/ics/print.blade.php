@@ -131,7 +131,7 @@
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%; text-align: center;">Estimated Useful Life</td>
                     </tr>
                     </thead>
-                    <tbody style="height: 350px; width: 100%;">
+                    <tbody>
                             @php
                                 $totalCost = 0;
                             @endphp
@@ -194,7 +194,7 @@
             $(document).ready(function () {
                 //print();
                 // close();
-                let set = 760;
+                let set = 600;
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem);
