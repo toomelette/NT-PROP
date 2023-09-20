@@ -31,7 +31,7 @@
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 110px">
                     <tbody style="margin: 0; padding: 0">
                         <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                            <td rowspan="5" style="font-size: 30px; width: 50%; border-right: 1px solid black">
+                            <td rowspan="5" style="font-size: 25px; width: 50%; border-right: 1px solid black">
                                 <strong>INVENTORY CUSTODIAN SLIP</strong>
                             </td>
                         </tr>
