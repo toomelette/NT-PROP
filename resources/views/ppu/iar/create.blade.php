@@ -10,108 +10,108 @@
     <section class="content col-md-12">
 
         <div role="document">
-        <form id="add_form">
+            <form id="add_form">
 
-        <div class="box box-success">
-            <div class="box-body">
+                <div class="box box-success">
+                    <div class="box-body">
 
-                {!! \App\Swep\ViewHelpers\__form2::textbox('po_date',[
-                   'label' => 'PO Date',
-                   'cols' => 2,
-                   'type' => 'date',
-                ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('po_date',[
+                           'label' => 'PO Date',
+                           'cols' => 2,
+                           'type' => 'date',
+                        ]) !!}
 
-                {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                    'label' => 'PO No:',
-                    'cols' => 3,
-                 ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
+                            'label' => 'PO No:',
+                            'cols' => 3,
+                         ]) !!}
 
-                {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_date',[
-                   'label' => 'Invoice Date',
-                   'cols' => 2,
-                   'type' => 'date',
-                ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_date',[
+                           'label' => 'Invoice Date',
+                           'cols' => 2,
+                           'type' => 'date',
+                        ]) !!}
 
-                {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_number',[
-                  'label' => 'Invoice No:',
-                  'cols' => 3,
-                  'id' => 'invoice_number',
-               ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_number',[
+                          'label' => 'Invoice No:',
+                          'cols' => 3,
+                          'id' => 'invoice_number',
+                       ]) !!}
 
-                {!! \App\Swep\ViewHelpers\__form2::textbox('date_inspected',[
-                 'label' => 'Date Inspected:',
-                 'cols' => 2,
-                 'id' => 'date_inspected',
-                 'type' => 'date',
-              ]) !!}
-
-
-            </div>
-        </div>
-
-        <div class="box box-success">
-            <div class="box-body">
-
-                {!! \App\Swep\ViewHelpers\__form2::textbox('supplier_name',[
-                  'label' => 'Supplier:',
-                  'cols' => 3,
-                  'id' => 'supplier_name'
-               ]) !!}
-
-                {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[
-                   'label' => 'Requisitioning Office/Department',
-                   'cols' => 3,
-                   'id' => 'resp_center'
-                ]) !!}
-
-                {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
-                   'label' => 'PR/JR No:',
-                   'cols' => 3,
-                   'id' => 'ref_no'
-                ]) !!}
-
-                {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
-                   'label' => 'Requested by:',
-                   'cols' => 3,
-                   'id' => 'requested_by'
-                ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('date_inspected',[
+                         'label' => 'Date Inspected:',
+                         'cols' => 2,
+                         'id' => 'date_inspected',
+                         'type' => 'date',
+                      ]) !!}
 
 
-
-            </div>
-        </div>
-
-        <div class="box box-success">
-            <div class="box-body">
-
-                <div class="" id="tableContainer" style="margin-top: 50px">
-                    <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
-                        <thead>
-                        <tr class="">
-                            <th>Stock No.</th>
-                            <th>Unit</th>
-                            <th>Item</th>
-                            <th>Description</th>
-                            <th>Qty</th>
-                            <th>Unit Cost</th>
-                            <th>Total Cost</th>
-                            <th>Prop. No.</th>
-                            <th>Nature of Work</th>
-                            <th style="width: 3%"></th>
-                        </tr>
-                        </thead>
-                    </table>
+                    </div>
                 </div>
 
-            </div>
-        </div>
+                <div class="box box-success">
+                    <div class="box-body">
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('supplier_name',[
+                          'label' => 'Supplier:',
+                          'cols' => 3,
+                          'id' => 'supplier_name'
+                       ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[
+                           'label' => 'Requisitioning Office/Department',
+                           'cols' => 3,
+                           'id' => 'resp_center'
+                        ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
+                           'label' => 'PR/JR No:',
+                           'cols' => 3,
+                           'id' => 'ref_no'
+                        ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                           'label' => 'Requested by:',
+                           'cols' => 3,
+                           'id' => 'requested_by'
+                        ]) !!}
 
 
-        <div class="pull-right">
-            <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
 
-        </div>
-        </form>
+                    </div>
+                </div>
+
+                <div class="box box-success">
+                    <div class="box-body">
+
+                        <div class="" id="tableContainer" style="margin-top: 50px">
+                            <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
+                                <thead>
+                                <tr class="">
+                                    <th>Stock No.</th>
+                                    <th>Unit</th>
+                                    <th>Item</th>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>Unit Cost</th>
+                                    <th>Total Cost</th>
+                                    <th>Prop. No.</th>
+                                    <th>Nature of Work</th>
+                                    <th style="width: 3%"></th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="pull-right">
+                    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+
+                </div>
+            </form>
         </div>
     </section>
 @endsection
