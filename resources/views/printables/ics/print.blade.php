@@ -31,12 +31,12 @@
                 <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 110px">
                     <tbody style="margin: 0; padding: 0">
                         <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                            <td rowspan="5" style="font-size: 32px; width: 55%; border-right: 1px solid black">
+                            <td rowspan="5" style="font-size: 32px; width: 50%; border-right: 1px solid black">
                                 <strong>Inventory Custodian Slip</strong>
                             </td>
                         </tr>
                         <tr style="margin-top: 5px; border-bottom: 1px solid black;">
-                            <td style="border-right: 1px solid black; vertical-align: center;">
+                            <td style="border-right: 1px solid black; vertical-align: center; width: 15%; ">
                                 ICS No:
                             </td>
                             <td style="border-right: 1px solid black; vertical-align: center;">
@@ -74,16 +74,16 @@
 
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
+                        <td style="border-right: 1px solid black; width: 25%; vertical-align: top;">
                             PO Number:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 12.5%">
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 25%">
                             {{$ics->po_number}}
                         </td>
-                        <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
+                        <td style="border-right: 1px solid black; vertical-align: top; width: 15%">
                             PO Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; width: 12.5%;">
+                        <td class="text-strong" style="vertical-align: top;">
                         {{$ics->po_date}}
                         </td>
 
@@ -91,16 +91,16 @@
 
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
+                        <td style="border-right: 1px solid black; width: 25%; vertical-align: top;">
                         Invoice Number:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black;  width: 12.5%">
+                        <td class="text-strong" style="border-right: 1px solid black;  width: 25%">
                         {{$ics->invoice_number}}
                         </td>
-                        <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
+                        <td style="border-right: 1px solid black; vertical-align: top;">
                         Invoice Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: top; width: 12.5%;">
+                        <td class="text-strong" style="vertical-align: top;">
                         {{$ics->invoice_date}}
                         </td>
 
