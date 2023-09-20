@@ -534,7 +534,7 @@
                             $('#saveBtn').removeClass('hidden');
                             $('#divRows').removeClass('hidden');
                             $('#trans_table tbody').remove();
-                            $('#slug').val(res.trans.slug);
+                            //$('#slug').val(res.trans.slug);
                             let slugs = '';
                             let tableHtml = '<tbody>';
                             let overAllTotal = 0;
@@ -562,9 +562,9 @@
                                     '</tr>';
 
                             }
-                            $('#refBook').val(res.trans.ref_book);
-                            slugs = slugs.slice(0, -1); // Remove the last '~' character
-                            $('#itemSlugEdit').val(slugs);
+                            //$('#refBook').val(res.trans.ref_book);
+                            //slugs = slugs.slice(0, -1); // Remove the last '~' character
+                            //$('#itemSlugEdit').val(slugs);
                             tableHtml += '</tbody>';
                             if($('#isGovernment').val() === 'True'){
                                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));

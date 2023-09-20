@@ -250,34 +250,6 @@ class POController extends Controller
                 ]);
             }
         }
-        /*foreach ($transactionDetails as $transactionDetail) {
-            $aqTotalCost = 0;
-            $aqUnitCost = 0;
-            foreach($aqOfferDetails as $aqd) {
-                if($aqd->item_slug === $transactionDetail->slug){
-                    $aqTotalCost = $aqd->amount;
-                }
-            }
-            $aqUnitCost = $aqTotalCost / $transactionDetail->qty;
-            $aqTotalCost = $aqTotalCost??0;
-            $aqUnitCost = number_format($aqUnitCost, 2, '.', '');
-            $aqUnitCost = $aqUnitCost??0;
-            array_push($arr,[
-                'slug' => Str::random(),
-                'transaction_slug' => $transNewSlug,
-                'stock_no' => $transactionDetail->stock_no,
-                'unit' => $transactionDetail->unit,
-                'item' => $transactionDetail->item,
-                'description' => $transactionDetail->description,
-                'qty' => $transactionDetail->qty,
-                'unit_cost' => Helper::sanitizeAutonum($aqUnitCost),
-                'total_cost' => Helper::sanitizeAutonum($aqTotalCost),
-                'property_no' => $transactionDetail->property_no,
-                'nature_of_work' => $transactionDetail->nature_of_work,
-            ]);
-            //$totalAbc = $totalAbc + $transactionDetail->total_cost;
-        }*/
-
 
         if($order->save()){
             //EMAIL NOTIFICATION
@@ -361,17 +333,28 @@ class POController extends Controller
             }
         }
         else {
-            $trans = Transactions::query()
-                ->where('ref_no', '=', $refNumber)
-                ->where('ref_book', '=', 'PR')
-                ->first();
-            if ($trans==null) {
+            if (strpos($refNumber, ',') !== false) {
+                $refNumberArray = preg_split('/\s*,\s*/', $refNumber, -1, PREG_SPLIT_NO_EMPTY);
+            } else {
+                $refNumberArray = [$refNumber];
+            }
+            $transRecords = Transactions::with('transDetails')
+                ->whereIn('ref_no', $refNumberArray)
+                ->where('ref_book', 'PR')
+                ->get();
+
+            $detailsArray = collect([]);
+
+            foreach ($transRecords as $trans) {
+                $detailsArray = $detailsArray->merge($trans->transDetails);
+            }
+
+            if ($transRecords==null) {
                 abort(503, 'No record found');
             }
-            $transDetails = $trans->transDetails;
+
             return response()->json([
-                'trans' => $trans,
-                'transDetails' => $transDetails
+                'transDetails' => $detailsArray
             ]);
         }
     }

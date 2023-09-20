@@ -167,14 +167,14 @@
                 </tr>
             @endforeach
         @endif
-        <tr>
-            <td id="adjuster"></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+            <tr>
+                <td id="adjuster"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
         </tbody>
         <tfoot>
         <tr>
