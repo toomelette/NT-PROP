@@ -226,7 +226,6 @@
                             </span>
 
                         </div>
-
         </div>
 
 @endsection
