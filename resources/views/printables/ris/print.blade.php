@@ -157,7 +157,7 @@
                 <h5 class="" style="margin-left: 5px; margin-bottom: 30px; text-align: justify; float: left">Requested by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                    <b>{{$ris->requested_by}}</b>
+                    <b><u>{{$ris->requested_by}}</u></b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->requested_by_designation}}
@@ -170,7 +170,7 @@
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Approved by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                    <b>{{$ris->approved_by}}</b>
+                    <b><u>{{$ris->approved_by}}</u></b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->approved_by_designation}}
@@ -185,7 +185,7 @@
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Issued by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                    <b>{{$ris->prepared_by}}</b>
+                    <b><u>{{$ris->prepared_by}}</u></b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->prepared_by_position}}
@@ -198,7 +198,7 @@
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Received by:</h5><br><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                    <b>{{$ris->certified_by}}</b>
+                    <b><u>{{$ris->certified_by}}</u></b>
                 </td><br>
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     {{$ris->certified_by_designation}}
