@@ -16,7 +16,7 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
-                <div id="aq_table_container" style="display: none">
+                <div class="table-responsive" id="aq_table_container" style="display: none">
                     <h4 class="text-danger" style="text-align: right"><strong>Use RFQ Reference Number on Search</strong></h4>
                     <table class="table table-bordered table-striped table-hover" id="aq_table" style="width: 100% !important">
                         <thead>

@@ -29,7 +29,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="email_recipients_table_container" style="display: none">
+                        <div class="table-responsive" id="email_recipients_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="email_recipients_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">

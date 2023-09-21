@@ -52,7 +52,7 @@
 
                     </div>
                 </div>
-                <div id="pr_monitoring_table_container" style="display: none">
+                <div class="table-responsive" id="pr_monitoring_table_container" style="display: none">
                     <table class="table table-bordered table-striped table-hover" id="pr_monitoring_table" style="width: 100% !important">
                         <thead>
                         <tr class="">

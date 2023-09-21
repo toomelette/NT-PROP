@@ -111,20 +111,81 @@
         <tr style="font-size: 14px">
             <td style="width: 33%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
-                    <b>{{$trans->transaction->ref_book == 'PR'?'PR No.:':'JR No.:'}} <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->transaction->ref_no) }}</u></span></b>
+                    <b>PR No.:
+                        <span style="margin-left: 40px; font-size: 14px">
+                            <u>
+                                @if($order->mode == 'Public Bidding')
+                                    <ul style="list-style-type:none;">
+                                        @foreach($poDetails as $poD)
+                                            <li>{{ strtoupper($poD->pr_number) }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    {{ strtoupper($trans->transaction->ref_no) }}
+                                @endif
+                            </u>
+                        </span>
+                    </b>
                 </div>
             </td>
             <td style="width: 33%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start; background-color: yellow">
-                    <b>Charge to: <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->transaction->pap_code) }}</u></span></b>
+                    <b>Charge to:
+                        <span style="margin-left: 40px; font-size: 14px">
+                            <u>
+                                 @if($order->mode == 'Public Bidding')
+                                    <ul style="list-style-type:none; font-size: 12px">
+                                        @foreach($poDetails as $poD)
+                                            <li>
+                                                <span style="float: left;">{{ strtoupper($poD->pap_code) }}</span>
+                                                <span style="float: right; margin-right: -90px">{{number_format($poD->abc,2)}}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    {{ strtoupper($trans->transaction->pap_code) }}
+                                @endif
+                            </u>
+                        </span>
+                    </b>
                 </div>
             </td>
             <td style="width: 33%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>For: <span style="margin-left: 10px; font-size: 14px"><u>{{ strtoupper($rc->desc) }}</u></span></b>
+                    <b>For:
+                        <span style="margin-left: 10px; font-size: 14px">
+                            <u>
+                                @if($order->mode == 'Public Bidding')
+                                    @foreach($poDetails as $poD)
+                                        @foreach($rc as $res)
+                                            @if($res->rc_code == $poD->resp_center)
+                                                {{ strtoupper($res->desc) }},
+                                            @endif
+                                        @endforeach
+                                    @endforeach
+                                @else
+                                    {{ strtoupper($rc->desc) }}
+                                @endif
+                            </u>
+                        </span>
+                    </b>
                 </div>
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 36px; font-size: 14px"><u>{{ strtoupper($trans->transaction->requested_by) }}</u></span></b>
+                    <b>
+                        <span style="margin-left: 36px; font-size: 14px">
+                            <u>
+                                @if($order->mode == 'Public Bidding')
+                                    <ul style="list-style-type:none; font-size: 10px">
+                                        @foreach($poDetails as $poD)
+                                            <li>{{ strtoupper($poD->requested_by) }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    {{ strtoupper($trans->transaction->requested_by) }}
+                                @endif
+                            </u>
+                        </span>
+                    </b>
                 </div>
             </td>
         </tr>

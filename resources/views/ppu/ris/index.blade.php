@@ -20,7 +20,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="ris_table_container" style="display: none">
+                        <div class="table-responsive" id="ris_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="ris_table" style="width: 100% !important">
                                 <thead>
                                 <tr style="width: 100%">

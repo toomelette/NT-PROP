@@ -19,8 +19,8 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="par_table_container" style="display: none">
-                            <table class="table table-bordered table-striped table-hover" id="par_table" style="width: 100% !important">
+                        <div class="table-responsive" id="par_table_container" style="">
+                            <table class="table table-bordered table-striped table-hover" id="par_table" style="width: 100% !important;">
                                 <thead>
                                 <tr class="">
                                     <th>Property No</th>
