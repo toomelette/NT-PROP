@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Articles;
 use App\Models\IAR;
 use App\Models\Options;
 use App\Models\Order;
@@ -110,11 +111,12 @@ class IARController extends Controller
             $transNew->resp_center = $request->resp_center;
         }
 
-        $items = Options::query()->get();
+        $items = Articles::query()->get();
         $totalabc = 0;
         $arr = [];
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
+
                 $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
                 if($itemName == null){
                     $itemName = $item['item'];
