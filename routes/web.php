@@ -214,6 +214,14 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
     Route::patch('/ris/update/{slug}','RISController@update')->name('ris.update');
 
+    Route::get('/wmr/create','WMRController@create')->name('wmr.create');
+    Route::get('/wmr/findTransByRefNumber/{refNumber}','WMRController@findTransByRefNumber')->name('wmr.findTransByRefNumber');
+    Route::post('/wmr/store','WMRController@store')->name('wmr.store');
+    Route::get('/wmr/{slug}/print','WMRController@print')->name('wmr.print');
+    Route::get('/wmr/index','WMRController@index')->name('wmr.index');
+    Route::get('/wmr/{slug}/edit','WMRController@edit')->name('wmr.edit');
+    Route::patch('/wmr/update/{slug}','WMRController@update')->name('wmr.update');
+
     Route::get('/ics/create','ICSController@create')->name('ics.create');
     Route::get('/ics/findIAR/{refNumber}','ICSController@findIAR')->name('ics.findIAR');
     Route::post('/ics/store','ICSController@store')->name('ics.store');

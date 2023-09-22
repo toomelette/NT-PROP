@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\IAR;
+use App\Models\Options;
 use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\TransactionDetails;
@@ -63,51 +64,74 @@ class IARController extends Controller
 
     public function store(FormRequest $request)
     {
-        $order = Order::query()->where('ref_no', '=', $request->ref_number)
-            ->where('ref_book', '=', 'PO')->first();
-        $trans = Transactions::query()->where('order_slug', '=', $order->slug)->first();
-
         $transNewSlug = Str::random();
         $transNew = new Transactions();
         $transNew->slug = $transNewSlug;
         $transNew->date = $request->date;
-        $transNew->resp_center = $trans->resp_center;
-        $transNew->pap_code = $trans->pap_code;
         $transNew->ref_book = 'IAR';
         $transNew->ref_no = $this->getNextIARno();
-        $transNew->cross_slug = $trans->slug;
-        $transNew->cross_ref_no = $trans->ref_no;
-        $transNew->purpose = $trans->purpose;
-        $transNew->jr_type = $trans->jr_type;
-        $transNew->requested_by = $trans->requested_by;
-        $transNew->requested_by_designation = $trans->requested_by_designation;
-        $transNew->approved_by = $trans->approved_by;
-        $transNew->approved_by_designation = $trans->approved_by_designation;
         $transNew->po_number = $request->ref_number;
         $transNew->po_date = $request->po_date;
         $transNew->invoice_number = $request->invoice_number;
         $transNew->invoice_date = $request->invoice_date;
         $transNew->date_inspected = $request->date_inspected;
-        $transNew->supplier = $order->supplier_name;
-        $transNew->supplier_address = $order->supplier_address;
-        $transNew->supplier_tin = $order->supplier_tin;
+        $transNew->requested_by = $request->requested_by;
+        $transNew->requested_by_designation = $request->requested_by_designation;
+        $transNew->resp_center = $request->resp_center;
+        $transNew->pap_code = $request->pap_code;
+        $transNew->supplier = $request->supplier_name;
+        $transNew->cross_ref_no = $request->ref_no;
+        if ($request->ref_number != ""){
+            $order = Order::query()->where('ref_no', '=', $request->ref_number)
+                ->where('ref_book', '=', 'PO')->first();
+            $trans = Transactions::query()->where('order_slug', '=', $order->slug)->first();
+            $transNew->resp_center = $trans->resp_center;
+            $transNew->pap_code = $trans->pap_code;
+            $transNew->cross_slug = $trans->slug;
+            $transNew->cross_ref_no = $trans->ref_no;
+            $transNew->purpose = $trans->purpose;
+            $transNew->jr_type = $trans->jr_type;
+            $transNew->requested_by = $trans->requested_by;
+            $transNew->requested_by_designation = $trans->requested_by_designation;
+            $transNew->approved_by = $trans->approved_by;
+            $transNew->approved_by_designation = $trans->approved_by_designation;
+            $transNew->supplier = $order->supplier_name;
+            $transNew->supplier_address = $order->supplier_address;
+            $transNew->supplier_tin = $order->supplier_tin;
+        }
+        else {
+            $transNew->cross_slug = "";
+            $transNew->purpose = "";
+            $transNew->jr_type = "";
+            $transNew->approved_by = "";
+            $transNew->approved_by_designation = "";
+            $transNew->supplier_address = "";
+            $transNew->supplier_tin = "";
+            $transNew->resp_center = $request->resp_center;
+        }
 
+        $items = Options::query()->get();
         $totalabc = 0;
         $arr = [];
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
+                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
+                if($itemName == null){
+                    $itemName = $item['item'];
+                }
+
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $transNewSlug,
                     'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $itemName,
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
-                    'property_no' => $item['property_no'],
-                    'nature_of_work' => $item['nature_of_work'],
+//                    'property_no' => $item['property_no'],
+//                    'nature_of_work' => $item['nature_of_work'],
                 ]);
                 $totalabc = $totalabc + Helper::sanitizeAutonum($item['total_cost']);
             }
@@ -141,14 +165,22 @@ class IARController extends Controller
 
     public function print($slug){
         $iar = Transactions::query()->where('slug', $slug)->first();
-        $po = Transactions::query()->where('slug', '=', $iar->cross_slug)->first();
-        $pr = Transactions::query()->where( 'slug', '=', $po->cross_slug)->first();
         $rc = PPURespCodes::query()->where('rc_code', $iar->resp_center)->first();
+        if($iar->cross_slug != ""){
+            $po = Transactions::query()->where('slug', '=', $iar->cross_slug)->first();
+            $pr = Transactions::query()->where( 'slug', '=', $po->cross_slug)->first();
+
+            return view('printables.iar.print')->with([
+                'iar' => $iar,
+                'rc' => $rc,
+                'pr' => $pr
+            ]);
+        }
         return view('printables.iar.print')->with([
             'iar' => $iar,
             'rc' => $rc,
-            'pr' => $pr
         ]);
+
     }
 
     public function edit($slug){

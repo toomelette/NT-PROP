@@ -32,7 +32,6 @@ class RISController extends Controller
     {
 
         $resp_center = PPURespCodes::all();
-
         $ris = Transactions::query()->where('ref_book', '=', 'RIS');
         return DataTables::of($ris)
             ->addColumn('action', function ($data) {

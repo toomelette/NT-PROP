@@ -74,9 +74,15 @@
                         <td style="border-right: 1px solid black; width: 14%; vertical-align: top;">
                             PR/JR No:
                         </td>
+                        @if($iar->cross_slug != "")
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
                             {{$pr->ref_no}}
                         </td>
+                            @else
+                            <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
+                                {{$iar->cross_ref_no}}
+                            </td>
+                            @endif
                     </tr>
 
                     <tr style="border: 1px solid black; width: 100%;">

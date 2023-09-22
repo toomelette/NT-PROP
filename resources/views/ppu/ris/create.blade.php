@@ -135,7 +135,7 @@
                                     </table>
                             </div>
                         </div>
-                    </div>
+                </div>
 
             </form>
         </div>
@@ -151,21 +151,6 @@
 @section('scripts')
     <script type="text/javascript">
 
-        {{--$(".select2_papCode").select2({--}}
-        {{--    ajax: {--}}
-        {{--        url: '{{route("dashboard.ajax.get","pap_codes")}}',--}}
-        {{--        dataType: 'json',--}}
-        {{--        delay : 250,--}}
-        {{--        data: function (params) {--}}
-        {{--            var query = {--}}
-        {{--                search: params.term,--}}
-        {{--                page: params.page || 1--}}
-        {{--            }--}}
-        {{--            return query;--}}
-        {{--        }--}}
-        {{--    },--}}
-        {{--    placeholder: 'Type PAP Code/Title/Description',--}}
-        {{--});--}}
 
         $("#add_form").submit(function(e) {
             e.preventDefault();
@@ -215,6 +200,8 @@
                 }
             })
         });
+
+
 
         $(".select2_item").select2({
             ajax: {

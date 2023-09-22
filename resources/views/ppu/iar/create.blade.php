@@ -2,17 +2,23 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Inspection Acceptance Report</h1>
+        <h1>Inspection and Acceptance Report</h1>
     </section>
 @endsection
 @section('content2')
 
-    <section class="content col-md-12">
+<section class="content col-md-12">
+    <div role="document">
+        <form id="add_form">
 
-        <div role="document">
-            <form id="add_form">
-
-                <div class="box box-success">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Create IAR</h3>
+                    <button class="btn btn-primary btn-sm pull-right" id="saveBtn" type="button">
+                        <i class="fa fa-check"></i> Save
+                    </button>
+                    <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.iar.index')}}">Back</a>
+                </div>
                     <div class="box-body">
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('po_date',[
@@ -58,11 +64,18 @@
                           'id' => 'supplier_name'
                        ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[
-                           'label' => 'Requisitioning Office/Department',
-                           'cols' => 3,
-                           'id' => 'resp_center'
-                        ]) !!}
+{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[--}}
+{{--                           'label' => 'Requisitioning Office/Department',--}}
+{{--                           'cols' => 3,--}}
+{{--                           'id' => 'resp_center'--}}
+{{--                        ]) !!}--}}
+
+                        {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
+                               'label' => 'Responsibility Center',
+                               'cols' => 3,
+                               'id' => 'resp_center',
+                               'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
+                            ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
                            'label' => 'PR/JR No:',
@@ -82,12 +95,12 @@
                 </div>
 
                 <div class="box box-success">
-                    <div class="box-body">
-
-                        <div class="" id="tableContainer" style="margin-top: 50px">
-                            <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
+                    <div class="row">
+                        <div class="col-md-12" style="min-height: 200px">
+                            <button data-target="#iar_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=iar_items" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+                            <table id="iar_items_table" class="table-bordered table table-condensed table-striped">
                                 <thead>
-                                <tr class="">
+                                <tr>
                                     <th>Stock No.</th>
                                     <th>Unit</th>
                                     <th>Item</th>
@@ -95,22 +108,19 @@
                                     <th>Qty</th>
                                     <th>Unit Cost</th>
                                     <th>Total Cost</th>
-                                    <th>Prop. No.</th>
-                                    <th>Nature of Work</th>
+{{--                                    <th>Prop. No.</th>--}}
+{{--                                    <th>Nature of Work</th>--}}
                                     <th style="width: 3%"></th>
                                 </tr>
                                 </thead>
+                                <tbody>
+                                @include('dynamic_rows.iar_items')
+                                </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
 
-
-                <div class="pull-right">
-                    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
-
-                </div>
             </form>
         </div>
     </section>
@@ -138,11 +148,16 @@
                  {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    console.log(res);
-                    toast('success','IAR Successfully created.','Success!');
-                    succeed(form,true,true);
+                    succeed(form,true,false);
+                    // $(".select2_papCode").select2("val", "");
+                    // $(".select2_papCode").trigger('change');
+                    $(".remove_row_btn").each(function () {
+                        $(this).click();
+                    })
+                    $(".add_button").click();
+                    toast('success','IAR successfully added.','Success!');
                     Swal.fire({
-                        title: 'Successfully created',
+                        title: 'IAR Successfully created',
                         icon: 'success',
                         html:
                             'Click the print button below to print.',
@@ -164,17 +179,66 @@
                     })
                 },
                 error: function (res) {
+                    errored(form,res);
                     toast('error',res.responseJSON.message,'Error!');
                 }
-            });
-
-
+            })
         });
 
-        function deleteRow(button) {
-            const row = button.closest('tr');
-            row.remove();
-        }
+
+        {{--$("#add_form").submit(function(e) {--}}
+        {{--    e.preventDefault();--}}
+        {{--    let form = $(this);--}}
+        {{--    loading_btn(form);--}}
+        {{--    $.ajax({--}}
+        {{--        url : '{{route("dashboard.iar.store")}}',--}}
+        {{--        data : form.serialize(),--}}
+        {{--        type: 'POST',--}}
+        {{--        headers: {--}}
+        {{--            {!! __html::token_header() !!}--}}
+        {{--        },--}}
+        {{--        success: function (res) {--}}
+        {{--            succeed(form,true,false);--}}
+        {{--            // $(".select2_papCode").select2("val", "");--}}
+        {{--            // $(".select2_papCode").trigger('change');--}}
+        {{--            $(".remove_row_btn").each(function () {--}}
+        {{--                $(this).click();--}}
+        {{--            })--}}
+        {{--            $(".add_button").click();--}}
+        {{--            toast('success','IAR successfully added.','Success!');--}}
+        {{--            Swal.fire({--}}
+        {{--                title: 'IAR Successfully created',--}}
+        {{--                icon: 'success',--}}
+        {{--                html:--}}
+        {{--                    'Click the print button below to print.',--}}
+        {{--                showCloseButton: true,--}}
+        {{--                showCancelButton: true,--}}
+        {{--                focusConfirm: false,--}}
+        {{--                confirmButtonText:--}}
+        {{--                    '<i class="fa fa-print"></i> Print',--}}
+        {{--                confirmButtonAriaLabel: 'Thumbs up, great!',--}}
+        {{--                cancelButtonText:--}}
+        {{--                    'Dismiss',--}}
+        {{--                cancelButtonAriaLabel: 'Thumbs down'--}}
+        {{--            }).then((result) => {--}}
+        {{--                if (result.isConfirmed) {--}}
+        {{--                    let link = "{{route('dashboard.iar.print','slug')}}";--}}
+        {{--                    link = link.replace('slug',res.slug);--}}
+        {{--                    window.open(link, '_blank');--}}
+        {{--                }--}}
+        {{--            })--}}
+        {{--        },--}}
+        {{--        error: function (res) {--}}
+        {{--            errored(form,res);--}}
+        {{--            toast('error',res.responseJSON.message,'Error!');--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--});--}}
+
+        {{--function deleteRow(button) {--}}
+        {{--    const row = button.closest('tr');--}}
+        {{--    row.remove();--}}
+        {{--}--}}
 
         $('input[name="ref_number"]').unbind().bind('keyup', function(e) {
             if($('input[name="ref_number"]').val() === ''){
@@ -195,17 +259,18 @@
                             console.log(res);
 
                          $("#supplier_name").val(res.order.supplier_name);
-                         $("#resp_center").val(res.rc.department);
+                         // $("#resp_center").val(res.rc.department);
+                         $("#resp_center").val(res.rc.rc_code);
                          $("#ref_no").val(res.trans.ref_no);
                          $("#requested_by").val(res.trans.requested_by);
 
-                            $('#trans_table tbody').remove();
+                            $('#iar_items_table tbody').remove();
                             let tableHtml = '<tbody>';
                             for(let i=0; i<res.transDetails.length; i++){
                                 let stock = res.transDetails[i].stock_no;
                                 stock = stock === null ? '' : stock;
-                                let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
-                                let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
+                                // let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
+                                // let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                 '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                 '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
@@ -214,14 +279,12 @@
                                 '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                 '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + res.transDetails[i].unit_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                 '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + res.transDetails[i].total_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
-                                '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
-                                '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
                                 '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
                                 '</tr>';
 
                             }
                             tableHtml += '</tbody>';
-                            $('#trans_table').append(tableHtml).removeClass('hidden');
+                            $('#iar_items_table').append(tableHtml).removeClass('hidden');
 
 
 
@@ -232,6 +295,25 @@
                     })
                     }
                 }
+        });
+
+        $(".select2_item").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            placeholder: 'Select item',
+        });
+
+        $('.select2_item').on('select2:select', function (e) {
+            let t = $(this);
+            let parentTrId = t.parents('tr').attr('id');
+            let data = e.params.data;
+
+            $("#"+parentTrId+" [for='stock_no']").val(data.id);
+            $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
+            $("#"+parentTrId+" [for='itemName']").val(data.text);
         });
 
     </script>
