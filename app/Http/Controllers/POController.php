@@ -206,16 +206,35 @@ class POController extends Controller
         $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
         $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
 
+        $arr = [];
         if($request->mode == "Public Bidding"){
             $refNumberArray = preg_split('/\s*,\s*/', $request->ref_number, -1, PREG_SPLIT_NO_EMPTY);
-            dd($request->items);
-            /*$totalAbc = 0;
-            $arr = [];
+            $transRecords = Transactions::whereIn('ref_no', $refNumberArray)
+                ->where('ref_book', 'PR')
+                ->get();
+
+            $transNewSlug = Str::random();
+            $transNew = new Transactions();
+            $transNew->slug = $transNewSlug;
+            $transNew->ref_book = $refBook;
+            $transNew->ref_no = $poNumber;
+            $transNew->order_slug = $randomSlug;
+
+            $transactionTotals = [];
             if(!empty($request->items)){
                 foreach ($request->items as $item) {
+                    $slug = $item['transaction_slug'];
+                    $cost = Helper::sanitizeAutonum($item['total_cost']);
+
+                    if (isset($transactionTotals[$slug])) {
+                        $transactionTotals[$slug] += $cost;
+                    } else {
+                        $transactionTotals[$slug] = $cost;
+                    }
+
                     array_push($arr,[
                         'slug' => Str::random(),
-                        'transaction_slug' => $transNewSlug,
+                        'transaction_slug' =>$transNewSlug,
                         'stock_no' => $item['stock_no'],
                         'unit' => $item['unit'],
                         'item' => $item['item'],
@@ -227,14 +246,24 @@ class POController extends Controller
                         'nature_of_work' => $item['nature_of_work'],
                     ]);
                 }
-            }*/
-
-            foreach ($refNumberArray as $refNumber) {
-                $poDetails = new PODetails();
-                $poDetails->slug = Str::random();
-                $poDetails->order_slug = $order->slug;
-                $poDetails->pr_number = $refNumber;
-                $poDetails->save();
+            }
+            foreach ($transactionTotals as $slug => $total_cost) {
+                foreach ($refNumberArray as $refNumber) {
+                    $trans = $transRecords->where('ref_no', $refNumber)->first();
+                    if($trans->slug == $slug){
+                        $poDetails = new PODetails();
+                        $poDetails->slug = Str::random();
+                        $poDetails->order_slug = $order->slug;
+                        $poDetails->pr_number = $refNumber;
+                        $poDetails->abc = $total_cost;
+                        if ($trans) {
+                            $poDetails->pap_code = $trans->pap_code;
+                            $poDetails->resp_center = $trans->resp_center;
+                            $poDetails->requested_by = $trans->requested_by;
+                        }
+                        $poDetails->save();
+                    }
+                }
             }
         }
         else {
@@ -264,8 +293,6 @@ class POController extends Controller
             $transNew->approved_by_designation = $trans->approved_by_designation;
             $transNew->order_slug = $randomSlug;
 
-            //$totalAbc = 0;
-            $arr = [];
             if(!empty($request->items)){
                 foreach ($request->items as $item) {
                     array_push($arr,[
@@ -286,19 +313,41 @@ class POController extends Controller
         }
 
         if($order->save()){
-            //EMAIL NOTIFICATION
-            $to = $transNew->transaction->userCreated->email;
-            $subject = Arrays::acronym($transNew->transaction->ref_book).' No. '.$transNew->transaction->ref_no;
-            $cc = $transNew->rc->emailRecipients->pluck('email_address')->toArray();
-            $body = view('mailables.email_notifier.body-po-created')->with([
-                'prOrJr' => $transNew->transaction,
-                'po' => $transNew,
-            ])->render();
-
             if($transNew->save()){
                 TransactionDetails::insert($arr);
-                //QUEUE EMAIL
-                EmailNotification::dispatch($to,$subject,$body,$cc);
+                if($request->mode == "Public Bidding"){
+                    $refNumberArray = preg_split('/\s*,\s*/', $request->ref_number, -1, PREG_SPLIT_NO_EMPTY);
+                    $transRecords = Transactions::whereIn('ref_no', $refNumberArray)
+                        ->where('ref_book', 'PR')
+                        ->get();
+
+                    foreach ($transRecords as $tr) {
+                        //EMAIL NOTIFICATION
+                        $to = $tr->userCreated->email;
+                        $subject = Arrays::acronym($tr->ref_book).' No. '.$tr->ref_no;
+                        $cc = $tr->rc->emailRecipients->pluck('email_address')->toArray();
+                        $body = view('mailables.email_notifier.body-po-created')->with([
+                            'prOrJr' => $tr,
+                            'po' => $transNew,
+                        ])->render();
+
+                        //QUEUE EMAIL
+                        EmailNotification::dispatch($to,$subject,$body,$cc);
+                    }
+                }
+                else {
+                    //EMAIL NOTIFICATION
+                    $to = $transNew->transaction->userCreated->email;
+                    $subject = Arrays::acronym($transNew->transaction->ref_book).' No. '.$transNew->transaction->ref_no;
+                    $cc = $transNew->rc->emailRecipients->pluck('email_address')->toArray();
+                    $body = view('mailables.email_notifier.body-po-created')->with([
+                        'prOrJr' => $transNew->transaction,
+                        'po' => $transNew,
+                    ])->render();
+
+                    //QUEUE EMAIL
+                    EmailNotification::dispatch($to,$subject,$body,$cc);
+                }
             }else{
                 abort(503,'Error saving PO.');
             }
@@ -398,22 +447,39 @@ class POController extends Controller
         $trans = Transactions::query()->where('order_slug','=', $order->slug)->first();
         $nature_of_work_arr = [];
         $td = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
-        $rc = PPURespCodes::query()->where('rc_code','=', $trans->resp_center)->first();
         $supplier = Suppliers::query()->where('slug','=', $order->supplier)->first();
-        /*foreach ($trans->transaction->transDetails as $tran){
-            $nature_of_work_arr[] = $tran->nature_of_work;
-        }*/
+        if($order->mode == 'Public Bidding'){
+            $poDetails = PODetails::query()->where('order_slug', $order->slug)->get();
+            $rc = PPURespCodes::query()->get();
 
-        foreach ($td as $tran){
-            $nature_of_work_arr[] = $tran->nature_of_work;
+            foreach ($td as $tran){
+                $nature_of_work_arr[] = $tran->nature_of_work;
+            }
+
+            return view('printables.po.po')->with([
+                'order' => $order,
+                'trans' => $trans,
+                'td' => $td,
+                'nature_of_work_arr' => $nature_of_work_arr,
+                'rc' => $rc,
+                'supplier' => $supplier,
+                'poDetails' => $poDetails
+            ]);
         }
-        return view('printables.po.po')->with([
-            'order' => $order,
-            'trans' => $trans,
-            'td' => $td,
-            'nature_of_work_arr' => $nature_of_work_arr,
-            'rc' => $rc,
-            'supplier' => $supplier
-        ]);
+        else {
+            $rc = PPURespCodes::query()->where('rc_code','=', $trans->resp_center)->first();
+
+            foreach ($td as $tran){
+                $nature_of_work_arr[] = $tran->nature_of_work;
+            }
+            return view('printables.po.po')->with([
+                'order' => $order,
+                'trans' => $trans,
+                'td' => $td,
+                'nature_of_work_arr' => $nature_of_work_arr,
+                'rc' => $rc,
+                'supplier' => $supplier
+            ]);
+        }
     }
 }

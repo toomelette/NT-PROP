@@ -104,7 +104,7 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="articles_table_container" style="display: none">
+                        <div class="table-responsive" id="articles_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="articles_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">

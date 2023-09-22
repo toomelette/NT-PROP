@@ -134,6 +134,15 @@
                                             'JR' => 'JR'
                                         ],
                                     ]) !!}--}}
+                    <div class="clearfix">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <h5 style="color: red">*For multiple PR numbers, please separate them with comma before pressing enter.</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
                                             'label' => 'PR Reference Number:',
                                             'cols' => 3,

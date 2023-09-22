@@ -56,7 +56,7 @@
                                 ) !!}
 
                                 <div class="col-md-12">
-                                    <div class="" id="tableContainer" style="margin-top: 50px">
+                                    <div class="table-responsive" id="tableContainer" style="margin-top: 50px">
                                         <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
                                             <thead>
                                             <tr class="">
