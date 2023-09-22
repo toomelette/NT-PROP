@@ -71,7 +71,7 @@
 {{--                        ]) !!}--}}
 
                         {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
-                               'label' => 'Responsibility Center',
+                               'label' => 'Requisitioning Office/Department',
                                'cols' => 3,
                                'id' => 'resp_center',
                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
@@ -101,13 +101,13 @@
                             <table id="iar_items_table" class="table-bordered table table-condensed table-striped">
                                 <thead>
                                 <tr>
-                                    <th>Stock No.</th>
-                                    <th>Unit</th>
-                                    <th>Item</th>
-                                    <th>Description</th>
-                                    <th>Qty</th>
-                                    <th>Unit Cost</th>
-                                    <th>Total Cost</th>
+                                    <th style="width: 5%">Stock No.</th>
+                                    <th style="width: 10%">Unit</th>
+                                    <th style="width: 25%">Item</th>
+                                    <th style="width: 25%">Description</th>
+                                    <th style="width: 8%">Qty</th>
+                                    <th style="width: 8%">Unit Cost</th>
+                                    <th style="width: 8%">Total Cost</th>
 {{--                                    <th>Prop. No.</th>--}}
 {{--                                    <th>Nature of Work</th>--}}
                                     <th style="width: 3%"></th>
