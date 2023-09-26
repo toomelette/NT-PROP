@@ -61,11 +61,15 @@ class ICSController extends Controller
     }
 
     public function store(FormRequest $request){
+        $trans = new Transactions();
         $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
                 ->where('ref_book','=','IAR')->first();
-        $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
-        $order = Order::query()->where('slug', $po->order_slug)->first();
-        $trans = new Transactions();
+        if($iar->cross_slug != null || $iar->cross_slug != ""){
+            $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
+            $order = Order::query()->where('slug', $po->order_slug)->first();
+            $trans->po_number = $po->ref_no;
+            $trans->po_date = $order->date;
+        }
         $transNewSlug = Str::random();
         $trans->slug = $transNewSlug;
         $trans->cross_slug = $iar->slug;
@@ -77,8 +81,7 @@ class ICSController extends Controller
         $trans->account_code = $request->account_code;
         $trans->fund_cluster = $request->fund_cluster;
         $trans->supplier = $iar->supplier;
-        $trans->po_number = $po->ref_no;
-        $trans->po_date = $order->date;
+
         $trans->invoice_number = $request->invoice_number;
         $trans->invoice_date = $request->invoice_date;
         $trans->approved_by = $request->approved_by;
