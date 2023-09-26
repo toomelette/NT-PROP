@@ -185,7 +185,7 @@ class MyPrController extends Controller
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
                     'stock_no' => $item['stockNo'],
-                    'unit' => $item['uom'],
+                    'unit' => $item['unit'],
                     'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
