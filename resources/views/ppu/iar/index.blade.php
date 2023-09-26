@@ -103,10 +103,10 @@
                     if(active != ''){
                         if(Array.isArray(active) == true){
                             $.each(active,function (i,item) {
-                                $("#iar_table #"+item).addClass('success');
+                                $("#iar_tbl #"+item).addClass('success');
                             })
                         }
-                        $("#iar_table #"+active).addClass('success');
+                        $("#iar_tbl #"+active).addClass('success');
                     }
                 }
             });

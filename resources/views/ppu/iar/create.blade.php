@@ -186,59 +186,10 @@
         });
 
 
-        {{--$("#add_form").submit(function(e) {--}}
-        {{--    e.preventDefault();--}}
-        {{--    let form = $(this);--}}
-        {{--    loading_btn(form);--}}
-        {{--    $.ajax({--}}
-        {{--        url : '{{route("dashboard.iar.store")}}',--}}
-        {{--        data : form.serialize(),--}}
-        {{--        type: 'POST',--}}
-        {{--        headers: {--}}
-        {{--            {!! __html::token_header() !!}--}}
-        {{--        },--}}
-        {{--        success: function (res) {--}}
-        {{--            succeed(form,true,false);--}}
-        {{--            // $(".select2_papCode").select2("val", "");--}}
-        {{--            // $(".select2_papCode").trigger('change');--}}
-        {{--            $(".remove_row_btn").each(function () {--}}
-        {{--                $(this).click();--}}
-        {{--            })--}}
-        {{--            $(".add_button").click();--}}
-        {{--            toast('success','IAR successfully added.','Success!');--}}
-        {{--            Swal.fire({--}}
-        {{--                title: 'IAR Successfully created',--}}
-        {{--                icon: 'success',--}}
-        {{--                html:--}}
-        {{--                    'Click the print button below to print.',--}}
-        {{--                showCloseButton: true,--}}
-        {{--                showCancelButton: true,--}}
-        {{--                focusConfirm: false,--}}
-        {{--                confirmButtonText:--}}
-        {{--                    '<i class="fa fa-print"></i> Print',--}}
-        {{--                confirmButtonAriaLabel: 'Thumbs up, great!',--}}
-        {{--                cancelButtonText:--}}
-        {{--                    'Dismiss',--}}
-        {{--                cancelButtonAriaLabel: 'Thumbs down'--}}
-        {{--            }).then((result) => {--}}
-        {{--                if (result.isConfirmed) {--}}
-        {{--                    let link = "{{route('dashboard.iar.print','slug')}}";--}}
-        {{--                    link = link.replace('slug',res.slug);--}}
-        {{--                    window.open(link, '_blank');--}}
-        {{--                }--}}
-        {{--            })--}}
-        {{--        },--}}
-        {{--        error: function (res) {--}}
-        {{--            errored(form,res);--}}
-        {{--            toast('error',res.responseJSON.message,'Error!');--}}
-        {{--        }--}}
-        {{--    })--}}
-        {{--});--}}
-
-        {{--function deleteRow(button) {--}}
-        {{--    const row = button.closest('tr');--}}
-        {{--    row.remove();--}}
-        {{--}--}}
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
 
         $('input[name="ref_number"]').unbind().bind('keyup', function(e) {
             if($('input[name="ref_number"]').val() === ''){
