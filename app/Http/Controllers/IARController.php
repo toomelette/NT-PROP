@@ -30,6 +30,7 @@ class IARController extends Controller
 
     public function dataTable($request)
     {
+        $resp_center = PPURespCodes::all();
         $iar = Transactions::query()->where('ref_book', '=', 'IAR');
         return DataTables::of($iar)
             ->addColumn('action', function ($data) {
@@ -37,6 +38,15 @@ class IARController extends Controller
                     'data' => $data
                 ]);
             })
+            ->editColumn('resp_center', function ($data) use ($resp_center) {
+                $item = $resp_center->where("rc_code", $data->resp_center)->first();
+                if($item){
+                    return $item->desc;
+                }else{
+                    return null;
+                }
+            })
+
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();

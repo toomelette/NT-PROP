@@ -58,7 +58,7 @@
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
 
-            iar_tbl = $("#ris_table").DataTable({
+            ris_tbl = $("#ris_table").DataTable({
                 "ajax" : '{{route("dashboard.ris.index")}}',
                 "columns": [
                     { "data": "ref_no" },
