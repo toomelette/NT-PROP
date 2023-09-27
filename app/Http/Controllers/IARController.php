@@ -135,7 +135,7 @@ class IARController extends Controller
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $transNewSlug,
-                    'stock_no' => $item['stockNo'],
+                    'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
                     'item' => $itemName,
                     'description' => $item['description'],
