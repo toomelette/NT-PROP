@@ -193,7 +193,6 @@ class RISController extends Controller
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
-
         $trans->prepared_by = $request->prepared_by;
         $trans->prepared_by_position = $request->prepared_by_position;
         $trans->certified_by = $request->certified_by;
