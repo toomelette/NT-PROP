@@ -98,7 +98,6 @@ class MyPrController extends Controller
     }
 
     public function store(PRFormRequest $request){
-
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'PR';
@@ -172,9 +171,9 @@ class MyPrController extends Controller
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
-        $trans->requested_by = $request->issued_by;
-        $trans->requested_by_designation = $request->issued_by_designation;
-        $trans->approved_by = $request->received_by;
+        $trans->requested_by = $request->requested_by;
+        $trans->requested_by_designation = $request->requested_by_designation;
+        $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
 
         $abc = 0;
@@ -185,7 +184,7 @@ class MyPrController extends Controller
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
                     'stock_no' => $item['stockNo'],
-                    'unit' => $item['uom'],
+                    'unit' => $item['unit'],
                     'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],

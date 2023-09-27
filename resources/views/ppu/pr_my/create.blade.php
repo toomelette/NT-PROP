@@ -14,7 +14,7 @@
         <form id="add_pr_form">
             <div class="box-header with-border">
                 <h3 class="box-title">Create PR</h3>
-                <button class="btn btn-primary btn-sm pull-right"  type="submit">
+                <button class="btn btn-primary btn-sm pull-right" type="button" id="btnSave">
                     <i class="fa fa-check"></i> Save
                 </button>
             </div>
@@ -193,9 +193,9 @@
         $("#"+parentTableId+" .grandTotal").html($.number(grandTotal,2))
     })
 
-    $("#add_pr_form").submit(function (e) {
+    $("#btnSave").click(function (e) {
         e.preventDefault();
-        let form = $(this);
+        let form = $("#add_pr_form");
         loading_btn(form);
         $.ajax({
             url : '{{route("dashboard.my_pr.store")}}',
