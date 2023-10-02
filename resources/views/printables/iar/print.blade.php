@@ -158,7 +158,7 @@
                                     @if($item->description)
                                         <ul style="">
                                             @foreach(explode("\n", $item->description) as $line)
-                                                <li><i>{{ $line }}</i>></li>
+                                                <li><i>{{ $line }}</i></li>
                                             @endforeach
                                         </ul>
                                     @endif
