@@ -10,7 +10,7 @@
 
 @section('wrapper')
     <div class="printable">
-        <div style="width: 100%;">
+        <div style="width: 99%;">
             <div class="" style="padding-top: 50px;">
                 <div>
                     <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
@@ -43,14 +43,14 @@
                                 <span class="text-strong">{{$ics->ref_no}}</span>
                             </td>
                         </tr>
-                        <tr style="border-bottom: 1px solid black;">
+                        {{--<tr style="border-bottom: 1px solid black;">
                             <td style="border-right: 1px solid black; vertical-align: center;">
                                Resp. Center:
                             </td>
                             <td style="border-right: 1px solid black; vertical-align: center;">
                                <span class="text-strong">{{$rc->desc}}</span>
                             </td>
-                        </tr>
+                        </tr>--}}
                         <tr style="border-bottom: 1px solid black;">
                             <td style="border-right: 1px solid black; vertical-align: center;">
                                Fund Cluster:
@@ -70,7 +70,7 @@
                     </tbody>
                 </table>
 
-                <table style="width: 100%; border: #0a0a0a; font-family: Cambria,Arial; ">
+                {{--<table style="width: 100%; border: #0a0a0a; font-family: Cambria,Arial; ">
 
                     <tr style="border: 1px solid black; width: 100%;">
 
@@ -117,11 +117,11 @@
 
                     </tr>
 
-                </table>
+                </table>--}}
 
                 <table id="items_table_{{$rand}}" style="font-family: Cambria,Arial; width: 100%; text-align: center; border-left: 1px solid black; border-right: 1px solid black;">
                     <thead>
-                    <tr class="text-strong" style="width: 100%">
+                    <tr class="text-strong" style="border-top: 1px solid black; width: 100%">
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 8%;">Quantity</td>
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 8%;">Unit</td>
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%">Unit Cost</td>
@@ -194,7 +194,7 @@
             $(document).ready(function () {
                 //print();
                 // close();
-                let set = 500;
+                let set = 600;
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem);
