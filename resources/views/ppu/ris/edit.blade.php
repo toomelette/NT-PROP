@@ -285,6 +285,11 @@
     {{--    placeholder: 'Type PAP Code/Title/Description',--}}
     {{--});--}}
 
+    function deleteRow(button) {
+        const row = button.closest('tr');
+        row.remove();
+    }
+
 
     </script>
 @endsection

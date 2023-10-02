@@ -14,6 +14,13 @@
             <form id="edit_form">
 
                 <div class="box box-success">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Edit IAR</h3>
+                        <button class="btn btn-primary btn-sm pull-right" id="saveBtn" type="button">
+                            <i class="fa fa-check"></i> Save
+                        </button>
+                        <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.iar.index')}}">Back</a>
+                    </div>
                     <div class="box-body">
                         <input type="hidden" name="slug" id="slug" value="{{$iar->slug}}">
 
@@ -71,10 +78,11 @@
                                         $iar ?? null
                                         ) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[
+                        {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                            'label' => 'Requisitioning Office/Department',
                            'cols' => 3,
-                           'id' => 'resp_center'
+                           'id' => 'resp_center',
+                           'options' => \App\Swep\Helpers\Arrays::groupedRespCodes()
                         ],
                                         $iar ?? null
                                         ) !!}
@@ -101,37 +109,42 @@
                 <div class="box box-success">
                     <div class="box-body">
 
-                        <div class="" id="tableContainer" style="margin-top: 50px">
-                            <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
+                        <div class="col-md-12" style="min-height: 200px">
+                            <button data-target="#trans_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=iar_items" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+                            <table id="trans_table" class="table table-bordered table-striped table-hover">
                                 <thead>
-                                <tr class="">
-                                    <th>Stock No.</th>
-                                    <th>Unit</th>
-                                    <th>Item</th>
-                                    <th>Description</th>
-                                    <th>Qty</th>
-                                    <th>Unit Cost</th>
-                                    <th>Total Cost</th>
-                                    <th>Prop. No.</th>
-                                    <th>Nature of Work</th>
+                                <tr>
+                                    <th style="width: 5%">Stock No.</th>
+                                    <th style="width: 10%">Unit</th>
+                                    <th style="width: 25%">Item</th>
+                                    <th style="width: 25%">Description</th>
+                                    <th style="width: 8%">Qty</th>
+                                    <th style="width: 8%">Unit Cost</th>
+                                    <th style="width: 8%">Total Cost</th>
+                                    {{--                                    <th>Prop. No.</th>--}}
+                                    {{--                                    <th>Nature of Work</th>--}}
                                     <th style="width: 3%"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($iar->transDetails as $transDetail)
-                                    <tr id="{{$transDetail->slug}}">
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][stock_no]" name="items['{{$transDetail->slug}}'][stock_no]" type="text" value="{{$transDetail->stock_no}}"></td>
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit]" name="items['{{$transDetail->slug}}'][unit]" type="text" value="{{$transDetail->unit}}"></td>
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][item]" name="items['{{$transDetail->slug}}'][item]" type="text" value="{{$transDetail->item}}"></td>
-                                        <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][description]" name="items['{{$transDetail->slug}}'][description]" type="text">{{$transDetail->description}}</textarea></td>
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][qty]" name="items['{{$transDetail->slug}}'][qty]" type="text" value="{{$transDetail->qty}}"></td>
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit_cost]" name="items['{{$transDetail->slug}}'][unit_cost]" type="text" value="{{$transDetail->unit_cost}}"></td>
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][total_cost]" name="items['{{$transDetail->slug}}'][total_cost]" type="text" value="{{$transDetail->total_cost}}"></td>
-                                        <td><input class="form-control" id="items['{{$transDetail->slug}}'][property_no]" name="items['{{$transDetail->slug}}'][property_no]" type="text" value="{{$transDetail->property_no}}"></td>
-                                        <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][nature_of_work]" name="items['{{$transDetail->slug}}'][nature_of_work]" type="text">{{$transDetail->nature_of_work}}</textarea></td>
-                                        <td><button type="button" class="btn btn-danger btn-sm delete-btn" data-slug="{{$transDetail->slug}}" onclick="deleteRow(this)"><i class="fa fa-times"></i></button></td>
-                                    </tr>
-                                @endforeach
+                                @if(!empty($iar->transDetails))
+                                    @php
+                                        $grandTotal = 0;
+                                    @endphp
+                                    @foreach($iar->transDetails as $item)
+                                        @php
+                                            $grandTotal = $grandTotal + $item->total_cost;
+                                        @endphp
+                                        @include('dynamic_rows.iar_items',[
+                                            'item' => $item,
+                                        ])
+                                    @endforeach
+                                @else
+                                    @php
+                                        $grandTotal = 0;
+                                    @endphp
+                                    @include('dynamic_rows.iar_items')
+                                @endif
                                 </tbody>
                             </table>
                         </div>
@@ -139,10 +152,7 @@
                     </div>
                 </div>
 
-                <div class="pull-right">
-                    <a type="button" class="btn btn-danger" id="backBtn" href="{{route('dashboard.iar.index')}}">Back to list</a>
-                    <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
-                </div>
+
             </form>
         </div>
     </section>
@@ -154,9 +164,6 @@
 
 @section('scripts')
     <script type="text/javascript">
-
-
-
 
     $('#saveBtn').click(function(e) {
             e.preventDefault();
@@ -205,68 +212,29 @@
         });
 
 
-            function deleteRow(button) {
+        function deleteRow(button) {
             const row = button.closest('tr');
             row.remove();
         }
 
-        $('input[name="ref_number"]').unbind().bind('keyup', function(e) {
-            if($('input[name="ref_number"]').val() === ''){
-                toast('error','Reference Number cannot be empty','Invalid!');
-            }
-            else {
-                if (e.keyCode === 13) {
-                    e.preventDefault();
-                    let uri = '{{route("dashboard.iar.findTransByRefNumber", "refNumber") }}';
-                    uri = uri.replace('refNumber',$(this).val());
-                    $.ajax({
-                        url : uri,
-                        type: 'GET',
-                        headers: {
-                            {!! __html::token_header() !!}
-                        },
-                        success: function (res) {
-                            console.log(res);
+    $(".select2_item").select2({
+        ajax: {
+            url: '{{route("dashboard.ajax.get","articles")}}',
+            dataType: 'json',
+            delay : 250,
+        },
+        placeholder: 'Select item',
+    });
 
-                            $("#supplier_name").val(res.order.supplier_name);
-                            $("#resp_center").val(res.rc.department);
-                            $("#ref_no").val(res.trans.ref_no);
-                            $("#requested_by").val(res.trans.requested_by);
+    $('.select2_item').on('select2:select', function (e) {
+        let t = $(this);
+        let parentTrId = t.parents('tr').attr('id');
+        let data = e.params.data;
 
-                            $('#trans_table tbody').remove();
-                            let tableHtml = '<tbody>';
-                            for(let i=0; i<res.transDetails.length; i++){
-                                let stock = res.transDetails[i].stock_no;
-                                stock = stock === null ? '' : stock;
-                                let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
-                                let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
-                                tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
-                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ res.transDetails[i].description +'</textarea></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + res.transDetails[i].unit_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + res.transDetails[i].total_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
-                                    '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
-                                    '</tr>';
-
-                            }
-                            tableHtml += '</tbody>';
-                            $('#trans_table').append(tableHtml).removeClass('hidden');
-
-
-
-                        },
-                        error: function (res) {
-                            toast('error',res.responseJSON.message,'Error!');
-                        }
-                    })
-                }
-            }
-        });
+        $("#"+parentTrId+" [for='stockNo']").val(data.id);
+        $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
+        $("#"+parentTrId+" [for='itemName']").val(data.text);
+    });
 
 
     </script>

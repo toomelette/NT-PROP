@@ -195,8 +195,17 @@ class IARController extends Controller
 
     }
 
+    public function findBySlug($slug){
+        $iar = Transactions::query()
+            ->with(['transDetails','rc','transDetails.article'])
+            ->where('slug','=',$slug)->first();
+
+        return $iar ?? abort(503,'PR not found');
+    }
+
     public function edit($slug){
-        $iar = Transactions::query()->where('slug','=', $slug)->first();
+//        $iar = Transactions::query()->where('slug','=', $slug)->first();
+        $iar =$this->findBySlug($slug);
         return view('ppu.iar.edit')->with([
             'iar' => $iar
         ]);
@@ -213,32 +222,38 @@ class IARController extends Controller
             return response()->json(['message' => 'Transaction not found'], 404);
         }
 
-        $trans->po_date = $trans->po_date;
-        $trans->po_number = $trans->po_number;
-        $trans->invoice_date = $trans->invoice_date;
-        $trans->invoice_number = $trans->invoice_number;
-        $trans->date_inspected = $trans->date_inspected;
-        $trans->supplier = $trans->supplier;
-        $trans->resp_center = $trans->resp_center;
-        $trans->ref_no = $trans->ref_no;
-        $trans->requested_by = $trans->requested_by;
+        $trans->po_date = $request->po_date;
+        $trans->po_number = $request->po_number;
+        $trans->invoice_date = $request->invoice_date;
+        $trans->invoice_number = $request->invoice_number;
+        $trans->date_inspected = $request->date_inspected;
+        $trans->supplier = $request->supplier;
+        $trans->resp_center = $request->resp_center;
+        $trans->ref_no = $request->ref_no;
+        $trans->requested_by = $request->requested_by;
+
 
         $totalabc = 0;
         $arr = [];
+        $items = Articles::query()->get();
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
+
+                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
+                if($itemName == null){
+                    $itemName = $item['item'];
+                }
+
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
-                    'stock_no' => $item['stock_no'],
+                    'stock_no' => $item['stockNo'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $itemName,
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
-                    'property_no' => $item['property_no'],
-                    'nature_of_work' => $item['nature_of_work'],
                 ]);
                 $totalabc = $totalabc + Helper::sanitizeAutonum($item['total_cost']);
             }
@@ -251,5 +266,8 @@ class IARController extends Controller
         }
         abort(503, 'Error saving IAR');
     }
+
+
+
 
 }

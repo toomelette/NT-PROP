@@ -3,10 +3,10 @@
 @endphp
 <tr id="item_{{$rand}}" style="width: 100%">
     <td style="width: 5%">
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stock_no]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stockNo]',[
             'class' => 'input-sm',
             'readonly'=>'readonly',
-            'for' => 'stock_no',
+            'for' => 'stockNo',
         ],$item->stock_no ?? null) !!}
 
     </td>
