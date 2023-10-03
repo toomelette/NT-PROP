@@ -230,6 +230,10 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::patch('/ics/update/{slug}','ICSController@update')->name('ics.update');
     Route::resource('ics', 'ICSController');
 
+    Route::post('/noa/store','NOAController@store')->name('noa.store');
+    Route::get('/noa/{slug}/print','NOAController@print')->name('noa.print');
+    Route::resource('noa', 'NOAController');
+
     Route::resource('supplier', 'SupplierController');
     Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
 
