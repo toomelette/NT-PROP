@@ -100,12 +100,13 @@
                             <table id="wmr_items_table" class="table-bordered table table-condensed table-striped">
                                 <thead>
                                 <tr>
-                                    <th style="width: 8%">Qty</th>
+                                    <th style="width: 8%">Stock No.</th>
                                     <th style="width: 8%">Unit</th>
-                                    <th style="width: 30%">Item</th>
-                                    <th style="width: 31%">Description</th>
-                                    <th style="width: 15%">O.R. No.</th>
-                                    <th style="width: 8%">Amount</th>
+                                    <th style="width: 23%">Item</th>
+                                    <th style="width: 23%">Description</th>
+                                    <th style="width: 8%">Qty</th>
+                                    <th style="width: 8%">O.R. No.</th>
+                                    <th style="width: 10%">Amount</th>
                                     <th style="width: 50px"></th>
                                 </tr>
                                 </thead>
@@ -181,6 +182,25 @@
             const row = button.closest('tr');
             row.remove();
         }
+
+        $(".select2_item").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            placeholder: 'Select item',
+        });
+
+        $('.select2_item').on('select2:select', function (e) {
+            let t = $(this);
+            let parentTrId = t.parents('tr').attr('id');
+            let data = e.params.data;
+
+            $("#"+parentTrId+" [for='stockNo']").val(data.id);
+            $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
+            $("#"+parentTrId+" [for='itemName']").val(data.text);
+        });
 
     </script>
 @endsection
