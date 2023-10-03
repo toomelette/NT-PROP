@@ -190,6 +190,11 @@
                             let link = "{{route('dashboard.ics.print','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
+                            window.location.reload();
+                        }
+                        else {
+
+                            window.location.reload();
                         }
                     })
                 },
