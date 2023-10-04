@@ -137,8 +137,8 @@ class WMRController extends Controller
 
     public function findBySlug($slug){
         $wmr = WasteMaterial::query()
-            ->with(['wasteDetails'])
-            ->where('slug','=',$slug)->first();
+            ->with(['wasteDetails','wasteDetails.article'])
+            ->where('slug','=', $slug)->first();
 
         return $wmr ?? abort(503,'WR not found');
     }

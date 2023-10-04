@@ -31,17 +31,6 @@ class WasteMaterial extends Model
     public function wasteDetails(){
         return $this->hasMany(WasteMaterialDetails::class,'transaction_slug','slug');
     }
-    public function rc(){
-        return $this->hasOne(PPURespCodes::class,'rc_code','resp_center');
-    }
-
-    public function pap(){
-        return $this->belongsTo(PAP::class,'pap_code','pap_code');
-    }
-
-    public function userCreated(){
-        return $this->hasOne(User::class,'user_id','user_created');
-    }
 
 
 }
