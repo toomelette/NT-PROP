@@ -13,10 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('waste_material_details', function (Blueprint $table) {
-            $table->string('transaction_slug')->nullable();
-            $table->string('stock_no')->nullable();
-        });
+
     }
 
     /**
@@ -26,9 +23,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('waste_material_details', function (Blueprint $table) {
-            $table->dropColumn('transaction_slug');
-            $table->dropColumn('stock_no');
-        });
+
     }
 };
