@@ -2,13 +2,13 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Create Notice of Award</h1>
+        <h1>Edit Notice of Award</h1>
     </section>
 @endsection
 @section('content2')
     <section class="content">
         <div role="document">
-            <form id="add_form">
+            <form id="edit_form" data="{{$ntp->slug}}">
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="embed-responsive embed-responsive-16by9 hidden" style="height: 1019.938px;">
@@ -18,61 +18,65 @@
                             {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
                                         'label' => 'PR/JR No.:',
                                         'cols' => 3,
-                                    ]) !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('document_no',[
                                         'label' => 'MEMO No.:',
                                         'cols' => 3,
-                                    ]) !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
                                'label' => 'date:',
                                'cols' => 3,
                                'type' => 'date',
-                            ]) !!}
+                            ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
-                            <h3 class="text-center">NOTICE OF AWARD</h3>
+                            <h3 class="text-center">NOTICE TO PROCEED</h3>
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('supplier',[
                                         'label' => 'Supplier:',
                                         'cols' => 3,
-                                    ]) !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('supplier_address',[
                                         'label' => 'Address:',
                                         'cols' => 3,
-                                    ]) !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('supplier_representative',[
                                         'label' => 'Representative:',
                                         'cols' => 3,
-                                    ]) !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('supplier_representative_position',[
                                         'label' => 'Position:',
                                         'cols' => 3,
-                                    ]) !!}
-                            <div class="clearfix"></div>
-                            {!! \App\Swep\ViewHelpers\__form2::textarea('project_name',[
-                                'label' => 'Project Name:',
-                                'rows' => 5, // Specify the number of rows you want to display
-                                'cols' => 12,
-                            ]) !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textarea('contents',[
                                 'label' => 'Content:',
                                 'rows' => 10, // Specify the number of rows you want to display
                                 'cols' => 12,
-                            ]) !!}
+                            ],
+                            $ntp ?? null) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
                                         'label' => 'Approved By:',
                                         'cols' => 3,
-                                    ], 'PABLO LUIS S. AZCONA') !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by_designation',[
                                         'label' => 'Designation:',
                                         'cols' => 3,
-                                    ], 'Administrator') !!}
+                                    ],
+                                    $ntp ?? null) !!}
                             <div class="col-md-12">
                                 <div class="box-footer pull-right">
                                     <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
@@ -90,11 +94,13 @@
     <script type="text/javascript">
         $('#saveBtn').click(function(e) {
             e.preventDefault();
-            let form = $('#add_form');
+            let form = $('#edit_form');
+            let uri = '{{route("dashboard.ntp.update",  ["slug"])}}';
+            uri = uri.replace('slug',form.attr('data'));
             loading_btn(form);
             $.ajax({
-                type: 'POST',
-                url: '{{route("dashboard.noa.store")}}',
+                type: 'PATCH',
+                url: uri,
                 data: form.serialize(),
                 headers: {
                     {!! __html::token_header() !!}
@@ -102,9 +108,8 @@
                 success: function(res) {
                     console.log(res);
                     $('#printIframe').attr('src',res.route);
-                    form.find('input, select, textarea').val('');
                     Swal.fire({
-                        title: 'Successfully created',
+                        title: 'Successfully updated!',
                         icon: 'success',
                         html:
                             'Click the print button below to print.',
@@ -119,9 +124,14 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.noa.print','slug')}}";
+                            let link = "{{route('dashboard.ntp.print','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
+                            window.location.reload();
+                        }
+                        else {
+
+                            window.location.reload();
                         }
                     })
                 },

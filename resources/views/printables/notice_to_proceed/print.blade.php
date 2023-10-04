@@ -35,7 +35,7 @@
                 <h4 style="float: left; margin-left: 40px;">{{\Illuminate\Support\Carbon::parse($noa->date)->format('F d Y')}}</h4>
             </div>
             <div class="row" style="font-family: 'Cambria',Times New Roman;">
-                <h3 class="text-strong">NOTICE OF AWARD</h3>
+                <h3 class="text-strong">NOTICE TO PROCEED</h3>
             </div>
             <br>
             <div class="row" style="float: left; text-align: left; font-family: 'Cambria', Times New Roman;">
@@ -66,19 +66,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="row" style="font-family: 'Cambria',Times New Roman; margin-top: 10px">
-                <table style="margin-left: 30px; width: 100%;">
-                    <tbody>
-                        <tr style="width: 50%">
-                            <td rowspan="2"><h4 style="text-align: start; margin-top: -10px">Project Name:</h4></td>
-                        </tr>
-                        <tr style="width: 50%">
-                            <td><h4 class="text-strong">{!! nl2br(e($noa->project_name)) !!}</h4></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <br>
             <div class="row" style="float: left; text-align: left; font-family: 'Cambria', Times New Roman; width: 100%">
                 <h4 class="" style="margin-left: 40px; width: 100%; text-align: justify">{!! nl2br(e($noa->contents)) !!}</h4>
             </div>

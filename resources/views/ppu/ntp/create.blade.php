@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Create Notice of Award</h1>
+        <h1>Create Notice To Proceed</h1>
     </section>
 @endsection
 @section('content2')
@@ -31,7 +31,7 @@
                                'type' => 'date',
                             ]) !!}
                             <div class="clearfix"></div>
-                            <h3 class="text-center">NOTICE OF AWARD</h3>
+                            <h3 class="text-center">NOTICE TO PROCEED</h3>
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textbox('supplier',[
                                         'label' => 'Supplier:',
@@ -52,12 +52,6 @@
                                         'label' => 'Position:',
                                         'cols' => 3,
                                     ]) !!}
-                            <div class="clearfix"></div>
-                            {!! \App\Swep\ViewHelpers\__form2::textarea('project_name',[
-                                'label' => 'Project Name:',
-                                'rows' => 5, // Specify the number of rows you want to display
-                                'cols' => 12,
-                            ]) !!}
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textarea('contents',[
                                 'label' => 'Content:',
@@ -94,7 +88,7 @@
             loading_btn(form);
             $.ajax({
                 type: 'POST',
-                url: '{{route("dashboard.noa.store")}}',
+                url: '{{route("dashboard.ntp.store")}}',
                 data: form.serialize(),
                 headers: {
                     {!! __html::token_header() !!}
@@ -119,7 +113,7 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.noa.print','slug')}}";
+                            let link = "{{route('dashboard.ntp.print','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
