@@ -81,7 +81,7 @@
 
         <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
 
-            <tr style=" border-bottom: 1px solid black; border-left: 1px solid black; width: 100%;">
+            <tr style=" border-left: 1px solid black; width: 100%;">
 
                 <td style="border-right: 1px solid black; width: 13.4%; text-align: center; font-size: 25px">
                     <strong>ITEMS FOR DISPOSAL</strong>
@@ -94,7 +94,7 @@
         <table  id="items_table_{{$rand}}" style="font-family: Cambria,Arial; width: 100%; text-align: center;  border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black;">
 
             <thead>
-            <tr class="text-strong" style="border: 1px solid black; width: 100%">
+            <tr class="text-strong" style="width: 100%">
                 <td style="border: 1px solid black; width: 10%;">Stock No</td>
                 <td style="border: 1px solid black; width: 10%;">Unit</td>
                 <td style="border: 1px solid black; width: 10%;">Qty</td>
@@ -134,7 +134,7 @@
 
         </table>
 
-        <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
+        <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
 
             <div style="flex: 1; text-align: center; border-left: 1px solid black">
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Certified Correct:</h5><br><br>
@@ -166,7 +166,7 @@
 
         <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
 
-            <tr style=" border-bottom: 1px solid black; border-left: 1px solid black; width: 100%;">
+            <tr style=" border-left: 1px solid black; width: 100%;">
 
                 <td style="border-right: 1px solid black; width: 13.4%; text-align: center; font-size: 25px">
                     <strong>CERTIFICATE OF INSPECTION</strong>
@@ -194,7 +194,7 @@
             </h5><br><br>
         </div>
 
-        <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
+        <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
 
             <div style="flex: 1; text-align: center; border-left: 1px solid black">
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Property Inspector:</h5><br><br>

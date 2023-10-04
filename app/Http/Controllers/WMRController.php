@@ -153,7 +153,13 @@ class WMRController extends Controller
 
     public function update(FormRequest $request, $slug)
     {
-        $trans = $this->findBySlug($slug);
+
+        $trans = WasteMaterial::query()->where('slug', '=', $slug)->first();
+
+        if (!$trans) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+//        $trans = $this->findBySlug($slug);
         $trans->date = $request->date;
         $trans->storage = $request->storage;
         $trans->taken_from = $request->taken_from;
@@ -167,8 +173,9 @@ class WMRController extends Controller
         $trans->witnessed_by = $request->witnessed_by;
         $trans->witnessed_by_designation = $request->witnessed_by_designation;
 
-        $items = Articles::query()->get();
+
         $arr = [];
+        $items = Articles::query()->get();
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
 
@@ -195,7 +202,7 @@ class WMRController extends Controller
             WasteMaterialDetails::insert($arr);
             return $trans->only('slug');
         }
-        abort(503, 'Error saving RIS');
+        abort(503, 'Error saving WMR');
     }
 
 

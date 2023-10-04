@@ -65,36 +65,33 @@
 
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 14%; vertical-align: top;">
+                        <td style="border-right: 1px solid black; width: 11%; vertical-align: top;">
+                            Invoice Number:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black;  width: 36.5%">
+                            {{$iar->invoice_number}}
+                        </td>
+
+                        <td style="border-right: 1px solid black; width: 14.1%; vertical-align: center;">
                             PO Number:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 40%">
                             {{$iar->po_number}}
                         </td>
-                        <td style="border-right: 1px solid black; width: 14%; vertical-align: top;">
-                            PR/JR No:
-                        </td>
-                        @if($iar->cross_slug != "")
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
-                            {{$pr->ref_no}}
-                        </td>
-                            @else
-                            <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 35%">
-                                {{$iar->cross_ref_no}}
-                            </td>
-                            @endif
+
                     </tr>
+
 
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
-                        Invoice Number:
+                        <td style="border-right: 1px solid black; vertical-align: center; width: 11%">
+                            Invoice Date:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black;  width: 12.5%">
-                        {{$iar->invoice_number}}
+                        <td class="text-strong" style="vertical-align: center; width: 36.5%;">
+                            {{$iar->invoice_date}}
                         </td>
 
-                        <td style="border-right: 1px solid black; vertical-align: top; width: 10%">
+                        <td style="border-right: 1px solid black; border-left: 1px solid black; vertical-align: top; width: 14.1%">
                             PO Date:
                         </td>
                         <td class="text-strong" style="vertical-align: top; width: 40%;">
@@ -105,25 +102,32 @@
 
                     <tr style="border: 1px solid black; width: 100%;">
 
-                        <td style="border-right: 1px solid black; width: 12.5%; vertical-align: top;">
+                        <td style="border-right: 1px solid black; width: 11%; vertical-align: top;">
                             Requisitioning Office:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black;  width: 12.5%">
+                        <td class="text-strong" style="border-right: 1px solid black;  width: 36.5%">
                             {{$rc->desc}}
                         </td>
 
-                        <td style="border-right: 1px solid black; vertical-align: center; width: 12.5%">
-                            Invoice Date:
+                        <td style="border-right: 1px solid black; width: 14.1%; vertical-align: center;">
+                            PR/JR No:
                         </td>
-                        <td class="text-strong" style="vertical-align: center; width: 12.5%;">
-                            {{$iar->invoice_date}}
-                        </td>
+                        @if($iar->cross_slug != "")
+                            <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 40%">
+                                {{$pr->ref_no}}
+                            </td>
+                        @else
+                            <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 40%">
+                                {{$iar->cross_ref_no}}
+                            </td>
+                        @endif
+
                     </tr>
 
                     <tr style=" border-left: 1px solid black; border-right: 1px solid black; width: 100%;">
 
                         <td style="border-right: 1px solid black; vertical-align: top; width: 12.5%">
-                            Requested By:
+                            Requisitioner:
                         </td>
                         <td class="text-strong" style="vertical-align: top; width: 12.5%;">
                             {{$iar->requested_by}}
