@@ -16,4 +16,8 @@ class WasteMaterialDetails extends Model
         return $this->belongsTo(WasteMaterial::class,'waste_material_slug','waste_material');
     }
 
+    public function article(){
+        return $this->belongsTo(Articles::class,'stock_no','stockNo');
+    }
+
 }

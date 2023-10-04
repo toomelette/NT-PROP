@@ -5,7 +5,9 @@ namespace App\Models;
 
 
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class WasteMaterial extends Model
 {
@@ -25,4 +27,10 @@ class WasteMaterial extends Model
         });
     }
     protected $table = 'waste_material';
+
+    public function wasteDetails(){
+        return $this->hasMany(WasteMaterialDetails::class,'transaction_slug','slug');
+    }
+
+
 }

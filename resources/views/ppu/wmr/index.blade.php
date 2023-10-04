@@ -19,17 +19,19 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <div id="wmr_table_container" style="display: none">
+                        <div class="table-responsive" id="wmr_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="wmr_table" style="width: 100% !important">
                                 <thead>
                                 <tr style="width: 100%">
-                                    <th style="width: 15%">Place of Storage</th>
-                                    <th style="width: 12%">Unit</th>
-                                    <th style="width: 30%">Item</th>
-                                    <th style="width: 12%">Qty</th>
-                                    <th style="width: 15%">O.R. No.</th>
-                                    <th style="width: 12%">Amount</th>
-                                    <th style="width: 50px"></th>
+                                    <th style="width: 10%">Waste Material No.</th>
+                                    <th style="width: 10%">Place of Storage</th>
+                                    <th style="width: 15%">Date</th>
+                                    <th style="width: 15%">Item</th>
+                                    <th style="width: 23%">Taken From</th>
+                                    <th style="width: 10%">Taken Through</th>
+                                    <th style="width: 10%">Certified by</th>
+                                    <th style="width: 10%">Approved by</th>
+                                    <th style="width: 20px">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -60,12 +62,14 @@
             wmr_tbl = $("#wmr_table").DataTable({
                 "ajax" : '{{route("dashboard.wmr.index")}}',
                 "columns": [
+                    { "data": "wm_number" },
                     { "data": "storage" },
-                    { "data": "unit" },
+                    { "data": "date" },
                     { "data": "item" },
-                    { "data": "qty" },
-                    { "data": "or_no" },
-                    { "data": "amount" },
+                    { "data": "taken_from" },
+                    { "data": "taken_through" },
+                    { "data": "certified_by" },
+                    { "data": "approved_by" },
                     { "data": "action" }
                 ],
                 "buttons": [
