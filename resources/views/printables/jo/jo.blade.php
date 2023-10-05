@@ -346,8 +346,8 @@
             </td>
         </tr>
     </table>
-    <div style="height: 240px; font-family: 'Cambria',Times New Roman">
-        <table style="width: 99%;">
+    <div style="height: 240px; font-family: 'Cambria',Times New Roman; width: 99%;">
+        <table style="width: 100%;">
             <tr style="font-size: 14px">
                 <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -357,7 +357,7 @@
                 </td>
             </tr>
         </table>
-        <table style="width: 49%; float: left; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+        <table style="width: 50%; float: left; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
             <tbody>
             <tr>
                 <td style="border-left: 1px solid black; padding: 8px; text-align: center;">&nbsp;</td>
@@ -373,7 +373,7 @@
             </tr>
             </tbody>
         </table>
-        <table style="width: 49%; float: right; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+        <table style="width: 50%; float: right; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
             <tbody>
             <tr>
                 <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 14px"><b>Very truly yours,</b></td>
@@ -389,7 +389,7 @@
             </tr>
             </tbody>
         </table>
-        <table style="width: 49%; float: right; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+        <table style="width: 50%; float: right; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
             <tbody>
             <tr>
                 <td style="border-right: 1px solid black; padding: 8px; text-align: center; font-size: 14px">&nbsp;</td>
@@ -409,7 +409,7 @@
             </tbody>
         </table>
 
-        <table style="width: 49%; float: left; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
+        <table style="width: 50%; float: left; border-collapse: collapse; font-family: 'Cambria',Times New Roman">
             <tbody>
             <tr>
                 <td style="border-left: 1px solid black; padding: 8px; font-size: 14px"><b>Conforme:</b></td>
