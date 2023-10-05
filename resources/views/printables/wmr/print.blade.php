@@ -39,18 +39,18 @@
                 </td>
 
                 <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; position: relative;">
-                    Place of Storage:
+                    Date:
                 </td>
                 <td style="" class="text-strong ">
-                    {{$wmr->storage}}
+                  {{$wmr->date}}
                 </td>
             </tr>
 
             <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
-                    Date:
+                Taken From:
             </td>
             <td style="border-top: 1px solid black;" class="text-strong ">
-                {{$wmr->date}}
+                {{$wmr->taken_from}}
             </td>
 
             </tr>
@@ -63,10 +63,11 @@
             <tr style="border: 1px solid black; width: 100%;">
 
                 <td rowspan="2" style="border-right: 1px solid black; width: 13.4%; vertical-align: center;">
-                    Taken From:
+                    Place of Storage:
                 </td>
                 <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
                     {{$wmr->taken_from}}
+
                 </td>
 
                 <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
@@ -136,8 +137,8 @@
 
         <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
 
-            <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Certified Correct:</h5><br><br>
+            <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Certified Correct:</h5><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b><u>{{$wmr->certified_by}}</u></b>
@@ -149,8 +150,8 @@
 
             </div>
 
-            <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Disposal Approved:</h5><br><br>
+            <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Disposal Approved:</h5><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b><u>{{$wmr->approved_by}}</u></b>
@@ -176,20 +177,20 @@
 
         </table>
 
-        <div style="flex: 1; border: 1px solid black">
+        <div style="font-family: Cambria,Arial; border: 1px solid black">
             <h5 class="" style="margin-left: 5px; margin-bottom: 10px; float: left">
                 I hereby certify that this property was disposed of as follow:
             </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
                 Item ________ Destroyed
-            </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            </h5><br>
+            <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
                 Item ________ Sold at private sale
-            </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            </h5><br>
+            <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
                 Item ________ Sold at public auction
-            </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            </h5><br>
+            <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
                 Item ________ Transferred without cost to ________
             </h5><br><br>
         </div>
@@ -197,7 +198,7 @@
         <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
 
             <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Property Inspector:</h5><br><br>
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Property Inspector:</h5><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b><u>{{$wmr->inspected_by}}</u></b>
@@ -209,8 +210,8 @@
 
             </div>
 
-            <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Witness to disposition:</h5><br><br>
+            <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Witness to disposition/returned by:</h5><br><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b><u>{{$wmr->witnessed_by}}</u></b>
