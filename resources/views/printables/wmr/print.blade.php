@@ -136,7 +136,7 @@
 
         <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
 
-            <div style="flex: 1; text-align: center; border-left: 1px solid black">
+            <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Certified Correct:</h5><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
@@ -149,7 +149,7 @@
 
             </div>
 
-            <div style="flex: 1; text-align: center; border-left: 1px solid black">
+            <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
                 <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Disposal Approved:</h5><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
@@ -176,20 +176,20 @@
 
         </table>
 
-        <div style="flex: 1; border: 1px solid black">
+        <div style="font-family: Cambria,Arial; flex: 1; border: 1px solid black">
             <h5 class="" style="margin-left: 5px; margin-bottom: 10px; float: left">
                 I hereby certify that this property was disposed of as follow:
             </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            <h5 class="" style="margin-left: 20px; float: left">
                 Item ________ Destroyed
             </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            <h5 class="" style="margin-left: 20px; float: left">
                 Item ________ Sold at private sale
             </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            <h5 class="" style="margin-left: 20px; float: left">
                 Item ________ Sold at public auction
             </h5><br><br>
-            <h5 class="" style="margin-left: 225px; float: left">
+            <h5 class="" style="margin-left: 20px; float: left">
                 Item ________ Transferred without cost to ________
             </h5><br><br>
         </div>
@@ -209,8 +209,8 @@
 
             </div>
 
-            <div style="flex: 1; text-align: center; border-left: 1px solid black">
-                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Witness to disposition:</h5><br><br>
+            <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+                <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: justify; float: left">Witness to disposition/returned by:</h5><br><br>
 
                 <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                     <b><u>{{$wmr->witnessed_by}}</u></b>
