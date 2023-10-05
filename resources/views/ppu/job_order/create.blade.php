@@ -609,7 +609,7 @@
                             if($('#isGovernment').val() === 'True'){
                                 $('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
                                 $('input[name="total"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                                $('input[name="total_in_words"]').val(numberToWords(overAllTotal));
                             }
                             else {
                                 if(res.trans.jr_type == 'PAKYAW'){

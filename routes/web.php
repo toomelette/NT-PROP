@@ -232,7 +232,15 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::post('/noa/store','NOAController@store')->name('noa.store');
     Route::get('/noa/{slug}/print','NOAController@print')->name('noa.print');
+    Route::get('/noa/{slug}/edit','NOAController@edit')->name('noa.edit');
+    Route::patch('/noa/update/{slug}','NOAController@update')->name('noa.update');
     Route::resource('noa', 'NOAController');
+
+    Route::post('/ntp/store','NTPController@store')->name('ntp.store');
+    Route::get('/ntp/{slug}/print','NTPController@print')->name('ntp.print');
+    Route::get('/ntp/{slug}/edit','NTPController@edit')->name('ntp.edit');
+    Route::patch('/ntp/update/{slug}','NTPController@update')->name('ntp.update');
+    Route::resource('ntp', 'NTPController');
 
     Route::resource('supplier', 'SupplierController');
     Route::resource('email_recipients',\App\Http\Controllers\EmailRecipientsController::class);
