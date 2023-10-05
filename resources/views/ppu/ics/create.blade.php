@@ -87,7 +87,9 @@
 
                             <div class="" id="tableContainer" style="margin-top: 50px">
                                 <div class="col-md-12">
-                                    <table class="table table-bordered table-striped table-hover hidden" id="trans_table" style="width: 100% !important">
+                                    <button data-target="#trans_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=ics_items" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+
+                                    <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
                                         <thead>
                                         <tr class="">
                                             <th>Stock No.</th>
@@ -103,6 +105,9 @@
                                             <th style="width: 3%"></th>
                                         </tr>
                                         </thead>
+                                        <tbody>
+                                            @include('dynamic_rows.ics_items')
+                                        </tbody>
                                     </table>
                                     <div class="pull-right">
                                         <button type="button" class="btn btn-primary hidden" id="saveBtn">Save</button>
@@ -217,10 +222,24 @@
             });
         });
 
-        $(document).ready(function (){
-
+        $(".select2_item").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            placeholder: 'Select item',
         });
 
+        $('.select2_item').on('select2:select', function (e) {
+            let t = $(this);
+            let parentTrId = t.parents('tr').attr('id');
+            let data = e.params.data;
+
+            $("#"+parentTrId+" [for='stockNo']").val(data.id);
+            $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
+            $("#"+parentTrId+" [for='itemName']").val(data.text);
+        });
         $("#inventory-account-code").select2();
     </script>
 @endsection
