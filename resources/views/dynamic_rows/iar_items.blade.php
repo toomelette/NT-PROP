@@ -113,7 +113,7 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='stock_no']").val(data.id);
+            $("#"+parentTrId+" [for='stockNo']").val(data.id);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='itemName']").val(data.text);
         });

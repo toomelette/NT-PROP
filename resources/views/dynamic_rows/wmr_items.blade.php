@@ -2,9 +2,6 @@
     $rand = \Illuminate\Support\Str::random(10);
 @endphp
 <tr id="item_{{$rand}}" style="width: 100%">
-
-
-
     <td style="width: 8%">
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stockNo]',[
             'class' => 'input-sm',
@@ -96,7 +93,7 @@
                 delay : 250,
             },
 
-            dropdownParent: $('#'+DDParent_{{$rand}}.attr('id')),
+            {{--dropdownParent: $('#'+DDParent_{{$rand}}.attr('id')),--}}
             placeholder: 'Select item',
         });
 
@@ -105,7 +102,7 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='stock_no']").val(data.id);
+            $("#"+parentTrId+" [for='stockNo']").val(data.id);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='itemName']").val(data.text);
         });
