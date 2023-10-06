@@ -6,27 +6,39 @@ use Illuminate\Support\Carbon;
 
 trait PRTimelineTrait
 {
-    public function prTimeline($slug,$pr){
+    public function prTimeline($slug,$purchaseRequest){
         $timeline = [];
-        $timeline[Carbon::parse($pr->created_at)->format('Y-m-d')]['Purchase request created.'] = $pr;
 
-        $timeline[Carbon::parse($pr->received_at)->format('Y-m-d')]['PR received by PPBTMS.'] = $pr;
+        $timeline[Carbon::parse($purchaseRequest->created_at)->format('Y-m-d')]['Purchase request created.'] = $purchaseRequest;
 
-        if(!empty($pr->rfq)){
-            $timeline[Carbon::parse($pr->rfq->created_at)->format('Y-m-d')]['RFQ created.'] = $pr->rfq;
+        $timeline[Carbon::parse($purchaseRequest->received_at)->format('Y-m-d')]['PR received by PPBTMS.'] = $purchaseRequest;
+
+
+
+        if(!empty($purchaseRequest->rfq)){
+            $timeline[Carbon::parse($purchaseRequest->rfq->created_at)->format('Y-m-d')]['RFQ created.'] = $purchaseRequest->rfq;
         }
 
-        if(!empty($pr->aq)){
-            $timeline[Carbon::parse($pr->aq->created_at)->format('Y-m-d')]['AQ created.'] = $pr->aq;
+        if(!empty($purchaseRequest->aq)){
+            $timeline[Carbon::parse($purchaseRequest->aq->created_at)->format('Y-m-d')]['AQ created.'] = $purchaseRequest->aq;
+
+            if($purchaseRequest->is_locked == 1){
+                $timeline[Carbon::parse($purchaseRequest->aq->updated_at)->format('Y-m-d')]['AQ Finalized.'] = $purchaseRequest->aq;
+            }
         }
 
-        if(!empty($pr->anaPr)){
-            $timeline[Carbon::parse($pr->anaPr->created_at)->format('Y-m-d')]['Award Notice Abstract created.'] = $pr->anaPr;
+
+
+        if(!empty($purchaseRequest->anaPr)){
+            $timeline[Carbon::parse($purchaseRequest->anaPr->created_at)->format('Y-m-d')]['Award Notice Abstract created.'] = $purchaseRequest->anaPr;
         }
 
-        if(!empty($pr->po)){
-            $timeline[Carbon::parse($pr->po->created_at)->format('Y-m-d')]['Purchase Order created.'] = $pr->po;
+
+
+        if(count($purchaseRequest->po) > 0){
+            $timeline[Carbon::parse($purchaseRequest->po->created_at)->format('Y-m-d')]['Purchase Order created.'] = $purchaseRequest->po;
         }
+
 
         ksort($timeline);
         return $timeline;

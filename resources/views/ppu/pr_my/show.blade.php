@@ -28,6 +28,16 @@
                                 </div>
                             </li>
                         @break
+                        @case('AQ Finalized.')
+                            <li>
+                                <i class="fa fa-check bg-green"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fa fa-clock-o"></i> {{Carbon::parse($action->updated_at)->format('h:i A')}}</span>
+                                    <h3 class="timeline-header no-border"><a href="#">{{$title}} {{$action->ref_no}}</a>
+                                    </h3>
+                                </div>
+                            </li>
+                        @break
                         @default
                             <li>
                                 <i class="fa fa-check bg-green"></i>
