@@ -52,7 +52,7 @@
             </td>
         </tr>
     </table>
-    <table style="font-weight: bold; border-collapse: collapse; width: 100%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="font-weight: bold; border-collapse: collapse; width: 99%; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tbody>
         <tr>
             <td style="border: 1px solid black; padding: 8px; width: 10%">Supplier:</td>
@@ -74,7 +74,7 @@
         </tr>
         </tbody>
     </table>
-    <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="">
                 <div>
@@ -86,7 +86,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 50%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -106,7 +106,7 @@
             </td>
         </tr>
     </table>
-    <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width: 33%;">
                 <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
@@ -129,7 +129,7 @@
         </tr>
     </table>
 
-        <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
+        <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="border: 1px solid black; text-align: center;">
                     <div>
@@ -140,7 +140,7 @@
                 </td>
             </tr>
         </table>
-        <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="text-align: center;">
                     <div>
@@ -158,7 +158,7 @@
         </table>
 
     @if($trans->transaction->jr_type != 'PAKYAW')
-        <table style="width: 100%; height: 100px; font-family: 'Cambria',Times New Roman" class="tbl-bordered">
+        <table style="width: 99%; height: 100px; font-family: 'Cambria',Times New Roman" class="tbl-bordered">
             <thead>
             <tr>
                 <th class="" style="width:100%; font-size: 16px;">Scope of Work</th>
@@ -195,7 +195,7 @@
             </tfoot>
         </table>
 
-        <table style="width: 100%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
                 <td style="width: 65%; font-size: 12px">
                     {{$order->remarks}}
@@ -236,7 +236,7 @@
             </tr>
         </table>
     @else
-        <table id="items_table_{{$rand}}" style="width: 100%; height: 100px; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman" class="">
+        <table id="items_table_{{$rand}}" style="width: 99%; height: 100px; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman" class="">
             <thead>
             <tr>
                 <th class="text-center" colspan="2" style="width:10%; font-size: 16px;">Scope of Work:</th>
@@ -288,8 +288,48 @@
             </tr>
             </tfoot>
         </table>
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+            <tr style="font-size: 14px">
+                <td style="width: 65%; font-size: 12px">
+                    {{$order->remarks}}
+                </td>
+                <td style="width: 35%;">
+                    <table style="width: 100%" class="tbl-no-pad">
+                        <tr>
+                            <td>Tax Base:</td>
+                            @if($supplier->is_vat == true)
+                                <td style="text-align: right;">{{number_format($order->total_gross/1.12,2)}}</td>
+                            @else
+                                <td style="text-align: right;">{{number_format($order->total_gross,2)}}</td>
+                            @endif
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">{{$order->vat}}%</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_1,2)}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">{{$order->withholding_tax}}%</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_2,2)}}</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</td>
+                        </tr>
+                    </table>
+                    {{--<div style="display: flex; align-items: center; justify-content: flex-start;">
+                        Tax Base: <span style="font-size: 12px">{{number_format($order->total_gross/1.12,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
+                        <span style="font-size: 12px">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</span>
+                    </div>--}}
+                </td>
+            </tr>
+        </table>
     @endif
-    <table style="width: 100%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td class="text-strong" style="width: 80%; border: 1px solid black;">
                 <table class="">
@@ -306,7 +346,7 @@
             </td>
         </tr>
     </table>
-    <div style="height: 240px; font-family: 'Cambria',Times New Roman">
+    <div style="height: 240px; font-family: 'Cambria',Times New Roman; width: 99%;">
         <table style="width: 100%;">
             <tr style="font-size: 14px">
                 <td class="text-strong" style="border-left: 1px solid black; border-right: 1px solid black;">
@@ -389,7 +429,7 @@
             </tbody>
         </table>
     </div>
-    <table style="width: 100%; margin-top: -20px; border: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; margin-top: -20px; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td style="width:70%; border: 1px solid black;">
                 <div style="display: flex; align-items: center; justify-content: flex-start;">
@@ -420,7 +460,7 @@
         $(document).ready(function () {
             //print();
             // close();
-            let set = 580;
+            let set = 350;
             if($("#items_table_{{$rand}}").height() < set){
                 let rem = set - $("#items_table_{{$rand}}").height();
                 $("#adjuster").css('height',rem);
