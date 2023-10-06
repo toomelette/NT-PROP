@@ -24,8 +24,8 @@ trait PRTimelineTrait
             $timeline[Carbon::parse($pr->anaPr->created_at)->format('Y-m-d')]['Award Notice Abstract created.'] = $pr->anaPr;
         }
 
-        if(!empty($pr->aq)){
-            $timeline[Carbon::parse($pr->aq->created_at)->format('Y-m-d')]['Award Notice Abstract created.'] = $pr->aq;
+        if(!empty($pr->po)){
+            $timeline[Carbon::parse($pr->po->created_at)->format('Y-m-d')]['Purchase Order created.'] = $pr->po;
         }
 
         ksort($timeline);
