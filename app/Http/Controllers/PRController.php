@@ -14,12 +14,14 @@ use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
 use App\Swep\Services\TransactionService;
+use App\Swep\Traits\PRTimelineTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class PRController extends Controller
 {
+    use PRTimelineTrait;
     protected $prService;
     protected $transactionService;
     public function __construct(PRService $prService, TransactionService $transactionService)
@@ -383,6 +385,14 @@ class PRController extends Controller
             return $pr->only('slug');
         }
         abort(503,'Error in cancellation of transaction. PRController::cancel()');
+    }
+    public function show($slug){
+        $pr = $this->findBySlug($slug);
+        $timeline = $this->prTimeline($slug,$pr);
+        return view('ppu.pr_my.show')->with([
+            'pr' => $pr,
+            'timeline' => $timeline,
+        ]);
     }
 
 }

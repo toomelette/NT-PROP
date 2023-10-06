@@ -175,6 +175,7 @@
     </div>
 
     {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_pr_modal','80',null,true) !!}
+    {!! \App\Swep\ViewHelpers\__html::blank_modal('show_pr_modal','') !!}
 @endsection
 
 @section('scripts')
@@ -368,5 +369,25 @@
             placeholder: 'Type PAP Code/Title/Description',
         });
 
+        $("body").on("click",".show_pr_btn",function(){
+            let t = $(this);
+            let slug = t.attr('data');
+            let url = '{{route("dashboard.my_pr.show","slug")}}';
+            url = url.replace('slug',slug);
+            load_modal2(t);
+            $.ajax({
+                url : url,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(t,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
+                }
+            })
+        })
     </script>
 @endsection
