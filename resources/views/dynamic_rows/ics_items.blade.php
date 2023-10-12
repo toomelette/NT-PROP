@@ -79,7 +79,7 @@
     ],$item->property_no ?? null) !!}
     </td>
         <td style="width: 8%">
-            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_Work]',[
+            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
              'label' => 'Nature of work:',
          ],$item->nature_of_Work ?? null) !!}
         </td>
