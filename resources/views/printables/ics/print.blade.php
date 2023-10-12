@@ -147,7 +147,7 @@
                                     {{$item->description ? $item->description : ""}}
                                     </span>
                                 </td>
-                                <td style="vertical-align: top; ">{{$item->stock_no}}</td>
+                                <td style="vertical-align: top; ">{{$item->property_no}}</td>
                                 <td style="vertical-align: top; ">{{$item->estimated_useful_life == null ? "" : $item->estimated_useful_life}}</td>
 
                             </tr>
