@@ -3,10 +3,6 @@
 @section('content')
     <section class="content-header">
         <h1>Requisition and Issue Slip</h1>
-{{--            <div class="pull-right">--}}
-{{--                <button type="button" style="margin-right: 3px" class="btn btn-primary btn-sm" id="saveBtn">Save</button>--}}
-{{--                <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>--}}
-{{--            </div>--}}
     </section>
 @endsection
 @section('content2')
@@ -26,12 +22,6 @@
 
                         <div class="box-body">
 
-{{--                            {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[--}}
-{{--                               'cols' => 6,--}}
-{{--                               'label' => 'PAP Code:',--}}
-{{--                               'options' => [],--}}
-{{--                               'class' => 'select2_papCode',--}}
-{{--                           ]) !!}--}}
 
                             {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                                'label' => 'Responsibility Center',
@@ -45,8 +35,6 @@
                                'cols' => 3,
                                'type' => 'date',
                             ]) !!}
-
-
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('sai',[
                                 'label' => 'SAI Number:',

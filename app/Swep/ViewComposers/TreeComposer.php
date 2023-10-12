@@ -16,13 +16,7 @@ class TreeComposer
         $tree = [];
         $menus = Menu::with('submenu')->where('portal','=','PPU')->get();
 
-//        $user_submenus = UserSubmenu::with(['submenu','submenu.menu'])->where('user_id', Auth::user()->user_id)
-//            ->whereHas('submenu', function ($query) {
-//                return $query->whereHas('menu',function ($q){
-//                   return $q->where('portal', '=','PPU')
-//                       ->orderBy('id','desc');
-//            });
-//        })->get();
+
 
         $user_submenus = UserSubmenu::with(['submenu','submenu.menu'])->where('user_id', Auth::user()->user_id)
             ->whereHas('submenu.menu', function ($query) {

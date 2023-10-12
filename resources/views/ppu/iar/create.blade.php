@@ -149,8 +149,6 @@
                 },
                 success: function (res) {
                     succeed(form,true,false);
-                    // $(".select2_papCode").select2("val", "");
-                    // $(".select2_papCode").trigger('change');
                     $(".remove_row_btn").each(function () {
                         $(this).click();
                     })

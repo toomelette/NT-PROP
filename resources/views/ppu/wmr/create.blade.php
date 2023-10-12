@@ -145,11 +145,14 @@
                  {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    console.log(res);
-                    toast('success','IAR Successfully created.','Success!');
-                    succeed(form,true,true);
+                    succeed(form,true,false);
+                    $(".remove_row_btn").each(function () {
+                        $(this).click();
+                    })
+                    $(".add_button").click();
+                    toast('success','WMR Successfully created.','Success!');
                     Swal.fire({
-                        title: 'Successfully created',
+                        title: 'WMR Successfully created',
                         icon: 'success',
                         html:
                             'Click the print button below to print.',
