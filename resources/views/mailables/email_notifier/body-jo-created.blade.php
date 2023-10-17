@@ -80,7 +80,7 @@
 
         <tr>
             <td colspan="2" style="padding-top: 20px">
-                <a href="#?find=LINK">Click here for details.</a>
+                <a href="http://ppbtms.sra.gov.ph/dashboard/my_{{strtolower($prOrJr->ref_book)}}?find={{$prOrJr->ref_no}}" target="_blank">Click here for details.</a>
             </td>
         </tr>
     </table>
