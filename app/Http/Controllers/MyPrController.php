@@ -14,12 +14,14 @@ use App\Models\Transactions;
 use App\Swep\Helpers\Arrays;
 use App\Swep\Helpers\Helper;
 use App\Swep\Services\PRService;
+use App\Swep\Traits\PRTimelineTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Str;
 
 class MyPrController extends Controller
 {
+    use PRTimelineTrait;
     protected $prService;
     public function __construct(PRService $prService)
     {
@@ -230,5 +232,14 @@ class MyPrController extends Controller
 
     public function create(){
         return view('ppu.pr_my.create');
+    }
+
+    public function show($slug){
+        $pr = $this->findBySlug($slug);
+        $timeline = $this->prTimeline($slug,$pr);
+        return view('ppu.pr_my.show')->with([
+            'pr' => $pr,
+            'timeline' => $timeline,
+        ]);
     }
 }

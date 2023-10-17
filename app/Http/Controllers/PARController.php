@@ -276,4 +276,13 @@ class PARController extends Controller
             'par' => $par,
         ]);
     }
+
+    public function destroy($slug){
+        $par = InventoryPPE::query()->where('slug','=',$slug)->first();
+        $par ?? abort(503,'PAR not found.');
+        if($par->delete()){
+            return 1;
+        }
+        abort(503,'Error deleting PAR.');
+    }
 }

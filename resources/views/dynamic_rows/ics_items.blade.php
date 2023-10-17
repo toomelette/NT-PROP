@@ -3,12 +3,11 @@
 @endphp
 <tr id="item_{{$rand}}" style="width: 100%">
     <td style="width: 5%">
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stockNo]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stock_no]',[
             'class' => 'input-sm',
             'readonly'=>'readonly',
-            'for' => 'stockNo',
+            'for' => 'stock_no',
         ],$item->stock_no ?? null) !!}
-
     </td>
     <td style="width: 10%">
 {{--        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][unit]',[--}}
@@ -80,7 +79,7 @@
     ],$item->property_no ?? null) !!}
     </td>
         <td style="width: 8%">
-            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_Work]',[
+            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
              'label' => 'Nature of work:',
          ],$item->nature_of_Work ?? null) !!}
         </td>

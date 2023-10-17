@@ -92,6 +92,7 @@ class ICSController extends Controller
         $trans->received_at = $request->received_at;
         $trans->cross_ref_no = $request->iar_no;
 
+
         $totalAbc = 0;
         $arr = [];
         if(!empty($request->items)){
@@ -101,7 +102,7 @@ class ICSController extends Controller
                     'transaction_slug' => $transNewSlug,
                     'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
