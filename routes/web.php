@@ -213,6 +213,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/ris/index','RISController@index')->name('ris.index');
     Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
     Route::patch('/ris/update/{slug}','RISController@update')->name('ris.update');
+    Route::get('/ris/findIAR/{refNumber}','RISController@findIAR')->name('ris.findIAR');
 
     Route::get('/wmr/create','WMRController@create')->name('wmr.create');
     Route::get('/wmr/findTransByRefNumber/{refNumber}','WMRController@findTransByRefNumber')->name('wmr.findTransByRefNumber');

@@ -88,12 +88,31 @@ class RISController extends Controller
 
     }
 
+    public function findIAR($refNumber){
+        $trans = Transactions::query()->where('ref_no','=', $refNumber)
+            ->where('ref_book','=', 'IAR')->first();
+        $transDetails = $trans->transDetails;
+        return response()->json([
+            'trans' => $trans,
+            'transDetails' => $transDetails
+        ]);
+    }
+
     public function store(FormRequest $request)
     {
+        $transNew = new Transactions();
+        $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
+            ->where('ref_book','=','IAR')->first();
+        if($iar->cross_slug != null || $iar->cross_slug != ""){
+            $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
+            $order = Order::query()->where('slug', $po->order_slug)->first();
+            $transNew->po_number = $po->ref_no;
+            $transNew->po_date = $order->date;
+        }
 
         $transNewSlug = Str::random();
-        $transNew = new Transactions();
         $transNew->slug = $transNewSlug;
+        $transNew->cross_slug = $iar->slug;
         $transNew->date = $request->date;
         $transNew->resp_center = $request->resp_center;
         $transNew->pap_code = $request->pap_code;
@@ -104,6 +123,7 @@ class RISController extends Controller
         $transNew->sai = $request->sai;
         $transNew->sai_date = $request->sai_date;
         $transNew->date = $request->date;
+        $transNew->cross_ref_no = $request->iar_no;
         $transNew->requested_by_designation = $request->requested_by_designation;
         $transNew->approved_by = $request->approved_by;
         $transNew->approved_by_designation = $request->approved_by_designation;
@@ -129,11 +149,13 @@ class RISController extends Controller
                 ]);
             }
         }
-        if ($transNew->save()) {
+        if($transNew->save()){
             TransactionDetails::insert($arr);
-            return $transNew->only('slug');
         }
-        abort(503, 'Error saving RIS');
+        else
+            abort(503,'Error saving ICS.');
+
+        return $transNew->only('slug');
     }
 
     public function getNextRISno()

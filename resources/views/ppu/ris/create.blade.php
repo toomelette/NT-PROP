@@ -14,10 +14,10 @@
                     <div class="box box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Create RIS</h3>
-                            <button class="btn btn-primary btn-sm pull-right"  id="saveBtn" type="submit">
-                                <i class="fa fa-check"></i> Save
-                            </button>
-                            <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>
+{{--                            <button class="btn btn-primary btn-sm pull-right hidden"  id="saveBtn" type="submit">--}}
+{{--                                <i class="fa fa-check"></i> Save--}}
+{{--                            </button>--}}
+{{--                            <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>--}}
                         </div>
 
                         <div class="box-body">
@@ -53,6 +53,13 @@
                               'label' => 'Purpose',
                               'rows' => 1
                             ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('iar_no',[
+                                      'label' => 'IAR Reference No:',
+                                      'cols' => 3,
+                                      'id' => 'iar_no'
+                            ]) !!}
+
                         </div>
                     </div>
 
@@ -100,6 +107,7 @@
                                 ]) !!}
                             </div>
                     </div>
+
                 <div class="box box-success">
                         <div class="row">
                             <div class="col-md-12" style="min-height: 200px">
@@ -121,6 +129,9 @@
                                         @include('dynamic_rows.ris_items')
                                         </tbody>
                                     </table>
+                                <div class="pull-right">
+                                    <button type="button" style="margin-right: 7px; margin-bottom: 7px" class="btn btn-primary hidden" id="saveBtn">Save</button>
+                                </div>
                             </div>
                         </div>
                 </div>
@@ -140,28 +151,25 @@
     <script type="text/javascript">
 
 
-        $("#add_form").submit(function(e) {
+        $('#saveBtn').click(function(e) {
             e.preventDefault();
-            let form = $(this);
+            let form = $('#add_form');
+            let uri = '{{route("dashboard.ris.store")}}';
             loading_btn(form);
+
             $.ajax({
-                url : '{{route("dashboard.ris.store")}}',
-                data : form.serialize(),
+                url : uri,
+                data: form.serialize(),
                 type: 'POST',
                 headers: {
                     {!! __html::token_header() !!}
                 },
                 success: function (res) {
-                    succeed(form,true,false);
-                    // $(".select2_papCode").select2("val", "");
-                    // $(".select2_papCode").trigger('change');
-                    $(".remove_row_btn").each(function () {
-                        $(this).click();
-                    })
-                    $(".add_button").click();
-                    toast('success','RIS successfully added.','Success!');
+                    console.log(res);
+                    toast('success','RIS Successfully created.','Success!');
+                    succeed(form,true,true);
                     Swal.fire({
-                        title: 'RIS Successfully created',
+                        title: 'Successfully created',
                         icon: 'success',
                         html:
                             'Click the print button below to print.',
@@ -183,10 +191,51 @@
                     })
                 },
                 error: function (res) {
-                    errored(form,res);
                     toast('error',res.responseJSON.message,'Error!');
                 }
-            })
+            });
+        });
+
+
+        $(function(){
+            $('#iar_no').keypress(function (event){
+                if (event.keyCode === 13) {
+                    let uri = '{{ route("dashboard.ris.findIAR", 'refNumber') }}';
+                    uri = uri.replace('refNumber',$(this).val());
+                    $.ajax({
+                        url : uri,
+                        type: 'GET',
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success: function (res) {
+                            console.log(res);
+                            let tableHtml = '<tbody>';
+                            for(let i=0; i<res.transDetails.length; i++){
+                                let stock = res.transDetails[i].stock_no;
+                                stock = stock === null ? '' : stock;
+                                tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stockNo]" name="items['+res.transDetails[i].slug+'][stockNo]" type="text" value="' + stock + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][itemName]" name="items['+res.transDetails[i].slug+'][itemName]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
+                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+  res.transDetails[i].description +'</textarea></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][actual_qty]" name="items['+res.transDetails[i].slug+'][actual_qty]" type="text" value="' + res.transDetails[i].actual_qty + '"></td>' +
+                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][remarks]" name="items['+res.transDetails[i].slug+'][remarks]" type="text">'+  res.transDetails[i].remarks +'</textarea></td>' +
+                                    '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
+                                    '</tr>';
+                            }
+                            tableHtml += '</tbody>';
+                            $('#ris_items_table').append(tableHtml);
+                            $('#saveBtn').removeClass('hidden');
+                        },
+                        error: function (res) {
+                            toast('error',res.responseJSON.message,'Error!');
+                            console.log(res);
+                        }
+                    })
+                }
+            });
         });
 
 
@@ -209,7 +258,6 @@
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='itemName']").val(data.text);
         });
-
 
     </script>
 @endsection
