@@ -127,7 +127,7 @@ class IARController extends Controller
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
 
-                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
+                $itemName = $items->where('stock_no', $item['item'])->pluck('article')->first();
                 if($itemName == null){
                     $itemName = $item['item'];
                 }
@@ -135,7 +135,7 @@ class IARController extends Controller
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $transNewSlug,
-                    'stock_no' => $item['stockNo'],
+                    'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
                     'item' => $itemName,
                     'description' => $item['description'],
@@ -247,7 +247,7 @@ class IARController extends Controller
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
-                    'stock_no' => $item['stockNo'],
+                    'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
                     'item' => $itemName,
                     'description' => $item['description'],
