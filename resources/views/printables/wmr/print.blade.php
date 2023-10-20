@@ -83,7 +83,7 @@
 
             <tr style=" border-left: 1px solid black; width: 100%;">
 
-                <td style="border-right: 1px solid black; width: 13.4%; text-align: center; font-size: 25px">
+                <td style="border-right: 1px solid black; width: 13.4%; text-align: center; font-size: 20px">
                     <strong>ITEMS FOR DISPOSAL</strong>
                 </td>
 
@@ -168,7 +168,7 @@
 
             <tr style=" border-left: 1px solid black; width: 100%;">
 
-                <td style="border-right: 1px solid black; width: 13.4%; text-align: center; font-size: 25px">
+                <td style="border-right: 1px solid black; width: 13.4%; text-align: center; font-size: 20px">
                     <strong>CERTIFICATE OF INSPECTION</strong>
                 </td>
 
