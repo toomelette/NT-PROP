@@ -23,13 +23,17 @@
                   {{--<th>No.</th>--}}
                   <th>Responsibility Center</th>
                   <th style="text-align: center;">PR</th>
+                  <th style="text-align: center;">PO</th>
                   <th style="text-align: center;">JR</th>
+                  <th style="text-align: center;">JO</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
                   $prTotal = 0;
                   $jrTotal = 0;
+                  $poTotal = 0;
+                  $joTotal = 0;
                   //$number = 0;
                   usort($trans_by_resp_center_pr_jr, function($a, $b) {
                         return $b->count - $a->count;
@@ -39,13 +43,17 @@
                   @php
                     $prTotal += $rc->count;
                     $jrTotal += $rc->countJR;
+                    $poTotal += $rc->countPO;
+                    $joTotal += $rc->countJO;
                     //$number++;
                   @endphp
                   <tr>
                    {{-- <td>--}}{{--{{ $number }}--}}{{--</td>--}}
                     <td class="text-strong">{{ $rc->name }}</td>
                     <td style="text-align: right;">{{ number_format($rc->count,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->countPO,2) }}</td>
                     <td style="text-align: right;">{{ number_format($rc->countJR,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->countJO,2) }}</td>
                   </tr>
                 @endforeach
                 </tbody>
@@ -57,20 +65,25 @@
               <table class="table">
                 <thead>
                 <tr>
-                  <th style="width:40%">
+                  <th style="width:10%">
                     Total:
                   </th>
                   <th style="text-align: right">
                     Php {{ number_format($prTotal,2) }}
                   </th>
+                  <th style="text-align: right">
+                    Php {{ number_format($poTotal,2) }}
+                  </th>
                   <th style="text-align: right;">
                     Php {{ number_format($jrTotal,2) }}
+                  </th>
+                  <th style="text-align: right;">
+                    Php {{ number_format($joTotal,2) }}
                   </th>
                 </tr>
                 </thead>
               </table>
             </div>
-
           </div>
         </div>
       </div>

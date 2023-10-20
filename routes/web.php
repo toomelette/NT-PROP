@@ -228,6 +228,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/ics/{slug}/print','ICSController@print')->name('ics.print');
     Route::get('/ics/{slug}/edit','ICSController@edit')->name('ics.edit');
     Route::patch('/ics/update/{slug}','ICSController@update')->name('ics.update');
+    Route::get('/ics/report','ICSController@report')->name('ics.report');
     Route::resource('ics', 'ICSController');
 
     Route::post('/noa/store','NOAController@store')->name('noa.store');

@@ -77,6 +77,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $OBCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '010')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $OBCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '010')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $IADCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -90,6 +104,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $IADCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '020')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $IADCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '020')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $OACount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -103,6 +131,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $OACountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '030')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $OACountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '030')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $LEGALCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -116,6 +158,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $LEGALCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '040')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $LEGALCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '040')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $PPSPDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -129,6 +185,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $PPSPDCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '050')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $PPSPDCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '050')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $AFDLMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -142,6 +212,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $AFDLMCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '060')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $AFDLMCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '060')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $AFDVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -155,6 +239,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $AFDVISCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '065')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $AFDVISCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '065')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $RDELMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -168,6 +266,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $RDELMCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '070')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $RDELMCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '070')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $RDEVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -181,6 +293,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $RDEVISCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '075')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $RDEVISCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '075')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $RDLMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -194,6 +320,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $RDLMCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '080')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $RDLMCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '080')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $RDVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -207,6 +347,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $RDVISCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '085')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $RDVISCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '085')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $GADCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -220,6 +374,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $GADCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '090')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $GADCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '090')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $SIDABFPCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -233,6 +401,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $SIDABFPCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '100')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $SIDABFPCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '100')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $SIDASCPCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -246,6 +428,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $SIDASCPCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '110')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $SIDASCPCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '110')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $SIDAHRDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -259,6 +455,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $SIDAHRDCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '120')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $SIDAHRDCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '120')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $SIDAFMRCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -272,6 +482,20 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $SIDAFMRCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '130')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $SIDAFMRCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '130')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
         $SIDARDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
@@ -285,24 +509,38 @@ class HomeService extends BaseService{
             ->where('transactions.ref_book', '=', 'JR')
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
+        $SIDARDCountPO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '140')
+            ->where('order.ref_book', '=', 'PO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
+        $SIDARDCountJO = DB::table('transactions')
+            ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
+            ->join('order', 'transactions.order_slug', '=', 'order.slug')
+            ->where('resp_codes.rc', '=', '140')
+            ->where('order.ref_book', '=', 'JO')
+            ->whereNull('transactions.cancelled_at')
+            ->sum('order.total_gross');
 
-        $obj = [(object)['name'=>'OB', 'count'=>$OBCount, 'countJR'=>$OBCountJR],
-            (object)['name'=>'IAD', 'count'=>$IADCount, 'countJR'=>$IADCountJR],
-            (object)['name'=>'OA', 'count'=>$OACount, 'countJR'=>$OACountJR],
-            (object)['name'=>'LEGAL', 'count'=>$LEGALCount, 'countJR'=>$LEGALCountJR],
-            (object)['name'=>'PPSPD', 'count'=>$PPSPDCount, 'countJR'=>$PPSPDCountJR],
-            (object)['name'=>'AFD-LM', 'count'=>$AFDLMCount, 'countJR'=>$AFDLMCountJR],
-            (object)['name'=>'AFD-VIS', 'count'=>$AFDVISCount, 'countJR'=>$AFDVISCountJR],
-            (object)['name'=>'RDE-LM', 'count'=>$RDELMCount, 'countJR'=>$RDELMCountJR],
-            (object)['name'=>'RDE-VIS', 'count'=>$RDEVISCount, 'countJR'=>$RDEVISCountJR],
-            (object)['name'=>'RD-LM', 'count'=>$RDLMCount, 'countJR'=>$RDLMCountJR],
-            (object)['name'=>'RD-VIS', 'count'=>$RDVISCount, 'countJR'=>$RDVISCountJR],
-            (object)['name'=>'GAD', 'count'=>$GADCount, 'countJR'=>$GADCountJR],
-            (object)['name'=>'SIDA-BFP', 'count'=>$SIDABFPCount, 'countJR'=>$SIDABFPCountJR],
-            (object)['name'=>'SIDA-SCP', 'count'=>$SIDASCPCount, 'countJR'=>$SIDASCPCountJR],
-            (object)['name'=>'SIDA-HRD', 'count'=>$SIDAHRDCount, 'countJR'=>$SIDAHRDCountJR],
-            (object)['name'=>'SIDA- FMR', 'count'=>$SIDAFMRCount, 'countJR'=>$SIDAFMRCountJR],
-            (object)['name'=>'SIDA-R&D', 'count'=>$SIDARDCount, 'countJR'=>$SIDARDCountJR]];
+        $obj = [(object)['name'=>'OB', 'count'=>$OBCount, 'countJR'=>$OBCountJR, 'countPO'=>$OBCountPO, 'countJO'=>$OBCountJO],
+            (object)['name'=>'IAD', 'count'=>$IADCount, 'countJR'=>$IADCountJR, 'countPO'=>$IADCountPO, 'countJO'=>$IADCountJO],
+            (object)['name'=>'OA', 'count'=>$OACount, 'countJR'=>$OACountJR, 'countPO'=>$OACountPO, 'countJO'=>$OACountJO],
+            (object)['name'=>'LEGAL', 'count'=>$LEGALCount, 'countJR'=>$LEGALCountJR, 'countPO'=>$LEGALCountPO, 'countJO'=>$LEGALCountJO],
+            (object)['name'=>'PPSPD', 'count'=>$PPSPDCount, 'countJR'=>$PPSPDCountJR, 'countPO'=>$PPSPDCountPO, 'countJO'=>$PPSPDCountJO],
+            (object)['name'=>'AFD-LM', 'count'=>$AFDLMCount, 'countJR'=>$AFDLMCountJR, 'countPO'=>$AFDLMCountPO, 'countJO'=>$AFDLMCountJO],
+            (object)['name'=>'AFD-VIS', 'count'=>$AFDVISCount, 'countJR'=>$AFDVISCountJR, 'countPO'=>$AFDVISCountPO, 'countJO'=>$AFDVISCountJO],
+            (object)['name'=>'RDE-LM', 'count'=>$RDELMCount, 'countJR'=>$RDELMCountJR, 'countPO'=>$RDELMCountPO, 'countJO'=>$RDELMCountJO],
+            (object)['name'=>'RDE-VIS', 'count'=>$RDEVISCount, 'countJR'=>$RDEVISCountJR, 'countPO'=>$RDEVISCountPO, 'countJO'=>$RDEVISCountJO],
+            (object)['name'=>'RD-LM', 'count'=>$RDLMCount, 'countJR'=>$RDLMCountJR, 'countPO'=>$RDLMCountPO, 'countJO'=>$RDLMCountJO],
+            (object)['name'=>'RD-VIS', 'count'=>$RDVISCount, 'countJR'=>$RDVISCountJR, 'countPO'=>$RDVISCountPO, 'countJO'=>$RDVISCountJO],
+            (object)['name'=>'GAD', 'count'=>$GADCount, 'countJR'=>$GADCountJR, 'countPO'=>$GADCountPO, 'countJO'=>$GADCountJO],
+            (object)['name'=>'SIDA-BFP', 'count'=>$SIDABFPCount, 'countJR'=>$SIDABFPCountJR, 'countPO'=>$SIDABFPCountPO, 'countJO'=>$SIDABFPCountJO],
+            (object)['name'=>'SIDA-SCP', 'count'=>$SIDASCPCount, 'countJR'=>$SIDASCPCountJR, 'countPO'=>$SIDASCPCountPO, 'countJO'=>$SIDASCPCountJO],
+            (object)['name'=>'SIDA-HRD', 'count'=>$SIDAHRDCount, 'countJR'=>$SIDAHRDCountJR, 'countPO'=>$SIDAHRDCountPO, 'countJO'=>$SIDAHRDCountJO],
+            (object)['name'=>'SIDA- FMR', 'count'=>$SIDAFMRCount, 'countJR'=>$SIDAFMRCountJR, 'countPO'=>$SIDAFMRCountPO, 'countJO'=>$SIDAFMRCountJO],
+            (object)['name'=>'SIDA-R&D', 'count'=>$SIDARDCount, 'countJR'=>$SIDARDCountJR, 'countPO'=>$SIDARDCountPO, 'countJO'=>$SIDARDCountJO]];
         return $obj;
         /*return ['IAD'=>$IADCount, 'OA'=>$OACount, 'LEGAL'=>$LEGALCount, 'PPSPD'=>$PPSPDCount, 'AFD-LM'=>$AFDLMCount, 'AFD-VIS'=>$AFDVISCount,
             'RDE-LM'=>$RDELMCount, 'RDE-VIS'=>$RDEVISCount, 'RD-LM'=>$RDLMCount, 'RD-VIS'=>$RDVISCount, 'GAD'=>$GADCount,
