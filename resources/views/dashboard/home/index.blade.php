@@ -65,20 +65,20 @@
               <table class="table">
                 <thead>
                 <tr>
-                  <th style="width:10%">
+                  <th style="width:5%">
                     Total:
                   </th>
                   <th style="text-align: right">
-                    Php {{ number_format($prTotal,2) }}
+                    PR {{ number_format($prTotal,2) }}
                   </th>
                   <th style="text-align: right">
-                    Php {{ number_format($poTotal,2) }}
+                    PO {{ number_format($poTotal,2) }}
                   </th>
                   <th style="text-align: right;">
-                    Php {{ number_format($jrTotal,2) }}
+                    JR {{ number_format($jrTotal,2) }}
                   </th>
                   <th style="text-align: right;">
-                    Php {{ number_format($joTotal,2) }}
+                    JO {{ number_format($joTotal,2) }}
                   </th>
                 </tr>
                 </thead>
