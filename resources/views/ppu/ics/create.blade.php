@@ -110,7 +110,7 @@
                                         </tbody>
                                     </table>
                                     <div class="pull-right">
-                                        <button type="button" class="btn btn-primary hidden" id="saveBtn">Save</button>
+                                        <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +211,6 @@
                             }
                             tableHtml += '</tbody>';
                             $('#trans_table').append(tableHtml).removeClass('hidden');
-                            $('#saveBtn').removeClass('hidden');
                         },
                         error: function (res) {
                             toast('error',res.responseJSON.message,'Error!');
