@@ -183,29 +183,14 @@
     </div>
   </div>
 
-
-
   <div class="row">
     {!! __chart::div_flot_bar('12', 'trans_by_resp_center_bar' ,'PR & JR Graph Report') !!}
-    {{--{!! __chart::div_flot_bar('6', 'emp_by_dept_bar' ,'Employee by Department') !!}--}}
-{{--    {!! __chart::div_flot_donut('6', 'pr_by_dept_donut' , 'PR by Department') !!}--}}
   </div>
-
-
 </section>
-
 @endsection
-
-
-
-
-
 @section('scripts')
-
 <script>
-
     $(function () {
-
       {!!
           __chart::js_flot_bar('trans_by_resp_center_bar',
            '["OB", '. collect($trans_by_resp_center_bar)->where('name', 'OB')->first()->count .'],
@@ -227,40 +212,15 @@
             '
         )
       !!}
-
-      {{--{!!
-          __chart::js_flot_bar('emp_by_dept_bar',
-           '["AFD", '. $get_emp_by_dept['AFD'] .'],
-            ["IAD", '. $get_emp_by_dept['IAD'] .'],
-            ["PPD", '. $get_emp_by_dept['PPD'] .'],
-            ["RDE", '. $get_emp_by_dept['RDE'] .'],
-            ["RD", '. $get_emp_by_dept['RD'] .'],
-            ["LEGAL", '. $get_emp_by_dept['LEGAL'] .']'
-        ) 
-      !!}--}}
-
-      {{--{!!
-          __chart::js_flot_donut('emp_by_gender_donut',
-              '[
-                { label: "Female", data: '. $count_female_emp  .' , color: "#BF3F3F" },
-                { label: "Male", data: '. $count_male_emp  .', color: "#3F7FBF" },
-              ]
-          ') 
-      !!}--}}
-      
-
-
-      // Chart label Formatter
-      function labelFormatter(label, series) {
-          return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
-            + label
-            + '<br>'
-            + Math.round(series.percent) + '%</div>'
-      }
-
-
     });
 
+    // Chart label Formatter
+    function labelFormatter(label, series) {
+      return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+              + label
+              + '<br>'
+              + Math.round(series.percent) + '%</div>'
+    }
 </script>
 
 @endsection

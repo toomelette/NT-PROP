@@ -140,6 +140,14 @@
                     }
                 }
             });
+
+            let url = window.location.href;
+            let urlParts = url.split('?');
+
+            if (urlParts.length > 1) {
+                let searchParam = urlParts[1];
+                jr_monitoring_tbl.search(searchParam).draw();
+            }
         })
 
         $("body").on("change",".dt_filter",function () {

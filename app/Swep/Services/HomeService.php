@@ -61,7 +61,6 @@ class HomeService extends BaseService{
                 'trans_by_resp_center_bar',
                 'trans_by_resp_center_pr_jr'
         ));
-
     }
 
     private function getPRJRTransByDept(){

@@ -20,8 +20,6 @@
     <i class="fa  fa-download"></i>
     </button>
     @endif
-
-
     <div class="btn-group btn-group-sm" role="group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
@@ -31,6 +29,11 @@
             <li>
                 <a style="color: #dd4b39" href="#" class="cancel_transaction_btn text-danger" data="{{$pr->slug}}" data-original-title="" title=""><i class="fa fa-times"></i> Cancel Transaction</a>
             </li>
+                <li>
+                    <a class="btn btn-default btn-sm text-black" data="{{$pr->slug}}" target="popup" href="{{route('dashboard.pr.monitoringIndex', $pr->ref_no)}}" title="" data-placement="left" data-original-title="View">
+                        View Monitoring
+                    </a>
+                </li>
             @endif
         </ul>
     </div>
