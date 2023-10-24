@@ -29,7 +29,7 @@
                                     <th>Invoice Number</th>
                                     <th>Requisitioning Office/Department</th>
                                     <th>Requested By</th>
-                                    <th>PO Number</th>
+                                    <th>PR/JR Number</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>

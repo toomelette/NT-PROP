@@ -68,11 +68,11 @@
                         <td style="border-right: 1px solid black; width: 11%; vertical-align: top;">
                             Invoice Number:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black;  width: 36.5%">
+                        <td class="text-strong" style="border-right: 1px solid black;  width: 35%">
                             {{$iar->invoice_number}}
                         </td>
 
-                        <td style="border-right: 1px solid black; width: 14%; vertical-align: center;">
+                        <td style="border-right: 1px solid black; width: 13.9%; vertical-align: center;">
                             PO Number:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 40%">
@@ -87,11 +87,11 @@
                         <td style="border-right: 1px solid black; vertical-align: center; width: 11%">
                             Invoice Date:
                         </td>
-                        <td class="text-strong" style="vertical-align: center; width: 36.5%;">
+                        <td class="text-strong" style="vertical-align: center; width: 35%;">
                             {{$iar->invoice_date}}
                         </td>
 
-                        <td style="border-right: 1px solid black; border-left: 1px solid black; vertical-align: top; width: 14%">
+                        <td style="border-right: 1px solid black; border-left: 1px solid black; vertical-align: top; width: 13.9%">
                             PO Date:
                         </td>
                         <td class="text-strong" style="vertical-align: top; width: 40%;">
@@ -105,23 +105,17 @@
                         <td style="border-right: 1px solid black; width: 11%; vertical-align: top;">
                             Requisitioning Office:
                         </td>
-                        <td class="text-strong" style="border-right: 1px solid black;  width: 37.6%">
+                        <td class="text-strong" style="border-right: 1px solid black;  width: 35%">
                             {{$rc->desc}}
                         </td>
 
-                        <td style="border-right: 1px solid black; vertical-align: center; width: 14%">
-                            Requisitioner:
-                        </td>
-                        <td class="text-strong" style="vertical-align: center; width: 14.1%;">
-                            {{$iar->requested_by}}
-                        </td>
 
-{{--                        <td style="border-right: 1px solid black; width: 14.1%; vertical-align: center;">--}}
-{{--                            PR/JR No:--}}
-{{--                        </td>--}}
-{{--                        <td style="" class="text-strong ">--}}
-{{--                            {{$po->cross_ref_no}}--}}
-{{--                        </td>--}}
+                        <td style="border-right: 1px solid black; width: 13.9%; vertical-align: center;">
+                            PR/JR No:
+                        </td>
+                        <td style="" class="text-strong ">
+                            {{$iar->cross_ref_no}}
+                        </td>
 {{--                        @if($iar->cross_slug != "")--}}
 {{--                            <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 40%">--}}
 {{--                                {{$pr->ref_no}}--}}
@@ -131,11 +125,14 @@
 {{--                                {{$iar->cross_ref_no}}--}}
 {{--                            </td>--}}
 {{--                        @endif--}}
-
                     </tr>
-
-                    <tr style=" border-left: 1px solid black; border-right: 1px solid black; width: 100%;">
-
+                    <tr style="border-right: 1px solid black; width: 100%;">
+                        <td style="border-right: 1px solid black; border-left: 1px solid black; vertical-align: center; width: 14%">
+                            Requisitioner:
+                        </td>
+                        <td class="text-strong" style="vertical-align: center; width: 14.1%;">
+                            {{$iar->requested_by}}
+                        </td>
 
 
                     </tr>
