@@ -212,6 +212,7 @@
                             }
                          $("#ref_no").val(res.trans.ref_no);
                          $("#requested_by").val(res.trans.requested_by);
+                         $("#cross_ref_no").val(res.trans.cross_ref_no);
 
                             $('#iar_items_table tbody').remove();
                             let tableHtml = '<tbody>';
