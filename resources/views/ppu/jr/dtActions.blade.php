@@ -29,6 +29,11 @@
                 <li>
                     <a style="color: #dd4b39" href="#" class="cancel_transaction_btn text-danger" data="{{$jr->slug}}" data-original-title="" title=""><i class="fa fa-times"></i> Cancel Transaction</a>
                 </li>
+                <li>
+                    <a class="btn btn-default btn-sm text-black" data="{{$jr->slug}}" target="popup" href="{{route('dashboard.jr.monitoringIndex', $jr->ref_no)}}"title="" data-placement="left" data-original-title="View">
+                        View Monitoring
+                    </a>
+                </li>
             @endif
         </ul>
     </div>

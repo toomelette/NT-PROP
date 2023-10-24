@@ -16,6 +16,67 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="panel">
+                            <div class="box box-sm box-default box-solid collapsed-box">
+                                <div class="box-header with-border">
+                                    <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="display: none">
+                                    <form id="filter_form">
+                                        <div class="row">
+
+                                            {!! \App\Swep\ViewHelpers\__form2::select('year',[
+                                                'cols' => '1 dt_filter-parent-div',
+                                                'label' => 'Year:',
+                                                'class' => 'dt_filter filters',
+                                                'options' => \App\Swep\Helpers\Arrays::years(),
+                                                'for' => 'select2_papCode',
+                                            ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
+
+                                            {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
+                                                'cols' => '3 dt_filter-parent-div',
+                                                'label' => 'Department/Division/Section:',
+                                                'class' => 'dt_filter filters',
+                                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
+                                                'for' => 'select2_papCode',
+                                                'id' => 'resp_center_select2',
+                                            ]) !!}
+                                            <div class="col-md-2 ">
+                                                <label>Requisitioner:</label>
+                                                <select name="requested_by"  class="form-control dt_filter select2_requested_by">
+                                                    <option value="" selected>Don't filter</option>
+                                                    @php
+                                                        $requisitioners = \App\Models\Transactions::query()->select('requested_by')->where('ref_book','=','PR')->groupBy('requested_by')->orderBy('requested_by')->pluck('requested_by');
+                                                    @endphp
+                                                    {!! \App\Swep\Helpers\Helper::populateOptionsFromArray($requisitioners,null,true) !!}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <hr style="margin: 3px">
+                                    <div class="row">
+                                        <form id="search_by_item_form">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="">Search by Item: <small class="text-danger">(This may take some time.)</small></label>
+                                                    <div class="input-group">
+                                                        <input name="item" type="text" class="form-control">
+                                                        <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         <div id="po_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="po_table" style="width: 100% !important">
                                 <thead>

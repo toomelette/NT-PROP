@@ -23,13 +23,17 @@
                   {{--<th>No.</th>--}}
                   <th>Responsibility Center</th>
                   <th style="text-align: center;">PR</th>
+                  <th style="text-align: center;">PO</th>
                   <th style="text-align: center;">JR</th>
+                  <th style="text-align: center;">JO</th>
                 </tr>
                 </thead>
                 <tbody>
                 @php
                   $prTotal = 0;
                   $jrTotal = 0;
+                  $poTotal = 0;
+                  $joTotal = 0;
                   //$number = 0;
                   usort($trans_by_resp_center_pr_jr, function($a, $b) {
                         return $b->count - $a->count;
@@ -39,13 +43,17 @@
                   @php
                     $prTotal += $rc->count;
                     $jrTotal += $rc->countJR;
+                    $poTotal += $rc->countPO;
+                    $joTotal += $rc->countJO;
                     //$number++;
                   @endphp
                   <tr>
                    {{-- <td>--}}{{--{{ $number }}--}}{{--</td>--}}
                     <td class="text-strong">{{ $rc->name }}</td>
                     <td style="text-align: right;">{{ number_format($rc->count,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->countPO,2) }}</td>
                     <td style="text-align: right;">{{ number_format($rc->countJR,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->countJO,2) }}</td>
                   </tr>
                 @endforeach
                 </tbody>
@@ -57,20 +65,25 @@
               <table class="table">
                 <thead>
                 <tr>
-                  <th style="width:40%">
+                  <th style="width:5%">
                     Total:
                   </th>
                   <th style="text-align: right">
-                    Php {{ number_format($prTotal,2) }}
+                    PR {{ number_format($prTotal,2) }}
+                  </th>
+                  <th style="text-align: right">
+                    PO {{ number_format($poTotal,2) }}
                   </th>
                   <th style="text-align: right;">
-                    Php {{ number_format($jrTotal,2) }}
+                    JR {{ number_format($jrTotal,2) }}
+                  </th>
+                  <th style="text-align: right;">
+                    JO {{ number_format($joTotal,2) }}
                   </th>
                 </tr>
                 </thead>
               </table>
             </div>
-
           </div>
         </div>
       </div>
@@ -170,29 +183,14 @@
     </div>
   </div>
 
-
-
   <div class="row">
     {!! __chart::div_flot_bar('12', 'trans_by_resp_center_bar' ,'PR & JR Graph Report') !!}
-    {{--{!! __chart::div_flot_bar('6', 'emp_by_dept_bar' ,'Employee by Department') !!}--}}
-{{--    {!! __chart::div_flot_donut('6', 'pr_by_dept_donut' , 'PR by Department') !!}--}}
   </div>
-
-
 </section>
-
 @endsection
-
-
-
-
-
 @section('scripts')
-
 <script>
-
     $(function () {
-
       {!!
           __chart::js_flot_bar('trans_by_resp_center_bar',
            '["OB", '. collect($trans_by_resp_center_bar)->where('name', 'OB')->first()->count .'],
@@ -214,40 +212,15 @@
             '
         )
       !!}
-
-      {{--{!!
-          __chart::js_flot_bar('emp_by_dept_bar',
-           '["AFD", '. $get_emp_by_dept['AFD'] .'],
-            ["IAD", '. $get_emp_by_dept['IAD'] .'],
-            ["PPD", '. $get_emp_by_dept['PPD'] .'],
-            ["RDE", '. $get_emp_by_dept['RDE'] .'],
-            ["RD", '. $get_emp_by_dept['RD'] .'],
-            ["LEGAL", '. $get_emp_by_dept['LEGAL'] .']'
-        ) 
-      !!}--}}
-
-      {{--{!!
-          __chart::js_flot_donut('emp_by_gender_donut',
-              '[
-                { label: "Female", data: '. $count_female_emp  .' , color: "#BF3F3F" },
-                { label: "Male", data: '. $count_male_emp  .', color: "#3F7FBF" },
-              ]
-          ') 
-      !!}--}}
-      
-
-
-      // Chart label Formatter
-      function labelFormatter(label, series) {
-          return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
-            + label
-            + '<br>'
-            + Math.round(series.percent) + '%</div>'
-      }
-
-
     });
 
+    // Chart label Formatter
+    function labelFormatter(label, series) {
+      return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
+              + label
+              + '<br>'
+              + Math.round(series.percent) + '%</div>'
+    }
 </script>
 
 @endsection

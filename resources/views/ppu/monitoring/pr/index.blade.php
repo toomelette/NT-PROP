@@ -86,6 +86,7 @@
     <script type="text/javascript">
         var activePr = '';
         $(document).ready(function () {
+
             //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
             //Initialize DataTable
@@ -141,6 +142,14 @@
                     }
                 }
             });
+
+            let url = window.location.href;
+            let urlParts = url.split('?');
+
+            if (urlParts.length > 1) {
+                let searchParam = urlParts[1];
+                pr_monitoring_tbl.search(searchParam).draw();
+            }
         })
         $("body").on("change",".dt_filter",function () {
             let form = $(this).parents('form');
