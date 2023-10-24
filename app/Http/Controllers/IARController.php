@@ -96,7 +96,7 @@ class IARController extends Controller
             $order = Order::query()->where('ref_no', '=', $request->ref_number)
                 ->where('ref_book', '=', 'PO')->first();
             $trans = Transactions::query()->where('order_slug', '=', $order->slug)->first();
-            $transNew->resp_center = $trans->resp_center;
+            $transNew->resp_center = $trans->resp_center   !=null? $trans->resp_center: $request->resp_center;
             $transNew->pap_code = $trans->pap_code;
             $transNew->cross_slug = $trans->slug;
             $transNew->cross_ref_no = $trans->ref_no;
@@ -181,11 +181,15 @@ class IARController extends Controller
         if($iar->cross_slug != ""){
             $po = Transactions::query()->where('slug', '=', $iar->cross_slug)->first();
             $pr = Transactions::query()->where( 'slug', '=', $po->cross_slug)->first();
+//            if($pr == null) {
+//                $poDetails = PODetails::query()->where('order_slug', $order->slug)->get();
+//            }
 
-            return view('printables.iar.print')->with([
+                return view('printables.iar.print')->with([
                 'iar' => $iar,
                 'rc' => $rc,
-                'pr' => $pr
+                'pr' => $pr,
+                    'po' => $po
             ]);
         }
         return view('printables.iar.print')->with([
