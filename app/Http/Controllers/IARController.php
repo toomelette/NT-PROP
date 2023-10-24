@@ -189,7 +189,7 @@ class IARController extends Controller
                 'iar' => $iar,
                 'rc' => $rc,
                 'pr' => $pr,
-                    'po' => $po
+                'po' => $po
             ]);
         }
         return view('printables.iar.print')->with([

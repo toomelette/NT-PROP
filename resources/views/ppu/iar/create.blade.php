@@ -64,18 +64,12 @@
                           'id' => 'supplier_name'
                        ]) !!}
 
-{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[--}}
-{{--                           'label' => 'Requisitioning Office/Department',--}}
-{{--                           'cols' => 3,--}}
-{{--                           'id' => 'resp_center'--}}
-{{--                        ]) !!}--}}
-
                         {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                                'label' => 'Requisitioning Office/Department',
                                'cols' => 3,
                                'id' => 'resp_center',
                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
-                            ]) !!}
+                        ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('cross_ref_no',[
                            'label' => 'PR/JR No:',
