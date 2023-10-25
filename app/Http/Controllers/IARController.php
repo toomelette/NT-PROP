@@ -127,7 +127,7 @@ class IARController extends Controller
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
 
-                $itemName = $items->where('stock_no', $item['item'])->pluck('article')->first();
+                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
                 if($itemName == null){
                     $itemName = $item['item'];
                 }
@@ -142,8 +142,6 @@ class IARController extends Controller
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
-//                    'property_no' => $item['property_no'],
-//                    'nature_of_work' => $item['nature_of_work'],
                 ]);
                 $totalabc = $totalabc + Helper::sanitizeAutonum($item['total_cost']);
             }
