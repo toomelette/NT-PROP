@@ -103,7 +103,6 @@ class ICSController extends Controller
         $trans->received_at = $request->received_at;
         $trans->cross_ref_no = $request->iar_no;
 
-
         $totalAbc = 0;
         $arr = [];
         if(!empty($request->items)){

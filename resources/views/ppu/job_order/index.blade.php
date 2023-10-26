@@ -16,12 +16,46 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="panel">
+                            <div class="box box-sm box-default box-solid collapsed-box">
+                                <div class="box-header with-border">
+                                    <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="display: none">
+                                    <form id="filter_form">
+                                        <div class="row">
+                                            {!! \App\Swep\ViewHelpers\__form2::select('year',[
+                                                'cols' => '1 dt_filter-parent-div',
+                                                'label' => 'Year:',
+                                                'class' => 'dt_filter filters',
+                                                'options' => \App\Swep\Helpers\Arrays::years(),
+                                                'for' => 'select2_papCode',
+                                            ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
+
+                                            {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
+                                                'cols' => '3 dt_filter-parent-div',
+                                                'label' => 'Department/Division/Section:',
+                                                'class' => 'dt_filter filters',
+                                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
+                                                'for' => 'select2_papCode',
+                                                'id' => 'resp_center_select2',
+                                            ]) !!}
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
                         <div class="table-responsive" id="jo_table_container" style="display: none">
                             <table class="table table-bordered table-striped table-hover" id="jo_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
+                                    <th style="width: 5px;">Dept/Div/RC</th>
                                     <th>JO Number</th>
-                                    <th>Ref. Book</th>
                                     <th>Mode</th>
                                     <th>Supplier</th>
                                     <th>Contact Person</th>
@@ -56,10 +90,11 @@
             //Initialize DataTable
 
             jo_tbl = $("#jo_table").DataTable({
-                "ajax" : '{{route("dashboard.jo.index")}}',
+                //"ajax" : '{{route("dashboard.jo.index")}}',
+                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
+                    { "data": "dept" },
                     { "data": "ref_no" },
-                    { "data": "ref_book" },
                     { "data": "mode" },
                     { "data": "supplier_name" },
                     { "data": "supplier_representative" },
@@ -130,6 +165,10 @@
                 })
             });
 
+            $("body").on("change",".dt_filter",function () {
+                filterDT(jo_tbl);
+            });
+            $("#resp_center_select2").select2();
 
         })
     </script>

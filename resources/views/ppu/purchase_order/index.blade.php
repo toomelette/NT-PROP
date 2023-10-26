@@ -28,7 +28,6 @@
                                 <div class="box-body" style="display: none">
                                     <form id="filter_form">
                                         <div class="row">
-
                                             {!! \App\Swep\ViewHelpers\__form2::select('year',[
                                                 'cols' => '1 dt_filter-parent-div',
                                                 'label' => 'Year:',
@@ -45,34 +44,8 @@
                                                 'for' => 'select2_papCode',
                                                 'id' => 'resp_center_select2',
                                             ]) !!}
-                                            <div class="col-md-2 ">
-                                                <label>Requisitioner:</label>
-                                                <select name="requested_by"  class="form-control dt_filter select2_requested_by">
-                                                    <option value="" selected>Don't filter</option>
-                                                    @php
-                                                        $requisitioners = \App\Models\Transactions::query()->select('requested_by')->where('ref_book','=','PR')->groupBy('requested_by')->orderBy('requested_by')->pluck('requested_by');
-                                                    @endphp
-                                                    {!! \App\Swep\Helpers\Helper::populateOptionsFromArray($requisitioners,null,true) !!}
-                                                </select>
-                                            </div>
                                         </div>
                                     </form>
-                                    <hr style="margin: 3px">
-                                    <div class="row">
-                                        <form id="search_by_item_form">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label for="">Search by Item: <small class="text-danger">(This may take some time.)</small></label>
-                                                    <div class="input-group">
-                                                        <input name="item" type="text" class="form-control">
-                                                        <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                                            </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
 
                             </div>
@@ -81,8 +54,8 @@
                             <table class="table table-bordered table-striped table-hover" id="po_table" style="width: 100% !important">
                                 <thead>
                                 <tr class="">
+                                    <th style="width: 5px;">Dept/Div/RC</th>
                                     <th>PO Number</th>
-                                    <th>Ref. Book</th>
                                     <th>Mode</th>
                                     <th>Supplier</th>
                                     <th>Contact Person</th>
@@ -117,10 +90,11 @@
             //Initialize DataTable
 
             po_tbl = $("#po_table").DataTable({
-                "ajax" : '{{route("dashboard.po.index")}}',
+                //"ajax" : '{{route("dashboard.po.index")}}',
+                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
+                    { "data": "dept" },
                     { "data": "ref_no" },
-                    { "data": "ref_book" },
                     { "data": "mode" },
                     { "data": "supplier_name" },
                     { "data": "supplier_representative" },
@@ -191,6 +165,10 @@
                 })
             });
 
+            $("body").on("change",".dt_filter",function () {
+                filterDT(po_tbl);
+            });
+            $("#resp_center_select2").select2();
         })
     </script>
 @endsection
