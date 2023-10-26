@@ -91,15 +91,15 @@ class IARController extends Controller
         $transNew->resp_center = $request->resp_center;
         $transNew->pap_code = $request->pap_code;
         $transNew->supplier = $request->supplier_name;
-        $transNew->cross_ref_no = $request->ref_no;
+        $transNew->cross_ref_no = $request->cross_ref_no;
         if ($request->ref_number != ""){
             $order = Order::query()->where('ref_no', '=', $request->ref_number)
                 ->where('ref_book', '=', 'PO')->first();
             $trans = Transactions::query()->where('order_slug', '=', $order->slug)->first();
-            $transNew->resp_center = $trans->resp_center;
+            $transNew->resp_center = $trans->resp_center   !=null? $trans->resp_center: $request->resp_center;
             $transNew->pap_code = $trans->pap_code;
             $transNew->cross_slug = $trans->slug;
-            $transNew->cross_ref_no = $trans->ref_no;
+            $transNew->cross_ref_no = $trans->cross_ref_no;
             $transNew->purpose = $trans->purpose;
             $transNew->jr_type = $trans->jr_type;
             $transNew->requested_by = $trans->requested_by;
@@ -127,7 +127,7 @@ class IARController extends Controller
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
 
-                $itemName = $items->where('stock_no', $item['item'])->pluck('article')->first();
+                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
                 if($itemName == null){
                     $itemName = $item['item'];
                 }
@@ -142,8 +142,6 @@ class IARController extends Controller
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
-//                    'property_no' => $item['property_no'],
-//                    'nature_of_work' => $item['nature_of_work'],
                 ]);
                 $totalabc = $totalabc + Helper::sanitizeAutonum($item['total_cost']);
             }
@@ -181,11 +179,15 @@ class IARController extends Controller
         if($iar->cross_slug != ""){
             $po = Transactions::query()->where('slug', '=', $iar->cross_slug)->first();
             $pr = Transactions::query()->where( 'slug', '=', $po->cross_slug)->first();
+//            if($pr == null) {
+//                $poDetails = PODetails::query()->where('order_slug', $order->slug)->get();
+//            }
 
-            return view('printables.iar.print')->with([
+                return view('printables.iar.print')->with([
                 'iar' => $iar,
                 'rc' => $rc,
-                'pr' => $pr
+                'pr' => $pr,
+                'po' => $po
             ]);
         }
         return view('printables.iar.print')->with([
@@ -229,7 +231,6 @@ class IARController extends Controller
         $trans->date_inspected = $request->date_inspected;
         $trans->supplier = $request->supplier;
         $trans->resp_center = $request->resp_center;
-        $trans->ref_no = $request->ref_no;
         $trans->requested_by = $request->requested_by;
 
 

@@ -87,10 +87,10 @@
                                         $iar ?? null
                                         ) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('cross_ref_no',[
                            'label' => 'PR/JR No:',
                            'cols' => 3,
-                           'id' => 'ref_no'
+                           'id' => 'cross_ref_no'
                         ],
                                         $iar ?? null
                                         ) !!}

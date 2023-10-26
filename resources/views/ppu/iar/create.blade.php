@@ -64,23 +64,17 @@
                           'id' => 'supplier_name'
                        ]) !!}
 
-{{--                        {!! \App\Swep\ViewHelpers\__form2::textbox('resp_center',[--}}
-{{--                           'label' => 'Requisitioning Office/Department',--}}
-{{--                           'cols' => 3,--}}
-{{--                           'id' => 'resp_center'--}}
-{{--                        ]) !!}--}}
-
                         {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                                'label' => 'Requisitioning Office/Department',
                                'cols' => 3,
                                'id' => 'resp_center',
                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
-                            ]) !!}
+                        ]) !!}
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('cross_ref_no',[
                            'label' => 'PR/JR No:',
                            'cols' => 3,
-                           'id' => 'ref_no'
+                           'id' => 'cross_ref_no'
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
@@ -206,12 +200,13 @@
                         },
                         success: function (res) {
                             console.log(res);
-
-                         $("#supplier_name").val(res.order.supplier_name);
-                         // $("#resp_center").val(res.rc.department);
-                         $("#resp_center").val(res.rc.rc_code);
+                         $("#supplier_name").val(res.order.supplier_name)
+                            if(res.rc!=null){
+                                $("#resp_center").val(res.rc.rc_code);
+                            }
                          $("#ref_no").val(res.trans.ref_no);
                          $("#requested_by").val(res.trans.requested_by);
+                         $("#cross_ref_no").val(res.trans.cross_ref_no);
 
                             $('#iar_items_table tbody').remove();
                             let tableHtml = '<tbody>';
