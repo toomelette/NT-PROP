@@ -231,7 +231,6 @@ class IARController extends Controller
         $trans->date_inspected = $request->date_inspected;
         $trans->supplier = $request->supplier;
         $trans->resp_center = $request->resp_center;
-        $trans->ref_no = $request->ref_no;
         $trans->requested_by = $request->requested_by;
 
 
