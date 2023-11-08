@@ -17,6 +17,7 @@ use App\Swep\Services\TransactionService;
 use App\Swep\Traits\PRTimelineTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PRController extends Controller
@@ -86,9 +87,22 @@ class PRController extends Controller
     }
 
     public function monitoringDataTable(Request $request){
+        $rcs = PPURespCodes::query()->with(['description'])
+            ->where(function($query){
+                foreach (Auth::user()->availablePaps as $availablePap){
+                    $query->orWhere('rc','=',$availablePap->rc);
+                }
+            })->get();
+
+        $rcCodes = $rcs->pluck('rc_code')->toArray();
         $trans = Transactions::query()
             ->with(['rfq','aq','po'])
-            ->where('ref_book','=','PR');
+            ->where('ref_book','=','PR')
+            ->whereIn('resp_center', $rcCodes);
+
+        /*$trans = Transactions::query()
+            ->with(['rfq','aq','po'])
+            ->where('ref_book','=','PR');*/
 
         if($request->has('resp_center') && $request->resp_center != ''){
             $trans = $trans->where('resp_center','=',$request->resp_center);
@@ -127,19 +141,7 @@ class PRController extends Controller
 //                }
             })
             ->addColumn('aq_date', function($data) {
-                /*return ($data->aq ?? null).
-                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->aq->created_at ?? null).
-                    '<br>'.($data->aq->ref_n ?? null).
-                    '</div>';*/
                 return '<span class="">'.Helper::dateFormat($data->aq->created_at ?? null).'<br><a>'.($data->aq->ref_no ?? null).'</a></span>';
-//                $item = $transAll->where('cross_slug', $data->slug)
-//                    ->where('ref_book', 'AQ')
-//                    ->first();
-//                if ($item) {
-//                    return Carbon::parse($item->created_at)->format('M. d, Y');
-//                } else {
-//                    return null;
-//                }
             })
             ->addColumn('rbac_reso_date',function($data){
                 return "";

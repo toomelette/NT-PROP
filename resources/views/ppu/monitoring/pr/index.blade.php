@@ -40,11 +40,10 @@
                                         'cols' => '3 dt_filter-parent-div',
                                         'label' => 'Department/Division/Section:',
                                         'class' => 'dt_filter filters',
-                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
+                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
                                         'for' => 'select2_papCode',
                                         'id' => 'resp_center_select2',
                                     ]) !!}
-
                                 </div>
                             </form>
 

@@ -15,6 +15,7 @@ use App\Swep\Services\JRService;
 use App\Swep\Services\TransactionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class JRController extends Controller
@@ -130,7 +131,21 @@ class JRController extends Controller
     }
 
     public function monitoringDataTable($request){
-        $trans = Transactions::query()->where('ref_book','=','JR');
+        $rcs = PPURespCodes::query()->with(['description'])
+            ->where(function($query){
+                foreach (Auth::user()->availablePaps as $availablePap){
+                    $query->orWhere('rc','=',$availablePap->rc);
+                }
+            })->get();
+
+        $rcCodes = $rcs->pluck('rc_code')->toArray();
+        $trans = Transactions::query()
+            ->with(['rfq','aq','po'])
+            ->where('ref_book','=','JR')
+            ->whereIn('resp_center', $rcCodes);
+
+        //$trans = Transactions::query()->where('ref_book','=','JR');
+
 
         if($request->has('resp_center') && $request->resp_center != ''){
             $trans = $trans->where('resp_center','=',$request->resp_center);
@@ -139,13 +154,9 @@ class JRController extends Controller
             $trans = $trans->where('date','like',$request->year.'%');
         }
 
-
-        $transAll = Transactions::all();
-        $ana = AwardNoticeAbstract::all();
         $search = $request->get('search')['value'] ?? null;
 
         $dt = \DataTables::of($trans);
-
         $dt = $dt->filter(function ($query) use($search){
             if($search != null){
                 $query->where('ref_no', 'like', '%'.$search.'%');
@@ -161,44 +172,24 @@ class JRController extends Controller
             ->addColumn('date_received',function($data){
                 return !empty($data->received_at) ? Carbon::parse($data->date)->format('M. d, Y') : null;
             })
-            ->addColumn('rfq_date', function($data) use ($transAll) {
-                $item = $transAll->where('cross_slug', $data->slug)
-                    ->where('ref_book', 'RFQ')
-                    ->first();
-                if ($item) {
-                    return Carbon::parse($item->created_at)->format('M. d, Y');
-                } else {
-                    return null;
-                }
+            ->addColumn('rfq_date', function($data){
+                return Helper::dateFormat($data->rfq->created_at ?? null);
             })
             ->addColumn('aq_date', function($data) {
                 return '<span class="">'.Helper::dateFormat($data->aq->created_at ?? null).'<br><a>'.($data->aq->ref_no ?? null).'</a></span>';
             })
-            /*->addColumn('aq_date', function($data) use ($transAll) {
-                $item = $transAll->where('cross_slug', $data->slug)
-                    ->where('ref_book', 'AQ')
-                    ->first();
-                if ($item) {
-                    return Carbon::parse($item->created_at)->format('M. d, Y');
-                } else {
-                    return null;
-                }
-            })*/
             ->addColumn('rbac_reso_date',function($data){
                 return "";
             })
-            ->addColumn('noa_date',function($data) use ($ana){
-                $item = $ana->where('ref_book', '=', 'JR')
-                    ->where('ref_number', '=', $data->ref_no)
-                    ->last();
-                if ($item) {
-                    return Carbon::parse($item->award_date)->format('M. d, Y');
-                } else {
-                    return null;
-                }
+            ->addColumn('noa_date',function($data){
+                return Helper::dateFormat($data->anaPr->award_date ?? null,'M. d, Y');
             })
-            ->addColumn('po_jo_date',function($data){
-                return "";
+            ->addColumn('jo_date',function($data){
+                $output = "";
+                foreach ($data->po as $item) {
+                    $output += $item->date. '<br>';
+                }
+                return $output;
             })
             ->addColumn('action',function($data){
                 return "";
