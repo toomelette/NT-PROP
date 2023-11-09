@@ -29,6 +29,10 @@ class PARController extends Controller
         if($request->has('print_by_location')){
             return  $this->printPropertyTagByLocation($request);
         }
+
+        if($request->has('par_by_employee')){
+            return  $this->printParByEmployee($request);
+        }
         return view('ppu.par.index');
     }
 
@@ -37,6 +41,15 @@ class PARController extends Controller
             ->get();
         return view('printables.par.property_tag_by_location')->with([
             'pars' => $pars->chunk(2),
+        ]);
+    }
+
+    public function printParByEmployee(Request $request){
+        $pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
+            ->get();
+        $respCenter = PPURespCodes::query()->get();
+        return view('printables.par.par_by_employee')->with([
+            'pars' => $pars, 'resp_center' => $respCenter
         ]);
     }
 

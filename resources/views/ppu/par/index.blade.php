@@ -6,12 +6,12 @@
     </section>
 @endsection
 @section('content2')
-
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Property Acknowledgement Receipt</h3>
                 <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#par-by-employee"><i class="fa fa-print"></i> PAR by Employee</button>
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>
                     <a class="btn btn-primary btn-sm" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>
                 </div>
@@ -50,6 +50,30 @@
 @endsection
 
 @section('modals')
+    <div class="modal fade" id="par-by-employee" tabindex="-1" role="dialog" aria-labelledby="par-by-employee">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form id="par-by-employee-form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">PAR by Employee</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('employee_no',[
+                            'label' => 'Employee No.:',
+                            'cols' => 12,
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-sm">Generate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="property-tag-by-location" tabindex="-1" role="dialog" aria-labelledby="property-tag-by-location_label">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -384,11 +408,18 @@
                     }
                 }
             });
-        })
+        });
 
         $("#property-tag-by-location-form").submit(function (e){
             e.preventDefault();
             let url = '{{route("dashboard.par.index")}}?print_by_location=true&';
+            let form = $(this);
+            window.open(url+form.serialize(), '_blank');
+        });
+
+        $("#par-by-employee-form").submit(function (e){
+            e.preventDefault();
+            let url = '{{route("dashboard.par.index")}}?par_by_employee=true&';
             let form = $(this);
             window.open(url+form.serialize(), '_blank');
         })

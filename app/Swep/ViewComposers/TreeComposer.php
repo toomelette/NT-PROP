@@ -46,8 +46,6 @@ class TreeComposer
             }
         }
 
-
-
         $view->with(['tree' => $tree]);
 
     }
