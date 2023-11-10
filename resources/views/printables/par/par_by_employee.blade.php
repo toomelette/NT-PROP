@@ -82,7 +82,6 @@
                         </tbody>
                     </table>
 
-
                     <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
                         <thead>
                         <tr class="text-strong" style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
