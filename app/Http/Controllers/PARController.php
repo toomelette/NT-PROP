@@ -61,6 +61,11 @@ class PARController extends Controller
                     'data' => $data,
                 ]);
             })
+            ->editColumn('propertyno',function($data){
+                return ($data->propertyno ?? null).
+                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->desc ?? null).
+                    '</div>';
+            })
             ->editColumn('acquiredcost',function($data){
                 return number_format($data->acquiredcost,2);
             })
@@ -236,21 +241,30 @@ class PARController extends Controller
     }
 
     public function printRpcppe($fund_cluster){
-        /*if($fund_cluster == 'all'){
+        if($fund_cluster == 'all')
+        {
             $rpciObj = InventoryPPE::query()->orderBy('invtacctcode')->get();
+            $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
+            $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
+            $fund_clusters = $rpciObj->pluck('fund_cluster')->unique()->sort();
+            return view('printables.rpcppe.generateAll')->with([
+                'rpciObj' => $rpciObj,
+                'accountCodes' => $accountCodes,
+                'accountCodeRecords' => $accountCodeRecords,
+                'fundClusters' => $fund_clusters,
+            ]);
         }
-        else{
+        else {
             $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
-        }*/
-        $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
-        $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
-        $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
-        return view('printables.rpcppe.generate')->with([
-            'rpciObj' => $rpciObj,
-            'accountCodes' => $accountCodes,
-            'accountCodeRecords' => $accountCodeRecords,
-            'fundCluster' => $fund_cluster,
-        ]);
+            $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
+            $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
+            return view('printables.rpcppe.generate')->with([
+                'rpciObj' => $rpciObj,
+                'accountCodes' => $accountCodes,
+                'accountCodeRecords' => $accountCodeRecords,
+                'fundCluster' => $fund_cluster,
+            ]);
+        }
     }
 
     public function printInventoryCountForm($value){
