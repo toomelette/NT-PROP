@@ -162,6 +162,13 @@ class PARController extends Controller
         ]);
     }
 
+    public function uploadPic($slug){
+        $par = InventoryPPE::query()->where('slug','=', $slug)->first();
+        return view('ppu.par.uploadPic')->with([
+            'par' => $par
+        ]);
+    }
+
     public function update(InventoryPPEFormRequest $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         $article = Articles::query()->where('stockNo','=', $request->article)->first();

@@ -22,8 +22,8 @@
             border: 1px solid black;
         }
     </style>
-    @foreach($fundClusters as $fund_clusters)
-        @foreach($accountCodes as $accountCode)
+    @foreach($accountCodes as $accountCode)
+        @foreach($fundClusters as $fund_clusters)
             <div class="page-breaks">
                 <table style="width: 100%; margin-left: -120px; font-family: 'Cambria',Times New Roman">
                     <tr>
@@ -52,9 +52,9 @@
                         <td rowspan="2" valign="top">
                             <strong>For which</strong>
                         </td>
-                        <td style="text-align: center;"><strong>NOLI T. TINGSON</strong></td>
-                        <td style="text-align: center;"><strong>Supply Officer IV</strong></td>
-                        <td style="text-align: center;"><strong>SRA - Visayas</strong></td>
+                        <td style="text-align: center;"><strong><u>NOLI T. TINGSON</u></strong></td>
+                        <td style="text-align: center;"><strong><u>Supply Officer IV</u></strong></td>
+                        <td style="text-align: center;"><strong><u>SRA - Visayas</u></strong></td>
                         <td rowspan="2" valign="top">
                             is accountable, having assumed such accountability on
                             <strong>
@@ -94,22 +94,24 @@
                     @endphp
                     @foreach($rpciObj as $rpci)
                         @if($rpci->invtacctcode === $accountCode)
-                            <tr>
-                                <td>{{$rpci->article}}</td>
-                                <td>{{$rpci->description}}</td>
-                                <td style="text-align: center;">{{$rpci->propertyno}}</td>
-                                <td style="text-align: center;">{{$rpci->uom}}</td>
-                                <td style="text-align: right;">{{ number_format($rpci->acquiredcost, 2) }}</td>
-                                <td style="text-align: center;">{{$rpci->qtypercard}}</td>
-                                <td style="text-align: center;">{{$rpci->onhandqty}}</td>
-                                <td style="text-align: center;">{{$rpci->shortqty}}</td>
-                                <td style="text-align: center;">{{$rpci->shortvalue}}</td>
-                                <td style="text-align: center;">{{$rpci->dateacquired}}</td>
-                                <td>{{$rpci->remarks}}</td>
-                            </tr>
-                            @php
-                                $totalAcquiredCost += $rpci->acquiredcost;
-                            @endphp
+                            @if($rpci->fund_cluster === $fund_clusters)
+                                <tr>
+                                    <td>{{$rpci->article}}</td>
+                                    <td>{{$rpci->description}}</td>
+                                    <td style="text-align: center;">{{$rpci->propertyno}}</td>
+                                    <td style="text-align: center;">{{$rpci->uom}}</td>
+                                    <td style="text-align: right;">{{ number_format($rpci->acquiredcost, 2) }}</td>
+                                    <td style="text-align: center;">{{$rpci->qtypercard}}</td>
+                                    <td style="text-align: center;">{{$rpci->onhandqty}}</td>
+                                    <td style="text-align: center;">{{$rpci->shortqty}}</td>
+                                    <td style="text-align: center;">{{$rpci->shortvalue}}</td>
+                                    <td style="text-align: center;">{{$rpci->dateacquired}}</td>
+                                    <td>{{$rpci->remarks}}</td>
+                                </tr>
+                                @php
+                                    $totalAcquiredCost += $rpci->acquiredcost;
+                                @endphp
+                                @endif
                         @endif
                     @endforeach
                     </tbody>
@@ -129,6 +131,7 @@
             </div>
         @endforeach
     @endforeach
+
 @endsection
 
 @section('scripts')
