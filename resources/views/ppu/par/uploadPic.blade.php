@@ -15,10 +15,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 UPLOAD PAR PICTURE
-                                <div class="col-md-12">
+                                {{--<div class="col-md-12">
                                     <button type="submit" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
                                     <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
-                                </div>
+                                </div>--}}
                             </div>
                         </div>
                     </div>
