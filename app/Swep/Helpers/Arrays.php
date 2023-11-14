@@ -198,7 +198,8 @@ class Arrays
             'SERVICEABLE' => 'SERVICEABLE',
             'UNSERVICEABLE' => 'UNSERVICEABLE',
             'FOUND AT STN' => 'FOUND AT STN',
-            'FOR DISPOSAL' => 'FOR DISPOSAL'
+            'FOR DISPOSAL' => 'FOR DISPOSAL',
+            'DERECOGNIZED' => 'DERECOGNIZED'
         ];
     }
 
