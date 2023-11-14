@@ -250,7 +250,13 @@ class PARController extends Controller
     public function printRpcppe($fund_cluster){
         if($fund_cluster == 'all')
         {
-            $rpciObj = InventoryPPE::query()->orderBy('invtacctcode')->get();
+            $rpciObj = InventoryPPE::query()->where(function ($query) {
+                $query->where('condition', '!=', 'DERECOGNIZED')
+                    ->orWhereNull('condition')
+                    ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+            })
+                ->orderBy('invtacctcode')
+                ->get();
             $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
             $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
             $fund_clusters = $rpciObj->pluck('fund_cluster')->unique()->sort();

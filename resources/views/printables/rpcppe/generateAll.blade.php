@@ -179,6 +179,9 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
+            @php
+                $overallClusterTotals  = [];
+            @endphp
             @foreach($accountCodeRecords as $accountCodeRecord)
                     @php
                         $clusterTotals = [];
@@ -195,6 +198,11 @@
                                             $totalAcquiredCost = isset($clusterTotals[$cluster]) ? $clusterTotals[$cluster] : 0;
                                             $totalAcquiredCost += $rpci->acquiredcost;
                                             $clusterTotals[$cluster] = $totalAcquiredCost;
+
+                                            // Accumulate overall total for each cluster
+                                            $overallTotal = isset($overallClusterTotals[$cluster]) ? $overallClusterTotals[$cluster] : 0;
+                                            $overallTotal += $rpci->acquiredcost;
+                                            $overallClusterTotals[$cluster] = $overallTotal;
                                         @endphp
                                     @endif
                                 @endforeach
@@ -205,6 +213,15 @@
                         @endforeach
                     </tr>
             @endforeach
+            <tr>
+                <td style="text-align: center;"></td>
+                <td style=""><strong>Total</strong></td>
+                @foreach($fundClusters as $fund_clusters)
+                    <td style="text-align: center;">
+                        {{ number_format(isset($overallClusterTotals[$fund_clusters]) ? $overallClusterTotals[$fund_clusters] : 0, 2) }}
+                    </td>
+                @endforeach
+            </tr>
             </tbody>
         </table>
     </div>
