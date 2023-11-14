@@ -136,7 +136,7 @@
                         <tr>
                             <td></td>
                             <td colspan="3">
-                                <strong>GRAND TOTAL - ACCT. {{$accountCode}} IN {{$fund_clusters}}</strong>
+                                <strong>SUB TOTAL - ACCT. {{$accountCode}} IN {{$fund_clusters}}</strong>
                             </td>
                             <td style="text-align: right;">
                                 {{ number_format($totalAcquiredCost, 2) }}
