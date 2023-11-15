@@ -215,6 +215,7 @@
                     @foreach($fundClusters as $fund_clusters)
                         <th style="text-align: center;">{{$fund_clusters}}</th>
                     @endforeach
+                    <th style="text-align: center;">TOTAL</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
@@ -224,6 +225,7 @@
             @foreach($accountCodeRecords as $accountCodeRecord)
                     @php
                         $clusterTotals = [];
+                        $rowTotal = 0;
                     @endphp
                     <tr>
                         <td style="text-align: center;">{{$accountCodeRecord->code}}</td>
@@ -242,6 +244,9 @@
                                             $overallTotal = isset($overallClusterTotals[$cluster]) ? $overallClusterTotals[$cluster] : 0;
                                             $overallTotal += $rpci->acquiredcost;
                                             $overallClusterTotals[$cluster] = $overallTotal;
+
+                                            // Accumulate row total
+                                            $rowTotal += $rpci->acquiredcost;
                                         @endphp
                                     @endif
                                 @endforeach
@@ -250,16 +255,25 @@
                         @foreach($fundClusters as $fund_clusters)
                             <td style="text-align: center;">{{ number_format(isset($clusterTotals[$fund_clusters]) ? $clusterTotals[$fund_clusters] : 0, 2) }}</td>
                         @endforeach
+                        <td style="text-align: center;">{{ number_format($rowTotal, 2) }}</td>
                     </tr>
             @endforeach
             <tr>
                 <td style="text-align: center;"></td>
                 <td style=""><strong>Total</strong></td>
+                @php
+                    $rowTotal1 = 0; // Initialize row total for the overall total row
+                @endphp
                 @foreach($fundClusters as $fund_clusters)
                     <td style="text-align: center;">
-                        {{ number_format(isset($overallClusterTotals[$fund_clusters]) ? $overallClusterTotals[$fund_clusters] : 0, 2) }}
+                        @php
+                            $total = isset($overallClusterTotals[$fund_clusters]) ? $overallClusterTotals[$fund_clusters] : 0;
+                            $rowTotal1 += $total;
+                        @endphp
+                        {{ number_format($total, 2) }}
                     </td>
                 @endforeach
+                <td style="text-align: center;">{{ number_format($rowTotal1, 2) }}</td>
             </tr>
             </tbody>
         </table>
