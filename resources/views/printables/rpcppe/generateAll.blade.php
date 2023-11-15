@@ -21,6 +21,14 @@
             border: 1px solid black;
         }
 
+        #mainTable1 {
+            border-collapse: collapse;
+        }
+
+        #mainTable1, #mainTable1 th, #mainTable1 td {
+            border: 1px solid black;
+        }
+
         .footer {
             display: none; /* Initially hide the footer */
         }
@@ -149,6 +157,37 @@
             @endif
         @endforeach
     @endforeach
+    {{--<table id="mainTable1" style="margin-left: 30px; width: 95%; margin-top: -50px; font-family: 'Cambria',Times New Roman">
+        <thead >
+        <tr>
+            <th style="text-align: center; width: 10%"></th>
+            <th style="text-align: center; width: 26%"></th>
+            <th style="text-align: center; width: 12%"></th>
+            <th style="text-align: center; width: 5%"></th>
+            <th style="text-align: center; width: 5%"></th>
+            <th style="text-align: center; width: 5%"></th>
+            <th style="text-align: center; width: 5%"></th>
+            <th style="text-align: center; width: 10%"></th>
+            <th style="text-align: center; width: 7%"></th>
+            <th style="text-align: center; width: 15%"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <tfoot class="">
+            <tr>
+                <td></td>
+                <td colspan="3">
+                    <strong>adasadasdasdksufioasugd</strong>
+                </td>
+                <td style="text-align: right;">
+                    {{ number_format(0, 2) }}
+                </td>
+                <td colspan="6"></td>
+            </tr>
+        </tfoot>
+    </table>--}}
 
     <div class="page-breaks">
         <table style="width: 100%; margin-left: -120px; font-family: 'Cambria',Times New Roman">

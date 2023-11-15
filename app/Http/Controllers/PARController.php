@@ -13,6 +13,7 @@ use App\Models\Location;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -169,12 +170,16 @@ class PARController extends Controller
         ]);
     }
 
-    public function update(InventoryPPEFormRequest $request, $slug){
+    public function update(FormRequest $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         $article = Articles::query()->where('stockNo','=', $request->article)->first();
 
         $par->dateacquired = $request->dateacquired;
-        $par->article = $article->article;
+        if($article!=null)
+            $par->article = $article->article;
+        else
+            $par->article = $request->article_old;
+
         $par->description = $request->description;
         $par->invtacctcode = $request->invtacctcode;
         $par->ref_book = $request->ref_book;
@@ -186,6 +191,7 @@ class PARController extends Controller
         $par->fund_cluster = $request->fund_cluster;
         $par->respcenter = $request->respcenter;
         $par->office = $request->office;
+
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
         $par->acctemployee_post = $request->acctemployee_post;
