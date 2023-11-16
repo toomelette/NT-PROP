@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('gate_pass', function (Blueprint $table) {
+        Schema::table('gp', function (Blueprint $table) {
             $table->string('approved_by_designation')->nullable();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('gate_pass', function (Blueprint $table) {
+        Schema::table('gp', function (Blueprint $table) {
             $table->dropColumn('approved_by_designation');
         });
     }
