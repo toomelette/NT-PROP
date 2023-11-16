@@ -46,8 +46,17 @@ class PARController extends Controller
     }
 
     public function printParByEmployee(Request $request){
-        $pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
-            ->get();
+        $employee= $request->employee_no;
+        $pars = InventoryPPE::query()->where(function ($query) use ($employee) {
+            $query->where('acctemployee_no', '=', $employee)
+                ->where(function ($query) {
+                    $query->where('condition', '!=', 'DERECOGNIZED')
+                        ->orWhereNull('condition')
+                        ->orWhere('condition', '');
+                });
+        })->orderBy('invtacctcode')->get();
+        /*$pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
+            ->get();*/
         $respCenter = PPURespCodes::query()->get();
         return view('printables.par.par_by_employee')->with([
             'pars' => $pars, 'resp_center' => $respCenter
@@ -303,7 +312,7 @@ class PARController extends Controller
                 ->where(function ($query) {
                     $query->where('condition', '!=', 'DERECOGNIZED')
                         ->orWhereNull('condition')
-                        ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                        ->orWhere('condition', '');
                 });
         })->orderBy('invtacctcode')->get();
         //$rpciObj = InventoryPPE::query()->where('location', '=', $value)->orderBy('invtacctcode')->get();
@@ -313,7 +322,7 @@ class PARController extends Controller
                     ->where(function ($query) {
                         $query->where('condition', '!=', 'DERECOGNIZED')
                             ->orWhereNull('condition')
-                            ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                            ->orWhere('condition', '');
                     });
             })->orderBy('invtacctcode')->get();
             //$rpciObj = InventoryPPE::query()->where('acctemployee_no', '=', $value)->orderBy('invtacctcode')->get();
