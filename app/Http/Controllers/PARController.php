@@ -276,7 +276,17 @@ class PARController extends Controller
             ]);
         }
         else {
-            $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
+            $fund_cluster = "clust1";
+            //$rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
+            $rpciObj = InventoryPPE::query()->where(function ($query) use ($fund_cluster) {
+                $query->where('fund_cluster', '=', $fund_cluster)
+                    ->where(function ($query) {
+                        $query->where('condition', '!=', 'DERECOGNIZED')
+                            ->orWhereNull('condition')
+                            ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                    });
+            })->orderBy('invtacctcode')->get();
+
             $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
             $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
             return view('printables.rpcppe.generate')->with([
@@ -289,9 +299,25 @@ class PARController extends Controller
     }
 
     public function printInventoryCountForm($value){
-        $rpciObj = InventoryPPE::query()->where('location', '=', $value)->orderBy('invtacctcode')->get();
+        $rpciObj = InventoryPPE::query()->where(function ($query) use ($value) {
+            $query->where('location', '=', $value)
+                ->where(function ($query) {
+                    $query->where('condition', '!=', 'DERECOGNIZED')
+                        ->orWhereNull('condition')
+                        ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                });
+        })->orderBy('invtacctcode')->get();
+        //$rpciObj = InventoryPPE::query()->where('location', '=', $value)->orderBy('invtacctcode')->get();
         if ($rpciObj->isEmpty()) {
-            $rpciObj = InventoryPPE::query()->where('acctemployee_no', '=', $value)->orderBy('invtacctcode')->get();
+            $rpciObj = InventoryPPE::query()->where(function ($query) use ($value) {
+                $query->where('acctemployee_no', '=', $value)
+                    ->where(function ($query) {
+                        $query->where('condition', '!=', 'DERECOGNIZED')
+                            ->orWhereNull('condition')
+                            ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                    });
+            })->orderBy('invtacctcode')->get();
+            //$rpciObj = InventoryPPE::query()->where('acctemployee_no', '=', $value)->orderBy('invtacctcode')->get();
         }
         $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
         $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
