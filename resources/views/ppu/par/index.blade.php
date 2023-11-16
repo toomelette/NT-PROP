@@ -9,7 +9,7 @@
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Property Acknowledgement Receipt</h3>
+                <h3 class="box-title">Property Acknowledgment Receipt</h3>
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#par-by-employee"><i class="fa fa-print"></i> PAR by Employee</button>
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>
