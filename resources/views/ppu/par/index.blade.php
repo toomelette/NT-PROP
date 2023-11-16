@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Property Acknowledgement Receipt</h1>
+        <h1>Property Acknowledgment Receipt</h1>
     </section>
 @endsection
 @section('content2')
