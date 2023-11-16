@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
 
-        Schema::dropIfExists('gate_pass_details')
+        Schema::dropIfExists('gate_pass_details');
         Schema::create('gate_pass_details', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->nullable();
