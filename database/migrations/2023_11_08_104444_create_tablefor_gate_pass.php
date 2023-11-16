@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('gp', function (Blueprint $table) {
+        Schema::dropIfExists('gp');
+        Schema::create('gate_pass', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->nullable();
             $table->string('gp_number')->nullable();
@@ -39,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gp');
+        Schema::dropIfExists('gate_pass');
     }
 };
