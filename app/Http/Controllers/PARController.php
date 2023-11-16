@@ -13,6 +13,7 @@ use App\Models\Location;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -29,6 +30,10 @@ class PARController extends Controller
         if($request->has('print_by_location')){
             return  $this->printPropertyTagByLocation($request);
         }
+
+        if($request->has('par_by_employee')){
+            return  $this->printParByEmployee($request);
+        }
         return view('ppu.par.index');
     }
 
@@ -40,6 +45,24 @@ class PARController extends Controller
         ]);
     }
 
+    public function printParByEmployee(Request $request){
+        $employee= $request->employee_no;
+        $pars = InventoryPPE::query()->where(function ($query) use ($employee) {
+            $query->where('acctemployee_no', '=', $employee)
+                ->where(function ($query) {
+                    $query->where('condition', '!=', 'DERECOGNIZED')
+                        ->orWhereNull('condition')
+                        ->orWhere('condition', '');
+                });
+        })->orderBy('invtacctcode')->get();
+        /*$pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
+            ->get();*/
+        $respCenter = PPURespCodes::query()->get();
+        return view('printables.par.par_by_employee')->with([
+            'pars' => $pars, 'resp_center' => $respCenter
+        ]);
+    }
+
     public function dataTable($request){
         $par = InventoryPPE::query();
         return DataTables::of($par)
@@ -48,11 +71,18 @@ class PARController extends Controller
                     'data' => $data,
                 ]);
             })
+            ->editColumn('propertyno',function($data){
+                return ($data->propertyno ?? null).
+                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->desc ?? null).
+                    '</div>';
+            })
             ->editColumn('acquiredcost',function($data){
                 return number_format($data->acquiredcost,2);
             })
             ->editColumn('dateacquired',function($data){
-                return $data->dateacquired ? Carbon::parse($data->dateacquired)->format('M. d, Y') : '';
+                return ($data->dateacquired ? Carbon::parse($data->dateacquired)->format('M. d, Y') : '').
+                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->condition ?? null).
+                    '</div>';
             })
             ->editColumn('description',function ($data){
                 return view('ppu.par.dtDescription')->with([
@@ -144,12 +174,23 @@ class PARController extends Controller
         ]);
     }
 
-    public function update(InventoryPPEFormRequest $request, $slug){
+    public function uploadPic($slug){
+        $par = InventoryPPE::query()->where('slug','=', $slug)->first();
+        return view('ppu.par.uploadPic')->with([
+            'par' => $par
+        ]);
+    }
+
+    public function update(FormRequest $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         $article = Articles::query()->where('stockNo','=', $request->article)->first();
 
         $par->dateacquired = $request->dateacquired;
-        $par->article = $article->article;
+        if($article!=null)
+            $par->article = $article->article;
+        else
+            $par->article = $request->article_old;
+
         $par->description = $request->description;
         $par->invtacctcode = $request->invtacctcode;
         $par->ref_book = $request->ref_book;
@@ -161,6 +202,7 @@ class PARController extends Controller
         $par->fund_cluster = $request->fund_cluster;
         $par->respcenter = $request->respcenter;
         $par->office = $request->office;
+
         $par->acctemployee_no = $request->acctemployee_no;
         $par->acctemployee_fname = $request->acctemployee_fname;
         $par->acctemployee_post = $request->acctemployee_post;
@@ -223,27 +265,67 @@ class PARController extends Controller
     }
 
     public function printRpcppe($fund_cluster){
-        /*if($fund_cluster == 'all'){
-            $rpciObj = InventoryPPE::query()->orderBy('invtacctcode')->get();
+        if($fund_cluster == 'all')
+        {
+            $rpciObj = InventoryPPE::query()->where(function ($query) {
+                $query->where('condition', '!=', 'DERECOGNIZED')
+                    ->orWhereNull('condition')
+                    ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+            })
+                ->orderBy('invtacctcode')
+                ->get();
+            $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
+            $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
+            $fund_clusters = $rpciObj->pluck('fund_cluster')->unique()->sort();
+            return view('printables.rpcppe.generateAll')->with([
+                'rpciObj' => $rpciObj,
+                'accountCodes' => $accountCodes,
+                'accountCodeRecords' => $accountCodeRecords,
+                'fundClusters' => $fund_clusters,
+            ]);
         }
-        else{
-            $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
-        }*/
-        $rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
-        $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
-        $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
-        return view('printables.rpcppe.generate')->with([
-            'rpciObj' => $rpciObj,
-            'accountCodes' => $accountCodes,
-            'accountCodeRecords' => $accountCodeRecords,
-            'fundCluster' => $fund_cluster,
-        ]);
+        else {
+            //$rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
+            $rpciObj = InventoryPPE::query()->where(function ($query) use ($fund_cluster) {
+                $query->where('fund_cluster', '=', $fund_cluster)
+                    ->where(function ($query) {
+                        $query->where('condition', '!=', 'DERECOGNIZED')
+                            ->orWhereNull('condition')
+                            ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                    });
+            })->orderBy('invtacctcode')->get();
+
+            $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
+            $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
+            return view('printables.rpcppe.generate')->with([
+                'rpciObj' => $rpciObj,
+                'accountCodes' => $accountCodes,
+                'accountCodeRecords' => $accountCodeRecords,
+                'fundCluster' => $fund_cluster,
+            ]);
+        }
     }
 
     public function printInventoryCountForm($value){
-        $rpciObj = InventoryPPE::query()->where('location', '=', $value)->orderBy('invtacctcode')->get();
+        $rpciObj = InventoryPPE::query()->where(function ($query) use ($value) {
+            $query->where('location', '=', $value)
+                ->where(function ($query) {
+                    $query->where('condition', '!=', 'DERECOGNIZED')
+                        ->orWhereNull('condition')
+                        ->orWhere('condition', '');
+                });
+        })->orderBy('invtacctcode')->get();
+        //$rpciObj = InventoryPPE::query()->where('location', '=', $value)->orderBy('invtacctcode')->get();
         if ($rpciObj->isEmpty()) {
-            $rpciObj = InventoryPPE::query()->where('acctemployee_no', '=', $value)->orderBy('invtacctcode')->get();
+            $rpciObj = InventoryPPE::query()->where(function ($query) use ($value) {
+                $query->where('acctemployee_no', '=', $value)
+                    ->where(function ($query) {
+                        $query->where('condition', '!=', 'DERECOGNIZED')
+                            ->orWhereNull('condition')
+                            ->orWhere('condition', '');
+                    });
+            })->orderBy('invtacctcode')->get();
+            //$rpciObj = InventoryPPE::query()->where('acctemployee_no', '=', $value)->orderBy('invtacctcode')->get();
         }
         $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
         $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();

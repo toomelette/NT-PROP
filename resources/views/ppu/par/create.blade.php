@@ -7,14 +7,22 @@
 @endsection
 @section('content2')
     @php
-        $employees = \App\Models\Employee::query()
+        /*$employees = \App\Models\Employee::query()
             ->where('locations','=','VISAYAS')
             ->orWhere('locations','=','LUZON/MINDANAO')
             ->where(function ($q){
                 return $q->where('is_active','=','ACTIVE');
             })
             ->orderBy('fullname','asc')
-            ->get();
+            ->get();*/
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
 
        $employeesCollection = $employees->map(function ($data){
             return [

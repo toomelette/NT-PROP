@@ -45,6 +45,10 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            let href = "{{ route('dashboard.rpcppe.printRpcppe', 'fund_cluster') }}";
+            href = href.replace('fund_cluster', 'all');
+            $('a.btn').attr('href', href);
+
             $('#fund_cluster').change(function() {
                 var selectedValue = $(this).val();
                 var href = "{{ route('dashboard.rpcppe.printRpcppe', 'fund_cluster') }}";

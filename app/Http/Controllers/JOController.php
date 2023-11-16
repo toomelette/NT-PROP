@@ -29,19 +29,32 @@ use Yajra\DataTables\DataTables;
 class JOController extends Controller
 {
     public function index(Request $request){
-        if($request->ajax() && $request->has('draw')){
+        if(\request()->ajax() && \request()->has('draw')){
             return $this->dataTable($request);
         }
         return view('ppu.job_order.index');
     }
 
-    public function dataTable($request){
-        $po = Order::query()->where('ref_book', '=', 'JO');
-        return DataTables::of($po)
+    public function dataTable(Request $request){
+        $jo = Order::query()
+            ->with(['transaction.rc'])
+            ->where('ref_book', 'JO');
+        if($request->has('year') && $request->year != ''){
+            $jo = $jo->where('date','like',$request->year.'%');
+        }
+        if($request->has('resp_center') && $request->resp_center != '') {
+            $jo = $jo->whereHas('transaction',function ($query) use ($request){
+                return $query->where('resp_center','=',$request->resp_center);
+            });
+        }
+        return DataTables::of($jo)
             ->addColumn('action',function($data){
                 return view('ppu.job_order.dtActions')->with([
                     'data' => $data,
                 ]);
+            })
+            ->addColumn('dept', function ($data) {
+                return $data->transaction->rc->desc ?? '-';
             })
             ->editColumn('total',function($data){
                 return number_format($data->total,2);

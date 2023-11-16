@@ -24,4 +24,12 @@ class InventoryPPE extends Model
         });
     }
     protected $table = 'inventory_ppe';
+
+    public function rc(){
+        return $this->hasOne(PPURespCodes::class,'rc_code','respcenter');
+    }
+
+    public function iac(){
+        return $this->hasOne(AccountCode::class,'code','invtacctcode');
+    }
 }

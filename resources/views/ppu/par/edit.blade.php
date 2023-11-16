@@ -6,6 +6,34 @@
     </section>
 @endsection
 @section('content2')
+    @php
+        /*$employees = \App\Models\Employee::query()
+            ->where('locations','=','VISAYAS')
+            ->orWhere('locations','=','LUZON/MINDANAO')
+            ->where(function ($q){
+                return $q->where('is_active','=','ACTIVE');
+            })
+            ->orderBy('fullname','asc')
+            ->get();*/
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
+
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
     <section class="content">
         <div role="document">
             <form id="edit_form">
@@ -22,14 +50,14 @@
                                 $par ?? null) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('article',[
                                       'cols' => 5,
-                                      'label' => 'Update Article:',
+                                      'label' => 'Select to Update Article:',
                                       'class' => 'select2_article',
                                       'autocomplete' => 'off',
                                       'options' => [],
                                   ]) !!}
                                 <div class="form-group col-md-5 article_old">
                                     <label for="article_old">Article:</label>
-                                    <input class="form-control " name="article_old" type="text" value="{{$par->article}}" placeholder="Article OLD">
+                                    <input class="form-control " name="article_old" id="article_old" type="text" value="{{$par->article}}" placeholder="Article OLD">
                                 </div>
                                 {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
                                       'cols' => 12,
@@ -116,19 +144,26 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
+                                {!! \App\Swep\ViewHelpers\__form2::select('select-employee',[
+                                    'label' => 'Select To Update Accountable Officer:',
+                                    'cols' => 3,
+                                    'options' => [],
+                                    'id' => 'select-employee',
+                                ]) !!}
+
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_no',[
                                     'label' => 'Emp. No.:',
-                                    'cols' => 4,
+                                    'cols' => 3,
                                     ],
                                 $par ?? null) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_fname',[
                                                                 'label' => 'Acct. Officer:',
-                                                                'cols' => 4,
+                                                                'cols' => 3,
                                                                 ],
                                                             $par ?? null) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('acctemployee_post',[
                                     'label' => 'Position:',
-                                    'cols' => 4,
+                                    'cols' => 3,
                                     ],
                                 $par ?? null) !!}
                             </div>
@@ -243,8 +278,33 @@
 
 @section('scripts')
     <script type="text/javascript">
+        var data = {!!$employeesCollection!!};
         let active;
         $(document).ready(function () {
+            $("input[name='acctemployee_no']").on('keyup', function(event) {
+                if (event.type === "keyup" && event.keyCode === 13) {
+                    var inputValue = $(this).val();
+                    let uri = '{{route("dashboard.par.getEmployee","slug")}}';
+                    uri = uri.replace('slug',inputValue);
+                    $.ajax({
+                        url: uri,
+                        method: "GET",
+                        data: { selectedValue: inputValue },
+                        success: function(response) {
+                            console.log("AJAX Success:", response);
+                            var middleName = response.middlename;
+                            var middleInitial = middleName.charAt(0);
+                            $("input[name='acctemployee_fname']").val(response.firstname +' '+ middleInitial + '. ' + response.lastname);
+                            $("input[name='acctemployee_post']").val(response.position);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
+                            console.error("AJAX error:", error);
+                        }
+                    });
+                }
+            });
+
             $("#edit_form").submit(function(e) {
                 e.preventDefault();
                 let form = $(this);
@@ -297,6 +357,26 @@
                     /*$("#select[name='"+i+"']").val(item).trigger('change');
                     $("#input[name='"+i+"']").val(item).trigger('change');*/
                 })
+            });
+
+            $("#select-employee").select2({
+                data : data,
+            });
+
+            $("#select-employee").change(function (){
+                let value = $(this).val();
+                if(value != ''){
+                    let index = data.findIndex( object => {
+                        return object.id == value;
+                    });
+                    $("input[name='acctemployee_no']").val(data[index].employee_no);
+                    $("input[name='acctemployee_fname']").val(data[index].fullname);
+                    $("input[name='acctemployee_post']").val(data[index].position);
+                }else{
+                    $("input[name='acctemployee_no']").val('');
+                    $("input[name='acctemployee_fname']").val('');
+                    $("input[name='acctemployee_post']").val('');
+                }
             });
         })
     </script>

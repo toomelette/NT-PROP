@@ -40,7 +40,7 @@
                                         'cols' => '3 dt_filter-parent-div',
                                         'label' => 'Department/Division/Section:',
                                         'class' => 'dt_filter filters',
-                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes('all'),
+                                        'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
                                         'for' => 'select2_papCode',
                                         'id' => 'resp_center_select2',
                                     ]) !!}
@@ -100,7 +100,7 @@
                     {"data": "aq_date"},
                     {"data": "rbac_reso_date"},
                     {"data": "noa_date"},
-                    {"data": "po_jo_date"},
+                    {"data": "jo_date"},
                     {"data": "action"}
                 ],
                 "buttons": [

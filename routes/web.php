@@ -78,6 +78,9 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::get('/request_vehicle/{slug}/print_own','RequestForVehicleController@printOwn')->name('request_vehicle.print_own');
 
     Route::get('/request_vehicle/my_requests','RequestForVehicleController@myRequests')->name('request_vehicle.my_requests');
+
+    Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
+    Route::get('/jr/monitoring/index','JRController@monitoringIndex')->name('jr.monitoringIndex');
 });
 
 /** Dashboard **/
@@ -127,12 +130,12 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     /** PR **/
     Route::post('/pr/{slug}/cancel','PRController@cancel')->name('pr.cancel');
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
-    Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
+    //Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
     Route::resource('pr', 'PRController');
 
     Route::post('/jr/{slug}/cancel','JRController@cancel')->name('jr.cancel');
     Route::get('/jr/{slug}/print','JRController@print')->name('jr.print');
-    Route::get('/jr/monitoring/index','JRController@monitoringIndex')->name('jr.monitoringIndex');
+    //Route::get('/jr/monitoring/index','JRController@monitoringIndex')->name('jr.monitoringIndex');
     Route::resource('jr', 'JRController');
 
     Route::get('/rfq/{slug}/print','RFQController@print')->name('rfq.print');
@@ -194,6 +197,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/generateRpcppe','PARController@generateRpcppe')->name('rpcppe.generateRpcppe');
     Route::get('/par/{location}/printInventoryCountForm','PARController@printInventoryCountForm')->name('rpcppe.printInventoryCountForm');
     Route::get('/par/generateInventoryCountFormByCriteria','PARController@generateInventoryCountFormByCriteria')->name('rpcppe.generateICF');
+    Route::get('/par/uploadPic/{slug}','PARController@uploadPic')->name('par.uploadPic');
     Route::resource('par', 'PARController');
 
     Route::resource('ics', 'ICSController');

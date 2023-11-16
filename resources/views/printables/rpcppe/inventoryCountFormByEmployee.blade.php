@@ -90,7 +90,7 @@
                         @endforeach
                         <td style="text-align: center;">{{$locName}}</td>
                         <td style="text-align: center;">{{$rpci->office}}</td>
-                        <td></td>
+                        <td>{{$rpci->condition}}</td>
                         <td>{{$rpci->remarks}}</td>
                     </tr>
                     @php
