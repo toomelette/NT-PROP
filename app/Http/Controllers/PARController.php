@@ -276,7 +276,6 @@ class PARController extends Controller
             ]);
         }
         else {
-            $fund_cluster = "clust1";
             //$rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
             $rpciObj = InventoryPPE::query()->where(function ($query) use ($fund_cluster) {
                 $query->where('fund_cluster', '=', $fund_cluster)
