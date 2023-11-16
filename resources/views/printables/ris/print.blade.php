@@ -119,9 +119,13 @@
                                 <td style="vertical-align: top; width: 8%;">{{$item->unit}}</td>
                                 <td class="" style="vertical-align: top; width: 30%; text-align: left;">
                                     <b style="font-size: 11px; font-weight: normal  ">{{$item->item}}</b><br>
-                                    <span style="font-size: 9px; font-style: italic" >
-                                    {{$item->description ? $item->description : ""}}
-                                    </span>
+                                    @if($item->description)
+                                        <ul style="">
+                                            @foreach(explode("\n", $item->description) as $line)
+                                                <li><i>{{ $line }}</i></li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
                                 </td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->actual_qty}}</td>

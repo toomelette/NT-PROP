@@ -223,6 +223,13 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/wmr/{slug}/edit','WMRController@edit')->name('wmr.edit');
     Route::patch('/wmr/update/{slug}','WMRController@update')->name('wmr.update');
 
+    Route::get('/gp/create','GPController@create')->name('gp.create');
+    Route::post('/gp/store','GPController@store')->name('gp.store');
+    Route::get('/gp/{slug}/print','GPController@print')->name('gp.print');
+    Route::get('/gp/index','GPController@index')->name('gp.index');
+    Route::get('/gp/{slug}/edit','GPController@edit')->name('gp.edit');
+    Route::patch('/gp/update/{slug}','GPController@update')->name('gp.update');
+
     Route::get('/ics/create','ICSController@create')->name('ics.create');
     Route::get('/ics/findIAR/{refNumber}','ICSController@findIAR')->name('ics.findIAR');
     Route::post('/ics/store','ICSController@store')->name('ics.store');
