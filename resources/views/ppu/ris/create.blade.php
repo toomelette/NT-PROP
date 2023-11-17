@@ -214,14 +214,16 @@
                             for(let i=0; i<res.transDetails.length; i++){
                                 let stock = res.transDetails[i].stock_no;
                                 stock = stock === null ? '' : stock;
+                                let rmks = res.transDetails[i].remarks == null ? "" : res.transDetails[i].remarks;
+                                let dscptn = res.transDetails[i].dscptn == null ? "" : res.transDetails[i].dscptn;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stockNo]" name="items['+res.transDetails[i].slug+'][stockNo]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][itemName]" name="items['+res.transDetails[i].slug+'][itemName]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
-                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+  res.transDetails[i].description +'</textarea></td>' +
+                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text" value="' + dscptn + '"></textarea></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][actual_qty]" name="items['+res.transDetails[i].slug+'][actual_qty]" type="text" value="' + res.transDetails[i].actual_qty + '"></td>' +
-                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][remarks]" name="items['+res.transDetails[i].slug+'][remarks]" type="text">'+  res.transDetails[i].remarks +'</textarea></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][actual_qty]" name="items['+res.transDetails[i].slug+'][actual_qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
+                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][remarks]" name="items['+res.transDetails[i].slug+'][remarks]" type="text" value="' + rmks + '"></textarea></td>' +
                                     '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
                                     '</tr>';
                             }
