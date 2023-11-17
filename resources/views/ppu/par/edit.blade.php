@@ -378,6 +378,29 @@
                     $("input[name='acctemployee_post']").val('');
                 }
             });
+
+            $("select[name='invtacctcode']").change(function() {
+                var selectedValue = $(this).val();
+                // Make an AJAX request
+                let uri = '{{route("dashboard.par.getInventoryAccountCode","slug")}}';
+                uri = uri.replace('slug',selectedValue);
+                $.ajax({
+                    url: uri,
+                    method: "GET",
+                    data: { selectedValue: selectedValue },
+                    success: function(response) {
+                        $("input[name='serial_no']").val(response[1]);
+                        $("input[name='sub_major_account_group']").val(response[0].sub_major_account_group);
+                        $("input[name='general_ledger_account']").val(response[0].general_ledger_account);
+                        $("input[name='invtacctcode']").val(response[0].code);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error("AJAX error:", error);
+                    }
+                });
+            });
+            $("#inventory-account-code").select2();
         })
     </script>
 @endsection
