@@ -10,6 +10,7 @@ use App\Models\Articles;
 use App\Models\Employee;
 use App\Models\InventoryPPE;
 use App\Models\Location;
+use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
@@ -37,34 +38,19 @@ class PARController extends Controller
         return view('ppu.par.index');
     }
 
-    public function printPropertyTagByLocation(Request $request){
-        $pars = InventoryPPE::query()->where('location','=',$request->location)
-            ->get();
-        return view('printables.par.property_tag_by_location')->with([
-            'pars' => $pars->chunk(2),
-        ]);
-    }
+    public function dataTable(Request $request){
+        $par = InventoryPPE::query()
+            ->with(['iac']);
+        /*if($request->has('year') && $request->year != ''){
+            $par = $par->where('dateacquired','like',$request->year.'%');
+        }*/
 
-    public function printParByEmployee(Request $request){
-        $employee= $request->employee_no;
-        $pars = InventoryPPE::query()->where(function ($query) use ($employee) {
-            $query->where('acctemployee_no', '=', $employee)
-                ->where(function ($query) {
-                    $query->where('condition', '!=', 'DERECOGNIZED')
-                        ->orWhereNull('condition')
-                        ->orWhere('condition', '');
-                });
-        })->orderBy('invtacctcode')->get();
-        /*$pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
-            ->get();*/
-        $respCenter = PPURespCodes::query()->get();
-        return view('printables.par.par_by_employee')->with([
-            'pars' => $pars, 'resp_center' => $respCenter
-        ]);
-    }
+        if($request->has('invtacctcode') && $request->invtacctcode != '') {
+            $par = $par->whereHas('iac',function ($query) use ($request){
+                return $query->where('code','=',$request->invtacctcode);
+            });
+        }
 
-    public function dataTable($request){
-        $par = InventoryPPE::query();
         return DataTables::of($par)
             ->addColumn('action',function($data){
                 return view('ppu.par.dtActions')->with([
@@ -97,6 +83,32 @@ class PARController extends Controller
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();
+    }
+
+    public function printPropertyTagByLocation(Request $request){
+        $pars = InventoryPPE::query()->where('location','=',$request->location)
+            ->get();
+        return view('printables.par.property_tag_by_location')->with([
+            'pars' => $pars->chunk(2),
+        ]);
+    }
+
+    public function printParByEmployee(Request $request){
+        $employee= $request->employee_no;
+        $pars = InventoryPPE::query()->where(function ($query) use ($employee) {
+            $query->where('acctemployee_no', '=', $employee)
+                ->where(function ($query) {
+                    $query->where('condition', '!=', 'DERECOGNIZED')
+                        ->orWhereNull('condition')
+                        ->orWhere('condition', '');
+                });
+        })->orderBy('invtacctcode')->get();
+        /*$pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
+            ->get();*/
+        $respCenter = PPURespCodes::query()->get();
+        return view('printables.par.par_by_employee')->with([
+            'pars' => $pars, 'resp_center' => $respCenter
+        ]);
     }
 
     public function create(){
