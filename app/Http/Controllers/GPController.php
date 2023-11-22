@@ -136,5 +136,61 @@ class GPController extends Controller
         ]);
     }
 
+    public function findBySlug($slug){
+        $gp = GatePass::query()
+            ->with(['GatePassDetails'])
+            ->where('slug','=',$slug)->first();
+
+        return $gp ?? abort(503,'GP not found');
+    }
+
+    public function edit($slug){
+        $gp =$this->findBySlug($slug);
+        return view('ppu.gp.edit')->with([
+            'gp' => $gp
+        ]);
+    }
+
+    public function update(FormRequest $request, $slug)
+    {
+
+        $trans = GatePass::query()->where('slug', '=', $slug)->first();
+
+        if (!$trans) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+        $trans->date = $request->date;
+        $trans->bearer = $request->bearer;
+        $trans->originated_from = $request->originated_from;
+        $trans->approved_by = $request->approved_by;
+        $trans->approved_by_designation = $request->approved_by_designation;
+        $trans->received_by = $request->received_by;
+        $trans->guard_on_duty = $request->guard_on_duty;
+
+
+        $arr = [];
+        if (!empty($request->items)) {
+            foreach ($request->items as $item) {
+
+                array_push($arr, [
+                    'slug' => Str::random(),
+                    'transaction_slug' => $trans->slug,
+                    'item' => $item['item'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                ]);
+            }
+        }
+        $trans->GatePassDetails()->delete();
+        if ($trans->update()) {
+            GatePassDetails::insert($arr);
+            return $trans->only('slug');
+        }
+        abort(503, 'Error saving Gate Pass');
+    }
+
+
+
+
 
 }

@@ -5,6 +5,7 @@
         <h1>Gate Pass</h1>
     </section>
 @endsection
+
 @section('content2')
 
 <section class="content col-md-12">
