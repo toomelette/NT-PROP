@@ -19,6 +19,41 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
+                        <div class="panel">
+                            <div class="box box-sm box-default box-solid collapsed-box">
+                                <div class="box-header with-border">
+                                    <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="box-body" style="display: none">
+                                    <form id="filter_form">
+                                        <div class="row">
+                                            {{--{!! \App\Swep\ViewHelpers\__form2::select('year',[
+                                                'cols' => '1 dt_filter-parent-div',
+                                                'label' => 'Year:',
+                                                'class' => 'dt_filter filters',
+                                                'options' => \App\Swep\Helpers\Arrays::years(),
+                                                'for' => 'select2_year',
+                                            ],\Illuminate\Support\Carbon::now()->format('Y')) !!}--}}
+
+                                            {!! \App\Swep\ViewHelpers\__form2::select('invtacctcode',[
+                                                'label' => 'Inventory Account Code:',
+                                                'cols' => '4 dt_filter-parent-div',
+                                                'class' => 'dt_filter filters',
+                                                'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                                'for' => 'select2_inventoryAccountCode',
+                                                'id' => 'inventory_account_code_select2',
+                                               ]) !!}
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
                         <div class="table-responsive" id="par_table_container" style="">
                             <table class="table table-bordered table-striped table-hover" id="par_table" style="width: 100% !important;">
                                 <thead>
@@ -343,6 +378,7 @@
 
             par_tbl = $("#par_table").DataTable({
                 "ajax" : '{{route("dashboard.par.index")}}',
+                //"ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
                     { "data": "propertyno" },
                     { "data": "article" },
@@ -408,6 +444,11 @@
                     }
                 }
             });
+
+            $("body").on("change",".dt_filter",function () {
+                filterDT(par_tbl);
+            });
+            $("#inventory_account_code_select2").select2();
         });
 
         $("#property-tag-by-location-form").submit(function (e){
