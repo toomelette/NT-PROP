@@ -14,8 +14,8 @@
                     <div class="box box-success">
                         <div class="box-header with-border">
                             <h3 class="box-title">Create RIS</h3>
-{{--                            <button class="btn btn-primary btn-sm pull-right hidden"  id="saveBtn" type="submit">--}}
-{{--                                <i class="fa fa-check"></i> Save--}}
+{{--                           <button class="btn btn-primary btn-sm pull-right" id="saveBtn" type="button">--}}
+{{--                        <i class="fa fa-check"></i> Save--}}
 {{--                            </button>--}}
 {{--                            <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>--}}
                         </div>
@@ -130,7 +130,7 @@
                                         </tbody>
                                     </table>
                                 <div class="pull-right">
-                                    <button type="button" style="margin-right: 7px; margin-bottom: 7px" class="btn btn-primary hidden" id="saveBtn">Save</button>
+                                    <button type="button" style="margin-right: 7px; margin-bottom: 7px" class="btn btn-primary" id="saveBtn">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -197,6 +197,61 @@
         });
 
 
+        {{--$('#saveBtn').click(function(e) {--}}
+        {{--    e.preventDefault();--}}
+        {{--    let form = $('#add_form');--}}
+        {{--    let uri = '{{route("dashboard.ris.store")}}';--}}
+        {{--    loading_btn(form);--}}
+
+        {{--    $.ajax({--}}
+        {{--        url : uri,--}}
+        {{--        data: form.serialize(),--}}
+        {{--        type: 'POST',--}}
+        {{--        headers: {--}}
+        {{--            {!! __html::token_header() !!}--}}
+        {{--        },--}}
+        {{--        success: function (res) {--}}
+        {{--            succeed(form,true,false);--}}
+        {{--            $(".remove_row_btn").each(function () {--}}
+        {{--                $(this).click();--}}
+        {{--            })--}}
+        {{--            $(".add_button").click();--}}
+        {{--            toast('success','RIS successfully added.','Success!');--}}
+        {{--            Swal.fire({--}}
+        {{--                title: 'RIS Successfully created',--}}
+        {{--                icon: 'success',--}}
+        {{--                html:--}}
+        {{--                    'Click the print button below to print.',--}}
+        {{--                showCloseButton: true,--}}
+        {{--                showCancelButton: true,--}}
+        {{--                focusConfirm: false,--}}
+        {{--                confirmButtonText:--}}
+        {{--                    '<i class="fa fa-print"></i> Print',--}}
+        {{--                confirmButtonAriaLabel: 'Thumbs up, great!',--}}
+        {{--                cancelButtonText:--}}
+        {{--                    'Dismiss',--}}
+        {{--                cancelButtonAriaLabel: 'Thumbs down'--}}
+        {{--            }).then((result) => {--}}
+        {{--                if (result.isConfirmed) {--}}
+        {{--                    let link = "{{route('dashboard.ris.print','slug')}}";--}}
+        {{--                    link = link.replace('slug',res.slug);--}}
+        {{--                    window.open(link, '_blank');--}}
+        {{--                }--}}
+        {{--            })--}}
+        {{--        },--}}
+        {{--        error: function (res) {--}}
+        {{--            errored(form,res);--}}
+        {{--            toast('error',res.responseJSON.message,'Error!');--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--});--}}
+
+
+        {{--function deleteRow(button) {--}}
+        {{--    const row = button.closest('tr');--}}
+        {{--    row.remove();--}}
+        {{--}--}}
+
         $(function(){
             $('#iar_no').keypress(function (event){
                 if (event.keyCode === 13) {
@@ -219,7 +274,7 @@
                                  let rmks = res.transDetails[i].remarks == null ? '' : res.transDetails[i].remarks;
                                  let dscptn = res.transDetails[i].description == null ? '' : res.transDetails[i].description;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stockNo]" name="items['+res.transDetails[i].slug+'][stockNo]" type="text" value="' + stock + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
                                     '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ dscptn +'</textarea></td>' +
@@ -231,6 +286,7 @@
                             }
                             tableHtml += '</tbody>';
                             $('#ris_items_table').append(tableHtml).removeClass('hidden');
+
                         },
                         error: function (res) {
                             toast('error',res.responseJSON.message,'Error!');
