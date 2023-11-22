@@ -3,6 +3,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Articles;
 use App\Models\PAP;
 use App\Models\RIS;
 use App\Models\Order;
@@ -134,14 +135,22 @@ class RISController extends Controller
 
         $totalabc = 0;
         $arr = [];
+
+        $items = Articles::query()->get();
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
+
+                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
+                if($itemName == null){
+                    $itemName = $item['item'];
+                }
+
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $transNewSlug,
-                    'stock_no' => $item['stockNo'],
+                    'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
-                    'item' => $item['itemName'],
+                    'item' => $itemName,
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'actual_qty' => $item['actual_qty'],
@@ -153,7 +162,7 @@ class RISController extends Controller
             TransactionDetails::insert($arr);
         }
         else
-            abort(503,'Error saving ICS.');
+            abort(503,'Error saving RIS.');
 
         return $transNew->only('slug');
     }

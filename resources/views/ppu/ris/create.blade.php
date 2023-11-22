@@ -210,17 +210,19 @@
                         },
                         success: function (res) {
                             console.log(res);
+
+                            $('#ris_items_table tbody').remove();
                             let tableHtml = '<tbody>';
                             for(let i=0; i<res.transDetails.length; i++){
                                 let stock = res.transDetails[i].stock_no;
                                 stock = stock === null ? '' : stock;
-                                let rmks = res.transDetails[i].remarks == null ? "" : res.transDetails[i].remarks;
-                                let dscptn = res.transDetails[i].dscptn == null ? "" : res.transDetails[i].dscptn;
+                                 let rmks = res.transDetails[i].remarks == null ? '' : res.transDetails[i].remarks;
+                                 let dscptn = res.transDetails[i].description == null ? '' : res.transDetails[i].description;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stockNo]" name="items['+res.transDetails[i].slug+'][stockNo]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][itemName]" name="items['+res.transDetails[i].slug+'][itemName]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
-                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text" value="' + dscptn + '"></textarea></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
+                                    '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][description]" name="items['+res.transDetails[i].slug+'][description]" type="text">'+ dscptn +'</textarea></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][actual_qty]" name="items['+res.transDetails[i].slug+'][actual_qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                     '<td><textarea class="input-sm" id="items['+res.transDetails[i].slug+'][remarks]" name="items['+res.transDetails[i].slug+'][remarks]" type="text" value="' + rmks + '"></textarea></td>' +
@@ -228,8 +230,7 @@
                                     '</tr>';
                             }
                             tableHtml += '</tbody>';
-                            $('#ris_items_table').append(tableHtml);
-                            $('#saveBtn').removeClass('hidden');
+                            $('#ris_items_table').append(tableHtml).removeClass('hidden');
                         },
                         error: function (res) {
                             toast('error',res.responseJSON.message,'Error!');
