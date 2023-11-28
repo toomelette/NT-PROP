@@ -3,7 +3,7 @@
 @endphp
 <tr id="item_{{$rand}}">
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stockNo]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stock_no]',[
             'class' => 'input-sm',
             'readonly'=>'readonly',
             'for' => 'stockNo',
