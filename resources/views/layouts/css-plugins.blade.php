@@ -51,3 +51,4 @@
 <link type="text/css" rel="stylesheet" href="{{asset('template/plugins/awesome-select/package/css/awselect.min.css')}}">
 <link type="text/css" rel="stylesheet" href="{{asset('template/plugins/select2-bootstrap-theme/dist/select2-bootstrap.min.css')}}">
 
+<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />

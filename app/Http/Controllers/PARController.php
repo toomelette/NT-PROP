@@ -14,9 +14,11 @@ use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
+use http\Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use function Termwind\ValueObjects\w;
@@ -191,6 +193,24 @@ class PARController extends Controller
         return view('ppu.par.uploadPic')->with([
             'par' => $par
         ]);
+    }
+
+    public function savePict(Request $request){
+        $request->validate([
+            'file' => 'required|mimes:jpg'
+        ]);
+        $file = $request->file('file');
+        if ($file) {
+            try {
+                // Create a directory named after the par_slug if it doesn't exist
+                $directoryPath = "/PAR/{$request->par_slug}/".$file->getClientOriginalName();
+                \Storage::disk('local_ppu')->put($directoryPath,$file->get());
+            } catch (\Exception $ex) {
+                return redirect()->back()->withErrors('Failed to save the file.');
+            }
+        }
+        $request->session()->flash('alert-success', 'Uploaded.');
+        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
     }
 
     public function update(FormRequest $request, $slug){

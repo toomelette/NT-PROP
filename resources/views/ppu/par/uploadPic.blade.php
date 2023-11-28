@@ -2,89 +2,84 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Edit Property Acknowledgement Receipt</h1>
+        <h1>Upload Picture for PPE -> {{$par->propertyno}}</h1>
+        <h3>{{$par->article}}</h3>
+        <h6>{{$par->description}}</h6>
     </section>
 @endsection
+
 @section('content2')
     <section class="content">
         <div role="document">
-            <form id="edit_form">
-                <input class="hidden" type="text" id="slug" name="slug" value="{{$par->slug}}"/>
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                UPLOAD PAR PICTURE
-                                {{--<div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
-                                    <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
-                                </div>--}}
+                                <form action="{{route('dashboard.par.savePict')}}" method="post" enctype="multipart/form-data" class="dropzone" id="my-great-dropzone">
+                                    <input type="text" value="{{$par->slug}}" name="par_slug" id="par_slug" hidden>
+                                    @csrf
+                                </form>
+
+                                <br>
+                                <div class="post">
+                                    <div class="row margin-bottom">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                @php
+                                                    $slug = $par->slug;
+                                                    $directory = 'C:/external1/swep_ppu_storage/PPU/PAR/'.$slug;
+
+                                                    // Check if the directory exists
+                                                    if(File::exists($directory)) {
+                                                        $files = File::allFiles($directory);
+                                                    } else {
+                                                        $files = [];
+                                                    }
+                                                @endphp
+
+                                                @if(count($files) > 0)
+                                                    <ul>
+                                                        @foreach($files as $file)
+                                                            <li>{{ $file->getFilename() }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @else
+                                                    <div class="col-md-12">
+                                                        <p>No files found in the directory.</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </section>
+
 @endsection
 
 @section('scripts')
-    <script type="text/javascript">
-        let active;
-        $(document).ready(function () {
-            $("#edit_form").submit(function(e) {
-                e.preventDefault();
-                let form = $(this);
-                let uri = '{{route("dashboard.par.update","slug")}}';
-                uri = uri.replace('slug',$('#slug').val());
-                loading_btn(form);
-                $.ajax({
-                    url : uri,
-                    data : form.serialize(),
-                    type: 'PATCH',
-                    headers: {
-                        {!! __html::token_header() !!}
-                    },
-                    success: function (res) {
-                        succeed(form,true,true);
-                        toast('info','PAR successfully updated.','Updated');
-                        setTimeout(function() {
-                            window.location.href = $("#backBtn").attr("href");
-                        }, 3000);
-                    },
-                    error: function (res) {
-                        errored(form,res);
-                    }
-                })
-            });
-
-            $(".select2_article").select2({
-                ajax: {
-                    url: '{{route("dashboard.ajax.get","articles")}}',
-                    dataType: 'json',
-                    delay : 250,
-                },
-                dropdownParent: $('#edit_form'),
-                placeholder: 'Select item',
-                language : {
-                    "noResults": function(){
-
-                        return "No item found.";
-                    }
-                },
-                escapeMarkup: function (markup) {
-                    return markup;
-                }
-            });
-
-            $('.select2_article').on('select2:select', function (e) {
-                let data = e.params.data;
-                console.log(data);
-                $.each(data.populate,function (i, item) {
-                    /*$("#select[name='"+i+"']").val(item).trigger('change');
-                    $("#input[name='"+i+"']").val(item).trigger('change');*/
-                })
-            });
-        })
+    <script>
+        Dropzone.options.myGreatDropzone = { // camelized version of the `id`
+            acceptedFiles: "image/*",
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            success: function (file, response) {
+                console.log("Logs:", response);
+                toast('success',"Image Successfully uploaded.",'Success!');
+                /*Swal.fire({
+                    title: 'Success!',
+                    text: 'Image Successfully uploaded. Thank you.',
+                    icon: 'success'
+                });*/
+            },
+            error: function (res) {
+                console.error("Error:", res);
+                toast('error',"Error uploading file.",'Error!');
+            }
+        };
     </script>
 @endsection
