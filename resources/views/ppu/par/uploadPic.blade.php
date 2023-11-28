@@ -27,7 +27,7 @@
                                             <div class="row">
                                                 @php
                                                     $slug = $par->slug;
-                                                    $directory = 'C:/external1/swep_ppu_storage/PPU/PAR/'.$slug;
+                                                    $directory = '/home/external1/swep_ppu_storage/PPU/PAR/'.$slug;
 
                                                     // Check if the directory exists
                                                     if(File::exists($directory)) {
