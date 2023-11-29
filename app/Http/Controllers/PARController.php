@@ -206,8 +206,12 @@ class PARController extends Controller
                 /*$directoryPath = "/PAR/{$request->par_slug}/".$file->getClientOriginalName();
                 \Storage::disk('local_ppu')->put($directoryPath,$file->get());*/
 
-                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
+                $directoryPath = "/PAR/{$request->par_slug}/".$file->getClientOriginalName();
+                $fullPath = \Storage::disk('local_ppu')->path($directoryPath);
+
+                dd($fullPath);
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
+
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors('Failed to save the file.');
             }
