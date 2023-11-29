@@ -208,7 +208,7 @@ class PARController extends Controller
 
                 $directoryPath = "/PAR/{$request->par_slug}/".$file->getClientOriginalName();
 
-                return \Storage::disk('local_ppu');
+                return $directoryPath;
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
 
             } catch (\Exception $ex) {
