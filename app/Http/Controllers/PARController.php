@@ -204,16 +204,21 @@ class PARController extends Controller
 
         if ($file) {
             try {
-                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
+                /*$directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
                 $fullPath = \Storage::disk('local_ppu')->path($directoryPath);
 
-                dd($fullPath);
+                return $fullPath ;*/
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors('Failed to save the file.');
             }
         }
-        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
+        $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
+        \Storage::disk('local_ppu')->put($directoryPath, $file->get());
+        $fullPath = \Storage::disk('local_ppu')->path($directoryPath);
+
+        return $fullPath ;
+        //return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
     }
 
     public function update(FormRequest $request, $slug){
