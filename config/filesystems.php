@@ -45,7 +45,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => '/home/swep_afd_storage/',
+            'root' => '/home/swep_ppu_storage/',
         ],
 
         'local_ppu' => [
