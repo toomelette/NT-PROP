@@ -199,22 +199,17 @@ class PARController extends Controller
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png'
         ]);
+
         $file = $request->file('file');
+
         if ($file) {
             try {
-                // Create a directory named after the par_slug if it doesn't exist
-                /*$directoryPath = "/PAR/{$request->par_slug}/".$file->getClientOriginalName();
-                \Storage::disk('local_ppu')->put($directoryPath,$file->get());*/
-
-                $directoryPath = "/PAR/{$request->par_slug}/".$file->getClientOriginalName();
-                $fullPath = \Storage::url($directoryPath);
-                return $fullPath;
+                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors('Failed to save the file.');
             }
         }
-        $request->session()->flash('alert-success', 'Uploaded.');
         return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
     }
 
