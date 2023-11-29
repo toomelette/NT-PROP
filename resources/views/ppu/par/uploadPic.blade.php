@@ -64,7 +64,7 @@
 @section('scripts')
     <script>
         Dropzone.options.myGreatDropzone = { // camelized version of the `id`
-            acceptedFiles: "image/*",
+            acceptedFiles: ".jpg, .jpeg, .png", // Add a comma between each file extension
             paramName: "file", // The name that will be used to transfer the file
             maxFilesize: 2, // MB
             success: function (file, response) {
