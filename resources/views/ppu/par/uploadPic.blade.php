@@ -28,7 +28,7 @@
                                                 @php
                                                     $slug = $par->slug;
                                                     $directory = '/external1/swep_ppu_storage/PPU/PAR/'.$slug;
-
+                                                    $directoryPath = 'external1/swep_ppu_storage/PPU/PAR/'.$slug;
                                                     // Check if the directory exists
                                                     if(File::exists($directory)) {
                                                         $files = File::allFiles($directory);
@@ -40,7 +40,9 @@
                                                 @if(count($files) > 0)
                                                     <ul>
                                                         @foreach($files as $file)
-                                                            <li>{{ $file->getFilename() }}</li>
+
+                                                            <img src="{{ Storage::disk('local_ppu')->url($directoryPath) }}/{{$file->getFilename()}}" alt="{{$file->getFilename()}}">
+
                                                         @endforeach
                                                     </ul>
                                                 @else
