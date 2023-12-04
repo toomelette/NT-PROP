@@ -165,6 +165,55 @@
                 })
             });
 
+            $("body").on('click','.cancel_transaction_btn',function () {
+                let btn = $(this);
+                let uri  = '{{route('dashboard.jo.cancel','slug')}}';
+                uri = uri.replace('slug',btn.attr('data'));
+                Swal.fire({
+                    title: 'Cancel Transaction?',
+                    input: 'text',
+                    html: 'Please enter a cancellation reason:',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    confirmButtonColor: '#dd4b39',
+                    showCancelButton: true,
+                    cancelButtonText : 'No',
+                    confirmButtonText: '<i class="fa fa-check"></i> Yes, Submit',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (text) => {
+                        return $.ajax({
+                            url : uri,
+                            type: 'POST',
+                            data: {'cancellation_reason':text},
+                            headers: {
+                                {!! __html::token_header() !!}
+                            },
+                            success : function (res) {
+                                activePr = res.slug;
+                                pr_tbl.draw();
+                            }
+                        })
+                            .then(response => {
+                                return  response;
+
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                Swal.showValidationMessage(
+                                    'Error : '+ error.responseJSON.message,
+                                )
+                            })
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        toast('success','PO was successfully marked as cancelled.','Success!');
+
+                    }
+                })
+            })
+
             $("body").on("change",".dt_filter",function () {
                 filterDT(jo_tbl);
             });
