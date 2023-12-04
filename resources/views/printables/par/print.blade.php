@@ -81,12 +81,12 @@
             <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
                 <thead>
                     <tr class="text-strong" style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Qty</td>
-                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Unit</td>
-                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Description</td>
-                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Date Acquired</td>
-                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Property Number</td>
-                        <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Amount</td>
+                        <td style="width: 10%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Qty</td>
+                        <td style="width: 10%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Unit</td>
+                        <td style="width: 35%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Description</td>
+                        <td style="width: 15%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Date Acquired</td>
+                        <td style="width: 20%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Property Number</td>
+                        <td style="width: 10%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Amount</td>
                     </tr>
                 </thead>
                 <tbody style="height: 350px">

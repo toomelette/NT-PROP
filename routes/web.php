@@ -176,6 +176,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
     Route::patch('/po/update/{slug}','POController@update')->name('po.update');
     Route::get('/po/createpublicbidding','POController@createpublicbidding')->name('po.createpublicbidding');
+    Route::post('/po/{slug}/cancel','POController@cancel')->name('po.cancel');
     Route::resource('po', 'POController');
 
     Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');
