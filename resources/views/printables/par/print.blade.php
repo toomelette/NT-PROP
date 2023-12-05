@@ -166,11 +166,11 @@
                     <tr style="text-align: center;" >
                         <td>&nbsp;</td>
                     </tr>
-                    <tr class="text-strong" style="text-align: center;" >
-                        <td><u>{{$par->acctemployee_fname}}</u></td>
+                    <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
+                        <td style="margin: 0; padding: 0;"><u>{{$par->acctemployee_fname}}</u></td>
                     </tr>
-                    <tr style="text-align: center;" >
-                        <td><i>{{ucwords(strtolower($par->acctemployee_post))}}</i></td>
+                    <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; margin: -5px; padding: 0;">
+                        <td style="margin: 0; padding: 0;">{{strtoupper($par->acctemployee_post)}}</td>
                     </tr>
                     <tr style="text-align: center;" >
                         <td>&nbsp;</td>
@@ -190,11 +190,11 @@
                     <tr style="text-align: center;" >
                         <td>&nbsp;</td>
                     </tr>
-                    <tr class="text-strong" style="text-align: center; font-family: Cambria,Arial; font-size: 13px;" >
+                    <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
                         <td><u>NOLI T. TINGSON</u></td>
                     </tr>
-                    <tr style="text-align: center;" >
-                        <td><i>Supply Officer IV</i></td>
+                    <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; margin: -5px; padding: 0;">
+                        <td>{{strtoupper("Supply Officer IV")}}</td>
                     </tr>
                     <tr style="text-align: center;" >
                         <td>&nbsp;</td>

@@ -163,18 +163,18 @@
                     </table>
                     <div style="width: 100%; display: flex; font-family: Cambria,Arial; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black">
 
-                        <table style="width:50%; border-collapse: collapse;margin-right: 10px;">
+                        <table style="width:50%; border-collapse: collapse; margin-right: 10px;">
                             <tr>
                                 <th>Received by:</th>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr class="text-strong" style="text-align: center; font-family: Cambria,Arial; font-size: 13px;" >
-                                <td><u>{{$par->acctemployee_fname}}</u></td>
+                            <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
+                                <td style="margin: 0; padding: 0;"><u>{{$par->acctemployee_fname}}</u></td>
                             </tr>
-                            <tr style="text-align: center;" >
-                                <td><i>{{ucwords(strtolower($par->acctemployee_post))}}</i></td>
+                            <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; padding: 0; border-collapse: collapse; border-spacing: 0;">
+                                <td style="padding: 0; margin: 0;">{{strtoupper($par->acctemployee_post)}}</td>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
@@ -194,11 +194,11 @@
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr class="text-strong" style="text-align: center; font-family: Cambria,Arial; font-size: 13px;" >
+                            <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
                                 <td><u>NOLI T. TINGSON</u></td>
                             </tr>
-                            <tr style="text-align: center;" >
-                                <td><i>Supply Officer IV</i></td>
+                            <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; margin: -5px; padding: 0;">
+                                <td>{{strtoupper("Supply Officer IV")}}</td>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
