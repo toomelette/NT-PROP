@@ -170,7 +170,7 @@
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr class="text-strong" style="text-align: center;" >
+                            <tr class="text-strong" style="text-align: center; font-family: Cambria,Arial; font-size: 13px;" >
                                 <td><u>{{$par->acctemployee_fname}}</u></td>
                             </tr>
                             <tr style="text-align: center;" >
@@ -194,7 +194,7 @@
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr class="text-strong" style="text-align: center;" >
+                            <tr class="text-strong" style="text-align: center; font-family: Cambria,Arial; font-size: 13px;" >
                                 <td><u>NOLI T. TINGSON</u></td>
                             </tr>
                             <tr style="text-align: center;" >
