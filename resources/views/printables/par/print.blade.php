@@ -200,7 +200,7 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr style="text-align: center;" >
-                        <td><u>{{ now()->format('F d, Y') }}</u></td>
+                        <td><u>{{ now()->format('d M Y') }}</u></td>
                     </tr>
                     <tr style="text-align: center;" >
                         <td>Date</td>
