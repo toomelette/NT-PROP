@@ -200,10 +200,10 @@
                         <td>&nbsp;</td>
                     </tr>
                     <tr style="text-align: center;" >
-                        <td><u>{{ now()->format('d M Y') }}</u></td>
+                        <td>{{ now()->format('d') . ' ' . strtoupper(now()->format('M Y')) }}</td>
                     </tr>
                     <tr style="text-align: center;" >
-                        <td>Date</td>
+                        <td>&nbsp;</td>
                     </tr>
                 </table>
             </div>
