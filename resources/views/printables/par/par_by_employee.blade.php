@@ -156,8 +156,12 @@
                             <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;">
                                 {{number_format($par->acquiredcost,2)}}
                             </td>
-                            <td style="border-right: 1px solid black; vertical-align: top;"></td>
-                            <td style="vertical-align: top;"></td>
+                            <td style="border-right: 1px solid black; vertical-align: top;">
+                                Condition:
+                            </td>
+                            <td style="vertical-align: top;">
+                                {{strtoupper($par->condition)}}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
