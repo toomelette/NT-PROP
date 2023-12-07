@@ -12,6 +12,8 @@ use App\Models\InventoryPPE;
 use App\Models\Location;
 use App\Models\Order;
 use App\Models\PPURespCodes;
+use App\Models\PropertyCard;
+use App\Models\PropertyCardDetails;
 use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
 use Illuminate\Foundation\Http\FormRequest;
@@ -185,6 +187,9 @@ class PARController extends Controller
             'par' => $par
         ]);
     }
+
+
+
 
     public function uploadPic($slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
@@ -379,4 +384,112 @@ class PARController extends Controller
         }
         abort(503,'Error deleting PAR.');
     }
+
+
+    public function propCard($slug)
+    {
+        $par = InventoryPPE::query()->where('slug', '=', $slug)->first();
+
+        if ($par) {
+            $propCard = PropertyCard::query()->where('property_no', '=', $par->propertyno)->first();
+
+            if ($propCard) {
+                $propCardDetails = $propCard->propertyCardDetails;
+
+                logger($propCardDetails);
+
+                return view('ppu.par.propCard')->with([
+                    'par' => $par,
+                    'propCard' => $propCard,
+                    'propCardDetails' => $propCardDetails,
+                ]);
+            } else {
+                logger('No matching records found in PropertyCard.');
+            }
+        }
+
+        abort(404, 'Records not found');
+    }
+
+
+    public function findBySlug($slug){
+        $pc = PropertyCard::query()
+            ->with(['PropertyCardDetails'])
+            ->where('slug','=',$slug)->first();
+
+        return $pc ?? abort(503,'PC not found');
+    }
+
+    public function getNextPCno()
+    {
+        $year = Carbon::now()->format('Y-');
+        $property_card = PropertyCard::query()
+            ->where('property_card_no', 'like', $year . '%')
+            ->orderBy('property_card_no', 'desc')
+            ->first();
+        if (empty($property_card)) {
+            $pcNo = 0;
+        } else {
+            $pcNo = substr($property_card->property_card_no, -4);
+        }
+
+        $newPCBaseNo = str_pad($pcNo + 1, 4, '0', STR_PAD_LEFT);
+
+        return $year . Carbon::now()->format('m-') . $newPCBaseNo;
+    }
+
+
+    public function savePropCard(FormRequest $request)
+    {
+
+        $trans = PropertyCard::where('slug', $request->slug)->first();
+
+
+        if ($trans) {
+            $trans->update([
+                'article' => $request->article,
+                'description' => $request->description,
+                'property_no' => $request->propertyno,
+            ]);
+        } else {
+            $trans = new PropertyCard();
+            $trans->slug = $request->slug;
+            $trans->property_card_no = $this->getNextPCno();
+            $trans->article = $request->article;
+            $trans->description = $request->description;
+            $trans->property_no = $request->propertyno;
+            $trans->save();
+        }
+
+
+        $arr = [];
+        if (!empty($request->items)) {
+            foreach ($request->items as $item) {
+                $arr[] = [
+                    'slug' => Str::random(),
+                    'transaction_slug' => $trans->slug,
+                    'date' => $item['date'],
+                    'ref_no' => $item['ref_no'],
+                    'receipt_qty' => $item['receipt_qty'],
+                    'qty' => $item['qty'],
+                    'purpose' => $item['purpose'],
+                    'bal_qty' => $item['bal_qty'],
+                    'amount' => $item['amount'],
+                    'remarks' => $item['remarks'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            PropertyCardDetails::upsert($arr, ['slug'], ['date', 'ref_no', 'receipt_qty', 'qty', 'purpose', 'bal_qty', 'amount', 'remarks', 'updated_at']);
+
+            return $trans->only('slug');
+        }
+
+        abort(503, 'Error saving Property Card');
+    }
+
+
+
+
 }

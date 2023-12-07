@@ -198,6 +198,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/{location}/printInventoryCountForm','PARController@printInventoryCountForm')->name('rpcppe.printInventoryCountForm');
     Route::get('/par/generateInventoryCountFormByCriteria','PARController@generateInventoryCountFormByCriteria')->name('rpcppe.generateICF');
     Route::get('/par/uploadPic/{slug}','PARController@uploadPic')->name('par.uploadPic');
+    Route::get('/par/propCard/{slug}','PARController@propCard')->name('par.propCard');
+    Route::post('/par/savePropCard/{slug}','PARController@savePropCard')->name('par.savePropCard');
+    Route::get('/par/printPropCard/{slug}','PARController@printPropCard')->name('par.printPropCard');
     Route::resource('par', 'PARController');
 
     Route::resource('ics', 'ICSController');

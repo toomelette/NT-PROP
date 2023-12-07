@@ -236,7 +236,7 @@ class RISController extends Controller
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
-                    'stock_no' => $item['stockNo'],
+                    'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
                     'item' => $item['itemName'],
                     'description' => $item['description'],

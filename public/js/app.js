@@ -472,3 +472,4 @@ const iCheckRadioOptions = {
     radioClass: 'iradio_square-green',
     increaseArea: '5%' // optional
 };
+
