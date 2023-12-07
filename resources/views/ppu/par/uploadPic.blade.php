@@ -1,90 +1,223 @@
 @extends('layouts.admin-master')
+@section('styles')
+    <style>
+        .btn:focus, .btn:active, button:focus, button:active {
+            outline: none !important;
+            box-shadow: none !important;
+        }
 
+        #image-gallery .modal-footer{
+            display: block;
+        }
+
+        .thumb{
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+@endsection
 @section('content')
     <section class="content-header">
-        <h1>Edit Property Acknowledgement Receipt</h1>
+        <h1>Upload Picture for PPE -> {{$par->propertyno}}</h1>
+        <h3>{{$par->article}}</h3>
+        <h6>{{$par->description}}</h6>
     </section>
 @endsection
+
 @section('content2')
     <section class="content">
         <div role="document">
-            <form id="edit_form">
-                <input class="hidden" type="text" id="slug" name="slug" value="{{$par->slug}}"/>
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-12">
-                                UPLOAD PAR PICTURE
-                                {{--<div class="col-md-12">
-                                    <button type="submit" class="btn btn-primary pull-right" style="margin-left: 20px" id="saveBtn">Update</button>
-                                    <a type="button" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.par.index')}}">Back to list</a>
-                                </div>--}}
+                                <form action="{{route('dashboard.par.savePict')}}" method="post" enctype="multipart/form-data" class="dropzone" id="my-great-dropzone">
+                                    <input type="text" value="{{$par->slug}}" name="par_slug" id="par_slug" hidden>
+                                    @csrf
+                                </form>
+
+                                <br>
+                                <div class="post">
+                                    <div class="row margin-bottom">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                @php
+                                                    $slug = $par->slug;
+                                                    $directory = '/external1/swep_ppu_storage/PPU/PAR/'.$slug;
+                                                    // Check if the directory exists
+                                                    if(File::exists($directory)) {
+                                                        $files = File::allFiles($directory);
+                                                    } else {
+                                                        $files = [];
+                                                    }
+                                                @endphp
+
+                                                @if(count($files) > 0)
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="row">
+                                                                @foreach($files as $file)
+                                                                    <div class="col-md-3 thumb">
+                                                                        <a class="thumbnail" href="javascript:void(0);" data-image-id="" data-toggle="modal" data-title=""
+                                                                           data-image="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
+                                                                           data-target="#image-gallery">
+                                                                            <img class="img-thumbnail"
+                                                                                 src="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
+                                                                                 alt="{{$file->getFilename()}}" width="200">
+                                                                        </a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4 class="modal-title" id="image-gallery-title"></h4>
+                                                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <img id="image-gallery-image" class="img-responsive col-md-12" src="" alt="" width="50">
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary float-left" id="show-previous-image"><i class="fa fa-arrow-left"></i>
+                                                                            </button>
+
+                                                                            <button type="button" id="show-next-image" class="btn btn-secondary float-right"><i class="fa fa-arrow-right"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="col-md-12">
+                                                        <p>No files found in the directory.</p>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
     </section>
+
 @endsection
 
 @section('scripts')
-    <script type="text/javascript">
-        let active;
+    <script>
+        let modalId = $('#image-gallery');
         $(document).ready(function () {
-            $("#edit_form").submit(function(e) {
-                e.preventDefault();
-                let form = $(this);
-                let uri = '{{route("dashboard.par.update","slug")}}';
-                uri = uri.replace('slug',$('#slug').val());
-                loading_btn(form);
-                $.ajax({
-                    url : uri,
-                    data : form.serialize(),
-                    type: 'PATCH',
-                    headers: {
-                        {!! __html::token_header() !!}
-                    },
-                    success: function (res) {
-                        succeed(form,true,true);
-                        toast('info','PAR successfully updated.','Updated');
-                        setTimeout(function() {
-                            window.location.href = $("#backBtn").attr("href");
-                        }, 3000);
-                    },
-                    error: function (res) {
-                        errored(form,res);
-                    }
-                })
-            });
 
-            $(".select2_article").select2({
-                ajax: {
-                    url: '{{route("dashboard.ajax.get","articles")}}',
-                    dataType: 'json',
-                    delay : 250,
-                },
-                dropdownParent: $('#edit_form'),
-                placeholder: 'Select item',
-                language : {
-                    "noResults": function(){
+                loadGallery(true, 'a.thumbnail');
 
-                        return "No item found.";
+                //This function disables buttons when needed
+                function disableButtons(counter_max, counter_current) {
+                    $('#show-previous-image, #show-next-image')
+                        .show();
+                    if (counter_max === counter_current) {
+                        $('#show-next-image')
+                            .hide();
+                    } else if (counter_current === 1) {
+                        $('#show-previous-image')
+                            .hide();
                     }
-                },
-                escapeMarkup: function (markup) {
-                    return markup;
+                }
+
+                /**
+                 *
+                 * @param setIDs        Sets IDs when DOM is loaded. If using a PHP counter, set to false.
+                 * @param setClickAttr  Sets the attribute for the click handler.
+                 */
+
+                function loadGallery(setIDs, setClickAttr) {
+                    let current_image,
+                        selector,
+                        counter = 0;
+
+                    $('#show-next-image, #show-previous-image')
+                        .click(function () {
+                            if ($(this)
+                                .attr('id') === 'show-previous-image') {
+                                current_image--;
+                            } else {
+                                current_image++;
+                            }
+
+                            selector = $('[data-image-id="' + current_image + '"]');
+                            updateGallery(selector);
+                        });
+
+                    function updateGallery(selector) {
+                        let $sel = selector;
+                        current_image = $sel.data('image-id');
+                        $('#image-gallery-title')
+                            .text($sel.data('title'));
+                        $('#image-gallery-image')
+                            .attr('src', $sel.data('image'));
+                        disableButtons(counter, $sel.data('image-id'));
+                    }
+
+                    if (setIDs == true) {
+                        $('[data-image-id]')
+                            .each(function () {
+                                counter++;
+                                $(this)
+                                    .attr('data-image-id', counter);
+                            });
+                    }
+                    $(setClickAttr)
+                        .on('click', function () {
+                            updateGallery($(this));
+                        });
                 }
             });
 
-            $('.select2_article').on('select2:select', function (e) {
-                let data = e.params.data;
-                console.log(data);
-                $.each(data.populate,function (i, item) {
-                    /*$("#select[name='"+i+"']").val(item).trigger('change');
-                    $("#input[name='"+i+"']").val(item).trigger('change');*/
-                })
+        // build key actions
+        $(document).keydown(function (e) {
+                switch (e.which) {
+                    case 37: // left
+                        if ((modalId.data('bs.modal') || {})._isShown && $('#show-previous-image').is(":visible")) {
+                            $('#show-previous-image')
+                                .click();
+                        }
+                        break;
+
+                    case 39: // right
+                        if ((modalId.data('bs.modal') || {})._isShown && $('#show-next-image').is(":visible")) {
+                            $('#show-next-image')
+                                .click();
+                        }
+                        break;
+
+                    default:
+                        return; // exit this handler for other keys
+                }
+                e.preventDefault(); // prevent the default action (scroll / move caret)
             });
-        })
+
+        Dropzone.options.myGreatDropzone = { // camelized version of the `id`
+            acceptedFiles: ".jpg, .jpeg, .png", // Add a comma between each file extension
+            paramName: "file", // The name that will be used to transfer the file
+            maxFilesize: 2, // MB
+            success: function (file, response) {
+                console.log("Logs:", response);
+                toast('success',"Image Successfully uploaded.",'Success!');
+                /*Swal.fire({
+                    title: 'Success!',
+                    text: 'Image Successfully uploaded. Thank you.',
+                    icon: 'success'
+                });*/
+            },
+            error: function (res) {
+                console.error("Error:", res);
+                toast('error',"Error uploading file.",'Error!');
+            }
+        };
     </script>
 @endsection

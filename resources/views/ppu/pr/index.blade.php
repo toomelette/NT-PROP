@@ -484,7 +484,7 @@
             let uri  = '{{route('dashboard.pr.cancel','slug')}}';
             uri = uri.replace('slug',btn.attr('data'));
             Swal.fire({
-                title: 'Cancel Transation?',
+                title: 'Cancel Transaction?',
                 input: 'text',
                 html: 'Please enter a cancellation reason:',
                 inputAttributes: {
@@ -492,8 +492,8 @@
                 },
                 confirmButtonColor: '#dd4b39',
                 showCancelButton: true,
-                cancelButtonText : 'Do not cancel',
-                confirmButtonText: '<i class="fa fa-check"></i> Cancel',
+                cancelButtonText : 'No',
+                confirmButtonText: '<i class="fa fa-check"></i> Yes, Submit',
                 showLoaderOnConfirm: true,
                 preConfirm: (text) => {
                     return $.ajax({
@@ -522,7 +522,7 @@
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
                 if (result.isConfirmed) {
-                    toast('success','PR was successfully marked as cancel.','Success!');
+                    toast('success','PR was successfully marked as cancelled.','Success!');
 
                 }
             })

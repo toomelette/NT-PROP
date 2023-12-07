@@ -85,12 +85,12 @@
                     <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black; border-right: 1px solid black;">
                         <thead>
                         <tr class="text-strong" style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                            <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Qty</td>
-                            <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Unit</td>
-                            <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Description</td>
-                            <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Date Acquired</td>
-                            <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Property Number</td>
-                            <td style="border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Amount</td>
+                            <td style="width: 10%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Qty</td>
+                            <td style="width: 10%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Unit</td>
+                            <td style="width: 35%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Description</td>
+                            <td style="width: 15%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Date Acquired</td>
+                            <td style="width: 20%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Property Number</td>
+                            <td style="width: 10%; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">Amount</td>
                         </tr>
                         </thead>
                         <tbody style="height: 350px">
@@ -163,18 +163,18 @@
                     </table>
                     <div style="width: 100%; display: flex; font-family: Cambria,Arial; border-bottom: 1px solid black; border-left: 1px solid black; border-right: 1px solid black">
 
-                        <table style="width:50%; border-collapse: collapse;margin-right: 10px;">
+                        <table style="width:50%; border-collapse: collapse; margin-right: 10px;">
                             <tr>
                                 <th>Received by:</th>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr class="text-strong" style="text-align: center;" >
-                                <td><u>{{$par->acctemployee_fname}}</u></td>
+                            <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
+                                <td style="margin: 0; padding: 0;"><u>{{$par->acctemployee_fname}}</u></td>
                             </tr>
-                            <tr style="text-align: center;" >
-                                <td><i>{{ucwords(strtolower($par->acctemployee_post))}}</i></td>
+                            <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; padding: 0; border-collapse: collapse; border-spacing: 0;">
+                                <td style="padding: 0; margin: 0;">{{strtoupper($par->acctemployee_post)}}</td>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
@@ -194,20 +194,20 @@
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
-                            <tr class="text-strong" style="text-align: center;" >
+                            <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
                                 <td><u>NOLI T. TINGSON</u></td>
                             </tr>
-                            <tr style="text-align: center;" >
-                                <td><i>Supply Officer IV</i></td>
+                            <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; margin: -5px; padding: 0;">
+                                <td>{{strtoupper("Supply Officer IV")}}</td>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>
                             </tr>
                             <tr style="text-align: center;" >
-                                <td>_____________________________________</td>
+                                <td>{{ now()->format('d') . ' ' . strtoupper(now()->format('M Y')) }}</td>
                             </tr>
                             <tr style="text-align: center;" >
-                                <td>Date</td>
+                                <td>&nbsp;</td>
                             </tr>
                         </table>
                     </div>

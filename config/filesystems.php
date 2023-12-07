@@ -45,7 +45,12 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => '/home/swep_afd_storage/',
+            'root' => '/home/swep_ppu_storage/',
+        ],
+
+        'local_ppu' => [
+            'driver' => 'local',
+            'root' => env('STORAGE_LOCATION','/external1/swep_ppu_storage/').'PPU/',
         ],
         
         'public' => [

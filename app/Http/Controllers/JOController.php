@@ -62,6 +62,12 @@ class JOController extends Controller
             ->editColumn('created_at',function($data){
                 return $data->created_at ? Carbon::parse($data->created_at)->format('M. d, Y') : '';
             })
+            ->editColumn('ref_no',function($data){
+                if($data->transaction->cancelled_at != null){
+                    return '<span class="">'.$data->ref_no.'</span><br><small class="text-danger text-strong" style="border-top: 1px solid black;">CANCELLED</small>';
+                }
+                return $data->ref_no;
+            })
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
@@ -370,5 +376,25 @@ class JOController extends Controller
             'rc' => $rc,
             'supplier' => $supplier
         ]);
+    }
+
+    public function findBySlug($slug){
+        $trans = Transactions::query()->where('order_slug','=',$slug)->first();
+        return $trans ?? abort(503,'JO not found');
+    }
+
+    public function cancel(Request $request,$slug){
+        $request->validate([
+            'cancellation_reason' => 'required|string',
+        ]);
+        $trans = $this->findBySlug($slug);
+        $trans->cancelled_at = Carbon::now();
+        $trans->user_cancelled = \Auth::user()->user_id;
+        $trans->cancellation_reason = $request->cancellation_reason;
+        $trans->is_locked = 1;
+        if($trans->save()){
+            return $trans->only('slug');
+        }
+        abort(503,'Error in cancellation of transaction. JOController::cancel()');
     }
 }
