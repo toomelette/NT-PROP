@@ -154,7 +154,7 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            let set = 340;
+            let set = 300;
             if($("#items2").height() < set){
                 let rem = set - $("#items2").height();
                 $("#adjuster").css('height',rem)
