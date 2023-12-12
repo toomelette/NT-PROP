@@ -34,4 +34,8 @@ class PropertyCard extends Model
     }
 
 
+
+
+
+
 }

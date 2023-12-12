@@ -203,7 +203,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::get('/par/propCard/{slug}','PARController@propCard')->name('par.propCard');
     Route::post('/par/savePropCard/{slug}','PARController@savePropCard')->name('par.savePropCard');
-    Route::get('/par/printPropCard/{slug}','PARController@printPropCard')->name('par.printPropCard');
+    Route::get('/par/{slug}/printPropCard','PARController@printPropCard')->name('par.printPropCard');
 
     Route::post('/par/savePict','PARController@savePict')->name('par.savePict');
 

@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
 use App\Models\AccountCode;
 use App\Models\Articles;
@@ -23,7 +24,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use function Symfony\Component\String\Slugger\slug;
 use function Termwind\ValueObjects\w;
+use Illuminate\Support\Facades\Log;
 
 class PARController extends Controller
 {
@@ -406,31 +409,85 @@ class PARController extends Controller
     }
 
 
+
     public function propCard($slug)
     {
         $par = InventoryPPE::query()->where('slug', '=', $slug)->first();
 
         if ($par) {
             $propCard = PropertyCard::query()->where('property_no', '=', $par->propertyno)->first();
-
-            if ($propCard) {
-                $propCardDetails = $propCard->propertyCardDetails;
-
-                logger($propCardDetails);
-
-                return view('ppu.par.propCard')->with([
-                    'par' => $par,
-                    'propCard' => $propCard,
-                    'propCardDetails' => $propCardDetails,
-                ]);
-            } else {
-                logger('No matching records found in PropertyCard.');
+            if (!$propCard) {
+                $propCard = new PropertyCard();
+                $propCard->slug = Str::random();
+                $propCard->property_card_no = $this->getNextPCno();
+                $propCard->article = $par->article;
+                $propCard->description = $par->description;
+                $propCard->property_no = $par->propertyno;
+                $propCard->transaction_slug = $par->slug;
+                $propCard->save();
             }
+            return view('ppu.par.propCard')->with([
+                'par' => $par,
+                'propCard' => $propCard,
+            ]);
         }
 
         abort(404, 'Records not found');
     }
 
+    public function savePropCard(FormRequest $request)
+    {
+        try {
+            $trans = PropertyCard::where('property_no', $request->propertyno)->first();
+
+            if ($trans) {
+                $trans->update([
+                    'article' => $request->article,
+                    'description' => $request->description,
+                    'property_no' => $request->propertyno,
+                ]);
+            } else {
+                $trans = new PropertyCard();
+                $trans->slug = $request->slug;
+                $trans->property_card_no = $this->getNextPCno();
+                $trans->article = $request->article;
+                $trans->description = $request->description;
+                $trans->property_no = $request->propertyno;
+                $trans->save();
+            }
+
+            $arr = [];
+
+            if (!empty($request->items)) {
+                foreach ($request->items as $item) {
+                    $arr[] = [
+                        'slug' => Str::random(),
+                        'transaction_slug' => $trans->slug,
+                        'date' => $item['date'],
+                        'ref_no' => $item['ref_no'],
+                        'receipt_qty' => $item['receipt_qty'],
+                        'qty' => $item['qty'],
+                        'purpose' => $item['purpose'],
+                        'bal_qty' => $item['bal_qty'],
+                        'amount' => $item['amount'],
+                        'remarks' => $item['remarks'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+                PropertyCardDetails::upsert($arr, ['slug', 'id'], ['date', 'ref_no', 'receipt_qty', 'qty', 'purpose', 'bal_qty', 'amount', 'remarks', 'updated_at']);
+
+
+                Log::info('Property Card saved successfully', ['slug' => $trans->slug]);
+                return $trans->only('slug');
+            }
+
+            abort(503, 'Error saving Property Card');
+        } catch (\Exception $e) {
+            Log::error('Error saving Property Card', ['error' => $e->getMessage()]);
+            abort(503, 'Error saving Property Card');
+        }
+    }
 
     public function findBySlug($slug){
         $pc = PropertyCard::query()
@@ -458,55 +515,11 @@ class PARController extends Controller
         return $year . Carbon::now()->format('m-') . $newPCBaseNo;
     }
 
-
-    public function savePropCard(FormRequest $request)
-    {
-
-        $trans = PropertyCard::where('slug', $request->slug)->first();
-
-
-        if ($trans) {
-            $trans->update([
-                'article' => $request->article,
-                'description' => $request->description,
-                'property_no' => $request->propertyno,
-            ]);
-        } else {
-            $trans = new PropertyCard();
-            $trans->slug = $request->slug;
-            $trans->property_card_no = $this->getNextPCno();
-            $trans->article = $request->article;
-            $trans->description = $request->description;
-            $trans->property_no = $request->propertyno;
-            $trans->save();
-        }
-
-
-        $arr = [];
-        if (!empty($request->items)) {
-            foreach ($request->items as $item) {
-                $arr[] = [
-                    'slug' => Str::random(),
-                    'transaction_slug' => $trans->slug,
-                    'date' => $item['date'],
-                    'ref_no' => $item['ref_no'],
-                    'receipt_qty' => $item['receipt_qty'],
-                    'qty' => $item['qty'],
-                    'purpose' => $item['purpose'],
-                    'bal_qty' => $item['bal_qty'],
-                    'amount' => $item['amount'],
-                    'remarks' => $item['remarks'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ];
-            }
-
-            PropertyCardDetails::upsert($arr, ['slug'], ['date', 'ref_no', 'receipt_qty', 'qty', 'purpose', 'bal_qty', 'amount', 'remarks', 'updated_at']);
-
-            return $trans->only('slug');
-        }
-
-        abort(503, 'Error saving Property Card');
+    public function printPropCard($slug){
+        $pc = PropertyCard::query()->where('slug', $slug)->first();
+        return view('printables.par.printPropCard')->with([
+            'pc' => $pc,
+        ]);
     }
 
 
