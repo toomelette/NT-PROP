@@ -413,19 +413,36 @@ class PARController extends Controller
     public function propCard($slug)
     {
         $par = InventoryPPE::query()->where('slug', '=', $slug)->first();
-
+        $slugss=Str::random();
         if ($par) {
             $propCard = PropertyCard::query()->where('property_no', '=', $par->propertyno)->first();
+            $arr = [];
             if (!$propCard) {
                 $propCard = new PropertyCard();
-                $propCard->slug = Str::random();
+                $propCard->slug = $slugss;
                 $propCard->property_card_no = $this->getNextPCno();
                 $propCard->article = $par->article;
                 $propCard->description = $par->description;
                 $propCard->property_no = $par->propertyno;
                 $propCard->transaction_slug = $par->slug;
-                $propCard->save();
-            }
+
+                $arr[] = [
+                    'slug' => Str::random(),
+                    'transaction_slug' => $slugss,
+                    'date' => $par['dateacquired'],
+                    'ref_no' => $par['par_code'],
+                    'receipt_qty' => $par['onhandqty'],
+                    'qty' => $par['qtypercard'],
+                    'purpose' => $par['article'],
+                    'amount' => $par['acquiredcost'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+
+            }PropertyCardDetails::upsert($arr, ['slug', 'id'], ['date', 'ref_no', 'receipt_qty', 'qty', 'purpose', 'bal_qty', 'amount', 'remarks', 'updated_at']);
+
+            $propCard->save();
+
             return view('ppu.par.propCard')->with([
                 'par' => $par,
                 'propCard' => $propCard,

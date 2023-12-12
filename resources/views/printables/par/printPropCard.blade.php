@@ -40,27 +40,29 @@
                     <tbody>
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
 
-                        <td  style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
-                            Property, Plant & Equipement:
+                        <td  style="margin-top: 5px; width: 15%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
+                            Property, Plant & Equipment:
                         </td>
-                        <td style="border-top: 1px solid black; border-right: 1px solid black;" class="text-strong ">
+                        <td style="border-top: 1px solid black; width: 55%; border-right: 1px solid black;" class="text-strong ">
                             {{$pc->article}}
                         </td>
 
-                        <td rowspan="2" style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
+                        <td style="margin-top: 5px; width: 40%; border-top: 1px solid black; position: relative;">
                             Property No:
                         </td>
-                        <td rowspan="2" style="border-top: 1px solid black; border-right: 1px solid black; vertical-align: center;" class="text-strong ">
-                            {{$pc->property_no}}
-                        </td>
+
 
                     </tr>
 
-                        <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
+                        <td style="margin-top: 5px; width: 15%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
                             Description:
                         </td>
-                        <td style="border-top: 1px solid black; border-right: 1px solid black;" class="text-strong ">
+                        <td style="border-top: 1px solid black; width: 55%; border-right: 1px solid black;" class="text-strong ">
                             {{$pc->description}}
+                        </td>
+
+                        <td style="width: 40%; border-right: 1px solid black; vertical-align: center;" class="text-strong ">
+                            {{$pc->property_no}}
                         </td>
 
                     </tr>
@@ -72,13 +74,13 @@
 
                     <thead>
                     <tr class="text-strong" style="width: 100%; ">
-                        <td style="border: 1px solid black; width: 10%;">Date</td>
-                        <td style="border: 1px solid black; width: 10%;">Ref No.</td>
-                        <td style="border: 1px solid black; width: 10%;">Receipty Qty.</td>
-                        <td style="border: 1px solid black; width: 10%;">Qty</td>
+                        <td style="border: 1px solid black; width: 14%;">Date</td>
+                        <td style="border: 1px solid black; width: 8%;">Ref No</td>
+                        <td style="border: 1px solid black; width: 10%;">Receipt Qty</td>
+                        <td style="border: 1px solid black; width: 8%;">Qty</td>
                         <td style="border: 1px solid black; width: 20%;">Issue/Transfer/Disposal</td>
-                        <td style="border: 1px solid black; width: 10%;">Bal. Qty.</td>
-                        <td style="border: 1px solid black; width: 10%;">Amount</td>
+                        <td style="border: 1px solid black; width: 8%;">Bal Qty</td>
+                        <td style="border: 1px solid black; width: 12%;">Amount</td>
                         <td style="border: 1px solid black; width: 20%;">Remarks</td>
                     </tr>
                     </thead>
@@ -93,13 +95,13 @@
                             $total += $item->amount;
                         @endphp
                         <tr style="width: 100%">
-                            <td style="vertical-align: top; width: 10%;">{{$item->date}}</td>
-                            <td style="vertical-align: top; width: 10%;">{{$item->ref_no}}</td>
+                            <td style="vertical-align: top; width: 14%;">{{$item->date}}</td>
+                            <td style="vertical-align: top; width: 8%;">{{$item->ref_no}}</td>
                             <td style="vertical-align: top; width: 10%;">{{$item->receipt_qty}}</td>
-                            <td style="vertical-align: top; width: 10%;">{{$item->qty}}</td>
+                            <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
                             <td style="vertical-align: top; width: 20%;">{{$item->purpose}}</td>
-                            <td style="vertical-align: top; width: 10%;">{{$item->bal_qty}}</td>
-                            <td style="vertical-align: top; width: 10%;">{{$item->amount}}</td>
+                            <td style="vertical-align: top; width: 8%;">{{$item->bal_qty}}</td>
+                            <td style="vertical-align: top; width: 12%;">{{$item->amount}}</td>
                             <td style="vertical-align: top; width: 20%;">{{$item->remarks}}</td>
                         </tr>
                     @endforeach
@@ -154,7 +156,7 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            let set = 300;
+            let set = 550;
             if($("#items2").height() < set){
                 let rem = set - $("#items2").height();
                 $("#adjuster").css('height',rem)
