@@ -6,7 +6,7 @@
     </section>
 @endsection
 @section('content2')
-    <section class="content">
+    <section class="content col-md-12">
         <div role="document">
 {{--            <pre>{{ print_r($propCardDetails, true) }}</pre>--}}
             <form id="add_form">
@@ -32,6 +32,12 @@
                               ],
                                     $par ?? null) !!}
 
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
+                                    'label' => 'Property Number',
+                                    'cols' => 4
+                                ],
+                                     $par ?? null) !!}
+
                             {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
                                   'cols' => 4,
                                   'label' => 'Description ',
@@ -39,11 +45,30 @@
                                 ],
                                     $par ?? null) !!}
 
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
-                                    'label' => 'Property Number',
-                                    'cols' => 4
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('prepared_by',[
+                                  'cols' => 3,
+                                  'label' => 'Prepared By:',
                                 ],
-                                     $par ?? null) !!}
+                                    $propCard ?? null) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('prepared_by_designation',[
+                                 'cols' => 3,
+                                 'label' => 'Designation:',
+                               ],
+                                    $propCard ?? null) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('noted_by',[
+                                  'cols' => 3,
+                                  'label' => 'Noted By:',
+                                ],
+                                    $propCard ?? null) !!}
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('noted_by_designation',[
+                                 'cols' => 3,
+                                 'label' => 'Designation:',
+                               ],
+                                    $propCard ?? null) !!}
+
+
 
                         </div>
                     </div>
@@ -119,7 +144,13 @@
                                 </thead>
                                 <tbody>
                                 @if($propCard->propertyCardDetails != null)
+                                    @php
+                                    $total = 0;
+                                    @endphp
                                     @foreach($propCard->propertyCardDetails as $item)
+                                        @php
+                                            $total += $item->amount;
+                                        @endphp
                                         <tr id="{{ $item->transaction_slug }}">
                                             <td><input class="form-control" id="items2['{{ $item->transaction_slug }}'][date]" name="items2['{{ $item->transaction_slug }}'][date]" type="date" value="{{ $item->date }}"></td>
                                             <td><input class="form-control" id="items2['{{ $item->transaction_slug }}'][ref_no]" name="items2['{{ $item->transaction_slug }}'][ref_no]" type="text" value="{{ $item->ref_no }}"></td>
@@ -203,6 +234,11 @@
                     '            <input value="' + remarks + '"  placeholder="" for="remarks" class="form-control single input-sm" name="items[' + id + '][remarks]" type="text" value="" autocomplete="" readonly="">\n' +
                     '        </div>\n' +
                     '    </td>\n' +
+                    // '    <td style="width: 10%">\n' +
+                    // '        <div class="  col-md- items[' + id + '][remarks]">\n' +
+                    // '            <input value="' + total_amount + '"  placeholder="" for="total amount" class="form-control single input-sm" name="items[' + id + '][total_amount]" type="text" value="" autocomplete="" readonly="">\n' +
+                    // '        </div>\n' +
+                    // '    </td>\n' +
                     '    <td>\n' +
                     '        <button tabindex="-1" data="S01QH" type="button" class="btn btn-danger btn-sm remove_row_btn"><i class="fa fa-times"></i></button>\n' +
                     '    </td>\n' +

@@ -441,20 +441,30 @@ class PARController extends Controller
             $trans = PropertyCard::where('property_no', $request->propertyno)->first();
 
             if ($trans) {
-                $trans->update([
-                    'article' => $request->article,
-                    'description' => $request->description,
-                    'property_no' => $request->propertyno,
-                ]);
-            } else {
-                $trans = new PropertyCard();
-                $trans->slug = $request->slug;
-                $trans->property_card_no = $this->getNextPCno();
-                $trans->article = $request->article;
-                $trans->description = $request->description;
-                $trans->property_no = $request->propertyno;
-                $trans->save();
+
+                $trans->article=$request->article;
+                $trans->description=$request->description;
+                $trans->property_no=$request->propertyno;
+                $trans->prepared_by=$request->prepared_by;
+                $trans->prepared_by_designation=$request->prepared_by_designation;
+                $trans->noted_by=$request->noted_by;
+                $trans->noted_by_designation=$request->noted_by_designation;
+
             }
+
+//            else {
+//                $trans = new PropertyCard();
+//                $trans->slug = $request->slug;
+//                $trans->property_card_no = $this->getNextPCno();
+//                $trans->article = $request->article;
+//                $trans->description = $request->description;
+//                $trans->property_no = $request->propertyno;
+//                $trans->prepared_by = $request->prepared_by;
+//                $trans->prepared_by_designation = $request->prepared_by_designation;
+//                $trans->noted_by = $request->noted_by;
+//                $trans->noted_by_designation = $request->noted_by_designation;
+//                $trans->save();
+//            }
 
             $arr = [];
 
@@ -478,10 +488,12 @@ class PARController extends Controller
                 PropertyCardDetails::upsert($arr, ['slug', 'id'], ['date', 'ref_no', 'receipt_qty', 'qty', 'purpose', 'bal_qty', 'amount', 'remarks', 'updated_at']);
 
 
+
+            }
+            if($trans->update()){
                 Log::info('Property Card saved successfully', ['slug' => $trans->slug]);
                 return $trans->only('slug');
             }
-
             abort(503, 'Error saving Property Card');
         } catch (\Exception $e) {
             Log::error('Error saving Property Card', ['error' => $e->getMessage()]);

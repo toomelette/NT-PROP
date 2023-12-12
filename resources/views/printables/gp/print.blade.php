@@ -130,12 +130,12 @@
                 </table>
 
                 <div style="font-family: Cambria,Arial; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black">
-                    <h5 class="" style="margin-left: 5px; margin-bottom: 10px; text-align: left; float: left">
+                    <h5 class="" style="margin-left: 5px; margin-bottom: 5px; text-align: left; float: left">
                        NOTE: Above named property is the accountability of the borrower unless the Property and Procurement Unit is duly informed of its return.
                     </h5><br><br>
-                    <h5 class="" style="padding-left: 5px; margin-left: 5px; margin: 0; float: left">
-                        JUSTIFICATION: Supplies intended for delivery to <span class="text-strong"; style="text-decoration: underline">{{$gp->originated_from}}</span> requisitioners.
-                    </h5><br><br>
+                    <h5 class="" style=" margin-left: 5px; text-align: left; float: left;">
+                        JUSTIFICATION: <span class=""; style="text-align: left; ">  {{$gp->justification}}</span>
+                    </h5><br><br><br>
                 </div>
 
                 <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">

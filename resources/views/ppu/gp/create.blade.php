@@ -40,6 +40,11 @@
                            'type' => 'date',
                         ]) !!}
 
+                        {!! \App\Swep\ViewHelpers\__form2::textarea('justification',[
+                          'label' => 'Justification:',
+                          'cols' => 3,
+                       ]) !!}
+
                     </div>
                 </div>
 
