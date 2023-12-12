@@ -8,16 +8,18 @@
     <a class="btn btn-sm btn-success" href="{{route('dashboard.par.uploadPic',$data->slug)}}">
         <i class="fa fa-upload"></i>
     </a>
-    <button type="button" onclick="delete_data('{{$data->slug}}','{{route('dashboard.par.destroy',$data->slug)}}')" data="{{$data->slug}}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete">
+    <button style="margin-left: 1px" type="button" onclick="delete_data('{{$data->slug}}','{{route('dashboard.par.destroy',$data->slug)}}')" data="{{$data->slug}}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete">
         <i class="fa fa-trash"></i>
     </button>
 
     <a class="btn btn-sm btn-success" href="{{route('dashboard.par.propCard',$data->slug)}}" data="{{$data->slug}}">
         <i class="fa fa-file-text"></i>
     </a>
+
+    <a class="btn btn-sm btn-primary" href="{{route('dashboard.par.print_property_tag',$data->slug)}}" target="_blank">
+        <i class="fa fa-print"></i>
+    </a>
 </div>
 
-<a class="btn-block btn btn-sm btn-default" href="{{route('dashboard.par.print_property_tag',$data->slug)}}" target="_blank">
-    <i class="fa fa-print"></i> Property Tag
-</a>
+
 
