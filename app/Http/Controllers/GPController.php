@@ -97,6 +97,7 @@ class GPController extends Controller
         $transNew->date = $request->date;
         $transNew->bearer = $request->bearer;
         $transNew->originated_from = $request->originated_from;
+        $transNew->justification = $request->justification;
         $transNew->approved_by = $request->approved_by;
         $transNew->approved_by_designation = $request->approved_by_designation;
         $transNew->received_by = $request->received_by;
@@ -162,6 +163,7 @@ class GPController extends Controller
         $trans->date = $request->date;
         $trans->bearer = $request->bearer;
         $trans->originated_from = $request->originated_from;
+        $trans->justification = $request->justification;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
         $trans->received_by = $request->received_by;

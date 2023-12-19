@@ -49,6 +49,13 @@
                                         $gp ?? null
                                         ) !!}
 
+                        {!! \App\Swep\ViewHelpers\__form2::textarea('justification',[
+                         'label' => 'Justification:',
+                         'cols' => 3,
+                      ],
+                                        $gp ?? null
+                                        ) !!}
+
                     </div>
                 </div>
 
