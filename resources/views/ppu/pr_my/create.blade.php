@@ -215,7 +215,7 @@
                     $(this).click();
                 })
                 $(".add_button").click();
-                toast('success','Purchase request succesfully created','Success');
+                toast('success','Purchase request successfully created','Success');
             },
             error: function (res) {
                 errored(form,res);

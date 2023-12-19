@@ -99,6 +99,14 @@ class MyPrController extends Controller
         return $a ?? null;
     }
 
+    function removeTitles($inputString) {
+        $titlesToRemove = array('ENGR', 'Engr', 'engr', 'ENGR.', 'Engr.', 'engr.', 'ENGINEER', 'Engineer', 'engineer', 'ATTY', 'Atty', 'atty', 'ATTY.', 'Atty.', 'atty.', 'ATTORNEY', 'Attorney', 'attorney');
+        $cleanedString = str_replace($titlesToRemove, '', $inputString);
+        $cleanedString = trim($cleanedString, ". "); // Trim spaces and periods from the beginning and end
+
+        return trim($cleanedString); // Trim to remove any leading or trailing spaces
+    }
+
     public function store(PRFormRequest $request){
         $trans = new Transactions();
         $trans->slug = Str::random();
@@ -111,7 +119,7 @@ class MyPrController extends Controller
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
-        $trans->requested_by = $request->requested_by;
+        $trans->requested_by = $this->removeTitles($request->requested_by);
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
@@ -173,7 +181,8 @@ class MyPrController extends Controller
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
-        $trans->requested_by = $request->requested_by;
+        $trans->requested_by = $this->removeTitles($request->requested_by);
+        //$trans->requested_by = $request->requested_by;
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
