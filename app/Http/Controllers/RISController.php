@@ -251,7 +251,7 @@ class RISController extends Controller
             TransactionDetails::insert($arr);
             return $trans->only('slug');
         }
-        abort(503, 'Error saving WMR');
+        abort(503, 'Error saving RIS');
     }
 
 
