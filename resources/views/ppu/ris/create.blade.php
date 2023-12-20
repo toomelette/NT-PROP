@@ -85,7 +85,7 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('received_by',[
                                   'cols' => 3,
                                   'label' => 'Received by:',
-                                ]) !!}
+                                    ]) !!}
 
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
                                       'cols' => 3,
