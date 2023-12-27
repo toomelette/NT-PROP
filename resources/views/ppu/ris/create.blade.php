@@ -51,7 +51,8 @@
                             {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
                               'cols' => 6,
                               'label' => 'Purpose',
-                              'rows' => 1
+                              'rows' => 1,
+                              'id' => 'purpose',
                             ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('iar_no',[
@@ -84,7 +85,7 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('received_by',[
                                   'cols' => 3,
                                   'label' => 'Received by:',
-                                ]) !!}
+                                    ]) !!}
 
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
                                       'cols' => 3,
@@ -197,61 +198,6 @@
         });
 
 
-        {{--$('#saveBtn').click(function(e) {--}}
-        {{--    e.preventDefault();--}}
-        {{--    let form = $('#add_form');--}}
-        {{--    let uri = '{{route("dashboard.ris.store")}}';--}}
-        {{--    loading_btn(form);--}}
-
-        {{--    $.ajax({--}}
-        {{--        url : uri,--}}
-        {{--        data: form.serialize(),--}}
-        {{--        type: 'POST',--}}
-        {{--        headers: {--}}
-        {{--            {!! __html::token_header() !!}--}}
-        {{--        },--}}
-        {{--        success: function (res) {--}}
-        {{--            succeed(form,true,false);--}}
-        {{--            $(".remove_row_btn").each(function () {--}}
-        {{--                $(this).click();--}}
-        {{--            })--}}
-        {{--            $(".add_button").click();--}}
-        {{--            toast('success','RIS successfully added.','Success!');--}}
-        {{--            Swal.fire({--}}
-        {{--                title: 'RIS Successfully created',--}}
-        {{--                icon: 'success',--}}
-        {{--                html:--}}
-        {{--                    'Click the print button below to print.',--}}
-        {{--                showCloseButton: true,--}}
-        {{--                showCancelButton: true,--}}
-        {{--                focusConfirm: false,--}}
-        {{--                confirmButtonText:--}}
-        {{--                    '<i class="fa fa-print"></i> Print',--}}
-        {{--                confirmButtonAriaLabel: 'Thumbs up, great!',--}}
-        {{--                cancelButtonText:--}}
-        {{--                    'Dismiss',--}}
-        {{--                cancelButtonAriaLabel: 'Thumbs down'--}}
-        {{--            }).then((result) => {--}}
-        {{--                if (result.isConfirmed) {--}}
-        {{--                    let link = "{{route('dashboard.ris.print','slug')}}";--}}
-        {{--                    link = link.replace('slug',res.slug);--}}
-        {{--                    window.open(link, '_blank');--}}
-        {{--                }--}}
-        {{--            })--}}
-        {{--        },--}}
-        {{--        error: function (res) {--}}
-        {{--            errored(form,res);--}}
-        {{--            toast('error',res.responseJSON.message,'Error!');--}}
-        {{--        }--}}
-        {{--    })--}}
-        {{--});--}}
-
-
-        {{--function deleteRow(button) {--}}
-        {{--    const row = button.closest('tr');--}}
-        {{--    row.remove();--}}
-        {{--}--}}
-
         $(function(){
             $('#iar_no').keypress(function (event){
                 if (event.keyCode === 13) {
@@ -265,6 +211,8 @@
                         },
                         success: function (res) {
                             console.log(res);
+
+                            $("#purpose").val(res.trans.purpose);
 
                             $('#ris_items_table tbody').remove();
                             let tableHtml = '<tbody>';
