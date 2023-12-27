@@ -5,6 +5,7 @@ namespace App\Swep\Helpers;
 
 
 use App\Models\AccountCode;
+use App\Models\DocumentType;
 use App\Models\Drivers;
 use App\Models\EmailRecipients;
 use App\Models\JRType;
@@ -231,6 +232,17 @@ class Arrays
         if(!empty($s)){
             foreach ($s as $ss){
                 $arr[$ss->code] = $ss->code . " - " . $ss->description;
+            }
+        }
+        return $arr;
+    }
+
+    public static function documentType() {
+        $s = DocumentType::query()->get();
+        $arr = [];
+        if(!empty($s)){
+            foreach ($s as $ss){
+                $arr[$ss->name] = $ss->description;
             }
         }
         return $arr;

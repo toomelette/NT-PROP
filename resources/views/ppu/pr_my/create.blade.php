@@ -19,23 +19,33 @@
                 </button>
             </div>
             <div class="box-body">
-
-
                     <div class="row">
                         {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
-                            'cols' => 5,
+                            'cols' => 6,
                             'label' => 'Department/Division/Section:',
                             'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
-                            'cols' => 7,
+                            'cols' => 6,
                             'label' => 'PAP Code:',
                             'options' => [],
                             'class' => 'select2_papCode',
                         ]) !!}
                     </div>
                     <div class="row">
+                        {!! \App\Swep\ViewHelpers\__form2::select('document_type',[
+                                    'label' => 'Document Type:',
+                                    'cols' => 3,
+                                    'options' => \App\Swep\Helpers\Arrays::documentType(),
+                                    'id' => 'inventory-account-code',
+                                ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
+                                    'label' => 'Account Code:',
+                                    'cols' => 3,
+                                    'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                    'id' => 'inventory-account-code',
+                                ]) !!}
                         {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
                               'cols' => 2,
                               'label' => 'PR Date:',

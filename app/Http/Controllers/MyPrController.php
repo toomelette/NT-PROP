@@ -115,6 +115,8 @@ class MyPrController extends Controller
         $trans->pap_code = $request->pap_code;
         $trans->ref_no = $this->prService->getNextPRNo();
 //        $trans->date = Carbon::now()->format('Y-m-d');
+        $trans->account_code = $request->account_code;
+        $trans->document_type = $request->document_type;
         $trans->date = $request->date;
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
@@ -158,8 +160,6 @@ class MyPrController extends Controller
         abort(503,'Error creating PR. [PRController::store]');
     }
 
-
-
     public function edit($slug){
         $pr =$this->findBySlug($slug);
         if($pr->is_locked == 1){
@@ -170,13 +170,14 @@ class MyPrController extends Controller
         ]);
     }
 
-
     public function update(PRFormRequest $request,$slug){
         $trans = $this->findBySlug($slug);
         $trans->ref_book = 'PR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
 //        $trans->date = Carbon::now()->format('Y-m-d');
+        $trans->account_code = $request->account_code;
+        $trans->document_type = $request->document_type;
         $trans->date = $request->date;
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;

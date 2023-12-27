@@ -104,6 +104,8 @@ class MyJrController extends Controller
         $trans->ref_book = 'JR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
+        $trans->account_code = $request->account_code;
+        $trans->document_type = $request->document_type;
         $trans->jr_type = $request->jr_type;
         $trans->date = $request->date;
         $trans->ref_no = $this->jrService->getNextJRNo();
@@ -169,6 +171,8 @@ class MyJrController extends Controller
         $trans->ref_book = 'JR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
+        $trans->account_code = $request->account_code;
+        $trans->document_type = $request->document_type;
         $trans->jr_type = $request->jr_type;
         $trans->purpose = $request->purpose;
         $trans->date = $request->date;
