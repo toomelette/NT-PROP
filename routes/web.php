@@ -69,6 +69,14 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::get('/cancellation_request/print/{slug}','CancellationRequestController@print')->name('cancellationRequest.print');
     Route::get('/cancellation_request/myIndex','CancellationRequestController@myIndex')->name('cancellationRequest.myIndex');
 
+    Route::get('/wmr/create','WMRController@create')->name('wmr.create');
+    Route::get('/wmr/findTransByRefNumber/{refNumber}','WMRController@findTransByRefNumber')->name('wmr.findTransByRefNumber');
+    Route::post('/wmr/store','WMRController@store')->name('wmr.store');
+    Route::get('/wmr/{slug}/print','WMRController@print')->name('wmr.print');
+    Route::get('/wmr/myIndex','WMRController@myIndex')->name('wmr.myIndex');
+    Route::get('/wmr/{slug}/edit','WMRController@edit')->name('wmr.edit');
+    Route::patch('/wmr/update/{slug}','WMRController@update')->name('wmr.update');
+
     Route::resource('ppmp_subaccounts', 'PPMPSubaccountsController');
 
     Route::get('/my_jr/{slug}/print','MyJrController@print')->name('my_jr.print');
@@ -228,13 +236,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::patch('/ris/update/{slug}','RISController@update')->name('ris.update');
     Route::get('/ris/findIAR/{refNumber}','RISController@findIAR')->name('ris.findIAR');
 
-    Route::get('/wmr/create','WMRController@create')->name('wmr.create');
-    Route::get('/wmr/findTransByRefNumber/{refNumber}','WMRController@findTransByRefNumber')->name('wmr.findTransByRefNumber');
-    Route::post('/wmr/store','WMRController@store')->name('wmr.store');
-    Route::get('/wmr/{slug}/print','WMRController@print')->name('wmr.print');
     Route::get('/wmr/index','WMRController@index')->name('wmr.index');
-    Route::get('/wmr/{slug}/edit','WMRController@edit')->name('wmr.edit');
-    Route::patch('/wmr/update/{slug}','WMRController@update')->name('wmr.update');
 
     Route::get('/gp/create','GPController@create')->name('gp.create');
     Route::post('/gp/store','GPController@store')->name('gp.store');

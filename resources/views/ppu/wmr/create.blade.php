@@ -17,7 +17,7 @@
                         <button class="btn btn-primary btn-sm pull-right"  id="saveBtn" type="submit">
                             <i class="fa fa-check"></i> Save
                         </button>
-                        <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.wmr.index')}}">Back</a>
+                        <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.wmr.myIndex')}}">Back</a>
                     </div>
 
                     <div class="box-body">
