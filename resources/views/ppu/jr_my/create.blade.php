@@ -20,7 +20,7 @@
                 <div class="box-body">
                     <div class="row">
                         {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
-                            'cols' => 5,
+                            'cols' => 6,
                             'label' => 'Department/Division/Section:',
                             'class' => 'resp_center_selector',
                             'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
@@ -28,16 +28,27 @@
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::select('pap_code',[
-                            'cols' => 7,
+                            'cols' => 6,
                             'label' => 'PAP Code:',
                             'options' => [],
                             'class' => 'select2_papCode',
                         ]) !!}
-
                     </div>
                     <div class="row">
+                        {!! \App\Swep\ViewHelpers\__form2::select('document_type',[
+                                    'label' => 'Document Type:',
+                                    'cols' => 3,
+                                    'options' => \App\Swep\Helpers\Arrays::documentType(),
+                                    'id' => 'inventory-account-code',
+                                ]) !!}
+                        {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
+                                    'label' => 'Account Code:',
+                                    'cols' => 3,
+                                    'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                    'id' => 'inventory-account-code',
+                                ]) !!}
                         {!! \App\Swep\ViewHelpers\__form2::select('jr_type',[
-                            'cols' => 5,
+                            'cols' => 4,
                             'label' => 'JR Type:',
                             'class' => 'jr_type_selector',
                             'options' => \App\Swep\Helpers\Arrays::jrType(),
