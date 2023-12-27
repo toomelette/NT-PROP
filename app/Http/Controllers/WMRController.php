@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 use function Symfony\Component\Mime\Header\all;
+use Auth;
 
 
 class WMRController extends Controller
@@ -35,6 +36,7 @@ class WMRController extends Controller
         }
         return view('ppu.wmr.index');
     }
+
 
     public function dataTable($request)
     {
@@ -57,6 +59,33 @@ class WMRController extends Controller
     }
 
 
+    public function myIndex(Request $request)
+    {
+        if ($request->ajax() && $request->has('draw')) {
+            return $this->myDataTable($request);
+        }
+        return view('ppu.wmr.myIndex');
+    }
+
+    public function myDataTable($request)
+    {
+        $wmr = WasteMaterial::query()->where('user_created', Auth::user()->user_id);
+        return DataTables::of($wmr)
+            ->addColumn('action', function ($data) {
+                return view('ppu.wmr.dtActions')->with([
+                    'data' => $data, 'myIndex' => true,
+                ]);
+            })
+            ->addColumn('item', function ($data) {
+                return view('ppu.wmr.dtItems')->with([
+                    'data' => $data
+                ]);
+            })
+
+            ->escapeColumns([])
+            ->setRowId('id')
+            ->toJson();
+    }
 
     public function getNextWMRno()
     {

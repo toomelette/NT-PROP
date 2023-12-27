@@ -3,7 +3,7 @@
 @section('content')
 
     <section class="content-header">
-        <h1>Waste Materials Report</h1>
+        <h1>My Waste Materials Report</h1>
     </section>
 @endsection
 @section('content2')
@@ -11,7 +11,10 @@
 <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title">Manage Waste Materials Report</h3>
+                <h3 class="box-title">Manage My Waste Materials Report</h3>
+                <div class="btn-group pull-right">
+                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.wmr.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                </div>
             </div>
             <div class="box-body">
                 <div class="row">
@@ -57,7 +60,7 @@
             //Initialize DataTable
 
             wmr_tbl = $("#wmr_table").DataTable({
-                "ajax" : '{{route("dashboard.wmr.index")}}',
+                "ajax" : '{{route("dashboard.wmr.myIndex")}}',
                 "columns": [
                     { "data": "wm_number" },
                     { "data": "storage" },
