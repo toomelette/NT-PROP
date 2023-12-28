@@ -25,6 +25,18 @@
 
     </div>
     <div class="row">
+        {!! \App\Swep\ViewHelpers\__form2::select('document_type',[
+                                    'label' => 'Document Type:',
+                                    'cols' => 3,
+                                    'options' => \App\Swep\Helpers\Arrays::documentType(),
+                                    'id' => 'inventory-account-code',
+                                ],$pr ?? null) !!}
+        {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
+                    'label' => 'Account Code:',
+                    'cols' => 3,
+                    'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                    'id' => 'inventory-account-code',
+                ],$pr ?? null) !!}
         {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
               'cols' => 2,
               'label' => 'PR Date:',

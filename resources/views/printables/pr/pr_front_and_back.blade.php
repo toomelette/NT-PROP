@@ -17,7 +17,9 @@
     </style>
     <br>
     <br>
-    <br>
+    <div style="text-align: right;">
+        <span style="font-family: Cambria, Arial; font-size: 13px; text-transform: uppercase;" class="text-danger">{{$pr->document_type}}</span>
+    </div>
     <table style="width: 100%; border:1px solid black; font-family: 'Cambria',Arial">
         <tr>
             <td style="width: 30%">
