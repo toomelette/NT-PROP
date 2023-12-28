@@ -22,6 +22,13 @@
                     'cols' => 3,
                     'options' => \App\Swep\Helpers\Arrays::fundSources(),
                     ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('as_of',[
+                            'id' => 'as_of',
+                           'label' => 'As of:',
+                           'cols' => 2,
+                           'type' => 'date',
+                        ]) !!}
                     <div class="clearfix"></div>
                     <div class="box-footer pull-left">
                         <a class="btn btn-primary btn-md" href="" target="_blank">
@@ -45,18 +52,18 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
-            let href = "{{ route('dashboard.rpcppe.printRpcppe', 'fund_cluster') }}";
+            $('#as_of').val(new Date().toISOString().slice(0, 10));
+            let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";
             href = href.replace('fund_cluster', 'all');
+            href = href.replace('as_of', $('#as_of').val());
             $('a.btn').attr('href', href);
 
-            $('#fund_cluster').change(function() {
-                var selectedValue = $(this).val();
-                var href = "{{ route('dashboard.rpcppe.printRpcppe', 'fund_cluster') }}";
-                href = href.replace('fund_cluster', selectedValue);
+            $('#fund_cluster, #as_of').change(function() {
+                let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";
+                href = href.replace('fund_cluster', $('#fund_cluster').val() || "all");
+                href = href.replace('as_of', $('#as_of').val());
                 $('a.btn').attr('href', href);
             });
-           /* var href = "{{ route('dashboard.rpcppe.printRpcppe', 'all') }}";
-            $('a.btn').attr('href', href);*/
         });
 
     </script>

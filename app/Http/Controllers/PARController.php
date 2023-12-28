@@ -304,14 +304,16 @@ class PARController extends Controller
         return view('ppu.rpcppe.generateInventoryCountForm');
     }
 
-    public function printRpcppe($fund_cluster){
+    public function printRpcppe($fund_cluster, $as_of){
+        $asOfDate = $as_of;
         if($fund_cluster == 'all')
         {
             $rpciObj = InventoryPPE::query()->where(function ($query) {
                 $query->where('condition', '!=', 'DERECOGNIZED')
                     ->orWhereNull('condition')
-                    ->orWhere('condition', ''); // Assuming you want to include empty strings as well
+                    ->orWhere('condition', '');
             })
+                ->whereDate('dateacquired', '<=', $asOfDate)
                 ->orderBy('invtacctcode')
                 ->get();
             $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
@@ -322,6 +324,7 @@ class PARController extends Controller
                 'accountCodes' => $accountCodes,
                 'accountCodeRecords' => $accountCodeRecords,
                 'fundClusters' => $fund_clusters,
+                'asOf' => $asOfDate
             ]);
         }
         else {
@@ -333,7 +336,9 @@ class PARController extends Controller
                             ->orWhereNull('condition')
                             ->orWhere('condition', ''); // Assuming you want to include empty strings as well
                     });
-            })->orderBy('invtacctcode')->get();
+                })
+                ->whereDate('dateacquired', '<=', $asOfDate)
+                ->orderBy('invtacctcode')->get();
 
             $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
             $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
@@ -342,6 +347,7 @@ class PARController extends Controller
                 'accountCodes' => $accountCodes,
                 'accountCodeRecords' => $accountCodeRecords,
                 'fundCluster' => $fund_cluster,
+                'asOf' => $asOfDate
             ]);
         }
     }
