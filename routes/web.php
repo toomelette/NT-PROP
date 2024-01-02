@@ -76,8 +76,13 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
     Route::get('/wmr/myIndex','WMRController@myIndex')->name('wmr.myIndex');
     Route::get('/wmr/{slug}/edit','WMRController@edit')->name('wmr.edit');
     Route::patch('/wmr/update/{slug}','WMRController@update')->name('wmr.update');
+    Route::patch('/wmr/receiveWmr/{slug}','WMRController@receiveWmr')->name('wmr.receiveWmr');
+
+    Route::get('/wmr/myIndex','MyWmrController@myIndex')->name('wmr.myIndex');
 
     Route::resource('ppmp_subaccounts', 'PPMPSubaccountsController');
+
+    Route::resource('wmr_my', 'MyWmrController');
 
     Route::get('/my_jr/{slug}/print','MyJrController@print')->name('my_jr.print');
 

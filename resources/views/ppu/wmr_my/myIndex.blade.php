@@ -13,7 +13,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Manage My Waste Materials Report</h3>
                 <div class="btn-group pull-right">
-                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.wmr.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.wmr_my.create')}}" > <i class="fa fa-plus"></i> Create</a>
                 </div>
             </div>
             <div class="box-body">
