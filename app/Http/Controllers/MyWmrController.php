@@ -21,42 +21,33 @@ use function Symfony\Component\Mime\Header\all;
 use Auth;
 
 
-class WMRController extends Controller
+class MyWmrController extends Controller
 {
-
-//    protected $wmrService;
-//    protected $transactionService;
-//    public function __construct(WMRService $wmrService, TransactionService $transactionService)
-//    {
-//        $this->wmrService = $wmrService;
-//        $this->transactionService = $transactionService;
-//    }
 
     public function create()
     {
-        return view('ppu.wmr.create');
+        return view('ppu.wmr_my.create');
     }
 
-    public function index(Request $request)
+    public function myIndex(Request $request)
     {
         if ($request->ajax() && $request->has('draw')) {
-            return $this->dataTable($request);
+            return $this->myDataTable($request);
         }
-        return view('ppu.wmr.index');
+        return view('ppu.wmr_my.myIndex');
     }
 
-
-    public function dataTable($request)
+    public function myDataTable($request)
     {
-        $wmr = WasteMaterial::all();
+        $wmr = WasteMaterial::query()->where('user_created', Auth::user()->user_id);
         return DataTables::of($wmr)
             ->addColumn('action', function ($data) {
-                return view('ppu.wmr.dtActions')->with([
-                    'data' => $data
+                return view('ppu.wmr_my.dtActions')->with([
+                    'data' => $data, 'myIndex' => true,
                 ]);
             })
             ->addColumn('item', function ($data) {
-                return view('ppu.wmr.dtItems')->with([
+                return view('ppu.wmr_my.dtItems')->with([
                     'data' => $data
                 ]);
             })
@@ -65,31 +56,6 @@ class WMRController extends Controller
             ->setRowId('id')
             ->toJson();
     }
-
-    public function receiveWmr($slug){
-        $wmr = $this->findBySlug($slug);
-        if($wmr->is_locked){
-            abort(503,'WMR is Locked');
-        }
-        $wmr->is_locked = true;
-
-        if($wmr->update()){
-            return 1;
-        };
-        abort(503,'Error saving transaction.');
-    }
-
-//    public function receiveWmr($request){
-//        $trans = $this->transactionService->findBySlug($request->trans);
-//        $trans->received_at = Carbon::now();
-//        $trans->user_received = \Auth::user()->user_id;
-//        $trans->is_locked = 1;
-//        if($trans->save()){
-//            return $trans->only('slug');
-//        }
-//        abort(503,'Error in receiving');
-//    }
-
 
     public function getNextWMRno()
     {
@@ -179,10 +145,7 @@ class WMRController extends Controller
     public function edit($slug){
 //        $ris = Transactions::query()->where('slug','=', $slug)->first();
         $wmr =$this->findBySlug($slug);
-        if ($wmr->is_locked==1){
-            abort(503, 'WMR is Locked');
-        }
-        return view('ppu.wmr.edit')->with([
+        return view('ppu.wmr_my.edit')->with([
             'wmr' => $wmr
         ]);
     }

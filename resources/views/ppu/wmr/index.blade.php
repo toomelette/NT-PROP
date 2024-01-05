@@ -27,7 +27,6 @@
                                     <th style="width: 23%">Taken From</th>
                                     <th style="width: 10%">Taken Through</th>
                                     <th style="width: 10%">Certified by</th>
-                                    <th style="width: 10%">Approved by</th>
                                     <th style="width: 20px">Action</th>
                                 </tr>
                                 </thead>
@@ -66,7 +65,6 @@
                     { "data": "taken_from" },
                     { "data": "taken_through" },
                     { "data": "certified_by" },
-                    { "data": "approved_by" },
                     { "data": "action" }
                 ],
                 "buttons": [
@@ -110,6 +108,54 @@
                     }
                 }
             });
+        })
+
+        $("body").on('click','.receive_btn',function () {
+            let btn = $(this);
+            let url = '{{route('dashboard.wmr.receiveWmr','slug')}}';
+            url = url.replace('slug',btn.attr('data'));
+
+            Swal.fire({
+                title: 'Receive WMR?',
+                // input: 'text',
+                html: btn.attr('text'),
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa fa-check"></i> Receive',
+                showLoaderOnConfirm: true,
+                preConfirm: (email) => {
+                    return $.ajax({
+                        url : url,
+                        type: 'PATCH',
+                        data: {'trans':btn.attr('data')},
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success : function (res) {
+                            activePr = res.slug;
+                            wmr_tbl.draw(false);
+                        }
+                    })
+                        .then(response => {
+                            return  response;
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                                'Error : '+ error.responseJSON.message,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    toast('success','WMR was successfully marked as received.','Success!');
+
+                }
+            })
         })
     </script>
 @endsection
