@@ -26,9 +26,32 @@
                     {!! \App\Swep\ViewHelpers\__form2::textbox('as_of',[
                             'id' => 'as_of',
                            'label' => 'As of:',
-                           'cols' => 2,
+                           'cols' => 3,
                            'type' => 'date',
                         ]) !!}
+
+                    <div id="dateRangeDiv" class="hidden">
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('date_start',[
+                            'id' => 'date_start',
+                           'label' => 'Date Start:',
+                           'cols' => 3,
+                           'type' => 'date',
+                        ]) !!}
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('date_end',[
+                            'id' => 'date_end',
+                           'label' => 'Date End:',
+                           'cols' => 3,
+                           'type' => 'date',
+                        ]) !!}
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group col-md-4 period_covered">
+                        <input id="period_covered" name="period_covered" type="checkbox" autocomplete="">
+                        <label for="period_covered">Generate for a specific period</label>
+                    </div>
                     <div class="clearfix"></div>
                     <div class="box-footer pull-left">
                         <a class="btn btn-primary btn-md" href="" target="_blank">
@@ -50,6 +73,20 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            // Add change event listener to the checkbox
+            $('#period_covered').change(function() {
+                // Check if checkbox is checked
+                if ($(this).is(':checked')) {
+                    // Remove the 'hidden' class to show the dateRangeDiv
+                    $('#dateRangeDiv').removeClass('hidden');
+                    $('.as_of').addClass('hidden');
+                } else {
+                    // Add the 'hidden' class to hide the dateRangeDiv
+                    $('#dateRangeDiv').addClass('hidden');
+                    $('.as_of').removeClass('hidden');
+                }
+            });
+
             $('#as_of').val(new Date().toISOString().slice(0, 10));
             let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";
             href = href.replace('fund_cluster', 'all');
