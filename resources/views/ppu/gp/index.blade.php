@@ -113,5 +113,53 @@
                 }
             });
         })
+
+        $("body").on('click','.receive_btn',function () {
+            let btn = $(this);
+            let url = '{{route('dashboard.gp.receiveGp','slug')}}';
+            url = url.replace('slug',btn.attr('data'));
+
+            Swal.fire({
+                title: 'Receive Gate Pass?',
+                // input: 'text',
+                html: btn.attr('text'),
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa fa-check"></i> Receive',
+                showLoaderOnConfirm: true,
+                preConfirm: (email) => {
+                    return $.ajax({
+                        url : url,
+                        type: 'PATCH',
+                        data: {'trans':btn.attr('data')},
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success : function (res) {
+                            activePr = res.slug;
+                            gp_tbl.draw(false);
+                        }
+                    })
+                        .then(response => {
+                            return  response;
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                                'Error : '+ error.responseJSON.message,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    toast('success','Gate Pass was successfully marked as received.','Success!');
+
+                }
+            })
+        })
     </script>
 @endsection

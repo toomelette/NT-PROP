@@ -259,6 +259,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/gp/index','GPController@index')->name('gp.index');
     Route::get('/gp/{slug}/edit','GPController@edit')->name('gp.edit');
     Route::patch('/gp/update/{slug}','GPController@update')->name('gp.update');
+    Route::patch('/gp/receiveGp/{slug}','GPController@receiveGp')->name('gp.receiveGp');
 
     Route::get('/ics/create','ICSController@create')->name('ics.create');
     Route::get('/ics/findIAR/{refNumber}','ICSController@findIAR')->name('ics.findIAR');
