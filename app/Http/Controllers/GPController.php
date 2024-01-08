@@ -69,6 +69,19 @@ class GPController extends Controller
 
     }
 
+    public function receiveGp($slug){
+        $gp = $this->findBySlug($slug);
+        if($gp->is_locked){
+            abort(503,'Gate Pass is Locked');
+        }
+        $gp->is_locked = true;
+
+        if($gp->update()){
+            return 1;
+        };
+        abort(503,'Error saving transaction.');
+    }
+
     public function getNextGPno()
     {
         $year = Carbon::now()->format('Y-');
