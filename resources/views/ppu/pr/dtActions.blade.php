@@ -15,10 +15,13 @@
         </button>
     @endif
 
-    @if($pr->received_at == null)
-    <button type="button" class="btn btn-default btn-sm receive_btn" data="{{$pr->slug}}" title="" data-placement="left" data-original-title="Receive">
-    <i class="fa  fa-download"></i>
-    </button>
+    @if($pr->is_locked == null || $pr->is_locked != 1)
+        <button type="button" class="btn btn-default btn-sm receive_btn" data="{{$pr->slug}}" title="" data-placement="left" data-original-title="Receive">
+            <i class="fa fa-download"></i>
+        </button>
+        <button type="button" class="btn btn-default btn-sm edit_pr_btn" data="{{$pr->slug}}" data-toggle="modal" data-target="#edit_pr_modal" title="" data-placement="left" data-original-title="Edit">
+            <i class="fa fa-edit"></i>
+        </button>
     @endif
     <div class="btn-group btn-group-sm" role="group">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,6 +37,11 @@
                         View Monitoring
                     </a>
                 </li>
+                @if($pr->is_locked != null || $pr->is_locked != 0)
+                    <li>
+                        <a style="color: #dd4b39" href="#" class="unlock_transaction_btn text-blue" data="{{$pr->slug}}" data-original-title="" title=""><i class="fa fa-unlock"></i> Unlock</a>
+                    </li>
+                @endif
             @endif
         </ul>
     </div>

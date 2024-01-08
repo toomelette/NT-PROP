@@ -157,6 +157,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('ppmp', 'PPMPController');
     /** PR **/
     Route::post('/pr/{slug}/cancel','PRController@cancel')->name('pr.cancel');
+    Route::post('/pr/unlock/{slug}','PRController@unlock')->name('pr.unlock');
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
     //Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
     Route::resource('pr', 'PRController');

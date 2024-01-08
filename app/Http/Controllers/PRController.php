@@ -388,6 +388,7 @@ class PRController extends Controller
         }
         abort(503,'Error in cancellation of transaction. PRController::cancel()');
     }
+
     public function show($slug){
         $pr = $this->findBySlug($slug);
         $timeline = $this->prTimeline($slug,$pr);
@@ -395,6 +396,15 @@ class PRController extends Controller
             'pr' => $pr,
             'timeline' => $timeline,
         ]);
+    }
+
+    public function unlock($slug){
+        $pr = $this->transactionService->findBySlug($slug);
+        $pr->is_locked = null;
+        $pr->update();
+        return 1;
+
+        abort(503,'Error updating transaction.');
     }
 
 }

@@ -528,6 +528,49 @@
             })
         })
 
+        $("body").on('click','.unlock_transaction_btn',function () {
+            let btn = $(this);
+            let uri  = '{{route('dashboard.pr.unlock','slug')}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            Swal.fire({
+                title: 'Unlock Transaction?',
+                confirmButtonColor: '#0eb6ed',
+                showCancelButton: true,
+                cancelButtonText : 'No',
+                confirmButtonText: '<i class="fa fa-check"></i> Yes, Submit',
+                showLoaderOnConfirm: true,
+                preConfirm: (text) => {
+                    return $.ajax({
+                        url : uri,
+                        type: 'POST',
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success : function (res) {
+                            activePr = res.slug;
+                            pr_tbl.draw();
+                        }
+                    })
+                        .then(response => {
+                            return  response;
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                                'Error : '+ error.responseJSON.message,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    toast('success','PR was successfully unlocked.','Success!');
+
+                }
+            })
+        })
+
         $(".select2_requested_by").select2();
         $("#resp_center_select2").select2();
 
@@ -545,6 +588,26 @@
                 },
                 success: function (res) {
                     populate_modal2(t,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
+                }
+            })
+        })
+
+        $("body").on("click",".edit_pr_btn",function () {
+            let btn = $(this);
+            let uri = '{{route("dashboard.my_pr.edit","slug")}}';
+            load_modal2(btn);
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
                 },
                 error: function (res) {
                     populate_modal2_error(res);
