@@ -369,25 +369,25 @@
             })
         })
 
-        $("body").on("click",".edit_pr_btn",function () {
-            let btn = $(this);
-            let uri = '{{route("dashboard.pr.edit","slug")}}';
-            load_modal2(btn);
-            uri = uri.replace('slug',btn.attr('data'));
-            $.ajax({
-                url : uri,
-                type: 'GET',
-                headers: {
-                    {!! __html::token_header() !!}
-                },
-                success: function (res) {
-                    populate_modal2(btn,res);
-                },
-                error: function (res) {
-                    populate_modal2_error(res);
-                }
-            })
-        })
+        {{--$("body").on("click",".edit_pr_btn",function () {--}}
+        {{--    let btn = $(this);--}}
+        {{--    let uri = '{{route("dashboard.pr.edit","slug")}}';--}}
+        {{--    load_modal2(btn);--}}
+        {{--    uri = uri.replace('slug',btn.attr('data'));--}}
+        {{--    $.ajax({--}}
+        {{--        url : uri,--}}
+        {{--        type: 'GET',--}}
+        {{--        headers: {--}}
+        {{--            {!! __html::token_header() !!}--}}
+        {{--        },--}}
+        {{--        success: function (res) {--}}
+        {{--            populate_modal2(btn,res);--}}
+        {{--        },--}}
+        {{--        error: function (res) {--}}
+        {{--            populate_modal2_error(res);--}}
+        {{--        }--}}
+        {{--    })--}}
+        {{--})--}}
 
         $("body").on("change",".unitXcost",function () {
             let parentTableId = $(this).parents('table').attr('id');
@@ -597,7 +597,7 @@
 
         $("body").on("click",".edit_pr_btn",function () {
             let btn = $(this);
-            let uri = '{{route("dashboard.my_pr.edit","slug")}}';
+            let uri = '{{route("dashboard.pr.edit_thru_admin","slug")}}';
             load_modal2(btn);
             uri = uri.replace('slug',btn.attr('data'));
             $.ajax({
@@ -610,6 +610,8 @@
                     populate_modal2(btn,res);
                 },
                 error: function (res) {
+                    alert('No Access');
+                    $('#edit_pr_modal').modal('hide');
                     populate_modal2_error(res);
                 }
             })

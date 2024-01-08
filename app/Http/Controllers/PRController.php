@@ -398,6 +398,16 @@ class PRController extends Controller
         ]);
     }
 
+    public function edit_thru_admin($slug){
+        $pr =$this->findBySlug($slug);
+        if($pr->is_locked == 1){
+            abort(510,'This transaction is already locked from editing.');
+        }
+        return view('ppu.pr_my.edit')->with([
+            'pr' => $pr,
+        ]);
+    }
+
     public function unlock($slug){
         $pr = $this->transactionService->findBySlug($slug);
         $pr->is_locked = null;
