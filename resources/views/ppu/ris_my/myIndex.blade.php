@@ -14,7 +14,7 @@
                 <h3 class="box-title">Manage Requisition and Issue Slip</h3>
                 <div class="btn-group pull-right">
                     {{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
-                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.ris.create')}}" > <i class="fa fa-plus"></i> Create</a>
+                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.ris_my.create')}}" > <i class="fa fa-plus"></i> Create</a>
                 </div>
             </div>
             <div class="box-body">
@@ -59,7 +59,7 @@
             //Initialize DataTable
 
             ris_tbl = $("#ris_table").DataTable({
-                "ajax" : '{{route("dashboard.ris.index")}}',
+                "ajax" : '{{route("dashboard.ris.myIndex")}}',
                 "columns": [
                     { "data": "ref_no" },
                     { "data": "resp_center" },
@@ -110,54 +110,6 @@
                     }
                 }
             });
-        })
-
-        $("body").on('click','.receive_btn',function () {
-            let btn = $(this);
-            let url = '{{route('dashboard.ris.receiveRIS','slug')}}';
-            url = url.replace('slug',btn.attr('data'));
-
-            Swal.fire({
-                title: 'Receive RIS?',
-                // input: 'text',
-                html: btn.attr('text'),
-                inputAttributes: {
-                    autocapitalize: 'off'
-                },
-                showCancelButton: true,
-                confirmButtonText: '<i class="fa fa-check"></i> Receive',
-                showLoaderOnConfirm: true,
-                preConfirm: (email) => {
-                    return $.ajax({
-                        url : url,
-                        type: 'PATCH',
-                        data: {'trans':btn.attr('data')},
-                        headers: {
-                            {!! __html::token_header() !!}
-                        },
-                        success : function (res) {
-                            activePr = res.slug;
-                            ris_tbl.draw(false);
-                        }
-                    })
-                        .then(response => {
-                            return  response;
-
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            Swal.showValidationMessage(
-                                'Error : '+ error.responseJSON.message,
-                            )
-                        })
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    toast('success','RIS was successfully marked as received.','Success!');
-
-                }
-            })
         })
     </script>
 @endsection
