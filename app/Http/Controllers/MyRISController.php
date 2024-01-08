@@ -17,47 +17,50 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
 
+use Auth;
 
-class RISController extends Controller
+class MyRISController extends Controller
 {
 
     public function create()
     {
-        return view('ppu.ris.create');
+        return view('ppu.ris_my.create');
     }
 
-    public function index(Request $request)
+    public function myIndex(Request $request)
     {
         if ($request->ajax() && $request->has('draw')) {
-            return $this->dataTable($request);
+            return $this->myDataTable($request);
         }
-        return view('ppu.ris.index');
+        return view('ppu.ris_my.myIndex');
     }
 
-
-    public function dataTable($request)
+    public function myDataTable($request)
     {
 
+
         $resp_center = PPURespCodes::all();
-        $ris = Transactions::query()->where('ref_book', '=', 'RIS');
+        $ris = Transactions::query()
+            ->where('user_created', Auth::user()->user_id)
+            ->where('ref_book', '=', 'RIS');
         return DataTables::of($ris)
             ->addColumn('action', function ($data) {
-                return view('ppu.ris.dtActions')->with([
+                return view('ppu.ris_my.dtActions')->with([
                     'data' => $data
                 ]);
             })
             ->addColumn('item', function ($data) {
-                return view('ppu.ris.dtItems')->with([
+                return view('ppu.ris_my.dtItems')->with([
                     'data' => $data
                 ]);
             })
             ->addColumn('qty', function ($data) {
-                return view('ppu.ris.dtQty')->with([
+                return view('ppu.ris_my.dtQty')->with([
                     'data' => $data
                 ]);
             })
             ->addColumn('actual_qty', function ($data) {
-                return view('ppu.ris.dtActualQty')->with([
+                return view('ppu.ris_my.dtActualQty')->with([
                     'data' => $data
                 ]);
             })
@@ -76,19 +79,6 @@ class RISController extends Controller
             ->toJson();
     }
 
-
-    public function receiveRIS($slug){
-        $ris = $this->findBySlug($slug);
-        if($ris->is_locked){
-            abort(503,'WMR is Locked');
-        }
-        $ris->is_locked = true;
-
-        if($ris->update()){
-            return 1;
-        };
-        abort(503,'Error saving transaction.');
-    }
 
     public function findTransByRefNumber($refNumber)
     {

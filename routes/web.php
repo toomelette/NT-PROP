@@ -80,6 +80,21 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
 
     Route::get('/wmr/myIndex','MyWmrController@myIndex')->name('wmr.myIndex');
 
+    Route::get('/ris/create','RISController@create')->name('ris.create');
+    Route::get('/ris/findTransByRefNumber/{refNumber}','RISController@findTransByRefNumber')->name('ris.findTransByRefNumber');
+    Route::post('/ris/store','RISController@store')->name('ris.store');
+    Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
+    Route::get('/ris/myIndex','RISController@myIndex')->name('ris.myIndex');
+    Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
+    Route::patch('/ris/update/{slug}','RISController@update')->name('ris.update');
+    Route::get('/ris/findIAR/{refNumber}','RISController@findIAR')->name('ris.findIAR');
+    Route::patch('/ris/receiveRIS/{refNumber}','RISController@receiveRIS')->name('ris.receiveRIS');
+
+    Route::get('/ris/myIndex','MyRISController@myIndex')->name('ris.myIndex');
+
+
+    Route::resource('ris_my', 'MyRISController');
+
     Route::resource('ppmp_subaccounts', 'PPMPSubaccountsController');
 
     Route::resource('wmr_my', 'MyWmrController');
@@ -232,14 +247,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/iar/{slug}/edit','IARController@edit')->name('iar.edit');
     Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
 
-    Route::get('/ris/create','RISController@create')->name('ris.create');
-    Route::get('/ris/findTransByRefNumber/{refNumber}','RISController@findTransByRefNumber')->name('ris.findTransByRefNumber');
-    Route::post('/ris/store','RISController@store')->name('ris.store');
-    Route::get('/ris/{slug}/print','RISController@print')->name('ris.print');
+
+
     Route::get('/ris/index','RISController@index')->name('ris.index');
-    Route::get('/ris/{slug}/edit','RISController@edit')->name('ris.edit');
-    Route::patch('/ris/update/{slug}','RISController@update')->name('ris.update');
-    Route::get('/ris/findIAR/{refNumber}','RISController@findIAR')->name('ris.findIAR');
 
     Route::get('/wmr/index','WMRController@index')->name('wmr.index');
 
