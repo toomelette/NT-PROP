@@ -526,7 +526,31 @@
 
                 }
             })
-        })
+        });
+
+        $(".select2_requested_by").select2();
+        $("#resp_center_select2").select2();
+
+        $("body").on("click",".show_pr_btn",function(){
+            let t = $(this);
+            let slug = t.attr('data');
+            let url = '{{route("dashboard.pr.show","slug")}}';
+            url = url.replace('slug',slug);
+            load_modal2(t);
+            $.ajax({
+                url : url,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(t,res);
+                },
+                error: function (res) {
+                    populate_modal2_error(res);
+                }
+            })
+        });
 
         $("body").on('click','.unlock_transaction_btn',function () {
             let btn = $(this);
@@ -569,31 +593,7 @@
 
                 }
             })
-        })
-
-        $(".select2_requested_by").select2();
-        $("#resp_center_select2").select2();
-
-        $("body").on("click",".show_pr_btn",function(){
-            let t = $(this);
-            let slug = t.attr('data');
-            let url = '{{route("dashboard.pr.show","slug")}}';
-            url = url.replace('slug',slug);
-            load_modal2(t);
-            $.ajax({
-                url : url,
-                type: 'GET',
-                headers: {
-                    {!! __html::token_header() !!}
-                },
-                success: function (res) {
-                    populate_modal2(t,res);
-                },
-                error: function (res) {
-                    populate_modal2_error(res);
-                }
-            })
-        })
+        });
 
         $("body").on("click",".edit_pr_btn",function () {
             let btn = $(this);

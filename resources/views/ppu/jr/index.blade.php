@@ -351,7 +351,7 @@
             })
         })
 
-        $("body").on("click",".edit_jr_btn",function () {
+        /*$("body").on("click",".edit_jr_btn",function () {
             let btn = $(this);
             load_modal2(btn);
             let uri = '{{route("dashboard.jr.edit","slug")}}';
@@ -369,7 +369,7 @@
                     populate_modal2_error(res);
                 }
             })
-        })
+        })*/
 
         $("body").on('click','.receive_btn',function () {
             let btn = $(this);
@@ -473,13 +473,77 @@
                 allowOutsideClick: () => !Swal.isLoading()
             }).then((result) => {
                 if (result.isConfirmed) {
-                    toast('success','PR was successfully marked as received.','Success!');
-
+                    toast('success','JR was successfully marked as cancelled.','Success!');
                 }
             })
         })
 
         $(".select2_requested_by").select2();
         $("#resp_center_select2").select2();
+
+        $("body").on('click','.unlock_transaction_btn',function () {
+            let btn = $(this);
+            let uri  = '{{route('dashboard.jr.unlock','slug')}}';
+            uri = uri.replace('slug',btn.attr('data'));
+            Swal.fire({
+                title: 'Unlock Transaction?',
+                confirmButtonColor: '#0eb6ed',
+                showCancelButton: true,
+                cancelButtonText : 'No',
+                confirmButtonText: '<i class="fa fa-check"></i> Yes, Submit',
+                showLoaderOnConfirm: true,
+                preConfirm: (text) => {
+                    return $.ajax({
+                        url : uri,
+                        type: 'POST',
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success : function (res) {
+                            active = res.slug;
+                            jr_tbl.draw();
+                        }
+                    })
+                        .then(response => {
+                            return  response;
+
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            Swal.showValidationMessage(
+                                'Error : '+ error.responseJSON.message,
+                            )
+                        })
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    toast('success','JR was successfully unlocked.','Success!');
+
+                }
+            })
+        });
+
+        $("body").on("click",".edit_jr_btn",function () {
+            let btn = $(this);
+            let uri = '{{route("dashboard.jr.edit_thru_admin","slug")}}';
+            load_modal2(btn);
+            uri = uri.replace('slug',btn.attr('data'));
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    populate_modal2(btn,res);
+                },
+                error: function (res) {
+                    alert('No Access');
+                    $('#edit_jr_modal').modal('hide');
+                    populate_modal2_error(res);
+                }
+            })
+        })
     </script>
 @endsection

@@ -335,4 +335,28 @@ class JRController extends Controller
             'request' => $request,
         ]);
     }
+
+    public function edit_thru_admin($slug){
+        $jr =$this->findBySlug($slug);
+        if($jr->is_locked == 1){
+            abort(510,'This transaction is already locked from editing.');
+        }
+        return view('ppu.jr_my.edit')->with([
+            'jr' => $jr,
+        ]);
+    }
+
+    public function unlock($slug){
+        $pr = $this->transactionService->findBySlug($slug);
+        $pr->is_locked = null;
+        $pr->update();
+        return 1;
+
+        abort(503,'Error updating transaction.');
+    }
+
+    public function findBySlug($slug){
+        $jr = Transactions::query()->with(['transDetails','rc','transDetails.article'])->where('slug','=',$slug)->first();
+        return $jr ?? abort(503,'JR not found');
+    }
 }

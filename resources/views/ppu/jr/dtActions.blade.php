@@ -13,10 +13,12 @@
             <i class="fa fa-trash"></i>
         </button>
     @endif
-
-    @if($jr->received_at == null)
+    @if($jr->is_locked == null || $jr->is_locked != 1)
         <button type="button" class="btn btn-default btn-sm receive_btn" data="{{$jr->slug}}" title="" data-placement="left" data-original-title="Receive">
-            <i class="fa  fa-download"></i>
+            <i class="fa fa-download"></i>
+        </button>
+        <button type="button" class="btn btn-default btn-sm edit_jr_btn" data="{{$jr->slug}}" data-toggle="modal" data-target="#edit_jr_modal" title="" data-placement="left" data-original-title="Edit">
+            <i class="fa fa-edit"></i>
         </button>
     @endif
 
@@ -34,6 +36,11 @@
                         View Monitoring
                     </a>
                 </li>
+                @if($jr->is_locked != null || $jr->is_locked != 0)
+                    <li>
+                        <a style="color: #dd4b39" href="#" class="unlock_transaction_btn text-blue" data="{{$jr->slug}}" data-original-title="" title=""><i class="fa fa-unlock"></i> Unlock</a>
+                    </li>
+                @endif
             @endif
         </ul>
     </div>
