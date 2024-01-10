@@ -38,7 +38,7 @@
                                     'label' => 'Document Type:',
                                     'cols' => 3,
                                     'options' => \App\Swep\Helpers\Arrays::documentType(),
-                                    'id' => 'inventory-account-code',
+                                    'id' => 'document-type',
                                 ]) !!}
                         {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
                                     'label' => 'Account Code:',
