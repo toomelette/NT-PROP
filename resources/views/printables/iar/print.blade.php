@@ -160,7 +160,7 @@
                                 <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->unit}}</td>
                                 <td class="" style="vertical-align: top; width: 41%; text-align: left;">
-                                    <b style="font-size: 11px; font-weight: bold  ">{{$item->item}}</b><br>
+                                    <b style="font-size: 11px; font-weight: bold  ">{{$item->item}}</b>
                                     <span style="white-space: pre-line; font-style: italic" >
                                     {{$item->description}}
                                     </span>
