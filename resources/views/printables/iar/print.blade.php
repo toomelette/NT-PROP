@@ -199,8 +199,8 @@
     <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
                     <div style="flex: 1; text-align: left; "><br>
                         <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b>
-                                <span class="" style="margin-left: 30px;">
-                            _______________________________
+                                <span class="text-strong" style="margin-left: 30px; text-decoration: underline">
+                              {{$iar->date_inspected}}
                             </span>
                         </h5><br>
 
