@@ -157,12 +157,16 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('ppmp', 'PPMPController');
     /** PR **/
     Route::post('/pr/{slug}/cancel','PRController@cancel')->name('pr.cancel');
+    Route::post('/pr/unlock/{slug}','PRController@unlock')->name('pr.unlock');
     Route::get('/pr/{slug}/print','PRController@print')->name('pr.print');
+    Route::get('/pr/{slug}/edit_thru_admin','PRController@edit_thru_admin')->name('pr.edit_thru_admin');
     //Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
     Route::resource('pr', 'PRController');
 
     Route::post('/jr/{slug}/cancel','JRController@cancel')->name('jr.cancel');
+    Route::post('/jr/unlock/{slug}','JRController@unlock')->name('jr.unlock');
     Route::get('/jr/{slug}/print','JRController@print')->name('jr.print');
+    Route::get('/jr/{slug}/edit_thru_admin','JRController@edit_thru_admin')->name('jr.edit_thru_admin');
     //Route::get('/jr/monitoring/index','JRController@monitoringIndex')->name('jr.monitoringIndex');
     Route::resource('jr', 'JRController');
 
