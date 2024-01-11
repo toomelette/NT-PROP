@@ -28,6 +28,7 @@
                             'cols' => 12,
                             'type' => 'date',
                         ]) !!}
+
                         {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_name',[
                             'label' => 'Signatory Name:',
                             'cols' => 12,
