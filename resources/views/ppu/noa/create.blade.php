@@ -61,7 +61,7 @@
                             <div class="clearfix"></div>
                             {!! \App\Swep\ViewHelpers\__form2::textarea('contents',[
                                 'label' => 'Content:',
-                                'rows' => 10, // Specify the number of rows you want to display
+                                'rows' => 10,
                                 'cols' => 12,
                             ]) !!}
                             <div class="clearfix"></div>

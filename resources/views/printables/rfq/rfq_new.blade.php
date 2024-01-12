@@ -272,7 +272,7 @@
         </tr>
         <tr>
             <td class="text-top text-center">
-                ___________________________________<br>
+                {{$trans->certified_by}}<br>
                 Printed Name/ Signature
             </td>
             <td class="text-top text-center">

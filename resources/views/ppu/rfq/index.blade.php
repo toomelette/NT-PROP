@@ -37,23 +37,38 @@
 
                         <div class="row hidden" id="divRows">
                             <div class="col-md-12">
+                                {!! \App\Swep\ViewHelpers\__form2::select('mode', [
+                                            'label' => 'Mode of Procurement:',
+                                            'cols' => 3,
+                                            'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
+                                        ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_deadline',[
                                     'label' => 'Deadline:',
-                                    'cols' => 4,
+                                    'cols' => 3,
                                     'type' => 'date',
                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_name',[
                                     'label' => 'Signatory Name:',
-                                    'cols' => 4,
+                                    'cols' => 3,
                                 ],
                                 \App\Swep\Helpers\Helper::getSetting('rfq_name')->string_value ?? null
                                 ) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_position',[
                                     'label' => 'Signatory Position:',
-                                    'cols' => 4,
+                                    'cols' => 3,
                                 ],
                                 \App\Swep\Helpers\Helper::getSetting('rfq_position')->string_value ?? null
                                 ) !!}
+
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by',[
+                                                'label' => 'Canvass By:',
+                                                'cols' => 3,
+                                            ]) !!}
+
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by_designation',[
+                                                    'label' => 'Canvass By Designation:',
+                                                    'cols' => 3,
+                                                ]) !!}
 
                                 <div class="col-md-12">
                                     <div class="table-responsive" id="tableContainer" style="margin-top: 50px">
