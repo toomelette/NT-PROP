@@ -160,16 +160,12 @@
                                 <td style="vertical-align: top; width: 8%;">{{$item->qty}}</td>
                                 <td style="vertical-align: top; width: 8%;">{{$item->unit}}</td>
                                 <td class="" style="vertical-align: top; width: 41%; text-align: left;">
-                                    <b style="font-size: 11px; font-weight: normal  ">{{$item->item}}</b><br>
-                                    @if($item->description)
-                                        <ul style="">
-                                            @foreach(explode("\n", $item->description) as $line)
-                                                <li><i>{{ $line }}</i></li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
+                                    <b style="font-size: 11px; font-weight: bold  ">{{$item->item}}</b>
+                                    <span style="white-space: pre-line; font-style: italic" >
+                                    {{$item->description}}
+                                    </span>
                                 </td>
-                                <td style="vertical-align: top; width: 15%; text-align: justify; text-align: right">{{number_format($item->unit_cost,2)}}</td>
+                                <td style="vertical-align: top; width: 15%; text-align: justify; text-align: center">{{number_format($item->unit_cost,2)}}</td>
                                 <td style="vertical-align: top; width: 15%; text-align: justify; text-align: right" >{{number_format($item->total_cost,2)}}</td>
                             </tr>
                             @php
@@ -203,8 +199,8 @@
     <div style="font-family: Cambria,Arial; display: flex; border: 1px solid black">
                     <div style="flex: 1; text-align: left; "><br>
                         <h5 class="" style="margin-left: 5px; margin-bottom: 30px;"><b>Date Inspected:</b>
-                                <span class="" style="margin-left: 30px;">
-                            _______________________________
+                                <span class="text-strong" style="margin-left: 30px; text-decoration: underline">
+                              {{$iar->date_inspected}}
                             </span>
                         </h5><br>
 
