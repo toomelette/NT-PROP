@@ -96,8 +96,9 @@
 
                     <thead>
                     <tr class="text-strong" style="width: 100%; ">
-                        <td style="border: 1px solid black; width: 30%;">Qty</td>
-                        <td style="border: 1px solid black; width: 70%;">Item/Details</td>
+                        <td style="border: 1px solid black; width: 20%;">Qty</td>
+                        <td style="border: 1px solid black; width: 20%;">Unit</td>
+                        <td style="border: 1px solid black; width: 60%;">Item/Details</td>
                     </tr>
                     </thead>
 
@@ -106,7 +107,8 @@
                     @foreach($gp->GatePassDetails as $item)
                         <tr style="width: 100%">
                             <td style="vertical-align: top; width: 20%;">{{$item->qty}}</td>
-                            <td class="" style="vertical-align: top; width: 41%; text-align: left;">
+                            <td style="vertical-align: top; width: 20%;">{{$item->unit}}</td>
+                            <td class="" style="vertical-align: top; width: 60%; text-align: left;">
                                 <b style="font-size: 11px; font-weight: normal  ">{{$item->item}}</b><br>
                                 @if($item->description)
                                     <ul style="">

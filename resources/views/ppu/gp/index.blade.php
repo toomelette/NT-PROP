@@ -30,7 +30,6 @@
                                     <th>Item</th>
                                     <th>Description</th>
                                     <th>Qty</th>
-                                    <th>Guard on Duty</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -68,7 +67,6 @@
                     { "data": "item" },
                     { "data": "description" },
                     { "data": "qty" },
-                    { "data": "guard_on_duty" },
                     { "data": "action" }
                 ],
                 "buttons": [
