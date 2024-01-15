@@ -28,16 +28,27 @@ class HomeService extends BaseService{
 
     public function view(){
 //        $trans = Transactions::query();
-        $trans_pr = DB::table('transactions')->where('ref_book', '=', 'PR')->count();
-        $trans_jr = DB::table('transactions')->where('ref_book', '=', 'JR')->count();
-        $trans_aq = DB::table('transactions')->where('ref_book', '=', 'AQ')->count();
-        $trans_rfq = DB::table('transactions')->where('ref_book', '=', 'RFQ')->count();
-        $trans_po = DB::table('transactions')->where('ref_book', '=', 'PO')->count();
-        $trans_jo = DB::table('transactions')->where('ref_book', '=', 'JO')->count();
+        $reportYear = \App\Swep\Helpers\Helper::getSetting('dashboard_report_year')->int_value;
+        $trans_pr = DB::table('transactions')
+            ->where('ref_book', '=', 'PR')
+            ->whereYear('date', '=', $reportYear)
+            ->count();
+        $trans_jr = DB::table('transactions')->where('ref_book', '=', 'JR')->whereYear('date', '=', $reportYear)
+            ->count();
+        $trans_aq = DB::table('transactions')->where('ref_book', '=', 'AQ')->whereYear('date', '=', $reportYear)
+            ->count();
+        $trans_rfq = DB::table('transactions')->where('ref_book', '=', 'RFQ')->whereYear('created_at', '=', $reportYear)
+            ->count();
+        $trans_po = DB::table('transactions')->where('ref_book', '=', 'PO')->whereYear('created_at', '=', $reportYear)
+            ->count();
+        $trans_jo = DB::table('transactions')->where('ref_book', '=', 'JO')->whereYear('created_at', '=', $reportYear)
+            ->count();
         $trans_pr_cancelled = DB::table('transactions')->where('ref_book', '=', 'PR')
-            ->where('cancelled_at', '!=', null)->count();
+            ->where('cancelled_at', '!=', null)->whereYear('date', '=', $reportYear)
+            ->count();
         $trans_jr_cancelled = DB::table('transactions')->where('ref_book', '=', 'JR')
-            ->where('cancelled_at', '!=', null)->count();
+            ->where('cancelled_at', '!=', null)->whereYear('date', '=', $reportYear)
+            ->count();
         $count_active_emp = $this->employee_repo->getAll()->count();
         $count_male_emp = $this->employee_repo->getBySex('M')->count();
         $count_female_emp = $this->employee_repo->getBySex('F')->count();
@@ -64,16 +75,19 @@ class HomeService extends BaseService{
     }
 
     private function getPRJRTransByDept(){
+        $reportYear = \App\Swep\Helpers\Helper::getSetting('dashboard_report_year')->int_value;
         $OBCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '010')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $OBCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '010')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $OBCountPO = DB::table('transactions')
@@ -81,6 +95,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '010')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $OBCountJO = DB::table('transactions')
@@ -88,6 +103,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '010')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -95,12 +111,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '020')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $IADCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '020')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $IADCountPO = DB::table('transactions')
@@ -108,6 +126,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '020')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $IADCountJO = DB::table('transactions')
@@ -115,6 +134,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '020')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -122,12 +142,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '030')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $OACountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '030')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $OACountPO = DB::table('transactions')
@@ -135,6 +157,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '030')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $OACountJO = DB::table('transactions')
@@ -142,6 +165,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '030')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -149,12 +173,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '040')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $LEGALCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '040')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $LEGALCountPO = DB::table('transactions')
@@ -162,6 +188,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '040')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $LEGALCountJO = DB::table('transactions')
@@ -169,6 +196,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '040')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -176,12 +204,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '050')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $PPSPDCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '050')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $PPSPDCountPO = DB::table('transactions')
@@ -189,6 +219,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '050')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $PPSPDCountJO = DB::table('transactions')
@@ -196,6 +227,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '050')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -203,12 +235,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '060')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $AFDLMCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '060')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $AFDLMCountPO = DB::table('transactions')
@@ -216,6 +250,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '060')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $AFDLMCountJO = DB::table('transactions')
@@ -223,6 +258,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '060')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -230,12 +266,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '065')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $AFDVISCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '065')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $AFDVISCountPO = DB::table('transactions')
@@ -243,6 +281,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '065')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $AFDVISCountJO = DB::table('transactions')
@@ -250,6 +289,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '065')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -257,12 +297,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '070')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDELMCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '070')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDELMCountPO = DB::table('transactions')
@@ -270,6 +312,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '070')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $RDELMCountJO = DB::table('transactions')
@@ -277,6 +320,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '070')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -284,12 +328,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '075')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDEVISCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '075')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDEVISCountPO = DB::table('transactions')
@@ -297,6 +343,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '075')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $RDEVISCountJO = DB::table('transactions')
@@ -304,6 +351,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '075')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -311,12 +359,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '080')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDLMCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '080')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDLMCountPO = DB::table('transactions')
@@ -324,6 +374,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '080')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $RDLMCountJO = DB::table('transactions')
@@ -331,6 +382,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '080')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -338,12 +390,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '085')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDVISCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '085')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $RDVISCountPO = DB::table('transactions')
@@ -351,6 +405,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '085')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $RDVISCountJO = DB::table('transactions')
@@ -358,6 +413,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '085')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -365,12 +421,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '090')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $GADCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '090')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $GADCountPO = DB::table('transactions')
@@ -378,6 +436,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '090')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $GADCountJO = DB::table('transactions')
@@ -385,6 +444,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '090')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -392,12 +452,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '100')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDABFPCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '100')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDABFPCountPO = DB::table('transactions')
@@ -405,6 +467,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '100')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $SIDABFPCountJO = DB::table('transactions')
@@ -412,6 +475,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '100')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -419,12 +483,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '110')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDASCPCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '110')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDASCPCountPO = DB::table('transactions')
@@ -432,6 +498,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '110')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $SIDASCPCountJO = DB::table('transactions')
@@ -439,6 +506,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '110')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -446,12 +514,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '120')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDAHRDCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '120')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDAHRDCountPO = DB::table('transactions')
@@ -459,6 +529,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '120')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $SIDAHRDCountJO = DB::table('transactions')
@@ -466,6 +537,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '120')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -473,12 +545,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '130')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDAFMRCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '130')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDAFMRCountPO = DB::table('transactions')
@@ -486,6 +560,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '130')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $SIDAFMRCountJO = DB::table('transactions')
@@ -493,6 +568,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '130')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -500,12 +576,14 @@ class HomeService extends BaseService{
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '140')
             ->where('transactions.ref_book', '=', 'PR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDARDCountJR = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '140')
             ->where('transactions.ref_book', '=', 'JR')
+            ->whereYear('transactions.date', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('transactions.abc');
         $SIDARDCountPO = DB::table('transactions')
@@ -513,6 +591,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '140')
             ->where('order.ref_book', '=', 'PO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
         $SIDARDCountJO = DB::table('transactions')
@@ -520,6 +599,7 @@ class HomeService extends BaseService{
             ->join('order', 'transactions.order_slug', '=', 'order.slug')
             ->where('resp_codes.rc', '=', '140')
             ->where('order.ref_book', '=', 'JO')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->whereNull('transactions.cancelled_at')
             ->sum('order.total_gross');
 
@@ -547,73 +627,91 @@ class HomeService extends BaseService{
     }
 
     private function getTransByDept(){
+        $reportYear = \App\Swep\Helpers\Helper::getSetting('dashboard_report_year')->int_value;
         $OBCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '010')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $IADCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '020')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $OACount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '030')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $LEGALCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '040')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $PPSPDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '050')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $AFDLMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '060')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $AFDVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '065')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $RDELMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '070')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $RDEVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '075')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $RDLMCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '080')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $RDVISCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '085')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $GADCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '090')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $SIDABFPCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '100')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $SIDASCPCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '110')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $SIDAHRDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '120')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $SIDAFMRCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '130')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
         $SIDARDCount = DB::table('transactions')
             ->join('resp_codes', 'transactions.resp_center', '=', 'resp_codes.rc_code')
             ->where('resp_codes.rc', '=', '140')
+            ->whereYear('transactions.created_at', '=', $reportYear)
             ->count('transactions.id');
 
 
