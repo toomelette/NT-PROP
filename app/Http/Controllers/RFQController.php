@@ -206,13 +206,13 @@ class RFQController extends Controller
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
+        $trans->certified_by = $request->certified_by;
+        $trans->certified_by_designation = $request->certified_by_designation;
+        $trans->mode = $request->mode;
         if($prOrJr->ref_book == "PR")
             $trans->abc = $totalAbc;
         else
             $trans->abc = $prOrJr->abc;
-
-
-
 
         if($trans->save()){
             TransactionDetails::insert($arr);
@@ -230,7 +230,6 @@ class RFQController extends Controller
                 ])
                 ->render();
             PrepareRFQNotification::dispatch($to,$subject,$body,$cc);
-
 
             return $trans->only('slug');
         }
@@ -264,9 +263,12 @@ class RFQController extends Controller
 
     public function update(RFQFormRequest $request, $slugEdit){
         $trans = $this->transactionService->findBySlug($slugEdit);
+        $trans->mode = $request->mode;
         $trans->rfq_deadline = $request->rfq_deadline;
         $trans->rfq_s_name = $request->rfq_s_name;
         $trans->rfq_s_position = $request->rfq_s_position;
+        $trans->certified_by = $request->certified_by;
+        $trans->certified_by_designation = $request->certified_by_designation;
 
         $totalAbc = 0;
         $arr = [];

@@ -22,23 +22,44 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <div class="row" id="divRows">
                         <div class="col-md-12">
+                            {!! \App\Swep\ViewHelpers\__form2::select('mode', [
+                                        'label' => 'Mode of Procurement:',
+                                        'cols' => 3,
+                                        'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
+                                    ],
+                            $trans ?? null
+                            ) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_deadline',[
                                 'label' => 'Deadline:',
-                                'cols' => 4,
+                                'cols' => 3,
                                 'type' => 'date',
                             ],
                             $trans ?? null
                             ) !!}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_name',[
                             'label' => 'Signatory Name:',
-                            'cols' => 4,
+                            'cols' => 3,
                             ],
                             $trans ?? null
                             ) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_position',[
                                     'label' => 'Signatory Position:',
-                                    'cols' => 4,
+                                    'cols' => 3,
                                 ],
+                                $trans ?? null
+                                ) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by',[
+                                                'label' => 'Canvass By:',
+                                                'cols' => 3,
+                                            ],
+                                $trans ?? null
+                                ) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by_designation',[
+                                                'label' => 'Canvass By Designation:',
+                                                'cols' => 3,
+                                            ],
                                 $trans ?? null
                                 ) !!}
 
