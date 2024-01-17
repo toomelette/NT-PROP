@@ -29,11 +29,11 @@
                                 <div class="row">
 
                                     {!! \App\Swep\ViewHelpers\__form2::select('year',[
-                                        'cols' => '1 dt_filter-parent-div',
+                                        'cols' => '2 dt_filter-parent-div',
                                         'label' => 'Year:',
                                         'class' => 'dt_filter filters',
                                         'options' => \App\Swep\Helpers\Arrays::years(),
-                                        'for' => 'select2_papCode',
+                                        'for' => 'select2_year',
                                     ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
 
                                     {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[

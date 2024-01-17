@@ -38,7 +38,8 @@
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
                     @if($trans->is_locked)
                         {{--<img alt="" src="data:image/png;base64, {{base64_decode(QrCode::format('png')->merge(asset('images/sra_old.png'),0.3, true)->size(60)->generate('Make me into a QrCode!') ) }}">--}}
-                        {{ QrCode::merge(asset('images/sra_old.png'), 5, true)->size(60)->generate(route("dashboard.aq.print", $trans->slug)) }}
+                        {{ QrCode::size(60)->generate(route("dashboard.aq.print",$trans->slug)) }}
+                        {{--{{ QrCode::merge(asset('images/sra_old.png'), 5, true)->size(60)->generate(route("dashboard.aq.print", $trans->slug)) }}--}}
                         {{--<h3 class="no-margin text-strong">FINAL</h3>--}}
                     @endif
                     <p class="no-margin">Page {{$loop->iteration}} of {{count($pages)}}</p>
