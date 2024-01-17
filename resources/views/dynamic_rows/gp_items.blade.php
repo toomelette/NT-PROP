@@ -11,6 +11,16 @@
         ],$item->qty ?? null) !!}
     </td>
 
+    <td style="width: 10%">
+        {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][unit]',[
+            'class' => 'input-sm',
+            'for' => 'uom',
+            'options' => \App\Swep\Helpers\Arrays::unitsOfMeasurement(),
+            'container_class' => 'items_'.$rand.'_unit',
+        ],$item->unit ?? null) !!}
+
+    </td>
+
     <td style="width: 35%">
         {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][item]',[
             'class' => 'input-sm select2_item_'.$rand.' items_'.$rand.'_item',

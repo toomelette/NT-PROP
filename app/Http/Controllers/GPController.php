@@ -131,6 +131,7 @@ class GPController extends Controller
                     'slug' => Str::random(),
                     'transaction_slug' => $transNewSlug,
                     'item' => $item['item'],
+                    'unit' => $item['unit'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                 ]);
@@ -191,6 +192,7 @@ class GPController extends Controller
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
                     'item' => $item['item'],
+                    'unit' => $item['unit'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                 ]);

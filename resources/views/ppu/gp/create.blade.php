@@ -89,6 +89,7 @@
                                 <thead>
                                 <tr>
                                     <th style="width: 10%">Qty</th>
+                                    <th style="width: 10%">Unit</th>
                                     <th style="width: 35%">Item</th>
                                     <th style="width: 35%">Description</th>
                                     <th style="width: 8%"></th>
