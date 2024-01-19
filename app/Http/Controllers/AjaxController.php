@@ -36,12 +36,12 @@ class AjaxController extends Controller
 
             $papCodes = PAP::query()
                 ->select('year' ,'pap_code','pap_title','pap_desc')
+                ->whereYear('year', '=', $currentYear)
                 ->where(function ($query) use ($like){
                     $query->orWhere('pap_code','like',$like)
                         ->orWhere('pap_desc','like',$like)
                         ->orWhere('pap_title','like',$like);
-                })
-                ->whereYear('year', '=', $currentYear);
+                });
 
             if(!empty(Auth::user()->userDetails)){
                 $papCodes = $papCodes->whereHas('responsibilityCenter',function ($query){
