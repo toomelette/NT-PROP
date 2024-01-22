@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RequestForVehicle\RequestForVehicleFormRequest;
 use App\Http\Requests\RequestForVehicle\TakeActionFormRequest;
+use App\Models\Employee;
+use App\Models\Drivers;
+use App\Models\Articles;
 use App\Jobs\EmailNotification;
 use App\Models\EmailRecipients;
 use App\Models\RequestForVehicle;

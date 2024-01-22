@@ -67,16 +67,17 @@
             </tr>
             </thead>
             <tbody>
-            @if(!empty($request->details))
-                @foreach($request->details as $detail)
+{{--            @if(!empty($request->details))--}}
+{{--                @foreach($request->details as $detail)--}}
                     <tr>
-                        <td>{{\App\Swep\Helpers\Helper::dateFormat($detail->datetime,'M. d, Y | h:i A')}}</td>
-                        <td>{{$detail->destination}}</td>
-                        <td>{{$detail->vehicle->make ?? ''}} {{$detail->vehicle->model ?? ''}} - {{$detail->vehicle->plate_no ?? ''}}</td>
-                        <td>{{$detail->driver->employee->fullname ?? ''}}</td>
+                        <td>{{\App\Swep\Helpers\Helper::dateFormat($request->from,'M. d, Y | h:i A')}}</td>
+                        <td>{{$request->destination}}</td>
+                        <td>{{$request->vehicleAssigned->make ?? ''}} {{$request->vehicleAssigned->model ?? ''}} - {{$request->vehicleAssigned->plate_no ?? ''}}</td>
+
+                        <td>{{$request->driverAssigned->employee->fullname ?? ''}}</td>
                     </tr>
-                @endforeach
-            @endif
+{{--                @endforeach--}}
+{{--            @endif--}}
             </tbody>
         </table>
     @endif

@@ -154,6 +154,19 @@ class IARController extends Controller
         abort(503, 'Error saving IAR');
     }
 
+    public function receiveIar($slug){
+        $iar = $this->findBySlug($slug);
+        if($iar->is_locked){
+            abort(503,'IAR is Locked');
+        }
+        $iar->is_locked = true;
+
+        if($iar->update()){
+            return 1;
+        };
+        abort(503,'Error saving transaction.');
+    }
+
     public function getNextIARno()
     {
         $year = Carbon::now()->format('Y-');
@@ -161,6 +174,7 @@ class IARController extends Controller
             ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'IAR')
             ->orderBy('ref_no', 'desc')->limit(1)->first();
+
         if (empty($pr)) {
             $prNo = 0;
         } else {
@@ -170,7 +184,7 @@ class IARController extends Controller
 
         $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
 
-        return $year . Carbon::now()->format('m-') . $newPrBaseNo;
+        return $year . Carbon::now()->format('m-') .  $newPrBaseNo;
     }
 
     public function print($slug){
