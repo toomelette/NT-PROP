@@ -25,7 +25,7 @@
                                     <th style="width: 15%">Date</th>
                                     <th style="width: 15%">Item</th>
                                     <th style="width: 23%">Taken From</th>
-                                    <th style="width: 10%">Taken Through</th>
+                                    <th style="width: 10%">Condition</th>
                                     <th style="width: 10%">Certified by</th>
                                     <th style="width: 20px">Action</th>
                                 </tr>
@@ -63,7 +63,7 @@
                     { "data": "date" },
                     { "data": "item" },
                     { "data": "taken_from" },
-                    { "data": "taken_through" },
+                    { "data": "condition" },
                     { "data": "certified_by" },
                     { "data": "action" }
                 ],

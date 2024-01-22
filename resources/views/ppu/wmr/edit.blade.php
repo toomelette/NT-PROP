@@ -53,6 +53,13 @@
                     ],  $wmr ?? null
                         ) !!}
 
+                {!! \App\Swep\ViewHelpers\__form2::select('condition',[
+                             'label' => 'Condition:',
+                             'cols' => 3,
+                             'options' => \App\Swep\Helpers\Arrays::condition(),
+                         ],  $wmr ?? null
+                        ) !!}
+
 
                 </div>
             </div>
