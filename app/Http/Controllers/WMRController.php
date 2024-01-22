@@ -96,18 +96,18 @@ class WMRController extends Controller
         $year = Carbon::now()->format('Y-');
         $wmr = WasteMaterial::query()
             ->where('wm_number', 'like', $year . '%')
-            ->whereRaw('LENGTH(wm_number)=8')
-            ->orderBy('wm_number', 'desc')->limit(1)->first();
+            ->orderBy('wm_number', 'desc')
+            ->first();
         if (empty($wmr)) {
             $wmrNo = 0;
         } else {
 //            $wmrNo = str_replace($year,'',$wmr->ref_no);
-            $wmrNo = substr($wmr->wm_number, -3);
+            $wmrNo = substr($wmr->wm_number, -4);
         }
 
-        $newWmrBaseNo = str_pad($wmrNo + 1, 3, '0', STR_PAD_LEFT);
+        $newWmrBaseNo = str_pad($wmrNo + 1, 4, '0', STR_PAD_LEFT);
 
-        return $year . $newWmrBaseNo;
+        return $year . Carbon::now()->format('m-') . $newWmrBaseNo;
     }
 
     public function store(FormRequest $request)
