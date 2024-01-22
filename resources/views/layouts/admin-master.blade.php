@@ -123,6 +123,19 @@
       </div>
 
     <script type="text/javascript">
+      @if(empty(\Illuminate\Support\Facades\Auth::user()->project_id))
+        Swal.fire({
+          title: 'Project ID is required!',
+          text: 'In order to continue using the portal, please contact PPBTMS-Visayas for assistance.',
+          icon: 'info',
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          customClass: {
+            content: 'font-size: 32px; text-align: center;'
+          }
+        });
+      @endif
+
       const autonumericElement =  AutoNumeric.multiple('.autonumber');
       var find = '';
       @if(request()->has('find'))
@@ -177,6 +190,7 @@
         option_color:"#fff",
         immersive: true
       });
+
       $("#sidenav_selector").change(function () {
         th = $(this);
         th_selected = th.val();
@@ -277,8 +291,8 @@
               }
             })
           })
-        })
-      @endif
+        });
+        @endif
     </script>
 
     @yield('scripts')

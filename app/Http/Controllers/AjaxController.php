@@ -50,7 +50,6 @@ class AjaxController extends Controller
                         }
                     });
                 });
-
             }
 
             $papCodes = $papCodes->limit(10)->offset(10*(request('page') - 1))->get();
