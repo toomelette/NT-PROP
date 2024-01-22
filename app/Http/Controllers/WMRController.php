@@ -119,6 +119,7 @@ class WMRController extends Controller
         $transNew->date = $request->date;
         $transNew->wm_number = $this->getNextWMRno();
         $transNew->storage = $request->storage;
+        $transNew->condition = $request->condition;
         $transNew->taken_from = $request->taken_from;
         $transNew->taken_through = $request->taken_through;
         $transNew->certified_by = $request->certified_by;
@@ -198,6 +199,7 @@ class WMRController extends Controller
 //        $trans = $this->findBySlug($slug);
         $trans->date = $request->date;
         $trans->storage = $request->storage;
+        $trans->condition = $request->condition;
         $trans->taken_from = $request->taken_from;
         $trans->taken_through = $request->taken_through;
         $trans->certified_by = $request->certified_by;
