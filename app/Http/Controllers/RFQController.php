@@ -39,9 +39,13 @@ class RFQController extends Controller
         return view('ppu.rfq.index');
     }
 
-    public function allRfqDataTable($request){
-
+    public function allRfqDataTable(Request $request){
         $rfqs = Transactions::allRfq();
+
+        /*if($request->has('year') && $request->year != ''){
+            $rfqs = $rfqs->where('created_at','like',$request->year.'%');
+        }*/
+
         return \DataTables::of($rfqs)
             ->with(['transaction'])
             ->addColumn('action',function($data){
@@ -99,6 +103,8 @@ class RFQController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+
+        return $dt;
     }
 
 

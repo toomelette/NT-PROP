@@ -30,11 +30,12 @@ class AjaxController extends Controller
 
 
         if($for == 'pap_codes'){
+            $currentYear = \App\Swep\Helpers\Helper::getSetting('dashboard_report_year')->int_value;
             $arr = [];
             $like = '%'.request('search').'%';
-
             $papCodes = PAP::query()
                 ->select('year' ,'pap_code','pap_title','pap_desc')
+                ->where('year', '=', $currentYear)
                 ->where(function ($query) use ($like){
                     $query->orWhere('pap_code','like',$like)
                         ->orWhere('pap_desc','like',$like)

@@ -120,6 +120,31 @@
             </div>
 
             <div class="tab-pane" id="tab_2">
+                <div class="panel">
+                    <div class="box box-sm box-default box-solid collapsed-box">
+                        <div class="box-header with-border">
+                            <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body" style="display: none">
+                            <form id="filter_form">
+                                <div class="row">
+
+                                    {!! \App\Swep\ViewHelpers\__form2::select('year',[
+                                        'cols' => '2 dt_filter-parent-div',
+                                        'label' => 'Year:',
+                                        'class' => 'dt_filter filters',
+                                        'options' => \App\Swep\Helpers\Arrays::years(),
+                                        'for' => 'select2_year',
+                                    ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div id="all_rfq_table_container" style="display: none">
                     <table class="table table-bordered table-striped table-hover" id="all_rfq_table" style="width: 100% !important">
                         <thead>
@@ -471,6 +496,7 @@
 
         all_rqf_tbl = $("#all_rfq_table").DataTable({
             "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?all_rqf=true',
+            //"ajax": '{{ \Illuminate\Support\Facades\Request::url() }}?all_rqf=true&year=' + $("#filter_form select[name='year']").val(),
             "columns": [
                 { "data": "ref_no" },
                 { "data": "transRefBook" },
@@ -544,7 +570,13 @@
                 }
             }
         });
-    })
+
+        /*$("body").on("change",".dt_filter",function () {
+            filterDT(all_rqf_tbl);
+        })*/
+    });
+
+
 
     $(".numberEntry").change(function () {
         let input = $(this);
