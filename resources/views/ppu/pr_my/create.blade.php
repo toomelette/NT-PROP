@@ -7,7 +7,34 @@
 </section>
 @endsection
 @section('content2')
+    @php
+        /*$employees = \App\Models\Employee::query()
+            ->where('locations','=','VISAYAS')
+            ->orWhere('locations','=','LUZON/MINDANAO')
+            ->where(function ($q){
+                return $q->where('is_active','=','ACTIVE');
+            })
+            ->orderBy('fullname','asc')
+            ->get();*/
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
 
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
 <section class="content">
 
     <div class="box box-solid">
@@ -107,6 +134,14 @@
                                   'label' => 'Requested by: ',
                                   'rows' => 4
                                 ]) !!}
+                                {{--{!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
+                                    'label' => 'Accountable Officer:',
+                                    'cols' => 12,
+                                    'rows' => 4,
+                                    'options' => [],
+                                    'id' => 'requested_by',
+                                ]) !!}--}}
+
                             </div>
                             <div class="row">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
@@ -151,6 +186,8 @@
 
 @section('scripts')
 <script type="text/javascript">
+    var data = {!!$employeesCollection!!};
+
     $(".select2_item").select2({
         ajax: {
             url: '{{route("dashboard.ajax.get","articles")}}',
@@ -231,6 +268,10 @@
                 errored(form,res);
             }
         })
-    })
+    });
+
+    $("#requested_by").select2({
+        data : data,
+    });
 </script>
 @endsection

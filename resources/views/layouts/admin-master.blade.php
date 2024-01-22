@@ -124,7 +124,7 @@
 
     <script type="text/javascript">
       @if(empty(\Illuminate\Support\Facades\Auth::user()->project_id))
-        Swal.fire({
+        /*Swal.fire({
           title: 'Project ID is required!',
           text: 'In order to continue using the portal, please contact PPBTMS-Visayas for assistance.',
           icon: 'info',
@@ -133,7 +133,8 @@
           customClass: {
             content: 'font-size: 32px; text-align: center;'
           }
-        });
+        });*/
+
       @endif
 
       const autonumericElement =  AutoNumeric.multiple('.autonumber');
