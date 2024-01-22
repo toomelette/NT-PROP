@@ -250,6 +250,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/iar/index','IARController@index')->name('iar.index');
     Route::get('/iar/{slug}/edit','IARController@edit')->name('iar.edit');
     Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
+    Route::patch('/iar/receiveIar/{slug}','IARController@receiveIar')->name('iar.receiveIar');
 
 
 

@@ -12,10 +12,10 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Manage Requisition and Issue Slip</h3>
-                <div class="btn-group pull-right">
-                    {{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
-                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.ris.create')}}" > <i class="fa fa-plus"></i> Create</a>
-                </div>
+{{--                <div class="btn-group pull-right">--}}
+{{--                    --}}{{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
+{{--                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.ris.create')}}" > <i class="fa fa-plus"></i> Create</a>--}}
+{{--                </div>--}}
             </div>
             <div class="box-body">
                 <div class="row">

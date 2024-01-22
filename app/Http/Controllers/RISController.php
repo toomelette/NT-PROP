@@ -188,17 +188,18 @@ class RISController extends Controller
         $pr = Transactions::query()
             ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'RIS')
+            ->whereRaw('LENGTH(ref_no)=8')
             ->orderBy('ref_no', 'desc')->limit(1)->first();
         if (empty($pr)) {
             $prNo = 0;
         } else {
 //            $prNo = str_replace($year,'',$pr->ref_no);
-            $prNo = substr($pr->ref_no, -4);
+            $prNo = substr($pr->ref_no, -3);
         }
 
-        $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
+        $newPrBaseNo = str_pad($prNo + 1, 3, '0', STR_PAD_LEFT);
 
-        return $year . Carbon::now()->format('m-') . $newPrBaseNo;
+        return $year . $newPrBaseNo;
     }
 
     public function print($slug){

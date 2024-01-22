@@ -87,17 +87,18 @@ class GPController extends Controller
         $year = Carbon::now()->format('Y-');
         $gate_pass = GatePass::query()
             ->where('gp_number', 'like', $year . '%')
-            ->orderBy('gp_number', 'desc')
-            ->first();
+            ->whereRaw('LENGTH(gp_number)=8')
+            ->orderBy('gp_number', 'desc')->limit(1)->first();
+
         if (empty($gate_pass)) {
             $gpNo = 0;
         } else {
-            $gpNo = substr($gate_pass->gp_number, -4);
+            $gpNo = substr($gate_pass->gp_number, -3);
         }
 
-        $newGPBaseNo = str_pad($gpNo + 1, 4, '0', STR_PAD_LEFT);
+        $newGPBaseNo = str_pad($gpNo + 1, 3, '0', STR_PAD_LEFT);
 
-        return $year . Carbon::now()->format('m-') . $newGPBaseNo;
+        return $year . $newGPBaseNo;
     }
 
     public function store(FormRequest $request)
