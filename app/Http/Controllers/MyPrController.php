@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PR\PRFormRequest;
 use App\Jobs\EmailNotification;
 use App\Models\Articles;
+use App\Models\Employee;
 use App\Models\PR;
 use App\Models\PRItems;
 use App\Models\TransactionDetails;
@@ -121,7 +122,9 @@ class MyPrController extends Controller
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
-        $trans->requested_by = $this->removeTitles($request->requested_by);
+        $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
+        $trans->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
+        //$trans->requested_by = $this->removeTitles($request->requested_by);
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
@@ -183,7 +186,6 @@ class MyPrController extends Controller
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
         $trans->requested_by = $this->removeTitles($request->requested_by);
-        //$trans->requested_by = $request->requested_by;
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;

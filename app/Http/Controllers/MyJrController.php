@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\JR\JRFormRequest;
 use App\Jobs\EmailNotification;
+use App\Models\Employee;
 use App\Models\JR;
 use App\Models\JRItems;
 use App\Models\TransactionDetails;
@@ -112,7 +113,9 @@ class MyJrController extends Controller
         $trans->purpose = $request->purpose;
         $trans->certified_by = $request->certified_by;
         $trans->certified_by_designation = $request->certified_by_designation;
-        $trans->requested_by = $this->removeTitles($request->requested_by);
+        $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
+        $trans->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
+        //$trans->requested_by = $this->removeTitles($request->requested_by);
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
