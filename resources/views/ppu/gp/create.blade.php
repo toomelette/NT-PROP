@@ -55,13 +55,12 @@
                           'label' => 'Approved By:',
                           'cols' => 3,
                           'id' => 'approved_by'
-                       ]) !!}
-
+                       ], 'ALJON A. VILLARETE') !!}
                         {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by_designation',[
                        'label' => 'Position:',
                        'cols' => 3,
                        'id' => 'approved_by_designation'
-                        ]) !!}
+                        ],'Supply Officer III') !!}
 
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('guard_on_duty',[
