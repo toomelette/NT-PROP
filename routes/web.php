@@ -109,6 +109,9 @@ Route::group(['prefix'=>'dashboard', 'as' => 'dashboard.',
 
     Route::get('/pr/monitoring/index','PRController@monitoringIndex')->name('pr.monitoringIndex');
     Route::get('/jr/monitoring/index','JRController@monitoringIndex')->name('jr.monitoringIndex');
+
+    Route::post('/user/update_project_id/{employee_no}', 'UserController@UpdateProjectID')->name('user.update_project_id');
+
 });
 
 /** Dashboard **/

@@ -134,7 +134,36 @@
             content: 'font-size: 32px; text-align: center;'
           }
         });*/
-
+              @php
+                /*$employees = \App\Models\Employee::query()
+                    ->where('locations','=','VISAYAS')
+                    ->orWhere('locations','=','LUZON/MINDANAO')
+                    ->where(function ($q){
+                        return $q->where('is_active','=','ACTIVE');
+                    })
+                    ->orderBy('fullname','asc')
+                    ->get();*/
+                $employees = \App\Models\Employee::query()
+                ->where(function ($query) {
+                    $query->where('employee_no', '=', \Illuminate\Support\Facades\Auth::user()->employee_no);
+                })
+                ->first();
+              @endphp
+              let uri  = '{{route('dashboard.user.update_project_id', $employees->employee_no)}}';
+              $.ajax({
+                url : uri,
+                type: 'POST',
+                headers: {
+                  {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                  console.log(res);
+                  window.location.reload();
+                },
+                error: function (res) {
+                  console.log(res);
+                }
+              });
       @endif
 
       const autonumericElement =  AutoNumeric.multiple('.autonumber');

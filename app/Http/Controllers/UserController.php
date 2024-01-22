@@ -422,6 +422,24 @@ class UserController extends Controller{
     }
 
 
+    public function UpdateProjectID($employee_no){
 
+        $user = User::where('employee_no',$employee_no)->first();
+        $employee = Employee::where('employee_no',$employee_no)->first();
+
+        if($employee->locations == "VISAYAS" || $employee->locations == "COS-VISAYAS") {
+            $user->project_id = 1;
+        }
+        else if($employee->locations == "LUZON/MINDANAO" || $employee->locations == "COS-LUZMIN") {
+            $user->project_id = 2;
+        }
+
+        if($user->update()){
+            return $user->only('slug');
+        }else{
+            abort(500,'Error Activating!');
+        }
+
+    }
 
 }

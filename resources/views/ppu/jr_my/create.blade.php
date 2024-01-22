@@ -7,7 +7,26 @@
     </section>
 @endsection
 @section('content2')
+    @php
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
 
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
     <section class="content">
         <div class="box box-solid">
             <form id="add_jr_form">
@@ -110,10 +129,17 @@
                         </div>
                         <div class="col-md-3">
                             <div class="row">
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                                {{--{!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
                                   'cols' => 12,
                                   'label' => 'Requested by: ',
                                   'rows' => 4
+                                ]) !!}--}}
+                                {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
+                                    'label' => 'Accountable Officer:',
+                                    'cols' => 12,
+                                    'rows' => 4,
+                                    'options' => [],
+                                    'id' => 'requested_by',
                                 ]) !!}
                             </div>
                             <div class="row">
@@ -157,6 +183,8 @@
 
 @section('scripts')
     <script type="text/javascript">
+        var data = {!!$employeesCollection!!};
+
         $(".select2_papCode").select2({
             ajax: {
                 url: '{{route("dashboard.ajax.get","pap_codes")}}',
@@ -219,6 +247,10 @@
                 grandTotal = grandTotal + parseFloat($(this).html().replaceAll(',',''));
             });
             $('input[name="abc"]').val($.number(grandTotal,2));
+        });
+
+        $("#requested_by").select2({
+            data : data,
         });
     </script>
 @endsection

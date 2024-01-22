@@ -8,14 +8,6 @@
 @endsection
 @section('content2')
     @php
-        /*$employees = \App\Models\Employee::query()
-            ->where('locations','=','VISAYAS')
-            ->orWhere('locations','=','LUZON/MINDANAO')
-            ->where(function ($q){
-                return $q->where('is_active','=','ACTIVE');
-            })
-            ->orderBy('fullname','asc')
-            ->get();*/
         $employees = \App\Models\Employee::query()
         ->where(function ($query) {
             $query->where('locations', '=', 'VISAYAS')
@@ -129,18 +121,18 @@
                         </div>
                         <div class="col-md-3">
                             <div class="row">
-                                {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                                {{--{!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
                                   'cols' => 12,
                                   'label' => 'Requested by: ',
                                   'rows' => 4
-                                ]) !!}
-                                {{--{!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
+                                ]) !!}--}}
+                                {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
                                     'label' => 'Accountable Officer:',
                                     'cols' => 12,
                                     'rows' => 4,
                                     'options' => [],
                                     'id' => 'requested_by',
-                                ]) !!}--}}
+                                ]) !!}
 
                             </div>
                             <div class="row">
