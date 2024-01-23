@@ -7,6 +7,7 @@ use App\Models\Articles;
 use App\Models\PAP;
 use App\Models\RIS;
 use App\Models\Order;
+use App\Models\Employee;
 use App\Models\PPURespCodes;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
@@ -135,7 +136,9 @@ class RISController extends Controller
         $transNew->ref_book = 'RIS';
         $transNew->ref_no = $this->getNextRISno();
         $transNew->purpose = $request->purpose;
-        $transNew->requested_by = $request->requested_by;
+//        $transNew->requested_by = $request->requested_by;
+        $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
+        $transNew->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
         $transNew->sai = $request->sai;
         $transNew->sai_date = $request->sai_date;
         $transNew->date = $request->date;
@@ -226,13 +229,22 @@ class RISController extends Controller
         ]);
     }
 
+    function removeTitles($inputString) {
+        $titlesToRemove = array('ENGR', 'Engr', 'engr', 'ENGR.', 'Engr.', 'engr.', 'ENGINEER', 'Engineer', 'engineer', 'ATTY', 'Atty', 'atty', 'ATTY.', 'Atty.', 'atty.', 'ATTORNEY', 'Attorney', 'attorney');
+        $cleanedString = str_replace($titlesToRemove, '', $inputString);
+        $cleanedString = trim($cleanedString, ". "); // Trim spaces and periods from the beginning and end
+
+        return trim($cleanedString); // Trim to remove any leading or trailing spaces
+    }
+
+
     public function update(FormRequest $request, $slug)
     {
         $trans = $this->findBySlug($slug);
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
         $trans->purpose = $request->purpose;
-        $trans->requested_by = $request->requested_by;
+        $trans->requested_by = $this->removeTitles($request->requested_by);
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->date = $request->date;
