@@ -27,6 +27,10 @@ class Transactions extends Model
             $a->created_at = \Carbon::now();
             $a->project_id = Auth::user()->project_id ?? null;
         });
+
+        static::addGlobalScope('transactions', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
+        });
     }
     use SoftDeletes;
     protected $table = 'transactions';
