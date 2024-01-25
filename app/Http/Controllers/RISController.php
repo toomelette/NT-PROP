@@ -41,6 +41,9 @@ class RISController extends Controller
 
         $resp_center = PPURespCodes::all();
         $ris = Transactions::query()->where('ref_book', '=', 'RIS');
+        if($request->has('year') && $request->year != ''){
+            $ris = $ris->where('ref_no','like',$request->year.'%');
+        }
         return DataTables::of($ris)
             ->addColumn('action', function ($data) {
                 return view('ppu.ris.dtActions')->with([

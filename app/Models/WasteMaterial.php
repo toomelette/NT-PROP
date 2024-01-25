@@ -28,7 +28,12 @@ class WasteMaterial extends Model
             $a->created_at = \Carbon::now();
             $a->project_id = Auth::user()->project_id ?? null;
         });
+        static::addGlobalScope('waste_material', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
+        });
+
     }
+
     protected $table = 'waste_material';
 
     public function wasteDetails(){

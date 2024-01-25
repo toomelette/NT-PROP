@@ -40,6 +40,7 @@ class MyWmrController extends Controller
     public function myDataTable($request)
     {
         $wmr = WasteMaterial::query()->where('user_created', Auth::user()->user_id);
+
         return DataTables::of($wmr)
             ->addColumn('action', function ($data) {
                 return view('ppu.wmr_my.dtActions')->with([

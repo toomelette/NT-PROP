@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
+use App\Swep\Helpers\Arrays;
 
 
 class IARController extends Controller
@@ -32,6 +33,9 @@ class IARController extends Controller
     {
         $resp_center = PPURespCodes::all();
         $iar = Transactions::query()->where('ref_book', '=', 'IAR');
+        if($request->has('year') && $request->year != ''){
+            $iar = $iar->where('ref_no','like',$request->year.'%');
+        }
         return DataTables::of($iar)
             ->addColumn('action', function ($data) {
                 return view('ppu.iar.dtActions')->with([
@@ -102,7 +106,7 @@ class IARController extends Controller
             $transNew->cross_ref_no = $trans->cross_ref_no;
             $transNew->purpose = $trans->purpose;
             $transNew->jr_type = $trans->jr_type;
-            $transNew->requested_by = $trans->requested_by;
+            $transNew->requested_by = $request->requested_by;
             $transNew->requested_by_designation = $trans->requested_by_designation;
             $transNew->approved_by = $trans->approved_by;
             $transNew->approved_by_designation = $trans->approved_by_designation;

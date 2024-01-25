@@ -38,7 +38,10 @@ class GPController extends Controller
 
     public function dataTable($request)
     {
-        $gp = GatePass::all();
+        $gp = GatePass::query();
+        if($request->has('year') && $request->year != ''){
+            $gp = $gp->where('gp_number','like',$request->year.'%');
+        }
         return DataTables::of($gp)
             ->addColumn('action', function ($data) {
                 return view('ppu.gp.dtActions')->with([
