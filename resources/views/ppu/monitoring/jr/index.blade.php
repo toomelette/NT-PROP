@@ -91,7 +91,7 @@
             //Initialize DataTable
 
             jr_monitoring_tbl = $("#jr_monitoring_table").DataTable({
-                "ajax": '{{\Illuminate\Support\Facades\Request::url()}}',
+                "ajax": '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
                     {"data": "jr_no"},
                     {"data": "date_created"},
