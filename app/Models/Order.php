@@ -5,6 +5,7 @@ namespace App\Models;
 
 
 use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -24,6 +25,10 @@ class Order extends Model
             $a->ip_created = request()->ip();
             $a->created_at = \Carbon::now();
             $a->project_id = Auth::user()->project_id ?? null;
+        });
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
         });
     }
     protected $table = 'order';

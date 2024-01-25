@@ -27,6 +27,10 @@ class Transactions extends Model
             $a->created_at = \Carbon::now();
             $a->project_id = Auth::user()->project_id ?? null;
         });
+
+        static::addGlobalScope('transactions', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
+        });
     }
     use SoftDeletes;
     protected $table = 'transactions';
@@ -67,12 +71,12 @@ class Transactions extends Model
         return $this->hasOne(Transactions::class,'slug','cross_slug');
     }
 
-    public function anaPr(){
-        return $this->hasOne(AwardNoticeAbstract::class,'ref_number','ref_no')
+    public function noaPr(){
+        return $this->hasOne(NoticeOfAward::class,'ref_number','ref_no')
             ->where('ref_book','=','PR');
     }
-    public function anaJr(){
-        return $this->hasOne(AwardNoticeAbstract::class,'ref_number','ref_no')
+    public function noaJr(){
+        return $this->hasOne(NoticeOfAward::class,'ref_number','ref_no')
             ->where('ref_book','=','JR');
     }
 

@@ -67,7 +67,7 @@
                 <td colspan="3" style="border: 1px solid black;">{{strtoupper($cr->reason)}}</td>
             </tr>
             <tr class="">
-                <td style="vertical-align: bottom; border: 1px solid black; width: 30%" height="80">Signature of Requisitioner</td>
+                <td style="vertical-align: bottom; border: 1px solid black; width: 30%" height="80">Requisitioner</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 30%">{{strtoupper($cr->requisitioner)}}</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 15%">Approved:</td>
                 <td style="vertical-align: bottom; border: 1px solid black; width: 25%">
