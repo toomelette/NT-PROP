@@ -22,7 +22,7 @@
                                     <th>Request No.</th>
                                     <th>Passengers</th>
                                     <th>Destination</th>
-                                    <th>Date of Departure</th>
+                                    <th>Travel Date</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>

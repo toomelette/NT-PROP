@@ -83,13 +83,14 @@
         <tr>
             <td style="width: 50%">
                 Signature of Requisitioner: <br><br><br>
-                <b>{{$request->requested_by}}</b><br>
-                <span style="font-size: 12px;font-style: italic">{{ucwords(strtolower($request->requested_by_position))}}</span>
+                <b style="font-size: 14px;">{{$request->requested_by}}</b><br>
+                <span style="font-size: 12px; font-style: italic">{{ ucwords(strtoupper($request->requested_by_position)) }}</span>
+
             </td>
             <td style="width: 50%">
                 Approved by: <br><br><br>
-                <b>{{$request->approved_by}}</b><br>
-                <span style="font-size: 12px;font-style: italic">{{ucwords(strtolower($request->approved_by_position))}}</span>
+                <b style="font-size: 14px;">{{$request->approved_by}}</b><br>
+                <span style="font-size: 12px; font-style: italic">{{ ucwords(strtoupper($request->approved_by_position))}}</span>
             </td>
         </tr>
     </table>

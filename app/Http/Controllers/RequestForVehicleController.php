@@ -65,14 +65,14 @@ class RequestForVehicleController extends Controller
                 RequestForVehiclePassengers::insert($passengersArray);
             }
 
-            $emailRecipient = EmailRecipients::query()->where('receive_transportation_updates','=',1)->first();
-            $to = $emailRecipient->email_address ?? 'gguance221@gmail.com';
-            $subject = 'Request for Shuttle Service - '.$d->request_no;
-            $cc = [];
-            $body = view('mailables.request_for_vehicle.body-rfs-created')->with([
-                'r' => $d,
-            ])->render();
-            EmailNotification::dispatch($to,$subject,$body,$cc);
+//            $emailRecipient = EmailRecipients::query()->where('receive_transportation_updates','=',1)->first();
+//            $to = $emailRecipient->email_address ?? 'gguance221@gmail.com';
+//            $subject = 'Request for Shuttle Service - '.$d->request_no;
+//            $cc = [];
+//            $body = view('mailables.request_for_vehicle.body-rfs-created')->with([
+//                'r' => $d,
+//            ])->render();
+//            EmailNotification::dispatch($to,$subject,$body,$cc);
         }
 
 
