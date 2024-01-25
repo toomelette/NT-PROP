@@ -27,6 +27,9 @@ class GatePass extends Model
             $a->created_at = \Carbon::now();
             $a->project_id = Auth::user()->project_id ?? null;
         });
+        static::addGlobalScope('gate_pass', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
+        });
     }
     protected $table = 'gate_pass';
 

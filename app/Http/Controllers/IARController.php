@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
+use App\Swep\Helpers\Arrays;
 
 
 class IARController extends Controller
@@ -32,6 +33,9 @@ class IARController extends Controller
     {
         $resp_center = PPURespCodes::all();
         $iar = Transactions::query()->where('ref_book', '=', 'IAR');
+        if($request->has('year') && $request->year != ''){
+            $iar = $iar->where('ref_no','like',$request->year.'%');
+        }
         return DataTables::of($iar)
             ->addColumn('action', function ($data) {
                 return view('ppu.iar.dtActions')->with([

@@ -13,9 +13,34 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Gate Pass</h3>
                 <div class="btn-group pull-right">
-{{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
+                    {{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
                     <a class="btn btn-primary btn-sm" href="{{route('dashboard.gp.create')}}" > <i class="fa fa-plus"></i> Create</a>
                 </div>
+                <br><br>
+                <div class="box box-sm box-default box-solid collapsed-box">
+                    <div class="box-header with-border">
+                        <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body" style="display: none">
+                        <form id="filter_form">
+                            <div class="row">
+                                {!! \App\Swep\ViewHelpers\__form2::select('year',[
+                                    'cols' => '2 dt_filter-parent-div',
+                                    'label' => 'Year:',
+                                    'class' => 'dt_filter filters',
+                                    'options' => \App\Swep\Helpers\Arrays::years(),
+                                    'for' => 'select2_papCode',
+                                ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
             <div class="box-body">
                 <div class="row">
@@ -59,7 +84,8 @@
             //Initialize DataTable
 
             gp_tbl = $("#gp_table").DataTable({
-                "ajax" : '{{route("dashboard.gp.index")}}',
+                {{--"ajax" : '{{route("dashboard.gp.index")}}',--}}
+                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
                     { "data": "gp_number" },
                     { "data": "bearer" },
@@ -159,5 +185,10 @@
                 }
             })
         })
+        $("body").on("change",".dt_filter",function () {
+            filterDT(gp_tbl);
+        });
+        $("#resp_center_select2").select2();
+
     </script>
 @endsection

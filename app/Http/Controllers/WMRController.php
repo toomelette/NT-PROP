@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Carbon;
+use App\Swep\Helpers\Arrays;
 use function Symfony\Component\Mime\Header\all;
 use Auth;
 
@@ -24,13 +25,6 @@ use Auth;
 class WMRController extends Controller
 {
 
-//    protected $wmrService;
-//    protected $transactionService;
-//    public function __construct(WMRService $wmrService, TransactionService $transactionService)
-//    {
-//        $this->wmrService = $wmrService;
-//        $this->transactionService = $transactionService;
-//    }
 
     public function create()
     {
@@ -48,7 +42,11 @@ class WMRController extends Controller
 
     public function dataTable($request)
     {
-        $wmr = WasteMaterial::all();
+
+        $wmr = WasteMaterial::query();
+        if($request->has('year') && $request->year != ''){
+            $wmr = $wmr->where('wm_number','like',$request->year.'%');
+        }
         return DataTables::of($wmr)
             ->addColumn('action', function ($data) {
                 return view('ppu.wmr.dtActions')->with([
@@ -78,17 +76,6 @@ class WMRController extends Controller
         };
         abort(503,'Error saving transaction.');
     }
-
-//    public function receiveWmr($request){
-//        $trans = $this->transactionService->findBySlug($request->trans);
-//        $trans->received_at = Carbon::now();
-//        $trans->user_received = \Auth::user()->user_id;
-//        $trans->is_locked = 1;
-//        if($trans->save()){
-//            return $trans->only('slug');
-//        }
-//        abort(503,'Error in receiving');
-//    }
 
 
     public function getNextWMRno()
