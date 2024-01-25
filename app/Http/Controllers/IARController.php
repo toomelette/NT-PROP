@@ -106,7 +106,7 @@ class IARController extends Controller
             $transNew->cross_ref_no = $trans->cross_ref_no;
             $transNew->purpose = $trans->purpose;
             $transNew->jr_type = $trans->jr_type;
-            $transNew->requested_by = $trans->requested_by;
+            $transNew->requested_by = $request->requested_by;
             $transNew->requested_by_designation = $trans->requested_by_designation;
             $transNew->approved_by = $trans->approved_by;
             $transNew->approved_by_designation = $trans->approved_by_designation;
