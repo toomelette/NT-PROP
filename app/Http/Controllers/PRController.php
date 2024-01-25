@@ -152,7 +152,7 @@ class PRController extends Controller
             ->addColumn('po_date',function($data){
                 $output = "";
                 foreach ($data->po as $item) {
-                    $output += $item->date. '<br>';
+                    $output .= Helper::dateFormat($item->date ?? null,'M. d, Y'). '<br>';
                 }
                 return $output;
             })

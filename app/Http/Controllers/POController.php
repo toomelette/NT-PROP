@@ -311,6 +311,7 @@ class POController extends Controller
             $transNew->approved_by = $trans->approved_by;
             $transNew->approved_by_designation = $trans->approved_by_designation;
             $transNew->order_slug = $randomSlug;
+            $transNew->date = $request->date;
 
             if(!empty($request->items)){
                 foreach ($request->items as $item) {

@@ -34,6 +34,6 @@ class Order extends Model
     protected $table = 'order';
 
     public function transaction(){
-        return $this->hasOne(Transactions::class,'order_slug','slug');
+        return $this->hasMany(Transactions::class,'order_slug','slug');
     }
 }

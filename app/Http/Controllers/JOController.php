@@ -241,6 +241,7 @@ class JOController extends Controller
         $transNew->approved_by = $trans->approved_by;
         $transNew->approved_by_designation = $trans->approved_by_designation;
         $transNew->order_slug = $randomSlug;
+        $transNew->date = $request->date;
 
         $arr = [];
         if(!empty($request->items)){
