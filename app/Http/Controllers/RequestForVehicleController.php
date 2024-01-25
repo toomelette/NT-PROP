@@ -47,8 +47,8 @@ class RequestForVehicleController extends Controller
         $d->to = $request->to;
         $d->destination = $request->destination;
         $d->requested_by_position = $request->requested_by_position;
-        $d->approved_by = 'DOROTHY B. RODRIGO';
-        $d->approved_by_position = 'ADMINISTRATIVE OFFICER V';
+        $d->approved_by = 'ATTY. JOHANA S. JADOC';
+        $d->approved_by_position = 'MANAGER III - AFD - VISAYAS';
 
 
         if($d->save()){
@@ -210,5 +210,12 @@ class RequestForVehicleController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+    }
+
+    public function tripTicket($slug)
+    {
+        $rv = RequestForVehicle::query()->where('slug', '=', $slug)->first();
+
+        return view('ppu.request_vehicle.tripTicket');
     }
 }

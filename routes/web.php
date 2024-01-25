@@ -296,6 +296,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/request_vehicle/{slug}/print','RequestForVehicleController@print')->name('request_vehicle.print');
     Route::get('request_vehicle/{slug}/actions','RequestForVehicleController@actions')->name('request_vehicle.actions');
     Route::post('request_vehicle/{slug}/take_action','RequestForVehicleController@takeAction')->name('request_vehicle.take_action');
+
+    Route::get('/request_vehicle/{slug}/printTripTicket','RequestForVehicleController@printTripTicket')->name('request_vehicle.printTripTicket');
+    Route::get('/request_vehicle/tripTicket/{slug}','RequestForVehicleController@tripTicket')->name('request_vehicle.tripTicket');
+    Route::get('/request_vehicle/{slug}/editTripTicket','RequestForVehicleController@editTripTicket')->name('request_vehicle.editTripTicket');
+
     Route::resource('request_vehicle', \App\Http\Controllers\RequestForVehicleController::class)->except([
         'create','store'
     ]);

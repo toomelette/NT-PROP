@@ -5,4 +5,7 @@
     @else
         <button data="{{$data->slug}}" data-toggle="modal" data-target="#actions_modal" type="button" class="btn btn-default btn-sm actions_btn">View</button>
     @endif
+    <a class="btn btn-sm btn-success" href="{{route('dashboard.request_vehicle.tripTicket',$data->slug)}}" data="{{$data->slug}}">
+        <i class="fa fa-file-text"></i>
+    </a>
 </div>

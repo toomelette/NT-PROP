@@ -421,7 +421,7 @@ class PARController extends Controller
         $par = InventoryPPE::query()->where('slug', '=', $slug)->first();
         $slugss=Str::random();
         if ($par) {
-            $propCard = PropertyCard::query()->where('property_no', '=', $par->propertyno)->first();
+                $propCard = PropertyCard::query()->where('property_no', '=', $par->propertyno)->first();
             $arr = [];
             if (!$propCard) {
                 $propCard = new PropertyCard();
