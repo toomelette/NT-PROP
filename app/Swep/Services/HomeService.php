@@ -20,11 +20,9 @@ class HomeService extends BaseService{
 
 
     public function __construct(EmployeeInterface $employee_repo, UserInterface $user_repo){
-
         $this->employee_repo = $employee_repo;
         $this->user_repo = $user_repo;
         parent::__construct();
-
     }
 
     public function view(){
