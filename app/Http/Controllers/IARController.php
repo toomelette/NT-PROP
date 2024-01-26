@@ -201,12 +201,12 @@ class IARController extends Controller
 //                $poDetails = PODetails::query()->where('order_slug', $order->slug)->get();
 //            }
 
-                return view('printables.iar.print')->with([
-                'iar' => $iar,
-                'rc' => $rc,
-                'pr' => $pr,
-                'po' => $po
-            ]);
+        return view('printables.iar.print')->with([
+        'iar' => $iar,
+        'rc' => $rc,
+        'pr' => $pr,
+        'po' => $po
+        ]);
         }
         return view('printables.iar.print')->with([
             'iar' => $iar,

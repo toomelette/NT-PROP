@@ -4,5 +4,7 @@
         <button data="{{$data->slug}}" data-toggle="modal" data-target="#actions_modal" type="button" class="btn btn-primary btn-sm actions_btn">Actions</button>
     @else
         <button data="{{$data->slug}}" data-toggle="modal" data-target="#actions_modal" type="button" class="btn btn-default btn-sm actions_btn">View</button>
+
     @endif
+
 </div>

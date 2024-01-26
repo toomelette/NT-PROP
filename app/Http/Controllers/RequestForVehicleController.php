@@ -47,8 +47,8 @@ class RequestForVehicleController extends Controller
         $d->to = $request->to;
         $d->destination = $request->destination;
         $d->requested_by_position = $request->requested_by_position;
-        $d->approved_by = 'DOROTHY B. RODRIGO';
-        $d->approved_by_position = 'ADMINISTRATIVE OFFICER V';
+        $d->approved_by = 'NOLI T. TINGSON';
+        $d->approved_by_position = 'SUPPLY OFFICER IV';
 
 
         if($d->save()){
@@ -65,14 +65,14 @@ class RequestForVehicleController extends Controller
                 RequestForVehiclePassengers::insert($passengersArray);
             }
 
-            $emailRecipient = EmailRecipients::query()->where('receive_transportation_updates','=',1)->first();
-            $to = $emailRecipient->email_address ?? 'gguance221@gmail.com';
-            $subject = 'Request for Shuttle Service - '.$d->request_no;
-            $cc = [];
-            $body = view('mailables.request_for_vehicle.body-rfs-created')->with([
-                'r' => $d,
-            ])->render();
-            EmailNotification::dispatch($to,$subject,$body,$cc);
+//            $emailRecipient = EmailRecipients::query()->where('receive_transportation_updates','=',1)->first();
+//            $to = $emailRecipient->email_address ?? 'gguance221@gmail.com';
+//            $subject = 'Request for Shuttle Service - '.$d->request_no;
+//            $cc = [];
+//            $body = view('mailables.request_for_vehicle.body-rfs-created')->with([
+//                'r' => $d,
+//            ])->render();
+//            EmailNotification::dispatch($to,$subject,$body,$cc);
         }
 
 
@@ -210,5 +210,38 @@ class RequestForVehicleController extends Controller
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();
+    }
+
+    public function tripTicket($slug, $request)
+    {
+        $rv = RequestForVehicle::query()->where('slug', '=', $slug)->first();
+        $slugss=Str::random();
+        if ($rv) {
+            $tripTicket = TripTicket::query()->where('ticket_no', '=', $rv->request_no)->first();
+
+            if (!$tripTicket) {
+                $tripTicket = new TripTicket();
+                $tripTicket->slug = $slugss;
+                $tripTicket->ticket_no = $rv->request_no();
+                $tripTicket->transaction_slug = $rv->slug;
+                $tripTicket->transaction_slug = $request->date;
+                $tripTicket->transaction_slug = $rv->driver;
+                $tripTicket->transaction_slug = $rv->vehicle;
+                $tripTicket->transaction_slug = $rv->destination;
+                $tripTicket->transaction_slug = $rv->purpose;
+                $tripTicket->transaction_slug = $request->approved_by;
+
+                $tripTicket->save();
+
+            return view('ppu.request_vehicle.tripTicket')->with([
+                'rv' => $rv,
+                'tripTicket' => $tripTicket,
+            ]);
+        }
+
+        abort(404, 'Records not found');
+    }
+
+        return view('ppu.request_vehicle.tripTicket');
     }
 }

@@ -256,6 +256,14 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::patch('/iar/update/{slug}','IARController@update')->name('iar.update');
     Route::patch('/iar/receiveIar/{slug}','IARController@receiveIar')->name('iar.receiveIar');
 
+    Route::get('/trip_ticket/create','TripTicketController@create')->name('trip_ticket.create');
+    Route::get('/trip_ticket/findTransByRefNumber/{refNumber}','TripTicketController@findTransByRefNumber')->name('trip_ticket.findTransByRefNumber');
+    Route::post('/trip_ticket/store','TripTicketController@store')->name('trip_ticket.store');
+    Route::get('/trip_ticket/{slug}/print','TripTicketController@print')->name('trip_ticket.print');
+    Route::get('/trip_ticket/index','TripTicketController@index')->name('trip_ticket.index');
+    Route::get('/trip_ticket/{slug}/edit','TripTicketController@edit')->name('trip_ticket.edit');
+    Route::patch('/trip_ticket/update/{slug}','TripTicketController@update')->name('trip_ticket.update');
+
 
 
     Route::get('/ris/index','RISController@index')->name('ris.index');
@@ -297,6 +305,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/request_vehicle/{slug}/print','RequestForVehicleController@print')->name('request_vehicle.print');
     Route::get('request_vehicle/{slug}/actions','RequestForVehicleController@actions')->name('request_vehicle.actions');
     Route::post('request_vehicle/{slug}/take_action','RequestForVehicleController@takeAction')->name('request_vehicle.take_action');
+
+
     Route::resource('request_vehicle', \App\Http\Controllers\RequestForVehicleController::class)->except([
         'create','store'
     ]);
