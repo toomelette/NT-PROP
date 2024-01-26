@@ -182,7 +182,7 @@ class JRController extends Controller
                 return "";
             })
             ->addColumn('noa_date',function($data){
-                return Helper::dateFormat($data->anaJr->award_date ?? null,'M. d, Y');
+                return Helper::dateFormat($data->noaJr->award_date ?? null,'M. d, Y');
             })
             ->addColumn('jo_date',function($data){
                 $output = "";

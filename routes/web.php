@@ -220,6 +220,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/jo/findSupplier/{slug}','JOController@findSupplier')->name('jo.findSupplier');
     Route::patch('/jo/update/{slug}','JOController@update')->name('jo.update');
     Route::post('/jo/{slug}/cancel','JOController@cancel')->name('jo.cancel');
+    Route::get('/jo/createpublicbidding','JOController@createpublicbidding')->name('jo.createpublicbidding');
     Route::resource('jo', 'JOController');
 
     Route::get('/par/{slug}/print_property_tag','PARController@printPropertyTag')->name('par.print_property_tag');

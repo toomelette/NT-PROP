@@ -147,7 +147,7 @@ class PRController extends Controller
                 return "";
             })
             ->addColumn('noa_date',function($data){
-                return Helper::dateFormat($data->anaPr->award_date ?? null,'M. d, Y');
+                return Helper::dateFormat($data->noaPr->award_date ?? null,'M. d, Y');
             })
             ->addColumn('po_date',function($data){
                 $output = "";

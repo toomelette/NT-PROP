@@ -54,7 +54,11 @@ class POController extends Controller
                 ]);
             })
             ->addColumn('dept', function ($data) {
-                return $data->transaction->rc->desc ?? '-';
+                if ($data->transaction != null) {
+                    return $data->transaction->rc->desc ?? '-';
+                }
+
+                return "";
             })
             ->editColumn('total',function($data){
                 return number_format($data->total,2);
@@ -63,9 +67,12 @@ class POController extends Controller
                 return $data->created_at ? Carbon::parse($data->created_at)->format('M. d, Y') : '';
             })
             ->editColumn('ref_no',function($data){
-                if($data->transaction->cancelled_at != null){
-                    return '<span class="">'.$data->ref_no.'</span><br><small class="text-danger text-strong" style="border-top: 1px solid black;">CANCELLED</small>';
+                if($data->transaction != null) {
+                    if($data->transaction->cancelled_at != null){
+                        return '<span class="">'.$data->ref_no.'</span><br><small class="text-danger text-strong" style="border-top: 1px solid black;">CANCELLED</small>';
+                    }
                 }
+
                 return $data->ref_no;
             })
             ->escapeColumns([])

@@ -72,12 +72,11 @@ class Transactions extends Model
     }
 
     public function noaPr(){
-        return $this->hasOne(NoticeOfAward::class,'ref_number','ref_no')
-            ->where('ref_book','=','PR');
+        return $this->hasOne(NoticeOfAward::class,'ref_no','ref_no');
     }
+
     public function noaJr(){
-        return $this->hasOne(NoticeOfAward::class,'ref_number','ref_no')
-            ->where('ref_book','=','JR');
+        return $this->hasOne(NoticeToProceed::class,'ref_no','ref_no');
     }
 
     public function quotations(){

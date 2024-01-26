@@ -2,13 +2,13 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Create PO Public Bidding</h1>
+        <h1>Create JO Public Bidding</h1>
     </section>
 @endsection
 @section('content2')
     <section class="content col-md-12">
         <div class="box box-solid">
-            <form id="po_form">
+            <form id="jo_form">
                 <div class="box-header with-border">
                 </div>
                 <div class="box-body">
@@ -20,11 +20,11 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('po_number',[
-                                            'label' => 'PO Number:',
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('jo_number',[
+                                            'label' => 'JO Number:',
                                             'cols' => 3
                                         ],
-                                        $po_number ?? null
+                                        $jo_number ?? null
                                         ) !!}
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
@@ -34,7 +34,7 @@
                                             ]
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
-                                'label' => 'PO Date:',
+                                'label' => 'JO Date:',
                                 'cols' => 3,
                                 'type' => 'date',
                                 'required' => 'required'
@@ -138,13 +138,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="col-md-12">
-                                    <h5 style="color: red">*For multiple PR numbers, please separate them with comma before pressing enter.</h5>
+                                    <h5 style="color: red">*For multiple JR numbers, please separate them with comma before pressing enter.</h5>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                                            'label' => 'PR Reference Number:',
+                                            'label' => 'JR Reference Number:',
                                             'cols' => 3,
                                             'required' => 'required'
                                         ]) !!}
@@ -169,7 +169,7 @@
                             </div>
                             <div class="form-group col-md-2 vatValue">
                                 <label for="vatValue">W/TAX Percent:</label>
-                                <input class="form-control" name="poValue" id="poValue" type="text" value="" placeholder="" autocomplete="" required="">
+                                <input class="form-control" name="joValue" id="joValue" type="text" value="" placeholder="" autocomplete="" required="">
                             </div>
                             <div class="form-group col-md-2 tax_base_2">
                                 <label for="tax_base_2">W/TAX Amount:</label>
@@ -296,7 +296,7 @@
                         taxBase = totalGross/1.12;
                     }
                     let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1.toFixed(2));
                     $('#tax_base_2').val(pOjOTax.toFixed(2));
                     let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -317,7 +317,7 @@
                     taxBase = totalGross/1.12;
                 }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
                 $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -326,7 +326,7 @@
                 $('input[name="total_in_words"]').val(numberToWords(totalAmt));
             });
 
-            $('input[name="poValue"]').on('keypress', function(event) {
+            $('input[name="joValue"]').on('keypress', function(event) {
                 if (event.which === 13) { // Check if Enter key is pressed
                     var totalGrossRaw = $('input[name="total_gross"]').val();
                     var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
@@ -336,7 +336,7 @@
                         taxBase = totalGross/1.12;
                     }
                     let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1.toFixed(2));
                     $('#tax_base_2').val(pOjOTax.toFixed(2));
                     let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -348,7 +348,7 @@
                 }
             });
 
-            $('input[name="poValue"]').on('blur', function() {
+            $('input[name="joValue"]').on('blur', function() {
                 var totalGrossRaw = $('input[name="total_gross"]').val();
                 var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
                 var totalGross = parseFloat(cleanedTotalGross);
@@ -357,7 +357,7 @@
                     taxBase = totalGross/1.12;
                 }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
                 $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -376,7 +376,7 @@
                         taxBase = totalGross/1.12;
                     }
                     let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                     $('#tax_base_1').val(tb1.toFixed(2));
                     $('#tax_base_2').val(pOjOTax.toFixed(2));
                     let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -397,7 +397,7 @@
                     taxBase = totalGross/1.12;
                 }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
                 $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = totalGross - (tb1 + pOjOTax);
@@ -423,7 +423,7 @@
                     taxBase = overAllTotal/1.12;
                 }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
                 $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
@@ -447,7 +447,7 @@
         }
 
         $('select[name="supplier"]').change(function() {
-            let uri = '{{route("dashboard.po.findSupplier", ["slug"]) }}';
+            let uri = '{{route("dashboard.jo.findSupplier", ["slug"]) }}';
             uri = uri.replace('slug',$(this).val());
             $.ajax({
                 url : uri,
@@ -462,7 +462,7 @@
                     $('input[name="isVat"]').val(res.supplier.is_vat == 1?"True":"False");
                     $('input[name="isGovernment"]').val(res.supplier.is_government == 1?"True":"False");
                     $('input[name="vatValue"]').val(res.tax_computation.percent);
-                    $('input[name="poValue"]').val(res.tcPO.percent);
+                    $('input[name="joValue"]').val(res.tcJO.percent);
                     console.log(res);
                 },
                 error: function (res) {
@@ -480,7 +480,7 @@
                 //let refBook = $('select[name="ref_book"]').val();
                 let supplier = $('select[name="supplier"]').val();
                 if (e.keyCode === 13) {
-                    let uri = '{{route("dashboard.po.findTransByRefNumber", ["refNumber", "publicBIdding", "add", "id"]) }}';
+                    let uri = '{{route("dashboard.jo.findTransByRefNumber", ["refNumber", "publicBIdding", "add", "id"]) }}';
                     uri = uri.replace('refNumber',$(this).val());
                     uri = uri.replace('id',supplier);
                     $.ajax({
@@ -538,7 +538,7 @@
                                     taxBase = overAllTotal/1.12;
                                 }
                                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                                 $('#tax_base_1').val(tb1.toFixed(2));
                                 $('#tax_base_2').val(pOjOTax.toFixed(2));
                                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
@@ -565,8 +565,8 @@
 
         $('#saveBtn').click(function(e) {
             e.preventDefault();
-            let form = $('#po_form');
-            let uri = '{{route("dashboard.po.store")}}';
+            let form = $('#jo_form');
+            let uri = '{{route("dashboard.jo.store")}}';
             loading_btn(form);
             $.ajax({
                 type: 'POST',
@@ -601,7 +601,7 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.po.print1','slug')}}";
+                            let link = "{{route('dashboard.jo.print','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
