@@ -47,8 +47,8 @@ class RequestForVehicleController extends Controller
         $d->to = $request->to;
         $d->destination = $request->destination;
         $d->requested_by_position = $request->requested_by_position;
-        $d->approved_by = 'ATTY. JOHANA S. JADOC';
-        $d->approved_by_position = 'MANAGER III - AFD - VISAYAS';
+        $d->approved_by = 'NOLI T. TINGSON';
+        $d->approved_by_position = 'SUPPLY OFFICER IV';
 
 
         if($d->save()){
@@ -212,9 +212,35 @@ class RequestForVehicleController extends Controller
             ->toJson();
     }
 
-    public function tripTicket($slug)
+    public function tripTicket($slug, $request)
     {
         $rv = RequestForVehicle::query()->where('slug', '=', $slug)->first();
+        $slugss=Str::random();
+        if ($rv) {
+            $tripTicket = TripTicket::query()->where('ticket_no', '=', $rv->request_no)->first();
+
+            if (!$tripTicket) {
+                $tripTicket = new TripTicket();
+                $tripTicket->slug = $slugss;
+                $tripTicket->ticket_no = $rv->request_no();
+                $tripTicket->transaction_slug = $rv->slug;
+                $tripTicket->transaction_slug = $request->date;
+                $tripTicket->transaction_slug = $rv->driver;
+                $tripTicket->transaction_slug = $rv->vehicle;
+                $tripTicket->transaction_slug = $rv->destination;
+                $tripTicket->transaction_slug = $rv->purpose;
+                $tripTicket->transaction_slug = $request->approved_by;
+
+                $tripTicket->save();
+
+            return view('ppu.request_vehicle.tripTicket')->with([
+                'rv' => $rv,
+                'tripTicket' => $tripTicket,
+            ]);
+        }
+
+        abort(404, 'Records not found');
+    }
 
         return view('ppu.request_vehicle.tripTicket');
     }
