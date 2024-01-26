@@ -299,29 +299,31 @@
       }
 
       @if(empty(\Illuminate\Support\Facades\Auth::user()->userDetails))
-        $(document).ready(function () {
-          $("#choose_rc_modal").modal('show');
+          @if(\Illuminate\Support\Facades\Request::path() != 'verifyEmail')
+            $(document).ready(function () {
+              $("#choose_rc_modal").modal('show');
 
-          $("#choose_rc_form").submit(function (e) {
-            e.preventDefault();
-            let form = $(this);
-            loading_btn(form);
-            $.ajax({
-              url : '{{route("dashboard.ajax.post",'assign_rc')}}',
-              data : form.serialize(),
-              type: 'POST',
-              headers: {
-                {!! __html::token_header() !!}
-              },
-              success: function (res) {
-                window.location.reload();
-              },
-              error: function (res) {
-                errored(form,res);
-              }
-            })
-          })
-        });
+              $("#choose_rc_form").submit(function (e) {
+                e.preventDefault();
+                let form = $(this);
+                loading_btn(form);
+                $.ajax({
+                  url : '{{route("dashboard.ajax.post",'assign_rc')}}',
+                  data : form.serialize(),
+                  type: 'POST',
+                  headers: {
+                    {!! __html::token_header() !!}
+                  },
+                  success: function (res) {
+                    window.location.reload();
+                  },
+                  error: function (res) {
+                    errored(form,res);
+                  }
+                })
+              })
+            });
+           @endif
         @endif
     </script>
 
