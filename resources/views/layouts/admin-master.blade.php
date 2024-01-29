@@ -136,7 +136,7 @@
           });
 
       setTimeout(function() {
-        window.location.href = '{{ route("auth.logout") }}'; // Replace with your logout route
+        document.getElementById('logoutBtn').click();
       }, 5000);
       @endif
       @if(empty(\Illuminate\Support\Facades\Auth::user()->project_id))

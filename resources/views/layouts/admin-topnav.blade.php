@@ -41,7 +41,7 @@
                 <a href="{{ route('dashboard.profile.details') }}" class="btn btn-default btn-flat">Profile</a>
               </div>
               <div class="pull-right">
-                <a  href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();" class="btn btn-default btn-flat">Sign out</a>
+                <a id="logoutBtn" href="{{ route('auth.logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();" class="btn btn-default btn-flat">Sign out</a>
               </div>
               <form id="frm-logout" action="{{ route('auth.logout') }}" method="POST" style="display: none;">
                 {{ csrf_field() }}
