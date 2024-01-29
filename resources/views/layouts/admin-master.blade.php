@@ -123,6 +123,22 @@
       </div>
 
     <script type="text/javascript">
+      @if(empty(\Illuminate\Support\Facades\Auth::user()->pms_allowed))
+          Swal.fire({
+            title: 'Under Maintenance!',
+            text: 'Procurement Management System is under construction.',
+            icon: 'info',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            customClass: {
+              content: 'font-size: 32px; text-align: center;'
+            }
+          });
+
+      setTimeout(function() {
+        window.location.href = '{{ route("auth.logout") }}'; // Replace with your logout route
+      }, 5000);
+      @endif
       @if(empty(\Illuminate\Support\Facades\Auth::user()->project_id))
         /*Swal.fire({
           title: 'Project ID is required!',

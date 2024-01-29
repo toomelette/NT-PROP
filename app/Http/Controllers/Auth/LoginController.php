@@ -84,18 +84,18 @@ class LoginController extends Controller{
 
 
         if($this->auth->guard()->attempt($this->credentials($request))){
-            //if ($this->auth->user()->employee->locations == 'COS-VISAYAS' || $this->auth->user()->employee->locations == 'JANITORIAL' || $this->auth->user()->employee->locations == 'RETIREE' || $this->auth->user()->employee->locations == 'COS-LUZMIN') {
+            if ($this->auth->user()->employee->locations == 'COS-VISAYAS' || $this->auth->user()->employee->locations == 'JANITORIAL' || $this->auth->user()->employee->locations == 'RETIREE' || $this->auth->user()->employee->locations == 'COS-LUZMIN') {
                 if ($this->auth->user()->pms_allowed != 1) {
                     $this->session->flush();
                     $this->session->flash('FOR_PERMANENT', 'Your account is not eligible to use Procurement Management System');
                     $this->auth->logout();
                     return $this->sendFailedLoginResponse($request);
                 }
-            //}
+            }
 
             if ($this->auth->user()->is_activated == false) {
                 $this->session->flush();
-                $this->session->flash('AUTH_UNACTIVATED', 'Your account is currently UNACTIVATED! Please contact the designated IT Personel to activate your account.');
+                $this->session->flash('AUTH_UNACTIVATED', 'Your account is currently UNACTIVATED! Please contact the designated IT Personnel to activate your account.');
                 $this->auth->logout();
 
             } else {
