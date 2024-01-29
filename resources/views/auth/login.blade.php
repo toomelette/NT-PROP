@@ -437,6 +437,10 @@
                                         {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('FOR_PERMANENT')) !!}
                                     @endif
 
+                                    @if(Session::has('PMS_NOT_ALLOWED'))
+                                        {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('PMS_NOT_ALLOWED')) !!}
+                                    @endif
+
                                 @if(Session::has('AUTH_UNACTIVATED'))
                                     {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('AUTH_UNACTIVATED')) !!}
                                 @endif

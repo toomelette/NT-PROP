@@ -84,42 +84,43 @@ class LoginController extends Controller{
 
 
         if($this->auth->guard()->attempt($this->credentials($request))){
-            if($this->auth->user()->pms_allowed != 1) {
+            if($this->auth->user()->pms_allowed != 1){
                 $this->session->flush();
-                $this->session->flash('FOR_PERMANENT','Procurement Management System is under maintenance.');
+                $this->session->flash('PMS_NOT_ALLOWED', 'Procurement Management System is under maintenance.');
                 $this->auth->logout();
                 return $this->sendFailedLoginResponse($request);
             }
-
-            if($this->auth->user()->employee->locations == 'COS-VISAYAS' || $this->auth->user()->employee->locations == 'JANITORIAL' || $this->auth->user()->employee->locations == 'RETIREE' || $this->auth->user()->employee->locations == 'COS-LUZMIN'){
-                if($this->auth->user()->pms_allowed != 1){
-                    $this->session->flush();
-                    $this->session->flash('FOR_PERMANENT','Your account is not eligible to use Procurement Management System');
-                    $this->auth->logout();
-                    return $this->sendFailedLoginResponse($request);
+            else {
+                if ($this->auth->user()->employee->locations == 'COS-VISAYAS' || $this->auth->user()->employee->locations == 'JANITORIAL' || $this->auth->user()->employee->locations == 'RETIREE' || $this->auth->user()->employee->locations == 'COS-LUZMIN') {
+                    if ($this->auth->user()->pms_allowed != 1) {
+                        $this->session->flush();
+                        $this->session->flash('FOR_PERMANENT', 'Your account is not eligible to use Procurement Management System');
+                        $this->auth->logout();
+                        return $this->sendFailedLoginResponse($request);
+                    }
                 }
-            }
 
-            if($this->auth->user()->is_activated == false){
-                $this->session->flush();
-                $this->session->flash('AUTH_UNACTIVATED','Your account is currently UNACTIVATED! Please contact the designated IT Personel to activate your account.');
-                $this->auth->logout();
+                if ($this->auth->user()->is_activated == false) {
+                    $this->session->flush();
+                    $this->session->flash('AUTH_UNACTIVATED', 'Your account is currently UNACTIVATED! Please contact the designated IT Personel to activate your account.');
+                    $this->auth->logout();
 
-            }else{
-                $activity = activity()
-                    ->performedOn(new User())
-                    ->causedBy($this->auth->user()->id)
-                    ->withProperties(['attributes' => 'Logged in'])
-                    ->log('auth');
-//                $user = $this->user_repo->login($this->auth->user()->slug);
+                } else {
+                    $activity = activity()
+                        ->performedOn(new User())
+                        ->causedBy($this->auth->user()->id)
+                        ->withProperties(['attributes' => 'Logged in'])
+                        ->log('auth');
+                    //                $user = $this->user_repo->login($this->auth->user()->slug);
 
-//                $this->__cache->deletePattern(''. config('app.name') .'_cache:users:fetch:*');
-//                $this->__cache->deletePattern(''. config('app.name') .'_cache:users:findBySlug:'. $user->slug .'');
-//                $this->__cache->deletePattern(''. config('app.name') .'_cache:users:getByIsOnline:'. $user->is_online .'');
+                    //                $this->__cache->deletePattern(''. config('app.name') .'_cache:users:fetch:*');
+                    //                $this->__cache->deletePattern(''. config('app.name') .'_cache:users:findBySlug:'. $user->slug .'');
+                    //                $this->__cache->deletePattern(''. config('app.name') .'_cache:users:getByIsOnline:'. $user->is_online .'');
 
-                $this->clearLoginAttempts($request);
-                return redirect(session('link'));
+                    $this->clearLoginAttempts($request);
+                    return redirect(session('link'));
 
+                }
             }
         
         }
