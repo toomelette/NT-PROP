@@ -135,9 +135,9 @@
             }
           });
 
-      setTimeout(function() {
-        document.getElementById('logoutBtn').click();
-      }, 5000);
+          setTimeout(function() {
+            document.getElementById('logoutBtn').click();
+          }, 5000);
       @endif
       @if(empty(\Illuminate\Support\Facades\Auth::user()->project_id))
         /*Swal.fire({

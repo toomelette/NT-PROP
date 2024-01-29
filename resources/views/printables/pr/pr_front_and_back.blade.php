@@ -41,7 +41,11 @@
             <td style="width: 15%;" class="b-left text-strong">Department:</td>
             <td class="b-bottom text-strong" style="width: 35%;"> {{$pr->rc->department}} </td>
             <td class="b-left text-strong">PR No.:</td>
-            <td class="text-strong b-bottom"> {{$pr->ref_no}} </td>
+            @if(\Illuminate\Support\Facades\Auth::user()->project_id == 1)
+                <td class="text-strong b-bottom"> {{--{{$pr->ref_no}} --}}</td>
+            @elseif(\Illuminate\Support\Facades\Auth::user()->project_id == 2)
+                <td class="text-strong b-bottom"> {{$pr->ref_no}} </td>
+            @endif
             <td class="text-strong ">Date:</td>
             <td class="b-bottom text-strong b-right"> {{\Illuminate\Support\Carbon::parse($pr->date)->format('M. d, Y')}} </td>
         </tr>

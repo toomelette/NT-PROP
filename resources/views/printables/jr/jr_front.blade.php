@@ -30,7 +30,11 @@
             <td style="width: 15%;" class="b-left text-strong">Department:</td>
             <td class="b-bottom text-strong" style="width: 45%;"> {{$jr->rc->department ?? null}} </td>
             <td class="b-left text-strong">J.R. No.:</td>
-            <td class="text-strong b-bottom b-right"> {{$jr->ref_no}} </td>
+            @if(\Illuminate\Support\Facades\Auth::user()->project_id == 1)
+                <td class="text-strong b-bottom b-right"> </td>
+            @elseif(\Illuminate\Support\Facades\Auth::user()->project_id == 2)
+                <td class="text-strong b-bottom b-right"> {{$jr->ref_no}} </td>
+            @endif
 
         </tr>
         <tr>
