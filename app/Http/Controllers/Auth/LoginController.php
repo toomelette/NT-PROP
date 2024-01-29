@@ -84,7 +84,11 @@ class LoginController extends Controller{
 
 
         if($this->auth->guard()->attempt($this->credentials($request))){
-            if($this->auth->user()->pms_allowed == null || $this->auth->user()->pms_allowed != 1) {
+            if(
+                ($this->auth->user()->pms_allowed == null || $this->auth->user()->pms_allowed != 1)
+                &&
+                $this->auth->user()->employee->locations != 'LUZON/MINDANAO'
+            ) {
                 $this->session->flush();
                 $this->session->flash('FOR_PERMANENT','Procurement Management System is under maintenance.');
                 $this->auth->logout();

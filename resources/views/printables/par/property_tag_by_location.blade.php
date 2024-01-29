@@ -1,3 +1,6 @@
+@php
+/** @var $pars */
+@endphp
 @extends('printables.print_layouts.print_layout_main')
 
 @section('styles')
