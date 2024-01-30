@@ -28,8 +28,8 @@
             <td class="text-center">
                     <p class="no-margin text-strong" style="font-size: 25px">PURCHASE REQUEST</p>
                     <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                    <p class="no-margin text-strong">Araneta St., Singcang, Bacolod City</p>
-                    <p class="no-margin text-strong">Tel No. 433-6891</p>
+                    <p class="no-margin text-strong">{{\App\Swep\Helpers\Values::headerAddress()}}</p>
+                    <p class="no-margin text-strong">{{\App\Swep\Helpers\Values::headerTelephone()}}</p>
             </td>
             <td style="width: 30%">
 
@@ -157,6 +157,10 @@
             <td class="text-top" style="width: 11%">PPBTMS</td>
         </tr>
     </table>
+    <div class="qms-right">
+        <p class="no-margin">FM-AFD-PPS-003,Rev.00</p>
+        <p class="no-margin">Effectivity Date: March 12, 2015</p>
+    </div>
 @endsection
 
 @section('scripts')
