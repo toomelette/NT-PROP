@@ -249,3 +249,9 @@ table.print-table th,table.print-table td{
     }
 
 }
+
+.qms-right{
+    text-align: right;
+    font-family: Cambria;
+    font-size: 8px;
+}
