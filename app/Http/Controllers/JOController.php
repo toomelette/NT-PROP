@@ -235,6 +235,7 @@ class JOController extends Controller
             $transNew->order_slug = $randomSlug;
 
             $transactionTotals = [];
+            $arr = [];
             if(!empty($request->items)){
                 foreach ($request->items as $item) {
                     $slug = $item['transaction_slug'];
@@ -268,7 +269,7 @@ class JOController extends Controller
                         $joDetails = new JODetails();
                         $joDetails->slug = Str::random();
                         $joDetails->order_slug = $order->slug;
-                        $joDetails->pr_number = $refNumber;
+                        $joDetails->jr_number = $refNumber;
                         $joDetails->abc = $total_cost;
                         if ($trans) {
                             $joDetails->pap_code = $trans->pap_code;
@@ -339,7 +340,7 @@ class JOController extends Controller
                         ->where('ref_book', 'JR')
                         ->get();
 
-                    foreach ($transRecords as $tr) {
+                    /*foreach ($transRecords as $tr) {
                         //EMAIL NOTIFICATION
                         $to = $tr->userCreated->email;
                         $subject = Arrays::acronym($tr->ref_book).' No. '.$tr->ref_no;
@@ -351,7 +352,7 @@ class JOController extends Controller
 
                         //QUEUE EMAIL
                         EmailNotification::dispatch($to,$subject,$body,$cc);
-                    }
+                    }*/
                 }
                 else {
                     //EMAIL NOTIFICATION
@@ -483,7 +484,7 @@ class JOController extends Controller
         foreach ($td as $tran){
             $nature_of_work_arr[] = $tran->nature_of_work;
         }
-        if($order->mode.equalsTo("'Public Bidding'")) {
+        if($order->mode == "Public Bidding") {
             return view('printables.jo.joPublicBidding')->with([
                 'order' => $order,
                 'trans' => $trans,

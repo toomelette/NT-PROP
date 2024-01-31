@@ -110,15 +110,23 @@
                                             @if(count($menu_content['submenus']) > 0)
                                                 @foreach($menu_content['submenus'] as $submenu)
                                                     @if($submenu->is_nav == true)
-
-                                                        <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
-                                                            <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
-                                                        </li>
+                                                        @if(\Illuminate\Support\Facades\Auth::user()->project_id == 2)
+                                                            <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
+                                                                <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
+                                                            </li>
+                                                        @elseif
+                                                            {{--MLKNN9G - My PR ID  || EQTRT4 - My JR ID--}}
+                                                            {{--NOT VISIBLE FOR ALL VISAYAS EMPLOYEE--}}
+                                                            @if($submenu->submenu_id != "MLKNN9G" || $submenu->submenu_id != "EQTRT4")
+                                                                <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
+                                                                    <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
+                                                                </li>
+                                                            @endif
+                                                        @endif
                                                     @endif
                                                 @endforeach
                                             @endif
                                         </ul>
-
                                     </li>
                                 @endif
                             @endif
