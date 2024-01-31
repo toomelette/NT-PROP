@@ -114,7 +114,7 @@
                                                             <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
                                                                 <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
                                                             </li>
-                                                        @elseif
+                                                        @else
                                                             {{--MLKNN9G - My PR ID  || EQTRT4 - My JR ID--}}
                                                             {{--NOT VISIBLE FOR ALL VISAYAS EMPLOYEE--}}
                                                             @if($submenu->submenu_id != "MLKNN9G" || $submenu->submenu_id != "EQTRT4")
