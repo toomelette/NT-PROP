@@ -47,7 +47,8 @@
                 <p class="no-margin">Republic of the Philippines</p>
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                <p class="no-margin">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
+                <p class="no-margin">{{\App\Swep\Helpers\Values::headerAddress()}}</p>
+                <p class="no-margin">{{\App\Swep\Helpers\Values::headerTelephone()}}</p>
                 <p class="no-margin" style="font-size: 20px"><strong>REQUEST FOR QUOTATION</strong></p>
             </td>
         </tr>
