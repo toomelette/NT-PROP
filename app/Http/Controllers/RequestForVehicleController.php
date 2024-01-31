@@ -212,36 +212,4 @@ class RequestForVehicleController extends Controller
             ->toJson();
     }
 
-    public function tripTicket($slug, $request)
-    {
-        $rv = RequestForVehicle::query()->where('slug', '=', $slug)->first();
-        $slugss=Str::random();
-        if ($rv) {
-            $tripTicket = TripTicket::query()->where('ticket_no', '=', $rv->request_no)->first();
-
-            if (!$tripTicket) {
-                $tripTicket = new TripTicket();
-                $tripTicket->slug = $slugss;
-                $tripTicket->ticket_no = $rv->request_no();
-                $tripTicket->transaction_slug = $rv->slug;
-                $tripTicket->transaction_slug = $request->date;
-                $tripTicket->transaction_slug = $rv->driver;
-                $tripTicket->transaction_slug = $rv->vehicle;
-                $tripTicket->transaction_slug = $rv->destination;
-                $tripTicket->transaction_slug = $rv->purpose;
-                $tripTicket->transaction_slug = $request->approved_by;
-
-                $tripTicket->save();
-
-            return view('ppu.request_vehicle.tripTicket')->with([
-                'rv' => $rv,
-                'tripTicket' => $tripTicket,
-            ]);
-        }
-
-        abort(404, 'Records not found');
-    }
-
-        return view('ppu.request_vehicle.tripTicket');
-    }
 }

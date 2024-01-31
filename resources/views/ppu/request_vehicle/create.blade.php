@@ -76,7 +76,8 @@
                     <img style="width: 300px" class="" src="{{asset('images/check.gif')}}"/>
 
                     <h3>Request successfully created.</h3>
-                    <a class="btn btn-sm btn-success" id="print-btn" type="button" target="_blank"><i class="fa fa-print"></i> Print Request</a>
+                    <h3>Please wait while we assign a driver and vehicle for you</h3>
+{{--                    <a class="btn btn-sm btn-success" id="print-btn" type="button" target="_blank"><i class="fa fa-print"></i> Print Request</a>--}}
                     <br><br>
                 </div>
             </div>

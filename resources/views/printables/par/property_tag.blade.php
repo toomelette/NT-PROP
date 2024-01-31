@@ -32,7 +32,7 @@
                                                     <td class="" style="font-size: 10px">
                                                         <p class="no-margin">Republic of the Philippines</p>
                                                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                                                        <p class="no-margin" style="font-size: 10px">Araneta Street, Singcang, Bacolod city</p>
+                                                        <p class="no-margin" style="font-size: 10px">{{\App\Swep\Helpers\Values::headerAddress()}}, {{\App\Swep\Helpers\Values::headerTelephone()}}</p>
                                                     </td>
                                                     <td style="width: 40px">
                                                         {{\SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate('{"property_no":"'.$par->propertyno.'"}')}}

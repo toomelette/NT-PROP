@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Auth;
+use Doctrine\DBAL\Driver;
 use Illuminate\Database\Eloquent\Model;
 
 class TripTicket extends Model
@@ -24,9 +25,17 @@ class TripTicket extends Model
         });
     }
 
-    protected $table = '$tripTicket';
+    protected $table = 'trip_ticket';
 
     protected $fillable = ['slug', 'ticket_no', 'driver', 'vehicle', 'passengers','request_no'];
+
+    public function driver(){
+        return $this->hasOne(Driver::class,'slug','driver');
+    }
+
+    public function vehicle(){
+        return $this->hasOne(Vehicles::class,'slug','vehicle');
+    }
 
 
 
