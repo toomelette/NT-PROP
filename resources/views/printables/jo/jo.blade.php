@@ -110,7 +110,7 @@
         <tr style="font-size: 14px">
             <td style="width: 33%;">
                 <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
-                    <b>{{$trans->transaction->ref_book == 'PR'?'PR No.:':'JR No.:'}} <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->transaction->ref_no) }}</u></span></b>
+                    <b>JR No.<span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->transaction->ref_no) }}</u></span></b>
                 </div>
             </td>
             <td style="width: 33%;">

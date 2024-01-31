@@ -25,4 +25,8 @@ class JODetails extends Model
         });
     }
     protected $table = 'jo_details';
+
+    public function transaction(){
+        return $this->hasOne(Transactions::class,'ref_no','jr_number')->where('ref_book','=','JR');
+    }
 }
