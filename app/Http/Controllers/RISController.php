@@ -139,7 +139,7 @@ class RISController extends Controller
         $transNew->ref_book = 'RIS';
         $transNew->ref_no = $this->getNextRISno();
         $transNew->purpose = $request->purpose;
-//        $transNew->requested_by = $request->requested_by;
+//        $transNew->requested_by = $request->requested_by;c
         $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
         $transNew->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
         $transNew->sai = $request->sai;
