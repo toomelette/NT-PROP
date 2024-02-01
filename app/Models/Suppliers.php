@@ -23,7 +23,7 @@ class Suppliers extends Model
             $a->user_created = $user->user_id;
             $a->ip_created = request()->ip();
             $a->created_at = \Carbon::now();
-            $a->projectid = $user->project_id;
+            $a->project_id = $user->project_id;
         });
     }
     protected $table = 'suppliers';
