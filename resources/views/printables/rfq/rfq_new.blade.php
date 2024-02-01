@@ -85,8 +85,8 @@
                             {{--<img src="{{ asset('images/NoliTSign.png') }}" alt="Signature" class="signature-image">--}}
                         </div>
                         <div class="name-info">
-                            <span class="name"><u><b>NOLI T. TINGSON</b></u></span><br>
-                            <span class="designation">Supply Officer IV</span>
+                            <span class="name"><u><b>HAZEL ROSE MARIANO</b></u></span><br>
+                            <span class="designation">Supply Officer III</span>
                         </div>
                     </div>
                 </div>
