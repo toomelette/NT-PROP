@@ -27,9 +27,11 @@ class Articles extends Model
         });
 
         static::creating(function ($a){
-            $a->user_created = Auth::user()->user_id;
+            $user = Auth::user();
+            $a->user_created = $user->user_id;
             $a->ip_created = request()->ip();
             $a->created_at = \Carbon::now();
+            $a->project_id = $user->project_id;
         });
     }
     protected $table = 'inv_master';

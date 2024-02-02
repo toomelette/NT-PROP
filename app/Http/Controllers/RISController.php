@@ -123,23 +123,27 @@ class RISController extends Controller
         $transNew = new Transactions();
         $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
             ->where('ref_book','=','IAR')->first();
-        if($iar->cross_slug != null || $iar->cross_slug != ""){
-            $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
-            $order = Order::query()->where('slug', $po->order_slug)->first();
-            $transNew->po_number = $po->ref_no;
-            $transNew->po_date = $order->date;
+
+
+        if(!empty($iar)){
+            if($iar->cross_slug != null || $iar->cross_slug != ""){
+                $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
+                $order = Order::query()->where('slug', $po->order_slug)->first();
+                $transNew->po_number = $po->ref_no;
+                $transNew->po_date = $order->date;
+            }
         }
 
         $transNewSlug = Str::random();
         $transNew->slug = $transNewSlug;
-        $transNew->cross_slug = $iar->slug;
+        $transNew->cross_slug = $iar->slug ?? null;
         $transNew->date = $request->date;
         $transNew->resp_center = $request->resp_center;
         $transNew->pap_code = $request->pap_code;
         $transNew->ref_book = 'RIS';
         $transNew->ref_no = $this->getNextRISno();
         $transNew->purpose = $request->purpose;
-//        $transNew->requested_by = $request->requested_by;
+//        $transNew->requested_by = $request->requested_by;c
         $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
         $transNew->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
         $transNew->sai = $request->sai;

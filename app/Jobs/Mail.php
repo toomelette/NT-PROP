@@ -27,7 +27,7 @@ class Mail
         $this->mail->SMTPSecure = 'ssl';                  // encryption - ssl/tls
         $this->mail->Port = 465;                          // port - 587/465
         $this->mail->From = 'no-reply@sra.gov.ph';
-        $this->mail->FromName = 'SRA Visayas - PPBTMS';
+        $this->mail->FromName = 'SRA - PPBTMS';
 
         $this->mail->SMTPOptions = array(
             'ssl' => array(
