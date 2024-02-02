@@ -118,45 +118,55 @@
         </tr>
     </table>
 
-    <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
-        <tr style="font-size: 14px">
-            <td style="width: 33%;">
-                <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
-                    <b>JR No. <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->ref_no) }}</u></span></b>
-                </div>
-            </td>
-            <td style="width: 33%;">
-                <div style="display: flex; align-items: center; justify-content: flex-start; background-color: yellow">
-                    <b>Charge to: <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->pap_code) }}</u></span></b>
-                </div>
-            </td>
-            <td style="width: 33%;">
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b>For: <span style="margin-left: 10px; font-size: 14px"><u>{{--{{ strtoupper($rc->desc) }}--}}</u></span></b>
-                </div>
-                <div style="display: flex; align-items: center; justify-content: flex-start;">
-                    <b><span style="margin-left: 36px; font-size: 14px"><u>{{ strtoupper($trans->requested_by) }}</u></span></b>
-                </div>
-            </td>
-        </tr>
-    </table>
+    @foreach($order->joDetails as $item)
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+            <tr style="font-size: 14px">
+                <td style="width: 33%;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
+                        <b>JR No. <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($item->jr_number) }}</u></span></b>
+                    </div>
+                </td>
+                <td style="width: 33%;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start; background-color: yellow">
+                        <b>Charge to: <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($item->pap_code) }}</u></span></b>
+                    </div>
+                </td>
+                <td style="width: 33%;">
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        @php
+                            $desc = $rc->where('rc_code', $item->resp_center)->pluck('desc')->first();
+                        @endphp
 
-    <table style=" width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
-        <tr style="font-size: 14px">
-            <td style="text-align: center;">
-                <div>
-                    <b style="float: left">Description / Specifications:</b><br>
-                    <b><span style="font-size: 14px;">
-                        @if(!empty($td))
-                                @foreach($td as $item)
-                                    {{$item->nature_of_work}}
-                                @endforeach
-                            @endif
-                        </span></b>
-                </div>
-            </td>
-        </tr>
-    </table>
+                        <b>For: <span style="margin-left: 10px; font-size: 14px"><u>{{ strtoupper($desc) }}</u></span></b>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <b><span style="margin-left: 36px; font-size: 14px"><u>{{ strtoupper($item->requested_by) }}</u></span></b>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <table style=" width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+            <tr style="font-size: 14px">
+                <td style="">
+                    <div>
+                        <b style="float: left">Description / Specifications:</b><br>
+                        <b><span style="font-size: 14px;">
+                                <ul>
+                                    @if(!empty($order->transaction->transDetails))
+                                        @foreach($order->transaction->transDetails as $items)
+                                            @if($item->jr_number === $items->rfq_slug )
+                                                <li>{{$items->item}}</li>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </ul>
+                            </span></b>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    @endforeach
 
     <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">

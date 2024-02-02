@@ -36,4 +36,8 @@ class Order extends Model
     public function transaction(){
         return $this->hasone(Transactions::class,'order_slug','slug');
     }
+
+    public function joDetails(){
+        return $this->hasmany(JODetails::class,'order_slug','slug');
+    }
 }

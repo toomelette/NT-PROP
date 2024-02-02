@@ -196,6 +196,7 @@
                                     <thead>
                                     <tr class="">
                                         <th></th>
+                                        <th></th>
                                         <th>Stock No.</th>
                                         <th>Unit</th>
                                         <th>Item</th>
@@ -510,6 +511,7 @@
                                 let descrip = res.transDetails[i].description === null ? '' : res.transDetails[i].description;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                     '<td><input class="form-control hidden" id="items['+res.transDetails[i].slug+'][transaction_slug]" name="items['+res.transDetails[i].slug+'][transaction_slug]" type="text" value="' + res.transDetails[i].transaction_slug + '"></td>' +
+                                    '<td><input class="form-control hidden" id="items['+res.transDetails[i].slug+'][rfq_slug]" name="items['+res.transDetails[i].slug+'][rfq_slug]" type="text" value="' + res.transDetails[i].rfq_slug + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][item]" name="items['+res.transDetails[i].slug+'][item]" type="text" value="' +  res.transDetails[i].item + '"></td>' +
