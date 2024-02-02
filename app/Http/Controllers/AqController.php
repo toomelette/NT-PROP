@@ -58,7 +58,7 @@ class AqController extends Controller
         $dt = $dt->with(['transaction'])
             ->addColumn('action',function($data){
                 return view('ppu.aq.dtActions')->with([
-                    'data' => $data,
+                    'data' => $data, 'all' => 'all',
                 ]);
             })
             ->addColumn('transRefBook',function($data){
@@ -128,7 +128,7 @@ class AqController extends Controller
             ->whereNotExists(function($query) {
                 $query->select(\Illuminate\Support\Facades\DB::raw(1))
                     ->from('transactions as t')
-                    ->whereRaw('t.cross_slug = transactions.cross_slug')
+                    ->whereRaw('t.cross_ref_no = transactions.ref_no')
                     ->where('t.ref_book', '=', 'AQ');
             });
 
@@ -163,7 +163,7 @@ class AqController extends Controller
         $dt = $dt->with(['transaction'])
             ->addColumn('action',function($data){
                 return view('ppu.aq.dtActions')->with([
-                    'data' => $data,
+                    'data' => $data, 'all' => 'pending',
                 ]);
             })
             ->addColumn('transRefBook',function($data){
