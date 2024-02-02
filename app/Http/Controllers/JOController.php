@@ -341,7 +341,7 @@ class JOController extends Controller
                         ->where('ref_book', 'JR')
                         ->get();
 
-                    /*foreach ($transRecords as $tr) {
+                    foreach ($transRecords as $tr) {
                         //EMAIL NOTIFICATION
                         $to = $tr->userCreated->email;
                         $subject = Arrays::acronym($tr->ref_book).' No. '.$tr->ref_no;
@@ -353,7 +353,7 @@ class JOController extends Controller
 
                         //QUEUE EMAIL
                         EmailNotification::dispatch($to,$subject,$body,$cc);
-                    }*/
+                    }
                 }
                 else {
                     //EMAIL NOTIFICATION
