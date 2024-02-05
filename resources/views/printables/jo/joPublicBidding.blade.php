@@ -48,7 +48,7 @@
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                 <p class="no-margin">Araneta St., Singcang, Bacolod City, Tel No. 433-6891</p>
-                <p class="no-margin" style="font-size: 30px"><strong>{{$order->ref_book=="PO"?"PURCHASE ORDER":"JOB ORDER"}} PUBLIC BIDDING</strong></p>
+                <p class="no-margin" style="font-size: 30px"><strong>{{$order->ref_book=="PO"?"PURCHASE ORDER":"JOB ORDER"}}</strong></p>
             </td>
         </tr>
     </table>
@@ -106,9 +106,9 @@
             </td>
         </tr>
     </table>
-    <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
-            <td style="border: 1px solid black; text-align: center;">
+            <td style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;text-align: center;">
                 <div>
                     <b><span style="font-size: 14px;">
                           THIS ORDER IS SUBJECT TO THE CONDITIONS PRINTED AT THE BACK HEREOF.
@@ -119,7 +119,7 @@
     </table>
 
     @foreach($order->joDetails as $item)
-        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria', Times New Roman;">
             <tr style="font-size: 14px">
                 <td style="width: 33%;">
                     <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
@@ -137,22 +137,20 @@
                             $desc = $rc->where('rc_code', $item->resp_center)->pluck('desc')->first();
                         @endphp
 
-                        <b>For: <span style="margin-left: 10px; font-size: 14px"><u>{{ strtoupper($desc) }}</u></span></b>
+                        <b><span style="margin-left: 10px; font-size: 12px"><u>{{ strtoupper($desc) }}</u></span></b>
                     </div>
                     <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 36px; font-size: 14px"><u>{{ strtoupper($item->requested_by) }}</u></span></b>
+                        <b><span style="margin-left: 10px; font-size: 12px"><u>{{ strtoupper($item->requested_by) }}</u></span></b>
                     </div>
                 </td>
             </tr>
-        </table>
-
-        <table style=" width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
-            <tr style="font-size: 14px">
-                <td style="">
-                    <div>
-                        <b style="float: left">Description / Specifications:</b><br>
-                        <b><span style="font-size: 14px;">
-                                <ul>
+            <tr style="font-size: 14px;">
+                <td colspan="3">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="float: left;">
+                                <b>Description / Specifications:</b><br>
+                                <ul class="text-strong" style="font-size: 14px;">
                                     @if(!empty($order->transaction->transDetails))
                                         @foreach($order->transaction->transDetails as $items)
                                             @if($item->jr_number === $items->rfq_slug )
@@ -161,12 +159,60 @@
                                         @endforeach
                                     @endif
                                 </ul>
-                            </span></b>
-                    </div>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>
     @endforeach
+    <table style="width: 99%; font-family: 'Cambria', Times New Roman; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
+        <thead>
+        <tr>
+            <td class="text-right" style="color: white">n/a</td>
+            <td class="text-right" style="color: white">n/a</td>
+            <td class="text-right text-strong">TOTAL (GROSS)</td>
+            <td class="text-right text-strong">{{number_format($order->total_gross, 2)}}</td>
+        </tr>
+        <tr>
+            <td colspan="4" style="width: 100%;">
+                <table style="width: 100%" class="tbl-no-pad align-self-end">
+                    <tr>
+                        <td class="text-right" style="color: white">n/an/a</td>
+                        <td class="text-right" style="color: white">n/an/a</td>
+                        <td class="text-right" style="color: white">n/an/a</td>
+                        <td class="text-right" style="color: white">n/an/a</td>
+                        <td class="text-right">Tax Base:</td>
+                        @if($supplier->is_vat == true)
+                            <td class="text-right">{{number_format($order->total_gross/1.12, 2)}}</td>
+                        @else
+                            <td class="text-right">{{number_format($order->total_gross, 2)}}</td>
+                        @endif
+                        <td class="text-right"></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"></td>
+                        <td class="text-right"></td>
+                        <td class="text-right"></td>
+                        <td class="text-right"></td>
+                        <td class="text-right">{{$order->vat}}%</td>
+                        <td class="text-right">{{number_format($order->tax_base_1, 2)}}</td>
+                        <td class="text-right"></td>
+                    </tr>
+                    <tr>
+                        <td class="text-right"></td>
+                        <td class="text-right"></td>
+                        <td class="text-right"></td>
+                        <td class="text-right"></td>
+                        <td class="text-right">{{$order->withholding_tax}}%</td>
+                        <td class="text-right">{{number_format($order->tax_base_2, 2)}}</td>
+                        <td class="text-right">{{number_format($order->tax_base_1 + $order->tax_base_2, 2)}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </thead>
+    </table>
 
     <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
