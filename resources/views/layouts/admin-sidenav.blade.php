@@ -117,7 +117,7 @@
                                                         @else
                                                             {{--MLKNN9G - My PR ID  || EQTRT4 - My JR ID--}}
                                                             {{--NOT VISIBLE FOR ALL VISAYAS EMPLOYEE--}}
-                                                            @if(\Illuminate\Support\Facades\Auth::user()->user_id != "U10002" && \Illuminate\Support\Facades\Auth::user()->user_id != "9885457")
+                                                            @if(\Illuminate\Support\Facades\Auth::user()->user_id != "U10002" && \Illuminate\Support\Facades\Auth::user()->user_id != "9885457" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10006")
                                                                 @if($submenu->submenu_id != "MLKNN9G" && $submenu->submenu_id != "EQTRT4")
                                                                     <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
                                                                         <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
