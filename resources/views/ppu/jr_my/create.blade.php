@@ -252,5 +252,17 @@
         $("#requested_by").select2({
             data : data,
         });
+
+        $("#requested_by").change(function (){
+            let value = $(this).val();
+            if(value != ''){
+                let index = data.findIndex( object => {
+                    return object.id == value;
+                });
+                $("input[name='requested_by_designation']").val(data[index].position);
+            }else{
+                $("input[name='requested_by_designation']").val('');
+            }
+        });
     </script>
 @endsection
