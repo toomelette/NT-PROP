@@ -346,7 +346,7 @@ class JOController extends Controller
                         $to = $tr->userCreated->email;
                         $subject = Arrays::acronym($tr->ref_book).' No. '.$tr->ref_no;
                         $cc = $tr->rc->emailRecipients->pluck('email_address')->toArray();
-                        $body = view('mailables.email_notifier.body-po-created')->with([
+                        $body = view('mailables.email_notifier.body-jo-created')->with([
                             'prOrJr' => $tr,
                             'jo' => $transNew,
                         ])->render();
