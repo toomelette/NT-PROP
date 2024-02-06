@@ -37,6 +37,9 @@ class PRFormRequest extends FormRequest
             ],
             'items.*.item'=>[
                 'required',
+            ],
+            'requested_by' => [
+                'required',
             ]
         ];
     }
