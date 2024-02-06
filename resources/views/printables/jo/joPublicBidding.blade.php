@@ -159,6 +159,18 @@
                                         @endforeach
                                     @endif
                                 </ul>
+                                <b>Scope of Work:</b><br>
+                                <ul class="text-strong" style="font-size: 14px;">
+                                    @if(!empty($order->transaction->transDetails))
+                                        @foreach($order->transaction->transDetails as $items)
+                                            @if($item->jr_number === $items->rfq_slug )
+                                               @if($items->scope_of_work !== null && $items->scope_of_work !== "")
+                                                    <li>{{$items->scope_of_work}}</li>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </ul>
                             </td>
                         </tr>
                     </table>
