@@ -135,7 +135,7 @@
                                   'rows' => 4
                                 ]) !!}--}}
                                 {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
-                                    'label' => 'Accountable Officer:',
+                                    'label' => 'Requested By:',
                                     'cols' => 12,
                                     'rows' => 4,
                                     'options' => [],
