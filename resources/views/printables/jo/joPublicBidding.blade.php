@@ -165,7 +165,7 @@
                                         @foreach($order->transaction->transDetails as $items)
                                             @if($item->jr_number === $items->rfq_slug )
                                                @if($items->scope_of_work !== null && $items->scope_of_work !== "")
-                                                    <li>{{$items->scope_of_work}}</li>
+                                                    <li>{{$items->nature_of_work}}</li>
                                                 @endif
                                             @endif
                                         @endforeach
