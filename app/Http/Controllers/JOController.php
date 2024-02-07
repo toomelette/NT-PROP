@@ -221,6 +221,12 @@ class JOController extends Controller
         $order->vat = $request->vatValue;
         $order->withholding_tax = $request->joValue;
 
+        $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
+        $order->total =  Helper::sanitizeAutonum($request->total);
+        $order->total_in_words = $request->total_in_words;
+        $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
+        $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
+
         if($request->mode == "Public Bidding"){
             $refNumberArray = preg_split('/\s*,\s*/', $request->ref_number, -1, PREG_SPLIT_NO_EMPTY);
             $transRecords = Transactions::whereIn('ref_no', $refNumberArray)
@@ -250,6 +256,7 @@ class JOController extends Controller
                     array_push($arr,[
                         'slug' => Str::random(),
                         'transaction_slug' =>$transNewSlug,
+                        'rfq_slug' => $item['rfq_slug'],
                         'stock_no' => $item['stock_no'],
                         'unit' => $item['unit'],
                         'item' => $item['item'],
@@ -287,12 +294,6 @@ class JOController extends Controller
                 ->where('ref_no', '=', $refNumber)
                 ->where('ref_book', '=', 'JR')
                 ->first();
-
-            $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
-            $order->total =  Helper::sanitizeAutonum($request->total);
-            $order->total_in_words = $request->total_in_words;
-            $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
-            $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
 
             $transNewSlug = Str::random();
             $transNew = new Transactions();
@@ -340,19 +341,19 @@ class JOController extends Controller
                         ->where('ref_book', 'JR')
                         ->get();
 
-                    /*foreach ($transRecords as $tr) {
+                    foreach ($transRecords as $tr) {
                         //EMAIL NOTIFICATION
                         $to = $tr->userCreated->email;
                         $subject = Arrays::acronym($tr->ref_book).' No. '.$tr->ref_no;
                         $cc = $tr->rc->emailRecipients->pluck('email_address')->toArray();
-                        $body = view('mailables.email_notifier.body-po-created')->with([
+                        $body = view('mailables.email_notifier.body-jo-created')->with([
                             'prOrJr' => $tr,
                             'jo' => $transNew,
                         ])->render();
 
                         //QUEUE EMAIL
                         EmailNotification::dispatch($to,$subject,$body,$cc);
-                    }*/
+                    }
                 }
                 else {
                     //EMAIL NOTIFICATION
@@ -458,6 +459,12 @@ class JOController extends Controller
             $detailsArray = collect([]);
 
             foreach ($transRecords as $trans) {
+                $refNumber = $trans->ref_no;
+
+                foreach ($trans->transDetails as $detail) {
+                    $detail->rfq_slug = $refNumber;
+                }
+
                 $detailsArray = $detailsArray->merge($trans->transDetails);
             }
 
@@ -485,11 +492,9 @@ class JOController extends Controller
             $nature_of_work_arr[] = $tran->nature_of_work;
         }
         if($order->mode == "Public Bidding") {
+            $rc = PPURespCodes::query()->get();
             return view('printables.jo.joPublicBidding')->with([
                 'order' => $order,
-                'trans' => $trans,
-                'td' => $td,
-                'nature_of_work_arr' => $nature_of_work_arr,
                 'rc' => $rc,
                 'supplier' => $supplier
             ]);

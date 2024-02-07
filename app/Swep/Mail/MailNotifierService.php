@@ -22,7 +22,7 @@ class MailNotifierService
             $mail->SMTPSecure = 'ssl';                  // encryption - ssl/tls
             $mail->Port = 465;                          // port - 587/465
 
-            $mail->setFrom('swep.afd@gmail.com', 'SRA Visayas - PPBTMS');
+            $mail->setFrom('swep.afd@gmail.com', 'SRA - PPBTMS');
             $mail->addAddress($to);
 //            $mail->addCC($request->emailCc);
 //            $mail->addBCC($request->emailBcc);
