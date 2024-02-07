@@ -65,14 +65,14 @@
                             Vehicle:
                         </td>
                         <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->vehicle}}
+                            {{$tt->vehicles->make . ' ' .$tt->vehicles->model . ' - ' . $tt->vehicles->plate_no}}
                         </td>
 
                         <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
                             Driver:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->driver}}
+                            {{$tt->drivers->employee->fullname}}
                         </td>
                     </tr>
 
