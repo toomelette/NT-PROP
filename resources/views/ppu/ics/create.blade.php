@@ -6,16 +6,38 @@
     </section>
 @endsection
 @section('content2')
+
+    @php
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
+
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
+
     <section class="content">
         <div role="document">
             <form id="add_form">
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[
-                                        'label' => 'ICS No:',
-                                        'cols' => 3,
-                                    ]) !!}
+{{--                            {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[--}}
+{{--                                        'label' => 'ICS No:',--}}
+{{--                                        'cols' => 3,--}}
+{{--                                    ]) !!}--}}
                             {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
                                     'label' => 'Account Code:',
                                     'cols' => 3,
@@ -59,6 +81,7 @@
                                     'cols' => 4,
                                     'type' => 'date'
                                  ]) !!}
+<<<<<<< HEAD
 
                             {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
                                        'label' => 'To:',
@@ -70,10 +93,20 @@
 {{--                                'label' => 'To:',--}}
 {{--                                'cols' => 4,--}}
 {{--                                ]) !!}--}}
+=======
+                            {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
+                                        'label' => 'to:',
+                                        'cols' => 4,
+                                        'options' => [],
+                                        'id' => 'requested_by',
+                                    ]) !!}
+>>>>>>> 268701dfd5ae6778149202a1d980a9f6c2825347
                             {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
-                                'label' => 'Designation:',
-                                'cols' => 4,
-                                ]) !!}
+                                        'label' => 'Designation:',
+                                        'cols' => 4,
+                                        'options' => [],
+                                    ]) !!}
+
                             {!! \App\Swep\ViewHelpers\__form2::textbox('received_at',[
                                     'label' => 'Received Date:',
                                     'cols' => 4,
@@ -131,6 +164,10 @@
 
 @section('scripts')
     <script type="text/javascript">
+
+        var data = {!!$employeesCollection!!};
+
+
         function deleteRow(button) {
             const row = button.closest('tr');
             if (row) {
@@ -246,6 +283,28 @@
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='itemName']").val(data.text);
         });
+
+        $("#requested_by").select2({
+            data : data,
+        });
+
+        $("#requested_by").change(function (){
+            let value = $(this).val();
+            if(value != ''){
+                let index = data.findIndex( object => {
+                    return object.id == value;
+                });
+                // $("input[name='acctemployee_no']").val(data[index].employee_no);
+                // $("input[name='acctemployee_fname']").val(data[index].fullname);
+                $("input[name='requested_by_designation']").val(data[index].position);
+            }else{
+                // $("input[name='acctemployee_no']").val('');
+                // $("input[name='acctemployee_fname']").val('');
+                $("input[name='requested_by_designation']").val('');
+            }
+        });
+
+
         $("#inventory-account-code").select2();
     </script>
 @endsection
