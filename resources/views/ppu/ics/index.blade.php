@@ -112,6 +112,7 @@
                         $("#ics_table #"+active).addClass('success');
                     }
                 }
+
             });
 
             /*$("body").on("click",".edit_btn",function () {
