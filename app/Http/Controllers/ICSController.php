@@ -77,7 +77,7 @@ class ICSController extends Controller
 
         $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
 
-        return $year . $newPrBaseNo;
+        return $year . Carbon::parse($received_at)->format('m-') . $newPrBaseNo;
     }
 
     public function store(FormRequest $request){
