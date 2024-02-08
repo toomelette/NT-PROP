@@ -4,7 +4,6 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Employee;
 use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\Suppliers;
@@ -61,25 +60,6 @@ class ICSController extends Controller
         ]);
     }
 
-    public function getNextICSno($received_at)
-    {
-        $year = Carbon::parse($received_at)->format('Y-');
-        $pr = Transactions::query()
-            ->where('ref_no', 'like', $year . '%')
-            ->where('ref_book', '=', 'ICS')
-            ->orderBy('ref_no', 'desc')->limit(1)->first();
-
-        if (empty($pr)) {
-            $prNo = 0;
-        } else {
-            $prNo = substr($pr->ref_no, -4);
-        }
-
-        $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
-
-        return $year . $newPrBaseNo;
-    }
-
     public function store(FormRequest $request){
         $trans = new Transactions();
         $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
@@ -105,13 +85,14 @@ class ICSController extends Controller
         $trans->slug = $transNewSlug;
         $trans->cross_slug = $crossSlug;
         $trans->resp_center = $respCenter;
-        $trans->ref_no = $this->getNextICSno($request->received_at);
+        $trans->ref_no = $request->ref_no;
         $trans->ref_book = 'ICS';
         $trans->purpose = $purpose;
         $trans->user_received = $request->user_received;
         $trans->account_code = $request->account_code;
         $trans->fund_cluster = $request->fund_cluster;
         $trans->supplier = $supplier;
+
         $trans->invoice_number = $request->invoice_number;
         $trans->invoice_date = $request->invoice_date;
         $trans->approved_by = $request->approved_by;
