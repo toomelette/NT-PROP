@@ -3,8 +3,10 @@
 
 namespace App\Models;
 
-
+use Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RequestForVehicle extends Model
 {
@@ -15,12 +17,17 @@ class RequestForVehicle extends Model
             $a->user_updated = \Auth::user()->user_id;
             $a->ip_updated = request()->ip();
             $a->updated_at = \Carbon::now();
+            $a->project_id = Auth::user()->project_id ?? null;
         });
 
         static::creating(function ($a){
             $a->user_created = \Auth::user()->user_id;
             $a->ip_created = request()->ip();
             $a->created_at = \Carbon::now();
+            $a->project_id = Auth::user()->project_id ?? null;
+        });
+        static::addGlobalScope('request_for_vehicle', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
         });
     }
     protected $table = 'request_for_vehicle';

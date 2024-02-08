@@ -90,19 +90,21 @@
                       'label' => 'Balance in Tank (L)',
                       'cols' => 3,
                       'type' => 'number',
-
+                      'class' => 'gas_liter'
                     ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('gas_issued',[
                       'label' => 'Gas Issued (L)',
                       'cols' => 3,
                       'type' => 'number',
+                      'class' => 'gas_liter'
                     ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('purchased',[
                       'label' => 'Purchased during trip (L)',
                       'cols' => 3,
                       'type' => 'number',
+                      'class' => 'gas_liter'
                     ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('total',[
@@ -115,6 +117,7 @@
                      'label' => 'Consumed (L)',
                      'cols' => 3,
                      'type' => 'number',
+                     'class' => 'consumedd',
                    ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('gas_remaining_balance',[
@@ -136,10 +139,11 @@
                       'label' => 'Odometer to:',
                       'cols' => 2,
                       'type' => 'number',
+                      'class' => 'odometer',
                     ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('distance_traveled',[
-                      'label' => 'Distance Travelled',
+                      'label' => 'Distance Travelled (km)',
                       'cols' => 2,
                       'type' => 'number',
                     ]) !!}
@@ -161,96 +165,120 @@
 
 @section('scripts')
     <script type="text/javascript">
+        $('.gas_liter').on("input", function () {
+            let total = 0;
+
+            $('.gas_liter').each(function () {
+                let value = parseFloat($(this).val()) || 0;
+                total += value;
+            });
+
+            $('input[name="total"]').val(total);
+        });
+
+        $('.consumedd').on("input", function () {
+            let t = $(this).val();
+            let total1 = $('input[name="total"]').val();
+            let dif = total1 - t;
+            $('input[name="gas_remaining_balance"]').val(dif);
+        });
+
+        $('.odometer').on("input", function () {
+            let odoFrom = $('input[name="odometer_from"]').val();
+            let odoTo = $('input[name="odometer_to"]').val();
+            let tot = odoTo - odoFrom;
+            $('input[name="distance_traveled"]').val(tot);
+        });
 
 
-    $('input[name="request_no"]').unbind().bind('keyup', function(e) {
-        if($('input[name="request_no"]').val() === ''){
-            toast('error','Reference Number cannot be empty','Invalid!');
-        }
-        else {
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                let uri = '{{route("dashboard.trip_ticket.findTransByRefNumber", "requestNo") }}';
-                uri = uri.replace('requestNo',$(this).val());
-                $.ajax({
-                    url : uri,
-                    type: 'GET',
-                    headers: {
-                        {!! __html::token_header() !!}
-                    },
-                    success: function (res) {
-                        console.log(res);
-                        $('select[name="driver"]').val(res.dl.slug);
-                        $('select[name="vehicle"]').val(res.va.slug);
 
-                        let pass = "";
-                        for (i=0; i<res.ps.length; i++){
-                            let passname = res.ps[i].name;
-                            if(i!=res.ps.length){
-                                passname = res.ps[i].name+", ";
+        $('input[name="request_no"]').unbind().bind('keyup', function(e) {
+            if($('input[name="request_no"]').val() === ''){
+                toast('error','Reference Number cannot be empty','Invalid!');
+            }
+            else {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    let uri = '{{route("dashboard.trip_ticket.findTransByRefNumber", "requestNo") }}';
+                    uri = uri.replace('requestNo',$(this).val());
+                    $.ajax({
+                        url : uri,
+                        type: 'GET',
+                        headers: {
+                            {!! __html::token_header() !!}
+                        },
+                        success: function (res) {
+                            console.log(res);
+                            $('select[name="driver"]').val(res.dl.slug);
+                            $('select[name="vehicle"]').val(res.va.slug);
+
+                            let pass = "";
+                            for (let i = 0; i < res.ps.length; i++) {
+                                let passname = res.ps[i].name;
+                                pass += passname;
+                                if (i < res.ps.length - 1) {
+                                    pass += ", ";
+                                }
                             }
-                            pass += passname;
+
+                            $('input[name="passengers"]').val(pass);
+                            $('input[name="purpose"]').val(res.rv.purpose);
+                            $('input[name="destination"]').val(res.rv.destination);
+                            $('input[name="departure"]').val(res.rv.from);
+
+                        },
+                        error: function (res) {
+                            toast('error',res.responseJSON.message,'Error!');
                         }
-                        $('input[name="passengers"]').val(pass);
-
-
-                        $('input[name="purpose"]').val(res.rv.purpose);
-                        $('input[name="destination"]').val(res.rv.destination);
-                        $('input[name="departure"]').val(res.rv.from);
-
-                    },
-                    error: function (res) {
-                        toast('error',res.responseJSON.message,'Error!');
-                    }
-                })
+                    })
+                }
             }
-        }
-    });
+        });
 
-    $('#saveBtn').click(function(e) {
-        e.preventDefault();
-        let form = $('#add_form');
-        let uri = '{{route("dashboard.trip_ticket.store")}}';
-        loading_btn(form);
+        $('#saveBtn').click(function(e) {
+            e.preventDefault();
+            let form = $('#add_form');
+            let uri = '{{route("dashboard.trip_ticket.store")}}';
+            loading_btn(form);
 
-        $.ajax({
-            url : uri,
-            data: form.serialize(),
-            type: 'POST',
-            headers: {
-                {!! __html::token_header() !!}
-            },
-            success: function (res) {
-                succeed(form,true,false);
-                toast('success','Trip Ticket successfully added.','Success!');
-                Swal.fire({
-                    title: 'Trip Ticket Successfully created',
-                    icon: 'success',
-                    html:
-                        'Click the print button below to print.',
-                    showCloseButton: true,
-                    showCancelButton: true,
-                    focusConfirm: false,
-                    confirmButtonText:
-                        '<i class="fa fa-print"></i> Print',
-                    confirmButtonAriaLabel: 'Thumbs up, great!',
-                    cancelButtonText:
-                        'Dismiss',
-                    cancelButtonAriaLabel: 'Thumbs down'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let link = "{{route('dashboard.trip_ticket.print','slug')}}";
-                        link = link.replace('slug',res.slug);
-                        window.open(link, '_blank');
-                    }
-                })
-            },
-            error: function (res) {
-                errored(form,res);
-                toast('error',res.responseJSON.message,'Error!');
-            }
-        })
-    });
+            $.ajax({
+                url : uri,
+                data: form.serialize(),
+                type: 'POST',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    succeed(form,true,false);
+                    toast('success','Trip Ticket successfully added.','Success!');
+                    Swal.fire({
+                        title: 'Trip Ticket Successfully created',
+                        icon: 'success',
+                        html:
+                            'Click the print button below to print.',
+                        showCloseButton: true,
+                        showCancelButton: true,
+                        focusConfirm: false,
+                        confirmButtonText:
+                            '<i class="fa fa-print"></i> Print',
+                        confirmButtonAriaLabel: 'Thumbs up, great!',
+                        cancelButtonText:
+                            'Dismiss',
+                        cancelButtonAriaLabel: 'Thumbs down'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let link = "{{route('dashboard.trip_ticket.print','slug')}}";
+                            link = link.replace('slug',res.slug);
+                            window.open(link, '_blank');
+                        }
+                    })
+                },
+                error: function (res) {
+                    errored(form,res);
+                    toast('error',res.responseJSON.message,'Error!');
+                }
+            })
+        });
 
     </script>
 @endsection

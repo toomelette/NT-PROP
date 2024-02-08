@@ -153,17 +153,12 @@ class TripTicketController extends Controller
                     'data' => $data
                 ]);
             })
-//            ->addColumn('driver', function ($data) {
-//                return view('ppu.trip_ticket.dtDrivers')->with([
-//                    'data' => $data
-//                ]);
-//            })
-//            ->addColumn('vehicle', function ($data) {
-//                return view('ppu.trip_ticket.dtVehicle')->with([
-//                    'data' => $data
-//                ]);
-//            })
-
+           ->editColumn('driver', function ($data) {
+               return $data->drivers->employee->fullname;
+           })
+            ->editColumn('vehicle', function ($data) {
+                return $data->vehicles->make . ' ' .$data->vehicles->model . ' - ' . $data->vehicles->plate_no;
+            })
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();
