@@ -38,15 +38,19 @@
                     <strong>WASTE MATERIALS REPORT</strong>
                 </td>
 
-                <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; position: relative;">
+                <td style="margin-top: 5px; width: 13%; border-right: 1px solid black; position: relative;">
                     Date:
                 </td>
-                <td style="" class="text-strong ">
+                <td style="border-right: 1px solid black; width: 15%;" class="text-strong ">
                   {{$wmr->date}}
                 </td>
+                <td style="margin-top: 5px;  border-right: 1px solid black; border-bottom: 1px solid black; position: relative;">
+                    WMR No.: <b>{{$wmr->wm_number}}</b>
+                </td>
+
             </tr>
 
-            <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
+            <td style="margin-top: 5px; width: 15%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
                 Taken From:
             </td>
             <td style="border-top: 1px solid black;" class="text-strong ">
@@ -69,10 +73,10 @@
                     {{$wmr->storage}}
                 </td>
 
-                <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
+                <td style="border-right: 1px solid black; width: 14.75%; vertical-align: center;">
                     Taken Through:
                 </td>
-                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
+                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 35.3%">
                     {{$wmr->taken_through}}
                 </td>
             </tr>
