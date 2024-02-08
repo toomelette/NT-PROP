@@ -59,10 +59,17 @@
                                     'cols' => 4,
                                     'type' => 'date'
                                  ]) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
-                                'label' => 'To:',
-                                'cols' => 4,
-                                ]) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
+                                       'label' => 'To:',
+                                       'cols' => 4,
+                                       'options' => [],
+                                       'id' => 'requested_by',
+                                   ]) !!}
+{{--                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[--}}
+{{--                                'label' => 'To:',--}}
+{{--                                'cols' => 4,--}}
+{{--                                ]) !!}--}}
                             {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
                                 'label' => 'Designation:',
                                 'cols' => 4,

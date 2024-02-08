@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Employee;
 use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\Suppliers;
@@ -92,13 +93,13 @@ class ICSController extends Controller
         $trans->account_code = $request->account_code;
         $trans->fund_cluster = $request->fund_cluster;
         $trans->supplier = $supplier;
-
         $trans->invoice_number = $request->invoice_number;
         $trans->invoice_date = $request->invoice_date;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
         $trans->date = $request->date;
-        $trans->requested_by = $request->requested_by;
+        $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
+        $trans->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->received_at = $request->received_at;
         $trans->cross_ref_no = $request->iar_no;

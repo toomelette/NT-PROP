@@ -117,45 +117,37 @@
 
                 <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
 
-                <div style="font-family: Cambria,Arial; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black">
+                    <div style="font-family: Cambria, Arial; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; display: flex;">
 
-                    <h5 class="" style="margin-left: 5px; text-align: left; float: left">
-                            Balance in tank:  {{$tt->gas_balance}}
-                    </h5><br><br>
-                    <h5 class="" style="margin-left: 5px; text-align: left; float: left">
-                        Issued from Office/Supplier:  {{$tt->gas_issued}}
-                    </h5><br><br>
-                    <h5 class="" style="margin-left: 5px; text-align: left; float: left">
-                        Add: purchase/s during trip:  {{$tt->purchased}}
-                    </h5><br><br>
-                    <h5 class="" style="margin-left: 5px; text-align: left; float: left">
-                        TOTAL:  {{$tt->total}}
-                    </h5>
-                </div>
-                </table>
+                        <!-- Left column -->
+                        <div style="width: 37.50%; padding: 10px; border-right: 1px solid black;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Balance in tank: <b style="margin-left: 2px">{{$tt->gas_balance}}</b></h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Issued from Office/Supplier: <b style="margin-left: 2px">{{$tt->gas_issued}}</b></h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Purchase/s during trip: <b style="margin-left: 2px">{{$tt->purchased}}</b></h5>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">TOTAL: <b style="margin-left: 2px">{{$tt->total}}</b></h5>
+                        </div>
 
-                <table style="font-family: Cambria,Arial;   width: 100%; border: #0a0a0a;" >
+                        <!-- Middle column -->
+                        <div style="width: 25%; padding: 10px; border-right: 1px solid black;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Fuel consumed: <b style="margin-left: 2px">{{$tt->consumed}}</b></h5><br>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">Balance at end of Trip: <b style="margin-left: 2px">{{$tt->gas_remaining_balance}}</b></h5>
+                        </div>
+
+                        <!-- Right column -->
+                        <div style="width: 37.50%; padding: 10px;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: Start of trip:  <b style="margin-left: 2px">{{$tt->odometer_from}}</b></h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: End of trip:  <b style="margin-left: 2px">{{$tt->odometer_to}}</b></h5>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">Distance Travelled: <b style="margin-left: 5px">{{$tt->distance_traveled}}</b></h5>
+                        </div>
+                    </div>
 
 
-                    <tr style=" width: 100%; border: 1px solid black;">
 
-                <td style="border-right: 1px solid black; width: 25%; vertical-align: center;">
-                    deduct: fuel consumed
-                </td>
-                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 25%">
-                    {{$tt->consumed}}
-                </td>
 
-                <td style="border-right: 1px solid black; width: 25%; vertical-align: center;">
-                    Balance in tank at end of Trip:
-                </td>
-                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 25%">
-                    {{$tt->gas_remaining_balance}}
-                </td>
 
-                    </tr>
 
                 </table>
+
 
             </div>
         </div>
