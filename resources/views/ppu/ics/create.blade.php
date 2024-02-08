@@ -81,7 +81,7 @@
                                     'cols' => 4,
                                     'type' => 'date'
                                  ]) !!}
-<<<<<<< HEAD
+
 
                             {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
                                        'label' => 'To:',
@@ -93,14 +93,7 @@
 {{--                                'label' => 'To:',--}}
 {{--                                'cols' => 4,--}}
 {{--                                ]) !!}--}}
-=======
-                            {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
-                                        'label' => 'to:',
-                                        'cols' => 4,
-                                        'options' => [],
-                                        'id' => 'requested_by',
-                                    ]) !!}
->>>>>>> 268701dfd5ae6778149202a1d980a9f6c2825347
+
                             {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
                                         'label' => 'Designation:',
                                         'cols' => 4,

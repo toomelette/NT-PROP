@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Order;
-use App\Models\Employee;
 use App\Models\PPURespCodes;
 use App\Models\Suppliers;
 use App\Models\TransactionDetails;

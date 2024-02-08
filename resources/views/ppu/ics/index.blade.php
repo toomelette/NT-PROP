@@ -63,7 +63,7 @@
                 "ajax" : '{{route("dashboard.ics.index")}}',
                 "columns": [
                     { "data": "ref_no" },
-                    { "data": "requested_by_designation" },
+                    { "data": "requested_by" },
                     { "data": "po_number" },
                     { "data": "invoice_number" },
                     { "data": "account_code" },
