@@ -221,7 +221,6 @@
                                 }
                             }
 
-
                             $('input[name="passengers"]').val(pass);
                             $('input[name="purpose"]').val(res.rv.purpose);
                             $('input[name="destination"]').val(res.rv.destination);

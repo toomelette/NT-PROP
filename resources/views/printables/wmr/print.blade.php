@@ -181,16 +181,16 @@
                 I hereby certify that this property was disposed of as follow:
             </h5><br><br>
             <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
-                Item ________ Destroyed
+                Item __________________________ Destroyed
             </h5><br>
             <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
-                Item ________ Sold at private sale
+                Item __________________________ Sold at private sale
             </h5><br>
             <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
-                Item ________ Sold at public auction
+                Item __________________________ Sold at public auction
             </h5><br>
             <h5 class="" style="padding-left: 20px; margin-left: 20px; margin: 0; float: left">
-                Item ________ Transferred without cost to ________
+                Item __________________________ Transferred without cost to __________________
             </h5><br><br>
         </div>
 

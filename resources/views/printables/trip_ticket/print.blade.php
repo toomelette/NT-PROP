@@ -115,6 +115,66 @@
 
                 </table>
 
+                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
+
+
+                    <tr style=" width: 100%;">
+
+                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 10%; vertical-align: center;">
+                            Balance in tank:
+                        </td>
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 10%">
+                            {{$tt->gas_balance}}
+                        </td>
+
+                        <td style="border-right: 1px solid black; width: 10%; vertical-align: center;">
+                            Issued from Office/Supplier:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 10%">
+                            {{$tt->gas_issued}}
+                        </td>
+
+                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 10%; vertical-align: center;">
+                            Add: purchase/s during trip:
+                        </td>
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 10%">
+                            {{$tt->purchased}}
+                        </td>
+
+                    </tr>
+
+                </table>
+
+                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
+
+
+                    <tr style=" width: 100%;">
+
+                <td style="border-right: 1px solid black; width: 10%; vertical-align: center;">
+                    TOTAL
+                </td>
+                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 10%">
+                    {{$tt->total}}
+                </td>
+
+                <td style="border-right: 1px solid black; width: 10%; vertical-align: center;">
+                    deduct: fuel consumed
+                </td>
+                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 10%">
+                    {{$tt->consumed}}
+                </td>
+
+                <td style="border-right: 1px solid black; width: 10%; vertical-align: center;">
+                    Balance in tank at end of Trip:
+                </td>
+                <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 10%">
+                    {{$tt->gas_remaining_balance}}
+                </td>
+
+                    </tr>
+
+                </table>
+
 
 
 @endsection
