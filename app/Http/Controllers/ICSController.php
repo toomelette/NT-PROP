@@ -10,6 +10,7 @@ use App\Models\Suppliers;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
+use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -60,6 +61,25 @@ class ICSController extends Controller
         ]);
     }
 
+    public function getNextICSno($received_at)
+    {
+        $year = Carbon::parse($received_at)->format('Y-');
+        $pr = Transactions::query()
+            ->where('ref_no', 'like', $year . '%')
+            ->where('ref_book', '=', 'ICS')
+            ->orderBy('ref_no', 'desc')->limit(1)->first();
+        if (empty($pr)) {
+            $prNo = 0;
+        } else {
+//            $prNo = str_replace($year,'',$pr->ref_no);
+            $prNo = substr($pr->ref_no, -4);
+        }
+
+        $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
+
+        return $year . $newPrBaseNo;
+    }
+
     public function store(FormRequest $request){
         $trans = new Transactions();
         $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
@@ -85,7 +105,7 @@ class ICSController extends Controller
         $trans->slug = $transNewSlug;
         $trans->cross_slug = $crossSlug;
         $trans->resp_center = $respCenter;
-        $trans->ref_no = $request->ref_no;
+        $trans->ref_no = $this->getNextICSno($request->received_at);
         $trans->ref_book = 'ICS';
         $trans->purpose = $purpose;
         $trans->user_received = $request->user_received;
