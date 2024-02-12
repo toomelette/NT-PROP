@@ -245,7 +245,7 @@
 
                 {
                     "targets" : 5,
-                    "class" : 'w-8p'
+                    "class" : 'w-8p text-right',
                 },
                 {
                     "targets" : 6,

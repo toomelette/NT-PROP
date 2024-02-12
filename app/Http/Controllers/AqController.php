@@ -52,7 +52,7 @@ class AqController extends Controller
 //        } else {
 //            $aq = $aq->whereRaw('1 = 0');
 //        }
-        $aq = $aq->get();
+
         $dt = \DataTables::of($aq);
 
         $dt = $dt->with(['transaction.transDetails','rfq'])
@@ -71,16 +71,15 @@ class AqController extends Controller
                     ';
             })
             ->editColumn('abc',function($data){
-                if(!empty($data->transaction->abc)){
-                    return number_format($data->transaction->abc,2);
-                }
+                return number_format($data->transaction->abc ?? null,2);
             })
             ->addColumn('dates',function($data){
                 return Carbon::parse($data->transaction->date ?? null)->format('M. d, Y').' <i class="fa-fw fa fa-arrow-right"></i>'. Carbon::parse($data->created_at)->format('M. d, Y');
             })
 
             ->addColumn('transDetails',function($data){
-//                return  $data;
+//                return  $data;.
+
                 if(!empty($data->transaction)){
 //                    $rfqtrans = Transactions::query()
 //                        ->where('cross_slug', '=', $data->cross_slug)
