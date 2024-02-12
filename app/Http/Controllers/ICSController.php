@@ -72,7 +72,6 @@ class ICSController extends Controller
                 return (int)substr($transaction->ref_no, -4);
             })
             ->last();
-        dd($ics);
         if(empty($ics)){
             $icsNo = 0;
         }else{
