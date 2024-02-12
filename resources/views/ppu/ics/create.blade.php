@@ -205,7 +205,8 @@
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
-                    })
+                    });
+                    form.reset();
                 },
                 error: function (res) {
                     toast('error',res.responseJSON.message,'Error!');
