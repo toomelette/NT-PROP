@@ -65,11 +65,12 @@ class ICSController extends Controller
     {
         $year = Carbon::parse($received_at)->format('Y-');
         $ics = Transactions::query()
+            ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'ICS')
-            ->whereRaw("SUBSTRING(ref_no, 6, 2) = '{$year}'")
-            ->orderByRaw("CAST(SUBSTRING(ref_no, 9, 4) AS UNSIGNED) DESC")
-            ->limit(1)
-            ->first();
+            ->get()
+            ->sortBy(function($transaction) {
+                return (int)substr($transaction->ref_no, -4);
+            });
         dd($ics);
         if(empty($ics)){
             $icsNo = 0;
