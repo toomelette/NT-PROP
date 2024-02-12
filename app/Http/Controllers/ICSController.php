@@ -63,17 +63,17 @@ class ICSController extends Controller
 
     public function getNextICSno($received_at)
     {
-        // Get the year and month from the received_at date
-        $yearMonth = Carbon::parse($received_at)->format('Y-m-');
+        // Get the year from the received_at date
+        $year = Carbon::parse($received_at)->format('Y');
 
         // Query the latest transaction for the same year
         $latestTransaction = Transactions::query()
-            ->where('ref_no', 'like', $yearMonth . '%')
+            ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'ICS')
             ->orderBy('ref_no', 'desc')
             ->first();
 
-        // If there are no previous transactions for the year and month
+        // If there are no previous transactions for the year
         if (empty($latestTransaction)) {
             $newPrNo = 1;
         } else {
@@ -87,8 +87,11 @@ class ICSController extends Controller
         // Pad the incremented number with leading zeros
         $newPrBaseNo = str_pad($newPrNo, 4, '0', STR_PAD_LEFT);
 
+        // Get the month from the received_at date
+        $month = Carbon::parse($received_at)->format('m');
+
         // Construct and return the new reference number with year, month, and sequential number
-        return $yearMonth . $newPrBaseNo;
+        return $year . '-' . $month . '-' . $newPrBaseNo;
     }
 
     public function store(FormRequest $request){
