@@ -4,29 +4,11 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\RequestForVehicle\RequestForVehicleFormRequest;
-use App\Http\Requests\RequestForVehicle\TakeActionFormRequest;
-use App\Models\Employee;
-use App\Models\Drivers;
-use App\Models\Articles;
-use App\Jobs\EmailNotification;
-use App\Models\EmailRecipients;
-use App\Models\Order;
-use App\Models\PPURespCodes;
 use App\Models\RequestForVehicle;
-use App\Models\RequestForVehicleDetails;
-use App\Models\RequestForVehiclePassengers;
-use App\Models\TransactionDetails;
-use App\Models\Transactions;
 use App\Models\TripTicket;
-use App\Models\Vehicles;
-use App\Models\WasteMaterial;
-use App\Swep\Helpers\Helper;
-use App\Swep\Services\RequestForVehicleService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -104,11 +86,13 @@ class TripTicketController extends Controller
     public function update(FormRequest $request, $slug)
     {
         $trans = TripTicket::query()->where('slug', '=', $slug)->first();
+
         if (!$trans) {
             return response()->json(['message' => 'Transaction not found'], 404);
         }
-        $trans->date = $request->date;
+
         $trans->request_no = $request->request_no;
+        $trans->date = $request->date;
         $trans->driver = $request->driver;
         $trans->vehicle = $request->vehicle;
         $trans->passengers = $request->passengers;
@@ -131,7 +115,7 @@ class TripTicketController extends Controller
         if ($trans->save()) {
             return $trans->only('slug');
         }
-        abort(503, 'Error saving Trip Ticket');
+        abort(503, 'Error Updating Trip Ticket');
     }
 
     public function getNextTripTicketNo()

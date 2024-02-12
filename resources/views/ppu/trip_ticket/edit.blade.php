@@ -21,6 +21,8 @@
                 </div>
                     <div class="box-body">
 
+                        <input type="hidden" name="slug" id="slug" value="{{$tt->slug}}">
+
                         {!! \App\Swep\ViewHelpers\__form2::textbox('request_no',[
                          'label' => 'Request Number',
                          'cols' => 3,
@@ -239,19 +241,19 @@
             uri = uri.replace('slug',$('#slug').val());
             loading_btn(form);
             $.ajax({
-                url : uri,
-                data: form.serialize(),
                 type: 'PATCH',
+                url: uri,
+                data: form.serialize(),
                 headers: {
                     {!! __html::token_header() !!}
                 },
-                success: function (res) {
+                success: function(res) {
                     console.log(res);
-                    toast('success','Trip Ticket successfully updated.','Success!');
+                    toast('success','Successfully Updated.','Success!');
                     $('#printIframe').attr('src',res.route);
-                    succeed(form,true,false);
+                    succeed(form,true,true);
                     Swal.fire({
-                        title: 'Trip Ticket Successfully updated',
+                        title: 'Successfully Updated',
                         icon: 'success',
                         html:
                             'Click the print button below to print.',
@@ -272,12 +274,18 @@
                         }
                     })
                 },
-                error: function (res) {
-                    errored(form,res);
+                error: function(res) {
                     toast('error',res.responseJSON.message,'Error!');
                 }
-            })
+            });
         });
+
+
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+
 
     </script>
 @endsection

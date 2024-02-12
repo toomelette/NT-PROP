@@ -235,7 +235,6 @@ class IARController extends Controller
 
     public function update(FormRequest $request, $slug)
     {
-        // Find the existing transaction by slug
         $trans = Transactions::query()->where('slug', '=', $slug)->first();
 
         if (!$trans) {
