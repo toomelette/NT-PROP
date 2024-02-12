@@ -64,21 +64,22 @@ class ICSController extends Controller
     public function getNextICSno($received_at)
     {
         $year = Carbon::parse($received_at)->format('Y-');
-        $pr = Transactions::query()
-            ->where('ref_no', 'like', $year . '%')
+        $ics = Transactions::query()
             ->where('ref_book', '=', 'ICS')
-            ->orderBy('ref_no', 'desc')->limit(1)->first();
-
-        if (empty($pr)) {
-            $prNo = 0;
-        } else {
-            preg_match('/(\d+)$/', $pr->ref_no, $matches);
-            $prNo = isset($matches[1]) ? $matches[1] : 0;
+            ->whereRaw("SUBSTRING(ref_no, 6, 4) = (SELECT MAX(CAST(SUBSTRING(ref_no, 6, 4) AS UNSIGNED)) FROM transactions WHERE ref_no LIKE '{$year}%')")
+            ->orderBy('ref_no', 'desc')
+            ->limit(1)
+            ->first();
+        dd($ics);
+        if(empty($ics)){
+            $icsNo = 0;
+        }else{
+            $icsNo =  substr($ics->ref_no, -4);
         }
 
-        $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
+        $newICSBaseNo = str_pad($icsNo + 1,4,'0',STR_PAD_LEFT);
 
-        return $year . Carbon::parse($received_at)->format('m-') . $newPrBaseNo;
+        return $year.Carbon::parse($received_at)->format('m-').$newICSBaseNo;
     }
 
     public function store(FormRequest $request){
