@@ -70,7 +70,8 @@ class ICSController extends Controller
             ->get()
             ->sortBy(function($transaction) {
                 return (int)substr($transaction->ref_no, -4);
-            });
+            })
+            ->last();
         dd($ics);
         if(empty($ics)){
             $icsNo = 0;
