@@ -63,36 +63,20 @@ class ICSController extends Controller
 
     public function getNextICSno($received_at)
     {
-        // Get the year from the received_at date
-        $year = Carbon::parse($received_at)->format('Y');
-
-        // Query the latest transaction for the same year
-        $latestTransaction = Transactions::query()
-            ->where('ref_no', 'like', $year . '-%')
+        $year = Carbon::parse($received_at)->format('Y-');
+        $ics = Transactions::query()
+            ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'ICS')
-            ->orderBy('ref_no', 'desc')
-            ->first();
-
-        // If there are no previous transactions for the year
-        if (empty($latestTransaction)) {
-            $newPrNo = 1;
-        } else {
-            // Extract the numeric part of the reference number
-            $lastReferenceNumber = $latestTransaction->ref_no;
-            $numericPart = intval(substr($lastReferenceNumber, -4));
-
-            // Increment the numeric part by 1
-            $newPrNo = $numericPart + 1;
+            ->orderBy('ref_no', 'desc')->limit(1)->first();
+        if(empty($ics)){
+            $icsNo = 0;
+        }else{
+            $icsNo =  substr($ics->ref_no, -4);
         }
 
-        // Pad the incremented number with leading zeros
-        $newPrBaseNo = str_pad($newPrNo, 4, '0', STR_PAD_LEFT);
+        $newICSBaseNo = str_pad($icsNo +1,4,'0',STR_PAD_LEFT);
 
-        // Get the month from the received_at date
-        $month = Carbon::parse($received_at)->format('m');
-
-        // Construct and return the new reference number with year, month, and sequential number
-        return $year . '-' . $month . '-' . $newPrBaseNo;
+        return $year.Carbon::parse($received_at)->format('m-').$newICSBaseNo;
     }
 
     public function store(FormRequest $request){
