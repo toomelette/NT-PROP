@@ -65,14 +65,14 @@
                             Vehicle:
                         </td>
                         <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->vehicle}}
+                            {{$tt->vehicles->make . ' ' .$tt->vehicles->model . ' - ' . $tt->vehicles->plate_no}}
                         </td>
 
                         <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
                             Driver:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->driver}}
+                            {{$tt->drivers->employee->fullname}}
                         </td>
                     </tr>
 
@@ -114,6 +114,45 @@
                     </tr>
 
                 </table>
+
+                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
+
+                    <div style="font-family: Cambria, Arial; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; display: flex;">
+
+                        <!-- Left column -->
+                        <div style="width: 37.50%; padding: 10px; border-right: 1px solid black;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Balance in tank: <b style="margin-left: 2px">{{$tt->gas_balance}}</b></h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Issued from Office/Supplier: <b style="margin-left: 2px">{{$tt->gas_issued}}</b></h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Purchase/s during trip: <b style="margin-left: 2px">{{$tt->purchased}}</b></h5>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">TOTAL: <b style="margin-left: 2px">{{$tt->total}}</b></h5>
+                        </div>
+
+                        <!-- Middle column -->
+                        <div style="width: 25%; padding: 10px; border-right: 1px solid black;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Fuel consumed: <b style="margin-left: 2px">{{$tt->consumed}}</b></h5><br>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">Balance at end of Trip: <b style="margin-left: 2px">{{$tt->gas_remaining_balance}}</b></h5>
+                        </div>
+
+                        <!-- Right column -->
+                        <div style="width: 37.50%; padding: 10px;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: Start of trip:  <b style="margin-left: 2px">{{$tt->odometer_from}}</b></h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: End of trip:  <b style="margin-left: 2px">{{$tt->odometer_to}}</b></h5>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">Distance Travelled: <b style="margin-left: 5px">{{$tt->distance_traveled}}</b></h5>
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
 
 
 

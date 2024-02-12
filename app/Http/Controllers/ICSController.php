@@ -10,6 +10,7 @@ use App\Models\Suppliers;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Helper;
+use App\Models\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -60,6 +61,25 @@ class ICSController extends Controller
         ]);
     }
 
+    public function getNextICSno($received_at)
+    {
+        $year = Carbon::parse($received_at)->format('Y-');
+        $pr = Transactions::query()
+            ->where('ref_no', 'like', $year . '%')
+            ->where('ref_book', '=', 'ICS')
+            ->orderBy('ref_no', 'desc')->limit(1)->first();
+        if (empty($pr)) {
+            $prNo = 0;
+        } else {
+//            $prNo = str_replace($year,'',$pr->ref_no);
+            $prNo = substr($pr->ref_no, -4);
+        }
+
+        $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
+
+        return $year . Carbon::parse($received_at)->format('m-') . $newPrBaseNo;
+    }
+
     public function store(FormRequest $request){
         $trans = new Transactions();
         $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
@@ -85,7 +105,7 @@ class ICSController extends Controller
         $trans->slug = $transNewSlug;
         $trans->cross_slug = $crossSlug;
         $trans->resp_center = $respCenter;
-        $trans->ref_no = $request->ref_no;
+        $trans->ref_no = $this->getNextICSno($request->received_at);
         $trans->ref_book = 'ICS';
         $trans->purpose = $purpose;
         $trans->user_received = $request->user_received;
@@ -98,10 +118,12 @@ class ICSController extends Controller
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
         $trans->date = $request->date;
-        $trans->requested_by = $request->requested_by;
+        $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
+        $trans->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->received_at = $request->received_at;
         $trans->cross_ref_no = $request->iar_no;
+
 
         $totalAbc = 0;
         $arr = [];

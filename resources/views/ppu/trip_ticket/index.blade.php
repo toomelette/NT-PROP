@@ -49,7 +49,7 @@
                                 <thead>
                                 <tr class="">
                                     <th>Ticket Number</th>
-                                    <th>Date</th>
+                                    <th>Departure</th>
                                     <th>Driver</th>
                                     <th>Vehicle</th>
                                     <th>Destination</th>
@@ -86,7 +86,7 @@
                 "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
                     { "data": "ticket_no" },
-                    { "data": "date" },
+                    { "data": "departure" },
                     { "data": "driver" },
                     { "data": "vehicle" },
                     { "data": "destination" },
