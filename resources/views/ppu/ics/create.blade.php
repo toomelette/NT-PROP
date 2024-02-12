@@ -185,7 +185,6 @@
                     console.log(res);
                     toast('success','ICS Successfully created.','Success!');
                     succeed(form,true,true);
-                    form.reset();
                     Swal.fire({
                         title: 'Successfully created',
                         icon: 'success',
@@ -206,7 +205,8 @@
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
-                    })
+                    });
+                    form.reset();
                 },
                 error: function (res) {
                     toast('error',res.responseJSON.message,'Error!');
