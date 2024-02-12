@@ -66,8 +66,8 @@ class TripTicketController extends Controller
         $transNew->passengers = $request->passengers;
         $transNew->destination = $request->destination;
         $transNew->purpose = $request->purpose;
-        $transNew->approved_by = "ATTY. JOHANA S. JADOC";
-        $transNew->approved_by_designation = "MANAGER III - AFD-VISAYAS";
+        $transNew->approved_by = $request->approved_by;
+        $transNew->approved_by_designation = $request->approved_by_designation;
         $transNew->departure = $request->departure;
         $transNew->return = $request->return;
         $transNew->gas_balance = $request->gas_balance;
@@ -166,8 +166,11 @@ class TripTicketController extends Controller
 
     public function print($slug){
         $tt = TripTicket::query()->where('slug', $slug)->first();
+        $passengers = collect(explode(",",$tt->passengers))->chunk(3);
+
         return view('printables.trip_ticket.print')->with([
             'tt' => $tt,
+           'passengers' =>  $passengers,
         ]);
     }
 
