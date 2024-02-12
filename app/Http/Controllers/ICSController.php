@@ -68,6 +68,7 @@ class ICSController extends Controller
             ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'ICS')
             ->orderBy('ref_no', 'desc')->limit(1)->first();
+        dd($ics);
         if(empty($ics)){
             $icsNo = 0;
         }else{
