@@ -66,8 +66,8 @@ class ICSController extends Controller
         $year = Carbon::parse($received_at)->format('Y-');
         $ics = Transactions::query()
             ->where('ref_book', '=', 'ICS')
-            ->whereRaw("SUBSTRING(ref_no, 6, 4) = (SELECT MAX(CAST(SUBSTRING(ref_no, 6, 4) AS UNSIGNED)) FROM transactions WHERE ref_no LIKE '{$year}%')")
-            ->orderBy('ref_no', 'desc')
+            ->whereRaw("SUBSTRING(ref_no, 6, 2) = '{$year}'")
+            ->orderByRaw("CAST(SUBSTRING(ref_no, 9, 4) AS UNSIGNED) DESC")
             ->limit(1)
             ->first();
         dd($ics);
