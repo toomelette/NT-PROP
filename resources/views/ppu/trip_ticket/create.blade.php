@@ -79,6 +79,20 @@
                       'type' => 'datetime-local',
                     ]) !!}
 
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
+                     'label' => 'Approved By:',
+                     'cols' => 3,
+                    ],
+                    \App\Swep\Helpers\Helper::getSetting('tt_approved_by')->string_value ?? null
+                     ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by_designation',[
+                      'label' => 'Designation:',
+                      'cols' => 3,
+                      ],
+                    \App\Swep\Helpers\Helper::getSetting('tt_approved_by_designation')->string_value ?? null
+                     ) !!}
+
 
                 </div>
             </div>

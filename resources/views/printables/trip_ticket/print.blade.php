@@ -34,8 +34,8 @@
                     <tbody>
 
                     <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                        <td rowspan="2" style="width: 49%; border-right: 1px solid black; font-size: 35px">
-                            <strong>Trip Ticket</strong>
+                        <td rowspan="2" style="width: 49%; border-right: 1px solid black; font-size: 30px">
+                            <strong>DRIVER'S TRIPS TICKET</strong>
                         </td>
                         <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
                             Trip Ticket No.:
@@ -78,16 +78,16 @@
 
                 </table>
 
-                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
+                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;" >
 
 
-                    <tr style=" width: 100%;">
+                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
 
                         <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: center;">
-                            Passengers:
+                            Purpose:
                         </td>
                         <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->passengers}}
+                            {{$tt->purpose}}
                         </td>
 
                         <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
@@ -100,19 +100,15 @@
 
                 </table>
 
-                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
-
-
-                    <tr style=" border: 1px solid black; width: 100%;">
-
-                        <td rowspan="2" style="border-right: 1px solid black; width: 13.6%; vertical-align: center;">
-                            Purpose:
+                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;  text-align: center" >
+                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
+                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; font-size: 15px; width: 62.5%; vertical-align: center;">
+                            <b>Fuel Issued, Purchased, Used</b>
                         </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 86.1%">
-                            {{$tt->purpose}}
+                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; font-size: 15px; width: 37.5%; vertical-align: center;">
+                            <b>Odometer</b>
                         </td>
                     </tr>
-
                 </table>
 
                 <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
@@ -120,33 +116,103 @@
                     <div style="font-family: Cambria, Arial; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; display: flex;">
 
                         <!-- Left column -->
-                        <div style="width: 37.50%; padding: 10px; border-right: 1px solid black;">
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Balance in tank: <b style="margin-left: 2px">{{$tt->gas_balance}}</b></h5>
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Issued from Office/Supplier: <b style="margin-left: 2px">{{$tt->gas_issued}}</b></h5>
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Purchase/s during trip: <b style="margin-left: 2px">{{$tt->purchased}}</b></h5>
-                            <h5 style="margin: 0; text-align: left; width: 200px;">TOTAL: <b style="margin-left: 2px">{{$tt->total}}</b></h5>
+                        <div style="width: 29%; padding: 10px; ">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Balance in tank (L):</h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Issued from Office/Supplier (L): </h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Purchase/s during trip (L): </h5>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">TOTAL (L): </h5>
+                        </div>
+
+                        <div style="width: 10%; padding-right: 10px; border-right: 1px solid black; text-align: right;">
+                            <h5><b style="margin-left: 2px">{{ $tt->gas_balance ?? "________" }}</b></h5>
+                            <h5><b style="margin-left: 2px">{{ $tt->gas_issued ?? "________" }}</b></h5>
+                            <h5><b style="margin-left: 2px">{{ $tt->purchased ?? "________" }}</b></h5>
+                            <h5><b style="margin-left: 2px">{{ $tt->total ?? "________" }}</b></h5>
                         </div>
 
                         <!-- Middle column -->
-                        <div style="width: 25%; padding: 10px; border-right: 1px solid black;">
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Fuel consumed: <b style="margin-left: 2px">{{$tt->consumed}}</b></h5><br>
-                            <h5 style="margin: 0; text-align: left; width: 200px;">Balance at end of Trip: <b style="margin-left: 2px">{{$tt->gas_remaining_balance}}</b></h5>
+                        <div style="width: 30%; padding: 10px; border-right: 1px solid black;">
+                            <h5 style="margin: 0; text-align: left;">Fuel consumed (L): </h5>
+                            <h5><b style="margin-left: 5px; text-align: left;">{{$tt->consumed ?? "________" }}</b></h5>
+                            <h5 style="margin: 0; text-align: left;">Balance at end of Trip (L): </h5>
+                            <h5><b style="margin-left: 2px; text-align: left;">{{$tt->gas_remaining_balance ?? "________" }}</b></h5>
                         </div>
 
                         <!-- Right column -->
-                        <div style="width: 37.50%; padding: 10px;">
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: Start of trip:  <b style="margin-left: 2px">{{$tt->odometer_from}}</b></h5>
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: End of trip:  <b style="margin-left: 2px">{{$tt->odometer_to}}</b></h5>
-                            <h5 style="margin: 0; text-align: left; width: 200px;">Distance Travelled: <b style="margin-left: 5px">{{$tt->distance_traveled}}</b></h5>
+                        <div style="width: 29%; padding: 10px;">
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: Start of trip: </h5>
+                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: End of trip: </h5>
+                            <h5 style="margin: 0; text-align: left; width: 200px;">Distance Travelled (KM): </h5>
+                        </div>
+
+                        <div style="width: 10%; text-align: right; padding-right: 10px; ">
+                            <h5><b style="margin-left: 2px">{{$tt->odometer_from ?? "________" }}</b></h5>
+                            <h5><b style="margin-left: 2px">{{$tt->odometer_to ?? "________" }}</b></h5>
+                            <h5><b style="margin-left: 5px">{{$tt->distance_traveled ?? "________" }}</b></h5>
                         </div>
                     </div>
 
-
-
-
-
-
                 </table>
+
+                <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
+
+                    <div style="flex: 1; text-align: center; border-left: 1px solid black">
+
+                        <h5 class="" style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px; text-align: justify; float: left">
+                            I hereby certify to the correctness of the above statement / travel:
+                        </h5><br><br><br>
+
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                            <b><u>{{$tt->drivers->employee->fullname}}</u></b>
+                        </td><br>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                            DRIVER
+                        </td><br>
+
+
+                    </div>
+
+                    <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+
+                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: justify; float: left">Approved by:</h5><br><br><br>
+
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                            <b><u>{{$tt->approved_by}}</u></b>
+                        </td><br>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                            {{$tt->approved_by_designation}}
+                        </td><br>
+
+                    </div>
+
+                </div>
+
+                <div style="font-family: Cambria,Arial; border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black">
+                    <br><h5 class="" style=" margin: 0px; padding-left: 10px; float: left">
+                        I hereby certify that this vehicle is used on official business / travel:
+                    </h5><br>
+                    <h5 class="" style="margin: 0px; padding-left: 10px; float: left">
+                        <i>(Signature of Authorized Passengers)</i>
+                    </h5><br><br>
+
+                    @foreach($passengers as $group)
+                        <div>
+                            @foreach($group as $passenger)
+                                <div style="float: left; width: 33.33%; ">
+                                    <h5 class="" style="margin: 0;">
+                                        <u>{{$passenger}}</u>
+                                    </h5>
+                                </div>
+                            @endforeach
+                            <br><br>
+                        </div>
+                    @endforeach
+
+
+
+
+                    <br><br><br><br>
+                </div>
 
 
             </div>
