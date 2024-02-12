@@ -68,7 +68,7 @@ class ICSController extends Controller
 
         // Query the latest transaction for the same year
         $latestTransaction = Transactions::query()
-            ->where('ref_no', 'like', $year . '%')
+            ->where('ref_no', 'like', $year . '-%')
             ->where('ref_book', '=', 'ICS')
             ->orderBy('ref_no', 'desc')
             ->first();
@@ -77,11 +77,12 @@ class ICSController extends Controller
         if (empty($latestTransaction)) {
             $newPrNo = 1;
         } else {
-            // Extract the last 4 digits from the reference number
-            $last4Digits = intval(substr($latestTransaction->ref_no, -4));
+            // Extract the numeric part of the reference number
+            $lastReferenceNumber = $latestTransaction->ref_no;
+            $numericPart = intval(substr($lastReferenceNumber, -4));
 
-            // Increment the last 4 digits by 1
-            $newPrNo = $last4Digits + 1;
+            // Increment the numeric part by 1
+            $newPrNo = $numericPart + 1;
         }
 
         // Pad the incremented number with leading zeros
