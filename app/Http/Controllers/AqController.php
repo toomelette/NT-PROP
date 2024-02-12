@@ -45,17 +45,17 @@ class AqController extends Controller
     public function allAqDataTable(Request $request){
         $aq = Transactions::where('ref_book', '=', 'AQ');
         $search = $request->get('search')['value'] ?? null;
-        if ($search) {
-            $aq = $aq->where(function ($query) use ($search) {
-                $query->where('ref_no', 'like', '%' . $search . '%');
-            });
-        } else {
-            $aq = $aq->whereRaw('1 = 0');
-        }
+//        if ($search) {
+//            $aq = $aq->where(function ($query) use ($search) {
+//                $query->where('ref_no', 'like', '%' . $search . '%');
+//            });
+//        } else {
+//            $aq = $aq->whereRaw('1 = 0');
+//        }
         $aq = $aq->get();
         $dt = \DataTables::of($aq);
 
-        $dt = $dt->with(['transaction'])
+        $dt = $dt->with(['transaction.transDetails','rfq'])
             ->addColumn('action',function($data){
                 return view('ppu.aq.dtActions')->with([
                     'data' => $data, 'all' => 'all',
@@ -80,40 +80,43 @@ class AqController extends Controller
             })
 
             ->addColumn('transDetails',function($data){
+//                return  $data;
                 if(!empty($data->transaction)){
-                    $rfqtrans = Transactions::query()
-                        ->where('cross_slug', '=', $data->cross_slug)
-                        ->where('ref_book', '=', 'RFQ')
-                        ->get();
-                    if($rfqtrans->count() > 1){
-                        $rfqtrans = Transactions::query()
-                            ->where('cross_slug', '=', $data->cross_slug)
-                            ->where('ref_no', '=', $data->cross_ref_no)
-                            ->where('ref_book', '=', 'RFQ')
-                            ->first();
-                    }
-                    else {
-                        if(!empty($data->cross_ref_no)){
-                            $rfqtrans = Transactions::query()
-                                ->where('cross_slug', '=', $data->cross_slug)
-                                ->where('ref_no', '=', $data->cross_ref_no)
-                                ->where('ref_book', '=', 'RFQ')
-                                ->first();
-                        }
-                        else{
-                            $rfqtrans = Transactions::query()
-                                ->where('cross_slug', '=', $data->cross_slug)
-                                ->where('ref_book', '=', 'RFQ')
-                                ->first();
-                        }
-                    }
-                    $transDetails = TransactionDetails::query()->where('transaction_slug', '=', $rfqtrans->slug)->get();
+//                    $rfqtrans = Transactions::query()
+//                        ->where('cross_slug', '=', $data->cross_slug)
+//                        ->where('ref_book', '=', 'RFQ')
+//                        ->get();
+//                    if($rfqtrans->count() > 1){
+//                        $rfqtrans = Transactions::query()
+//                            ->where('cross_slug', '=', $data->cross_slug)
+//                            ->where('ref_no', '=', $data->cross_ref_no)
+//                            ->where('ref_book', '=', 'RFQ')
+//                            ->first();
+//                    }
+//                    else {
+//                        if(!empty($data->cross_ref_no)){
+//                            $rfqtrans = Transactions::query()
+//                                ->where('cross_slug', '=', $data->cross_slug)
+//                                ->where('ref_no', '=', $data->cross_ref_no)
+//                                ->where('ref_book', '=', 'RFQ')
+//                                ->first();
+//                        }
+//                        else{
+//                            $rfqtrans = Transactions::query()
+//                                ->where('cross_slug', '=', $data->cross_slug)
+//                                ->where('ref_book', '=', 'RFQ')
+//                                ->first();
+//                        }
+//                    }
+
+
+                    $transDetails = $data->transaction->transDetails;
                     $type = strtolower($data->transaction->ref_book ?? null);
                     return view('ppu.'.$type.'.dtItems')->with([
                             /*'items' => $data->transaction->transDetails,*/
                             'items' => $transDetails,
                         ])->render().
-                        '<small class="pull-right text-strong text-info">'.number_format($rfqtrans->abc,2).'</small>';
+                        '<small class="pull-right text-strong text-info">'.number_format($data->transaction->abc,2).'</small>';
                 }
             })
 
