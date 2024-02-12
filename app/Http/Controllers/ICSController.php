@@ -68,11 +68,12 @@ class ICSController extends Controller
             ->where('ref_no', 'like', $year . '%')
             ->where('ref_book', '=', 'ICS')
             ->orderBy('ref_no', 'desc')->limit(1)->first();
+
         if (empty($pr)) {
             $prNo = 0;
         } else {
-//            $prNo = str_replace($year,'',$pr->ref_no);
-            $prNo = substr($pr->ref_no, -4);
+            preg_match('/(\d+)$/', $pr->ref_no, $matches);
+            $prNo = isset($matches[1]) ? $matches[1] : 0;
         }
 
         $newPrBaseNo = str_pad($prNo + 1, 4, '0', STR_PAD_LEFT);
@@ -82,23 +83,25 @@ class ICSController extends Controller
 
     public function store(FormRequest $request){
         $trans = new Transactions();
-        $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
-                ->where('ref_book','=','IAR')->first();
         $crossSlug = "";
         $respCenter = "";
         $purpose = "";
         $supplier = "";
-        if($iar != null) {
-            $crossSlug = $iar->slug;
-            $respCenter = $iar->resp_center;
-            $purpose = $iar->purpose;
-            $supplier = $iar->supplier;
-            if($iar->cross_slug != null || $iar->cross_slug != "")
-            {
-                $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
-                $order = Order::query()->where('slug', $po->order_slug)->first();
-                $trans->po_number = $po->ref_no;
-                $trans->po_date = $order->date;
+        if ($request->iar_no !== null || !empty($request->iar_no)) {
+            $iar = Transactions::query()->where('ref_no','=',$request->iar_no)
+                ->where('ref_book','=','IAR')->first();
+            if($iar != null) {
+                $crossSlug = $iar->slug;
+                $respCenter = $iar->resp_center;
+                $purpose = $iar->purpose;
+                $supplier = $iar->supplier;
+                if($iar->cross_slug != null || $iar->cross_slug != "")
+                {
+                    $po = Transactions::query()->where('slug', $iar->cross_slug)->first();
+                    $order = Order::query()->where('slug', $po->order_slug)->first();
+                    $trans->po_number = $po->ref_no;
+                    $trans->po_date = $order->date;
+                }
             }
         }
         $transNewSlug = Str::random();
