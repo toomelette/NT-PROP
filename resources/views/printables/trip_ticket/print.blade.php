@@ -100,6 +100,28 @@
 
                 </table>
 
+                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;" >
+
+
+                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
+
+                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: center;">
+                            Departure:
+                        </td>
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
+                            {{$tt->departure}}
+                        </td>
+
+                        <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
+                            Return:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
+                            {{$tt->return}}
+                        </td>
+                    </tr>
+
+                </table>
+
                 <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;  text-align: center" >
                     <tr style=" width: 100%; border-bottom: 1px solid black; ">
                         <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; font-size: 15px; width: 62.5%; vertical-align: center;">
@@ -193,7 +215,7 @@
                     </h5><br>
                     <h5 class="" style="margin: 0px; padding-left: 10px; float: left">
                         <i>(Signature of Authorized Passengers)</i>
-                    </h5><br><br>
+                    </h5><br><br><br>
 
                     @foreach($passengers as $group)
                         <div>
@@ -204,14 +226,14 @@
                                     </h5>
                                 </div>
                             @endforeach
-                            <br><br>
+                            <br><br><br>
                         </div>
                     @endforeach
 
 
 
 
-                    <br><br><br><br>
+                    <br><br><br>
                 </div>
 
 
