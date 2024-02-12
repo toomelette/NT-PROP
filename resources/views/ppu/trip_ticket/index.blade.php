@@ -12,9 +12,7 @@
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Trip Ticket</h3>
-                <div class="btn-group pull-right">
-                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.trip_ticket.create')}}" > <i class="fa fa-plus"></i> Create</a>
-                </div>
+
                 <br><br>
                 <div class="box box-sm box-default box-solid collapsed-box">
                     <div class="box-header with-border">

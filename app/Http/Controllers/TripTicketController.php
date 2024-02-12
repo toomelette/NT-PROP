@@ -38,6 +38,21 @@ class TripTicketController extends Controller
         return view('ppu.trip_ticket.create');
     }
 
+    public function edit($slug){
+        $tt =$this->findBySlug($slug);
+        return view('ppu.trip_ticket.edit')->with([
+            'tt' => $tt
+        ]);
+    }
+
+    public function findBySlug($slug){
+        $tt = TripTicket::query()
+            ->where('slug','=',$slug)->first();
+
+        return $tt ?? abort(503,'Trip Ticket not found');
+    }
+
+
     public function findTransByRefNumber($requestNo)
     {
         $rv = RequestForVehicle::query()->where('request_no', '=', $requestNo)->first();
@@ -79,36 +94,42 @@ class TripTicketController extends Controller
         $transNew->odometer_from = $request->odometer_from;
         $transNew->odometer_to = $request->odometer_to;
         $transNew->distance_traveled = $request->distance_traveled;
-//        if ($request->request_no != ""){
-//            $req = RequestForVehicle::query()->first();
-//            $trans = TripTicket::query()->first();
-//            $transNew->pap_code = $trans->pap_code;
-//            $transNew->cross_slug = $trans->slug;
-//            $transNew->cross_ref_no = $trans->cross_ref_no;
-//            $transNew->purpose = $trans->purpose;
-//            $transNew->jr_type = $trans->jr_type;
-//            $transNew->requested_by = $request->requested_by;
-//            $transNew->requested_by_designation = $trans->requested_by_designation;
-//            $transNew->approved_by = $trans->approved_by;
-//            $transNew->approved_by_designation = $trans->approved_by_designation;
-//            $transNew->supplier = $order->supplier_name;
-//            $transNew->supplier_address = $order->supplier_address;
-//            $transNew->supplier_tin = $order->supplier_tin;
-//        }
-//        else {
-//            $transNew->cross_slug = "";
-//            $transNew->purpose = "";
-//            $transNew->jr_type = "";
-//            $transNew->approved_by = "";
-//            $transNew->approved_by_designation = "";
-//            $transNew->supplier_address = "";
-//            $transNew->supplier_tin = "";
-//            $transNew->resp_center = $request->resp_center;
-//        }
-//
-//
+
         if ($transNew->save()) {
             return $transNew->only('slug');
+        }
+        abort(503, 'Error saving Trip Ticket');
+    }
+
+    public function update(FormRequest $request, $slug)
+    {
+        $trans = TripTicket::query()->where('slug', '=', $slug)->first();
+        if (!$trans) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+        $trans->date = $request->date;
+        $trans->request_no = $request->request_no;
+        $trans->driver = $request->driver;
+        $trans->vehicle = $request->vehicle;
+        $trans->passengers = $request->passengers;
+        $trans->destination = $request->destination;
+        $trans->purpose = $request->purpose;
+        $trans->approved_by = $request->approved_by;
+        $trans->approved_by_designation = $request->approved_by_designation;
+        $trans->departure = $request->departure;
+        $trans->return = $request->return;
+        $trans->gas_balance = $request->gas_balance;
+        $trans->gas_issued = $request->gas_issued;
+        $trans->purchased = $request->purchased;
+        $trans->total = $request->total;
+        $trans->consumed = $request->consumed;
+        $trans->gas_remaining_balance = $request->gas_remaining_balance;
+        $trans->odometer_from = $request->odometer_from;
+        $trans->odometer_to = $request->odometer_to;
+        $trans->distance_traveled = $request->distance_traveled;
+
+        if ($trans->save()) {
+            return $trans->only('slug');
         }
         abort(503, 'Error saving Trip Ticket');
     }
