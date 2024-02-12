@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\UserDetails;
 use App\Swep\Helpers\Helper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Response;
@@ -69,15 +70,20 @@ class AjaxController extends Controller
         }
 
         if($for == 'articles'){
+            $request = Request::capture();
             $arr = [];
             $like = '%'.request('q').'%';
             $articles = Articles::query()
                 ->select('stockNo' ,'article','uom','unitPrice','modeOfProc')
-                ->where('article','like',$like)
-                ->orderBy('article','asc')
+                ->where('article','like',$like);
+
+            if($request->has('page')){
+                $articles = $articles->offset(10*(request('page') - 1));
+            }
+
+            $articles = $articles->orderBy('article','asc')
                 ->limit(10)
                 ->get();
-
             if(!empty($articles)){
                 foreach ($articles as $article){
                     array_push($arr,[
