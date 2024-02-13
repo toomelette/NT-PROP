@@ -45,14 +45,6 @@ class AqController extends Controller
     public function allAqDataTable(Request $request){
         $aq = Transactions::where('ref_book', '=', 'AQ');
         $search = $request->get('search')['value'] ?? null;
-//        if ($search) {
-//            $aq = $aq->where(function ($query) use ($search) {
-//                $query->where('ref_no', 'like', '%' . $search . '%');
-//            });
-//        } else {
-//            $aq = $aq->whereRaw('1 = 0');
-//        }
-
         $dt = \DataTables::of($aq);
 
         $dt = $dt->with(['transaction.transDetails','rfq'])
@@ -81,34 +73,6 @@ class AqController extends Controller
 //                return  $data;.
 
                 if(!empty($data->transaction)){
-//                    $rfqtrans = Transactions::query()
-//                        ->where('cross_slug', '=', $data->cross_slug)
-//                        ->where('ref_book', '=', 'RFQ')
-//                        ->get();
-//                    if($rfqtrans->count() > 1){
-//                        $rfqtrans = Transactions::query()
-//                            ->where('cross_slug', '=', $data->cross_slug)
-//                            ->where('ref_no', '=', $data->cross_ref_no)
-//                            ->where('ref_book', '=', 'RFQ')
-//                            ->first();
-//                    }
-//                    else {
-//                        if(!empty($data->cross_ref_no)){
-//                            $rfqtrans = Transactions::query()
-//                                ->where('cross_slug', '=', $data->cross_slug)
-//                                ->where('ref_no', '=', $data->cross_ref_no)
-//                                ->where('ref_book', '=', 'RFQ')
-//                                ->first();
-//                        }
-//                        else{
-//                            $rfqtrans = Transactions::query()
-//                                ->where('cross_slug', '=', $data->cross_slug)
-//                                ->where('ref_book', '=', 'RFQ')
-//                                ->first();
-//                        }
-//                    }
-
-
                     $transDetails = $data->transaction->transDetails;
                     $type = strtolower($data->transaction->ref_book ?? null);
                     return view('ppu.'.$type.'.dtItems')->with([
@@ -133,7 +97,6 @@ class AqController extends Controller
                     ->whereRaw('t.cross_ref_no = transactions.ref_no')
                     ->where('t.ref_book', '=', 'AQ');
             });
-
         $search = $request->get('search')['value'] ?? null;
 
         if ($search) {
@@ -141,21 +104,11 @@ class AqController extends Controller
                 $query->where('ref_no', 'like', '%' . $search . '%');
             });
         } else {
-            $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
+            $trans = $trans->whereRaw('1 = 0');
         }
         $trans = $trans->get();
 
         $dt = \DataTables::of($trans);
-
-        /*$dt = $dt->filter(function ($query) use($search){
-            if($search != null){
-                $query->where('ref_no', 'like', '%'.$search.'%')
-                    ->orWhereHas('transDetails',function ($q) use($search){
-                    return $q->where('item','like','%'.$search.'%')
-                        ->orWhere('description','like','%'.$search.'%');
-                });
-            }
-        });*/
 
         $dt = $dt->with(['transaction'])
             ->addColumn('action',function($data){

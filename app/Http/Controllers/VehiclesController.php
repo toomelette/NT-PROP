@@ -5,13 +5,21 @@ namespace App\Http\Controllers;
 
 
 use App\Models\RequestForVehicle;
-use App\Models\RequestForVehicleDetails;
+use App\Models\Vehicles;
 use App\Swep\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Yajra\DataTables\DataTables;
+use App\Models\WMR;
+use App\Swep\Helpers\Arrays;
 
 class VehiclesController extends Controller
 {
+
+    public function create()
+    {
+        return view('ppu.vehicles.create');
+    }
 
     public function schedule(Request $request){
         if($request->ajax() && $request->has('fetch')){
@@ -59,7 +67,30 @@ class VehiclesController extends Controller
         ]);
     }
 
-    public function index(){
+    public function index(Request $request){
+
+        if ($request->ajax() && $request->has('draw')) {
+            return $this->dataTable($request);
+        }
         return view('ppu.vehicles.index');
+    }
+
+    public function dataTable($request)
+    {
+
+        $vehicles = Vehicles::query();
+//        if($request->has('year') && $request->year != ''){
+//            $vehicles = $vehicles->where('year','like',$request->year.'%');
+//        }
+        return DataTables::of($vehicles)
+            ->addColumn('action', function ($data) {
+                return view('ppu.vehicles.dtActions')->with([
+                    'data' => $data
+                ]);
+            })
+
+            ->escapeColumns([])
+            ->setRowId('id')
+            ->toJson();
     }
 }

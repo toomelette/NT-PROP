@@ -11,7 +11,8 @@
         $employees = \App\Models\Employee::query()
         ->where(function ($query) {
             $query->where('locations', '=', 'VISAYAS')
-                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+                ->orWhere('locations', '=', 'LUZON/MINDANAO')
+                ->orWhere('as_signatory','=',1);
         })
         ->where('is_active', '=', 'ACTIVE')
         ->orderBy('fullname', 'asc')

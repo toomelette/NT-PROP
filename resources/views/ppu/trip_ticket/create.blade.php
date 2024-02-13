@@ -36,6 +36,7 @@
                            'label' => 'Vehicle:',
                            'cols' => 3,
                            'options' => \App\Swep\Helpers\Arrays::vehicles(),
+                           'class' => 'vehicle1'
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('passengers',[
@@ -179,6 +180,26 @@
 
 @section('scripts')
     <script type="text/javascript">
+        $('.vehicle1').on("change", function () {
+            let uri = '{{route("dashboard.trip_ticket.findOdo", "vehicle") }}';
+            uri = uri.replace('vehicle',$(this).val());
+            $.ajax({
+                url : uri,
+                type: 'GET',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    console.log(res);
+                    $('input[name="odometer_from"]').val(res.ticket.odometer_to);
+                },
+                error: function (res) {
+                    toast('error',res.responseJSON.message,'Error!');
+                }
+            })
+
+        });
+
         $('.gas_liter').on("input", function () {
             let total = 0;
 
@@ -225,6 +246,23 @@
                             console.log(res);
                             $('select[name="driver"]').val(res.dl.slug);
                             $('select[name="vehicle"]').val(res.va.slug);
+
+                            let uri = '{{route("dashboard.trip_ticket.findOdo", "vehicle") }}';
+                            uri = uri.replace('vehicle',res.va.slug);
+                            $.ajax({
+                                url : uri,
+                                type: 'GET',
+                                headers: {
+                                    {!! __html::token_header() !!}
+                                },
+                                success: function (res) {
+                                    console.log(res);
+                                    $('input[name="odometer_from"]').val(res.ticket.odometer_to);
+                                },
+                                error: function (res) {
+                                    toast('error',res.responseJSON.message,'Error!');
+                                }
+                            })
 
                             let pass = "";
                             for (let i = 0; i < res.ps.length; i++) {

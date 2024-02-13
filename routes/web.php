@@ -258,6 +258,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::get('/trip_ticket/create','TripTicketController@create')->name('trip_ticket.create');
     Route::get('/trip_ticket/findTransByRefNumber/{refNumber}','TripTicketController@findTransByRefNumber')->name('trip_ticket.findTransByRefNumber');
+    Route::get('/trip_ticket/findOdo/{vehicle}','TripTicketController@findOdo')->name('trip_ticket.findOdo');
     Route::post('/trip_ticket/store','TripTicketController@store')->name('trip_ticket.store');
     Route::get('/trip_ticket/{slug}/print','TripTicketController@print')->name('trip_ticket.print');
     Route::get('/trip_ticket/index','TripTicketController@index')->name('trip_ticket.index');
@@ -312,7 +313,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     ]);
 
     Route::get('/vehicles/schedule','VehiclesController@schedule')->name('vehicles.schedule');
-    Route::resource('vehicles',\App\Http\Controllers\VehiclesController::class);
+    Route::get('/vehicles/index','VehiclesController@index')->name('vehicles.index');
+    Route::get('/vehicles/create','VehiclesController@create')->name('vehicles.create');
+    Route::post('/vehicles/store','VehiclesController@store')->name('vehicles.store');
+    Route::get('/vehicles/{slug}/edit','VehiclesController@edit')->name('vehicles.edit');
+
 });
 
 Route::get('/verifyEmail',function (){

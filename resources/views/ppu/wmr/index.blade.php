@@ -13,7 +13,7 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Manage Waste Materials Report</h3>
 
-                <div class="box box-sm box-default box-solid collapsed-box">
+                <div class="box box-sm box-default box-solid collapsed-box " style=" margin-top: 5px;">
                     <div class="box-header with-border">
                         <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>
                         <div class="box-tools pull-right">
