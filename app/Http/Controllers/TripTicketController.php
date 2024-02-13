@@ -34,6 +34,17 @@ class TripTicketController extends Controller
         return $tt ?? abort(503,'Trip Ticket not found');
     }
 
+    public function findOdo($vehicle)
+    {
+        $ticket = TripTicket::query()
+            ->where('vehicle', '=', $vehicle)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        return response()->json([
+            'ticket' => $ticket,
+        ]);
+    }
 
     public function findTransByRefNumber($requestNo)
     {
@@ -78,6 +89,8 @@ class TripTicketController extends Controller
         $transNew->distance_traveled = $request->distance_traveled;
 
         if ($transNew->save()) {
+
+
             return $transNew->only('slug');
         }
         abort(503, 'Error saving Trip Ticket');
@@ -144,6 +157,7 @@ class TripTicketController extends Controller
         }
         return view('ppu.trip_ticket.index');
     }
+
 
     public function dataTable($request)
     {
