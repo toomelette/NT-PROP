@@ -34,6 +34,7 @@
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
+
 {{--                            {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[--}}
 {{--                                        'label' => 'ICS No:',--}}
 {{--                                        'cols' => 3,--}}
@@ -205,7 +206,8 @@
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
-                    })
+                    });
+                    form.reset();
                 },
                 error: function (res) {
                     toast('error',res.responseJSON.message,'Error!');

@@ -4,29 +4,11 @@
 namespace App\Http\Controllers;
 
 
-use App\Http\Requests\RequestForVehicle\RequestForVehicleFormRequest;
-use App\Http\Requests\RequestForVehicle\TakeActionFormRequest;
-use App\Models\Employee;
-use App\Models\Drivers;
-use App\Models\Articles;
-use App\Jobs\EmailNotification;
-use App\Models\EmailRecipients;
-use App\Models\Order;
-use App\Models\PPURespCodes;
 use App\Models\RequestForVehicle;
-use App\Models\RequestForVehicleDetails;
-use App\Models\RequestForVehiclePassengers;
-use App\Models\TransactionDetails;
-use App\Models\Transactions;
 use App\Models\TripTicket;
-use App\Models\Vehicles;
-use App\Models\WasteMaterial;
-use App\Swep\Helpers\Helper;
-use App\Swep\Services\RequestForVehicleService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -37,6 +19,21 @@ class TripTicketController extends Controller
     public function create(){
         return view('ppu.trip_ticket.create');
     }
+
+    public function edit($slug){
+        $tt =$this->findBySlug($slug);
+        return view('ppu.trip_ticket.edit')->with([
+            'tt' => $tt
+        ]);
+    }
+
+    public function findBySlug($slug){
+        $tt = TripTicket::query()
+            ->where('slug','=',$slug)->first();
+
+        return $tt ?? abort(503,'Trip Ticket not found');
+    }
+
 
     public function findTransByRefNumber($requestNo)
     {
@@ -66,8 +63,8 @@ class TripTicketController extends Controller
         $transNew->passengers = $request->passengers;
         $transNew->destination = $request->destination;
         $transNew->purpose = $request->purpose;
-        $transNew->approved_by = "ATTY. JOHANA S. JADOC";
-        $transNew->approved_by_designation = "MANAGER III - AFD-VISAYAS";
+        $transNew->approved_by = $request->approved_by;
+        $transNew->approved_by_designation = $request->approved_by_designation;
         $transNew->departure = $request->departure;
         $transNew->return = $request->return;
         $transNew->gas_balance = $request->gas_balance;
@@ -79,38 +76,46 @@ class TripTicketController extends Controller
         $transNew->odometer_from = $request->odometer_from;
         $transNew->odometer_to = $request->odometer_to;
         $transNew->distance_traveled = $request->distance_traveled;
-//        if ($request->request_no != ""){
-//            $req = RequestForVehicle::query()->first();
-//            $trans = TripTicket::query()->first();
-//            $transNew->pap_code = $trans->pap_code;
-//            $transNew->cross_slug = $trans->slug;
-//            $transNew->cross_ref_no = $trans->cross_ref_no;
-//            $transNew->purpose = $trans->purpose;
-//            $transNew->jr_type = $trans->jr_type;
-//            $transNew->requested_by = $request->requested_by;
-//            $transNew->requested_by_designation = $trans->requested_by_designation;
-//            $transNew->approved_by = $trans->approved_by;
-//            $transNew->approved_by_designation = $trans->approved_by_designation;
-//            $transNew->supplier = $order->supplier_name;
-//            $transNew->supplier_address = $order->supplier_address;
-//            $transNew->supplier_tin = $order->supplier_tin;
-//        }
-//        else {
-//            $transNew->cross_slug = "";
-//            $transNew->purpose = "";
-//            $transNew->jr_type = "";
-//            $transNew->approved_by = "";
-//            $transNew->approved_by_designation = "";
-//            $transNew->supplier_address = "";
-//            $transNew->supplier_tin = "";
-//            $transNew->resp_center = $request->resp_center;
-//        }
-//
-//
+
         if ($transNew->save()) {
             return $transNew->only('slug');
         }
         abort(503, 'Error saving Trip Ticket');
+    }
+
+    public function update(FormRequest $request, $slug)
+    {
+        $trans = TripTicket::query()->where('slug', '=', $slug)->first();
+
+        if (!$trans) {
+            return response()->json(['message' => 'Transaction not found'], 404);
+        }
+
+        $trans->request_no = $request->request_no;
+        $trans->date = $request->date;
+        $trans->driver = $request->driver;
+        $trans->vehicle = $request->vehicle;
+        $trans->passengers = $request->passengers;
+        $trans->destination = $request->destination;
+        $trans->purpose = $request->purpose;
+        $trans->approved_by = $request->approved_by;
+        $trans->approved_by_designation = $request->approved_by_designation;
+        $trans->departure = $request->departure;
+        $trans->return = $request->return;
+        $trans->gas_balance = $request->gas_balance;
+        $trans->gas_issued = $request->gas_issued;
+        $trans->purchased = $request->purchased;
+        $trans->total = $request->total;
+        $trans->consumed = $request->consumed;
+        $trans->gas_remaining_balance = $request->gas_remaining_balance;
+        $trans->odometer_from = $request->odometer_from;
+        $trans->odometer_to = $request->odometer_to;
+        $trans->distance_traveled = $request->distance_traveled;
+
+        if ($trans->save()) {
+            return $trans->only('slug');
+        }
+        abort(503, 'Error Updating Trip Ticket');
     }
 
     public function getNextTripTicketNo()
@@ -166,8 +171,11 @@ class TripTicketController extends Controller
 
     public function print($slug){
         $tt = TripTicket::query()->where('slug', $slug)->first();
+        $passengers = collect(explode(",",$tt->passengers))->chunk(3);
+
         return view('printables.trip_ticket.print')->with([
             'tt' => $tt,
+           'passengers' =>  $passengers,
         ]);
     }
 
