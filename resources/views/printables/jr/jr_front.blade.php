@@ -21,7 +21,6 @@
                 <p class="no-margin text-strong">Tel No. 433-6891</p>
             </td>
             <td style="width: 30%">
-
             </td>
         </tr>
     </table>

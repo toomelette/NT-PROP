@@ -139,11 +139,6 @@ class AqController extends Controller
         if ($search) {
             $trans = $trans->where(function ($query) use ($search) {
                 $query->where('ref_no', 'like', '%' . $search . '%');
-                /*$query->where('ref_no', 'like', '%' . $search . '%')
-                    ->orWhereHas('transDetails', function ($q) use ($search) {
-                        $q->where('item', 'like', '%' . $search . '%')
-                            ->orWhere('description', 'like', '%' . $search . '%');
-                    });*/
             });
         } else {
             $trans = $trans->whereRaw('1 = 0'); // Add a condition that is always false to return no results
