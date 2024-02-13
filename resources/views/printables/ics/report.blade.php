@@ -36,7 +36,7 @@
                             <p class="no-margin text-strong" style="font-size: 18px">{{$accountCodeRecord->description}}</p>
                         @endif
                     @endforeach
-                    <p class="no-margin">As at SUGAR REGULATORY ADMINISTRATION, BACOLOD CITY</p>
+                    <p class="no-margin">As at SUGAR REGULATORY ADMINISTRATION, {{\App\Swep\Helpers\Values::headerAddress()}}</p>
                 </td>
             </tr>
         </table>
