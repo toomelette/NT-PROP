@@ -333,7 +333,7 @@ class Arrays
 
     public static function vehicles(){
         $v = Vehicles::query()
-            ->selectRaw('*, concat(make," ",model," - ",plate_no) as  make_model')
+            ->selectRaw('*, concat(make," ",model1," - ",plate_no) as  make_model')
             ->get();
         if(!empty($v)){
             return $v

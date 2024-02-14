@@ -128,7 +128,7 @@
                     </tr>
                     <tr style="border-right: 1px solid black; width: 100%;">
                         <td style="border-right: 1px solid black; border-left: 1px solid black; vertical-align: center; width: 14%">
-                            Requisitioner:
+                            Received and Inspected by:
                         </td>
                         <td class="text-strong" style="vertical-align: center; width: 14.1%;">
                             {{$iar->requested_by}}
