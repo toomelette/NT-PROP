@@ -108,14 +108,14 @@
                                          'cols' => 3,
                                          'required' => 'required'
                                      ],
-                                    \App\Swep\Helpers\Helper::getSetting('po_funds_available')->string_value ?? null
+                                    \App\Swep\Helpers\Arrays::ChiefAccountant()
                                     ) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('funds_available_designation',[
                                          'label' => 'Designation:',
                                          'cols' => 3,
                                          'required' => 'required'
                                      ],
-                                    \App\Swep\Helpers\Helper::getSetting('po_funds_available_designation')->string_value ?? null
+                                    \App\Swep\Helpers\Arrays::ChiefAccountantDesignation()
                                     ) !!}
 
                     {{--{!! \App\Swep\ViewHelpers\__form2::select('ref_book', [

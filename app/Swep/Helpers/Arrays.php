@@ -331,6 +331,30 @@ class Arrays
         return $data;
     }
 
+    public static function ChiefAccountant(){
+        $project_id = Values::currentUserProjectId();
+        if($project_id == 1){
+            $data = "FELICIDAD B. LOPEZ";
+        }elseif($project_id == 2){
+            $data = "PORTIA I. ASENTISTA";
+        }else{
+            $data = "N/A";
+        }
+        return $data;
+    }
+
+    public static function ChiefAccountantDesignation(){
+        $project_id = Values::currentUserProjectId();
+        if($project_id == 1){
+            $data = "ACCOUNTANT IV";
+        }elseif($project_id == 2){
+            $data = "ACCOUNTANT IV";
+        }else{
+            $data = "N/A";
+        }
+        return $data;
+    }
+
     public static function papTypes(){
         $arr = [];
         $ops = Options::query()->where('for','=','papTypes')->get();
