@@ -230,8 +230,6 @@
                             for(let i=0; i<res.transDetails.length; i++){
                                 let stock = res.transDetails[i].stock_no;
                                 stock = stock === null ? '' : stock;
-                                let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
-                                let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
