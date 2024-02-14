@@ -89,11 +89,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('authorized_official', [
                                             'label' => 'Authorized Official:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'ATTY. JOHANA S. JADOC' => 'ATTY. JOHANA S. JADOC',
-                                                'HELEN B. LOBATON' => 'HELEN B. LOBATON',
-                                                'WILFREDO R. MONARES' => 'WILFREDO R. MONARES'
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::AuthorizedOfficial(),
                                         ]) !!}
                     {{--{!! \App\Swep\ViewHelpers\__form2::textbox('authorized_official_designation',[
                                          'label' => 'Designation:',
@@ -105,11 +101,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('authorized_official_designation', [
                                             'label' => 'Designation:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'MANAGER III, AFD-VISAYAS' => 'MANAGER III, AFD-VISAYAS',
-                                                'MANAGER III, RDE-VISAYAS' => 'MANAGER III, RDE-VISAYAS',
-                                                'MANAGER III, RD-VISAYAS' => 'MANAGER III, RD-VISAYAS'
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::AuthorizedOfficialDesignation(),
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('funds_available',[
                                          'label' => 'Chief Accountant:',
