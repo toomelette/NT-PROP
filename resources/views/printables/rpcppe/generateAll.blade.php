@@ -133,13 +133,9 @@
                         <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
                             <tbody class="">
                                 <tr>
-                                    <td class="text-strong">TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code]}}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        {{ number_format($inventoryTypeTotal, 2) }}
+                                    <td class="text-strong" style="width: 50%">TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code]}}
                                     </td>
+                                    <td class="text-strong" style="width: 50%">{{ number_format($inventoryTypeTotal, 2) }}</td>
                                 </tr>
                             </tbody>
                         </table>
