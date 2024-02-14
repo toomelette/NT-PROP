@@ -152,7 +152,7 @@
             @endforeach
 
     @endforeach
-    <div class="page-breaks">
+    {{--<div class="page-breaks">
         <table style="width: 100%; margin-left: -120px; font-family: 'Cambria',Times New Roman">
             <tr>
                 <td style="width: 20%">
@@ -240,7 +240,7 @@
             </tr>
             </tbody>
         </table>
-    </div>
+    </div>--}}
 @endsection
 
 @section('scripts')
