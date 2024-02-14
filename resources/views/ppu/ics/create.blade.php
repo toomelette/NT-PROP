@@ -134,8 +134,6 @@
                                             <th>Unit Cost</th>
                                             <th>Total Cost</th>
                                             <th>Useful Life</th>
-                                            <th>Prop. No.</th>
-                                            <th>Nature of Work</th>
                                             <th style="width: 3%"></th>
                                         </tr>
                                         </thead>
