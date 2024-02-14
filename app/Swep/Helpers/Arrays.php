@@ -277,6 +277,84 @@ class Arrays
         return $arr;
     }
 
+    public static function AuthorizedOfficial(){
+        $project_id = Values::currentUserProjectId();
+        if($project_id == 1){
+            $data = [
+                'ATTY. JOHANA S. JADOC' => 'ATTY. JOHANA S. JADOC',
+                'HELEN B. LOBATON' => 'HELEN B. LOBATON',
+                'WILFREDO R. MONARES' => 'WILFREDO R. MONARES'
+            ];
+        }elseif($project_id == 2){
+            $data = [
+                'ATTY. BRANDO D. NOROÑA' => 'ATTY. BRANDO D. NOROÑA',
+                'ATTY. IGNACIO S. SANTILLANA' => 'ATTY. IGNACIO S. SANTILLANA',
+                'ATTY. GUILLERMO C. TEJIDA III' => 'ATTY. GUILLERMO C. TEJIDA III',
+                'ENGR. LAVERNE C. OLALIA' => 'ENGR. LAVERNE C. OLALIA',
+                'NARCISO R. CABALQUINTO JR' => 'NARCISO R. CABALQUINTO JR',
+                'MARCO D. SORIANO' => 'MARCO D. SORIANO',
+                'ATTY. RONALD E. RIMANDO' => 'ATTY. RONALD E. RIMANDO',
+                'DIGNA D. GONZALES' => 'DIGNA D. GONZALES',
+                'JAY ANDREW T. ADRIAS' => 'JAY ANDREW T. ADRIAS'
+            ];
+        }else{
+            $data = [
+            ];
+        }
+        return $data;
+    }
+
+    public static function AuthorizedOfficialDesignation(){
+        $project_id = Values::currentUserProjectId();
+        if($project_id == 1){
+            $data = [
+                'MANAGER III, AFD-VISAYAS' => 'MANAGER III, AFD-VISAYAS',
+                'MANAGER III, RDE-VISAYAS' => 'MANAGER III, RDE-VISAYAS',
+                'MANAGER III, RD-VISAYAS' => 'MANAGER III, RD-VISAYAS'
+            ];
+        }elseif($project_id == 2){
+            $data = [
+                'DEPUTY ADMINISTRATOR II-AFD' => 'DEPUTY ADMINISTRATOR II-AFD',
+                'DEPUTY ADMINISTRATOR II-RDE' => 'DEPUTY ADMINISTRATOR II-RDE',
+                'DEPUTY ADMINISTRATOR II- REGULATION' => 'DEPUTY ADMINISTRATOR II- REGULATION',
+                'MANAGER III-RDE-L&M' => 'MANAGER III-RDE-L&M',
+                'OIC-ADMINISTRATIVE OFFICER V' => 'OIC-ADMINISTRATIVE OFFICER V',
+                'MANAGER III-AFD' => 'MANAGER III-AFD',
+                'MANAGER III-LEGAL DEPARTMENT' => 'MANAGER III-LEGAL DEPARTMENT',
+                'MANAGER III' => 'MANAGER III',
+                'MANAGER III-IAD' => 'MANAGER III-IAD'
+            ];
+        }else{
+            $data = [
+            ];
+        }
+        return $data;
+    }
+
+    public static function ChiefAccountant(){
+        $project_id = Values::currentUserProjectId();
+        if($project_id == 1){
+            $data = "FELICIDAD B. LOPEZ";
+        }elseif($project_id == 2){
+            $data = "PORTIA I. ASENTISTA";
+        }else{
+            $data = "N/A";
+        }
+        return $data;
+    }
+
+    public static function ChiefAccountantDesignation(){
+        $project_id = Values::currentUserProjectId();
+        if($project_id == 1){
+            $data = "ACCOUNTANT IV";
+        }elseif($project_id == 2){
+            $data = "ACCOUNTANT IV";
+        }else{
+            $data = "N/A";
+        }
+        return $data;
+    }
+
     public static function papTypes(){
         $arr = [];
         $ops = Options::query()->where('for','=','papTypes')->get();

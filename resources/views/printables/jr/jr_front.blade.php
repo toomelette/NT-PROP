@@ -21,7 +21,6 @@
                 <p class="no-margin text-strong">{{\App\Swep\Helpers\Values::headerTelephone()}}</p>
             </td>
             <td style="width: 30%">
-
             </td>
         </tr>
     </table>
