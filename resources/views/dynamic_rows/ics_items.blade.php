@@ -72,18 +72,7 @@
         'label' => 'Useful life',
     ],$item->estimated_useful_life ?? null) !!}
     </td>
-
-    <td style="width: 8%">
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][property_no]',[
-        'label' => 'Prop. No.:',
-    ],$item->property_no ?? null) !!}
-    </td>
-        <td style="width: 8%">
-            {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
-             'label' => 'Nature of work:',
-         ],$item->nature_of_Work ?? null) !!}
-        </td>
-    <td>
+    <td style="width: 3%">
         <button tabindex="-1" data="S01QH" type="button" class="btn btn-danger btn-sm remove_row_btn"><i class="fa fa-times"></i></button>
     </td>
 </tr>

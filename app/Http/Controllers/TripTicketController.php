@@ -89,8 +89,6 @@ class TripTicketController extends Controller
         $transNew->distance_traveled = $request->distance_traveled;
 
         if ($transNew->save()) {
-
-
             return $transNew->only('slug');
         }
         abort(503, 'Error saving Trip Ticket');

@@ -13,7 +13,7 @@
 
             <div class="box box-success">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Create Trip Ticket</h3>
+                    <h3 class="box-title">Edit Trip Ticket</h3>
                     <button class="btn btn-primary btn-sm pull-right" id="saveBtn" type="button">
                         <i class="fa fa-check"></i> Save
                     </button>

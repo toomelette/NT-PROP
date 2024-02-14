@@ -92,7 +92,7 @@
                 "columns": [
                     { "data": "year" },
                     { "data": "make" },
-                    { "data": "model" },
+                    { "data": "model1" },
                     { "data": "plate_no" },
                     { "data": "odometer" },
                     { "data": "status" },

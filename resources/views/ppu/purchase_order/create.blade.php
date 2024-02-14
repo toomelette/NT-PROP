@@ -87,11 +87,7 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('authorized_official', [
                                             'label' => 'Authorized Official:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'ATTY. JOHANA S. JADOC' => 'ATTY. JOHANA S. JADOC',
-                                                'HELEN B. LOBATON' => 'HELEN B. LOBATON',
-                                                'WILFREDO R. MONARES' => 'WILFREDO R. MONARES'
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::AuthorizedOfficial(),
                                         ]) !!}
                     {{--{!! \App\Swep\ViewHelpers\__form2::textbox('authorized_official_designation',[
                                          'label' => 'Designation:',
@@ -103,25 +99,21 @@
                     {!! \App\Swep\ViewHelpers\__form2::select('authorized_official_designation', [
                                             'label' => 'Designation:',
                                             'cols' => 3,
-                                            'options' => [
-                                                'MANAGER III, AFD-VISAYAS' => 'MANAGER III, AFD-VISAYAS',
-                                                'MANAGER III, RDE-VISAYAS' => 'MANAGER III, RDE-VISAYAS',
-                                                'MANAGER III, RD-VISAYAS' => 'MANAGER III, RD-VISAYAS'
-                                            ]
+                                            'options' => \App\Swep\Helpers\Arrays::AuthorizedOfficialDesignation(),
                                         ]) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('funds_available',[
                                          'label' => 'Chief Accountant:',
                                          'cols' => 3,
                                          'required' => 'required'
                                      ],
-                                    \App\Swep\Helpers\Helper::getSetting('po_funds_available')->string_value ?? null
+                                    \App\Swep\Helpers\Arrays::ChiefAccountant()
                                     ) !!}
                     {!! \App\Swep\ViewHelpers\__form2::textbox('funds_available_designation',[
                                          'label' => 'Designation:',
                                          'cols' => 3,
                                          'required' => 'required'
                                      ],
-                                    \App\Swep\Helpers\Helper::getSetting('po_funds_available_designation')->string_value ?? null
+                                    \App\Swep\Helpers\Arrays::ChiefAccountantDesignation()
                                     ) !!}
 
                     {{--{!! \App\Swep\ViewHelpers\__form2::select('ref_book', [
