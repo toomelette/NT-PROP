@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 
 
 use App\Models\RequestForVehicle;
+use App\Models\TripTicket;
 use App\Models\Vehicles;
 use App\Swep\Helpers\Helper;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
-use App\Models\WMR;
 use App\Swep\Helpers\Arrays;
+use Illuminate\Support\Str;
 
 class VehiclesController extends Controller
 {
@@ -79,9 +81,7 @@ class VehiclesController extends Controller
     {
 
         $vehicles = Vehicles::query();
-//        if($request->has('year') && $request->year != ''){
-//            $vehicles = $vehicles->where('year','like',$request->year.'%');
-//        }
+
         return DataTables::of($vehicles)
             ->addColumn('action', function ($data) {
                 return view('ppu.vehicles.dtActions')->with([
@@ -92,5 +92,55 @@ class VehiclesController extends Controller
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();
+    }
+
+    public function store(FormRequest $request)
+    {
+        $transNewSlug = Str::random();
+        $transNew = new Vehicles();
+        $transNew->slug = $transNewSlug;
+        $transNew->year = $request->year;
+        $transNew->make = $request->make;
+        $transNew->model1 = $request->model1;
+        $transNew->plate_no = $request->plate_no;
+        $transNew->odometer = $request->odometer;
+        $transNew->status = $request->status;
+
+        if ($transNew->save()) {
+            return $transNew->only('slug');
+        }
+        abort(503, 'Error saving Vehicle');
+    }
+
+    public function edit($slug){
+        $vhcl =$this->findBySlug($slug);
+        return view('ppu.vehicles.edit')->with([
+            'vhcl' => $vhcl
+        ]);
+    }
+
+    public function findBySlug($slug){
+        $vhcl = Vehicles::query()
+            ->where('slug','=',$slug)->first();
+
+        return $vhcl ?? abort(503,'Trip Ticket not found');
+    }
+
+    public function update(FormRequest $request, $slug)
+    {
+
+        $trans = Vehicles::query()->where('slug', '=', $slug)->first();
+
+        $trans->year = $request->year;
+        $trans->make = $request->make;
+        $trans->model1 = $request->model1;
+        $trans->plate_no = $request->plate_no;
+        $trans->odometer = $request->odometer;
+        $trans->status = $request->status;
+
+        if ($trans->save()) {
+            return $trans->only('slug');
+        }
+        abort(503, 'Error Updating Vehicle');
     }
 }

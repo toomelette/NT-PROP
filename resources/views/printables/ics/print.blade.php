@@ -127,7 +127,7 @@
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%">Unit Cost</td>
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%; text-align: center">Total Cost</td>
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 40%; text-align: center;">Description</td>
-                        <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%; text-align: center;">Inventory Item No.</td>
+                        <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%; text-align: center;">Stock No.</td>
                         <td style="border-right: 1px solid black; border-bottom: 1px solid black; width: 10%; text-align: center;">Estimated Useful Life</td>
                     </tr>
                     </thead>
@@ -147,7 +147,7 @@
                                     {{$item->description ? $item->description : ""}}
                                     </span>
                                 </td>
-                                <td style="vertical-align: top; ">{{$item->property_no}}</td>
+                                <td style="vertical-align: top; ">{{$item->stock_no}}</td>
                                 <td style="vertical-align: top; ">{{$item->estimated_useful_life == null ? "" : $item->estimated_useful_life}}</td>
 
                             </tr>

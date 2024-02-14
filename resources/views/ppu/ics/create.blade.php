@@ -134,8 +134,6 @@
                                             <th>Unit Cost</th>
                                             <th>Total Cost</th>
                                             <th>Useful Life</th>
-                                            <th>Prop. No.</th>
-                                            <th>Nature of Work</th>
                                             <th style="width: 3%"></th>
                                         </tr>
                                         </thead>
@@ -232,8 +230,6 @@
                             for(let i=0; i<res.transDetails.length; i++){
                                 let stock = res.transDetails[i].stock_no;
                                 stock = stock === null ? '' : stock;
-                                let propNo = res.transDetails[i].property_no == null ? "" : res.transDetails[i].property_no;
-                                let natureOfWork = res.transDetails[i].nature_of_work == null ? "" : res.transDetails[i].nature_of_work;
                                 tableHtml += '<tr id='+res.transDetails[i].slug+'>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][stock_no]" name="items['+res.transDetails[i].slug+'][stock_no]" type="text" value="' + stock + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit]" name="items['+res.transDetails[i].slug+'][unit]" type="text" value="' + res.transDetails[i].unit + '"></td>' +
@@ -243,8 +239,6 @@
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + res.transDetails[i].unit_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + res.transDetails[i].total_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][estimated_useful_life]" name="items['+res.transDetails[i].slug+'][estimated_useful_life]" type="text" value="' +  res.transDetails[i].estimated_useful_life + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][property_no]" name="items['+res.transDetails[i].slug+'][property_no]" type="text" value="' + propNo + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][nature_of_work]" name="items['+res.transDetails[i].slug+'][nature_of_work]" type="text" value="' + natureOfWork + '"></td>' +
                                     '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
                                     '</tr>';
                             }

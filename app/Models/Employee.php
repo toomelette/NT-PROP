@@ -99,7 +99,7 @@ class Employee extends Model{
 
     /** RELATIONSHIPS **/
     public function user() {
-        return $this->hasOne(User::class,'employee_no','employee_no');
+        return $this->hasOne(User::class,'employee_slug','slug');
     }
 
     public function department(){
