@@ -33,13 +33,9 @@
             display: none; /* Initially hide the footer */
         }
     </style>
-    @php
-        $fundClustersss = [];
-    @endphp
     @foreach($data as $account_code => $groupedByFunds)
             @php
                 $groupedByFunds->sort();
-                $fundClustersss = $groupedByFunds->sort();
                 $inventoryTypeTotal = 0;
             @endphp
 
@@ -152,7 +148,7 @@
             @endforeach
 
     @endforeach
-    {{--<div class="page-breaks">
+    <div class="page-breaks">
         <table style="width: 100%; margin-left: -120px; font-family: 'Cambria',Times New Roman">
             <tr>
                 <td style="width: 20%">
@@ -160,11 +156,6 @@
                 </td>
                 <td style="font-size: 20px">
                     <p class="no-margin text-strong">REPORT ON THE PHYSICAL COUNT OF PROPERTY, PLANT & EQUIPMENT</p>
-                    @foreach($accountCodeRecords1 as $accountCodeRecord)
-                        @if($accountCodeRecord->code === $accountCode)
-                            <p class="no-margin text-strong" style="font-size: 18px">{{$accountCodeRecord->description}}</p>
-                        @endif
-                    @endforeach
                     <p class="no-margin">As at SUGAR REGULATORY ADMINISTRATION, BACOLOD CITY</p>
                 </td>
             </tr>
@@ -175,7 +166,7 @@
             <tr>
                 <th style="text-align: center;">ACCT CODE</th>
                 <th style="text-align: center;">ACCT TITLE</th>
-                @foreach($fundClustersss as $fund_clusters)
+                @foreach($fundClusters1 as $fund_clusters)
                     <th style="text-align: center;">{{$fund_clusters}}</th>
                 @endforeach
                 <th style="text-align: center;">TOTAL</th>
@@ -240,7 +231,7 @@
             </tr>
             </tbody>
         </table>
-    </div>--}}
+    </div>
 @endsection
 
 @section('scripts')

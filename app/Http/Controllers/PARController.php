@@ -335,11 +335,27 @@ class PARController extends Controller
             return $d->sortBy('fund_cluster')->groupBy('fund_cluster');
         });
 
+        $rpciObj1 = InventoryPPE::query()->where(function ($query) {
+            $query->where('condition', '!=', 'DERECOGNIZED')
+                ->orWhereNull('condition')
+                ->orWhere('condition', '');
+        })
+            ->whereDate('dateacquired', '<=', $asOfDate)
+            ->orderBy('invtacctcode')
+            ->get();
+        $accountCodes1 = $rpciObj1->pluck('invtacctcode')->unique();
+        $accountCodeRecords1 = AccountCode::whereIn('code', $accountCodes1)->get();
+        $fund_clusters1 = $rpciObj1->pluck('fund_cluster')->unique()->sort();
+
         return view('printables.rpcppe.generateAll')->with([
             'rpciObj' => $rpciObj,
             'asOf' => $asOfDate,
             'data' => $g,
-            'accountCodes' => $accountCodes
+            'accountCodes' => $accountCodes,
+            'rpciObj1' => $rpciObj1,
+            'accountCodes1' => $accountCodes1,
+            'accountCodeRecords1' => $accountCodeRecords1,
+            'fundClusters1' => $fund_clusters1,
         ]);
 
         if($fund_cluster == 'all')
