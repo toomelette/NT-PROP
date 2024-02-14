@@ -306,6 +306,42 @@ class PARController extends Controller
 
     public function printRpcppe($fund_cluster, $as_of){
         $asOfDate = $as_of;
+        $rpciObj = InventoryPPE::query()
+            ->with(['iac'])
+            ->where(function ($query) {
+            $query->where('condition', '!=', 'DERECOGNIZED')
+                ->orWhereNull('condition')
+                ->orWhere('condition', '');
+        })
+            ->whereDate('dateacquired', '<=', $asOfDate);
+
+        if($fund_cluster != 'all'){
+//            $rpciObj = $rpciObj->where('fund_cluster','=',$fund_cluster);
+        }
+
+        $accountCodes = AccountCode::query()
+            ->get()
+            ->mapWithKeys(function ($data){
+                return [
+                    $data->code => $data->description,
+                ];
+            });
+
+        $rpciObj = $rpciObj->orderBy('invtacctcode')
+            ->get();
+
+        $g = $rpciObj->groupBy('invtacctcode');
+        $g = $g->map(function ($d){
+            return $d->sortBy('fund_cluster')->groupBy('fund_cluster');
+        });
+
+        return view('printables.rpcppe.generateAll')->with([
+            'rpciObj' => $rpciObj,
+            'asOf' => $asOfDate,
+            'data' => $g,
+            'accountCodes' => $accountCodes
+        ]);
+
         if($fund_cluster == 'all')
         {
             $rpciObj = InventoryPPE::query()->where(function ($query) {
@@ -324,7 +360,8 @@ class PARController extends Controller
                 'accountCodes' => $accountCodes,
                 'accountCodeRecords' => $accountCodeRecords,
                 'fundClusters' => $fund_clusters,
-                'asOf' => $asOfDate
+                'asOf' => $asOfDate,
+                'data' => $g,
             ]);
         }
         else {
@@ -347,7 +384,8 @@ class PARController extends Controller
                 'accountCodes' => $accountCodes,
                 'accountCodeRecords' => $accountCodeRecords,
                 'fundCluster' => $fund_cluster,
-                'asOf' => $asOfDate
+                'asOf' => $asOfDate,
+                'data' => $g,
             ]);
         }
     }
