@@ -304,52 +304,72 @@ class PARController extends Controller
         return view('ppu.rpcppe.generateInventoryCountForm');
     }
 
-    public function printRpcppe($fund_cluster, $as_of){
-        $asOfDate = $as_of;
-        if($fund_cluster == 'all')
-        {
-            $rpciObj = InventoryPPE::query()->where(function ($query) {
-                $query->where('condition', '!=', 'DERECOGNIZED')
-                    ->orWhereNull('condition')
-                    ->orWhere('condition', '');
-            })
-                ->whereDate('dateacquired', '<=', $asOfDate)
-                ->orderBy('invtacctcode')
-                ->get();
-            $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
-            $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
-            $fund_clusters = $rpciObj->pluck('fund_cluster')->unique()->sort();
-            return view('printables.rpcppe.generateAll')->with([
-                'rpciObj' => $rpciObj,
-                'accountCodes' => $accountCodes,
-                'accountCodeRecords' => $accountCodeRecords,
-                'fundClusters' => $fund_clusters,
-                'asOf' => $asOfDate
-            ]);
-        }
-        else {
-            //$rpciObj = InventoryPPE::query()->where('fund_cluster', '=', $fund_cluster)->orderBy('invtacctcode')->get();
-            $rpciObj = InventoryPPE::query()->where(function ($query) use ($fund_cluster) {
-                $query->where('fund_cluster', '=', $fund_cluster)
-                    ->where(function ($query) {
-                        $query->where('condition', '!=', 'DERECOGNIZED')
-                            ->orWhereNull('condition')
-                            ->orWhere('condition', ''); // Assuming you want to include empty strings as well
-                    });
-                })
-                ->whereDate('dateacquired', '<=', $asOfDate)
-                ->orderBy('invtacctcode')->get();
+    public function printRpcppe(Request $request){
 
-            $accountCodes = $rpciObj->pluck('invtacctcode')->unique();
-            $accountCodeRecords = AccountCode::whereIn('code', $accountCodes)->get();
-            return view('printables.rpcppe.generate')->with([
-                'rpciObj' => $rpciObj,
-                'accountCodes' => $accountCodes,
-                'accountCodeRecords' => $accountCodeRecords,
-                'fundCluster' => $fund_cluster,
-                'asOf' => $asOfDate
-            ]);
+        $fund_cluster = $request->fund_cluster;
+        $asOfDate = $request->as_of;
+        $rpciObj = InventoryPPE::query()
+            ->with(['iac'])
+            ->where(function ($query) {
+            $query->where('condition', '!=', 'DERECOGNIZED')
+                ->orWhereNull('condition')
+                ->orWhere('condition', '');
+        });
+
+
+        if($request->has('period_covered')){
+            $rpciObj = $rpciObj->whereBetween('dateacquired',[$request->date_start,$request->date_end]);
+        }else{
+            $rpciObj = $rpciObj->whereDate('dateacquired','<=',$request->as_of);
         }
+        if($request->has('fund_cluster') && $request->fund_cluster != ''){
+            $rpciObj = $rpciObj->where('fund_cluster','=',$request->fund_cluster);
+        }
+
+
+        $rpciObj = $rpciObj->orderBy('invtacctcode');
+        $rpciObj1 = $rpciObj->get();
+        $rpciObj = $rpciObj->get();
+
+        $g = $rpciObj->groupBy('invtacctcode');
+        $g = $g->map(function ($d){
+            return $d->sortBy('fund_cluster')->groupBy('fund_cluster');
+        });
+
+
+        $accountCodes = AccountCode::query()
+            ->get()
+            ->mapWithKeys(function ($data){
+                return [
+                    $data->code => $data->description,
+                ];
+            });
+
+//        $rpciObj1 = InventoryPPE::query()->where(function ($query) {
+//            $query->where('condition', '!=', 'DERECOGNIZED')
+//                ->orWhereNull('condition')
+//                ->orWhere('condition', '');
+//        })
+//            ->whereDate('dateacquired', '<=', $asOfDate)
+//            ->orderBy('invtacctcode')
+//            ->get();
+
+
+        $accountCodes1 = $rpciObj1->pluck('invtacctcode')->unique();
+        $accountCodeRecords1 = AccountCode::whereIn('code', $accountCodes1)->get();
+        $fund_clusters1 = $rpciObj1->pluck('fund_cluster')->unique()->sort();
+
+        return view('printables.rpcppe.generateAll')->with([
+            'rpciObj' => $rpciObj,
+            'asOf' => $asOfDate,
+            'data' => $g,
+            'accountCodes' => $accountCodes,
+            'rpciObj1' => $rpciObj1,
+            'accountCodes1' => $accountCodes1,
+            'accountCodeRecords1' => $accountCodeRecords1,
+            'fundClusters1' => $fund_clusters1,
+        ]);
+
     }
 
     public function printInventoryCountForm($value){
