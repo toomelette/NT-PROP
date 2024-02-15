@@ -111,7 +111,9 @@
         })
         
         $("#select_vehicle").change(function () {
+
             calendar.fullCalendar('refetchEvents');
+
         })
     </script>
 @endsection

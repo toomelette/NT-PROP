@@ -3,7 +3,7 @@
     <br>
     Destination: <span class="text-strong">{{$data->destination ?? ''}}</span>
     <br>
-    Vehicle: <span class="text-strong">{{$data->vehicleAssigned->make ?? ''}} {{$data->vehicleAssigned->model ?? ''}} - {{$data->vehicleAssigned->plate_no ?? ''}}</span>
+    Vehicle: <span class="text-strong">{{$data->vehicleAssigned->make ?? ''}} {{$data->vehicleAssigned->model1 ?? ''}} - {{$data->vehicleAssigned->plate_no ?? ''}}</span>
     <br>
     Authorized Passenger(s):
     @if(!empty($data->passengers))
