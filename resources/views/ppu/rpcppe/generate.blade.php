@@ -9,7 +9,7 @@
     <section class="content col-md-12">
         <div class="box box-solid">
 
-            <form id="rpci_form">
+            <form id="rpci_form" action="{{route('dashboard.rpcppe.printRpcppe')}}">
                 <div class="box-header with-border">
                 </div>
                 <div class="box-body">
@@ -54,9 +54,9 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="box-footer pull-left">
-                        <a class="btn btn-primary btn-md" href="" target="_blank">
-                            <i class="fa fa-print">Print</i>
-                        </a>
+                        <button class="btn btn-primary btn-md" type="submit">
+                            <i class="fa fa-print"></i> Print
+                        </button>
                     </div>
                 </div>
             </form>
