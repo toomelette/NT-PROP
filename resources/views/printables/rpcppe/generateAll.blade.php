@@ -119,7 +119,7 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="4" class="text-strong">SUB TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code]}} IN {{$fund}}</td>
+                                <td colspan="4" class="text-strong">SUB TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code]}} - {{$fund}}</td>
                                 <td class="text-strong" style="text-align: right;">{{ number_format($rows->sum('acquiredcost'), 2) }}</td>
                             </tr>
                             </tbody>
