@@ -203,6 +203,7 @@ class PARController extends Controller
         $par->ppe_serial_no = $request->ppe_serial_no;
 
         //$par->propuniqueno = "";
+
         $par->uom = $request->uom;
         $par->acquiredcost = Helper::sanitizeAutonum($request->acquiredcost);
         $par->qtypercard = $request->qtypercard;
