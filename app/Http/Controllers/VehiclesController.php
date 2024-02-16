@@ -46,7 +46,7 @@ class VehiclesController extends Controller
 
             $requestsForVehicle = $requestsForVehicle->map(function ($data,$key){
                 return [
-                    'title' => $data->driverAssigned->employee->fullname,
+                    'title' => $data->driverAssigned != null ? $data->driverAssigned->employee->fullname : "",
                     'start' => Carbon::parse($data->from)->format('Y-m-d\TH:i:s'),
                     'description' => view('ppu.vehicles.popover')
                         ->with([
