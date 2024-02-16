@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->integer('project_id')->nullable();
+        Schema::table('drivers', function (Blueprint $table) {
+           $table->renameColumn('slug', 'employee_slug');
+        });
+
+        Schema::table('drivers', function (Blueprint $table) {
+            $table->string('slug')->nullable()->after('id');
         });
     }
 
@@ -25,8 +29,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('vehicles', function (Blueprint $table) {
-            $table->dropColumn('project_id');
+        Schema::table('drivers', function (Blueprint $table) {
+            $table->renameColumn('employee_slug', 'slug');
+            $table->dropColumn('slug');
         });
     }
 };

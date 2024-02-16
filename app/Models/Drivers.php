@@ -11,6 +11,6 @@ class Drivers extends Model
     protected $table = 'drivers';
 
     public function employee(){
-        return $this->hasOne(Employee::class, 'employee_no', 'employee_no');
+        return $this->hasOne(Employee::class, 'slug', 'employee_slug');
     }
 }

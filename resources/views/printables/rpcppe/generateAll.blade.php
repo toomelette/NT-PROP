@@ -123,7 +123,7 @@
                                 <td class="text-strong" style="text-align: right;">{{ number_format($rows->sum('acquiredcost'), 2) }}</td>
                             </tr>
                             </tbody>
-                        </table>
+                        </table>`
                     </div>
                     @php
                         $inventoryTypeTotal = $inventoryTypeTotal + $rows->sum('acquiredcost');
