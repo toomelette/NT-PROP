@@ -52,7 +52,7 @@
                     <table style="font-family: Cambria,Arial;  width: 100%; border-left: 1px solid black; border-right: 1px solid black">
                         <tbody>
                         <tr style="border: 1px solid black">
-                            <td style="width: 15%; border-right: 1px solid black;">
+                            <td style="width: 20%; border-right: 1px solid black;">
                                 Resp. Center:
                             </td>
                             <td>
@@ -64,7 +64,7 @@
                             </td>
                         </tr>
                         <tr style="border: 1px solid black">
-                            <td style="width: 15%; border-right: 1px solid black;">
+                            <td style="width: 20%; border-right: 1px solid black;">
                                 Accountable Officer:
                             </td>
                             <td>
@@ -72,7 +72,7 @@
                             </td>
                         </tr>
                         <tr style="border: 1px solid black">
-                            <td style="width: 15%; border-right: 1px solid black;">
+                            <td style="width: 20%; border-right: 1px solid black;">
                                 Position:
                             </td>
                             <td>
