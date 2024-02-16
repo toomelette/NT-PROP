@@ -136,7 +136,11 @@ class PARController extends Controller
         //$numericSerialNo = ltrim($inv->serial_no, '0');
         //$incrementedSerialNo = $numericSerialNo + 1;
         //$newSerialNo = str_pad($incrementedSerialNo, strlen($inv->serial_no), '0', STR_PAD_LEFT);
-        $newSerialNo = str_pad(substr($inv->par_code,5) + 1, 4,0,STR_PAD_LEFT);
+        if(empty($inv)) {
+            $newSerialNo = '0001';
+        }else{
+            $newSerialNo = str_pad(substr($inv->par_code,5) + 1, 4,0,STR_PAD_LEFT);
+        }
         return [$s, $newSerialNo];
     }
 
