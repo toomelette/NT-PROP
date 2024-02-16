@@ -122,26 +122,58 @@ class PARController extends Controller
         return view('ppu.par.create');
     }
 
-    public function getInventoryAccountCode($slug){
-        $s = AccountCode::query()->where('code','=', $slug)->first();
-        $inv = InventoryPPE::query()->orderBy('serial_no', 'desc')->first();
-        $numericSerialNo = ltrim($inv->serial_no, '0');
-        $incrementedSerialNo = $numericSerialNo + 1;
-        $newSerialNo = str_pad($incrementedSerialNo, strlen($inv->serial_no), '0', STR_PAD_LEFT);
-        return [$s, $newSerialNo];
-    }
-
     public function getEmployee($slug){
         $e = Employee::query()->where('employee_no','=', $slug)->first();
         return $e??abort(503,'No Employee found.');
     }
 
+    public function getInventoryAccountCode($slug){
+        $year = Carbon::now()->format('Y');
+        $s = AccountCode::query()->where('code','=', $slug)->first();
+        $inv = InventoryPPE::query()->where('dateacquired','like',$year.'%')
+                    ->orderBy('par_code', 'desc')->first();
+
+        //$numericSerialNo = ltrim($inv->serial_no, '0');
+        //$incrementedSerialNo = $numericSerialNo + 1;
+        //$newSerialNo = str_pad($incrementedSerialNo, strlen($inv->serial_no), '0', STR_PAD_LEFT);
+        $newSerialNo = str_pad(substr($inv->par_code,5) + 1, 4,0,STR_PAD_LEFT);
+        return [$s, $newSerialNo];
+    }
+
+    public function getSerialNo(){
+        $year = Carbon::now()->format('Y');
+        $par = InventoryPPE::query()
+            ->where('dateacquired','like',$year.'%')
+            ->orderBy('par_code','desc')
+            ->first();
+        if(empty($par)){
+            $newPar = '0001';
+        }else{
+            $newPar = str_pad(substr($par->par_code,5) + 1, 4,0,STR_PAD_LEFT);
+        }
+        return $newPar;
+    }
+
+    public function getNextPARNo(){
+        $year = Carbon::now()->format('Y');
+        $par = InventoryPPE::query()
+            ->where('dateacquired','like',$year.'%')
+            ->orderBy('par_code','desc')
+            ->first();
+        if(empty($par)){
+            $newPar = $year.'-0001';
+        }else{
+            $newPar = $year.'-'.str_pad(substr($par->par_code,5) + 1, 4,0,STR_PAD_LEFT);
+        }
+        return $newPar;
+    }
+
     public function store(InventoryPPEFormRequest $request){
         $article = Articles::query()->where('stockNo','=', $request->article)->first();
-        $parExists = InventoryPPE::query()->where('serial_no','=', $request->serial_no)->first();
+        /*$parExists = InventoryPPE::query()->where('serial_no','=', $request->serial_no)->first();
         if($parExists != null){
             abort(503,'Serial No already exist. Try to plus 1 on the serial number.');
-        }
+        }*/
 
         $par = new InventoryPPE();
         $par->slug = Str::random(16);
@@ -154,8 +186,9 @@ class PARController extends Controller
         $par->sub_major_account_group = $request->sub_major_account_group;
         $par->general_ledger_account = $request->general_ledger_account;
         $par->location = $request->location;
-        $par->serial_no = $request->serial_no;
-        $par->propertyno = $request->propertyno;
+        $par->serial_no = $this->getSerialNo();
+        //$par->propertyno = $request->propertyno;
+        $par->propertyno = date('Y', strtotime($par->dateacquired)) . '-' . $par->sub_major_account_group . '-' . $par->general_ledger_account . '-' . $par->serial_no . '-' . $par->location;
         $par->fund_cluster = $request->fund_cluster;
         $par->respcenter = $request->respcenter;
         $par->office = $request->office;
@@ -276,20 +309,6 @@ class PARController extends Controller
         return view('printables.par.print')->with([
             'par' => $inv, 'respCenter' => $respCenter
         ]);
-    }
-
-    public function getNextPARNo(){
-        $year = Carbon::now()->format('Y');
-        $par = InventoryPPE::query()
-            ->where('par_code','like',$year.'%')
-            ->orderBy('par_code','desc')
-            ->first();
-        if(empty($par)){
-            $newPar = $year.'-0001';
-        }else{
-            $newPar = $year.'-'.str_pad(substr($par->par_code,5) + 1, 4,0,STR_PAD_LEFT);
-        }
-        return $newPar;
     }
 
     public function generateRpcppe(){

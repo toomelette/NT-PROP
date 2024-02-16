@@ -82,11 +82,13 @@
                             <div class="row">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('sub_major_account_group',[
                                                                 'label' => 'Sub-Major Acct. Group:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('general_ledger_account',[
                                                                 'label' => 'General Ledger Account:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('location',[
                                                                 'label' => 'Location:',
@@ -95,11 +97,13 @@
                                                             ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('serial_no',[
                                                                 'label' => 'Serial No.:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
                                                                 'label' => 'Property No.:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
                                                                 'label' => 'Fund Cluster:',
