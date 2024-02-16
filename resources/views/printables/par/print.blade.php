@@ -91,15 +91,15 @@
                 </thead>
                 <tbody style="height: 350px">
                     <tr>
-                        <td style="vertical-align: top;">{{$par->qtypercard}}</td>
-                        <td style="vertical-align: top;">{{$par->uom}}</td>
+                        <td class="text-strong" style="vertical-align: top;">{{$par->qtypercard}}</td>
+                        <td class="text-strong" style="vertical-align: top;">{{$par->uom}}</td>
                         <td class="" style="vertical-align: top;">
                             <b>{{$par->article}}</b><br>
                             <span style="white-space: pre-line; font-style: italic" >
                             {{$par->description}}
                             </span>
                         </td>
-                        <td style="vertical-align: top;">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $par->dateacquired)->format('m/d/Y') }}{{--{{ date('F j, Y', strtotime($par->dateacquired))}}--}}</td>
+                        <td style="vertical-align: top;" class="text-strong">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $par->dateacquired)->format('m/d/Y') }}{{--{{ date('F j, Y', strtotime($par->dateacquired))}}--}}</td>
                         <td class="text-strong" style="vertical-align: top;">{{$par->propertyno}}</td>
                         <td style="vertical-align: top; text-align: right" class="text-strong">{{number_format($par->acquiredcost,2)}}</td>
                     </tr>
