@@ -1,5 +1,5 @@
 <small>
-    Driver: <span class="text-strong">{{$data->driverAssigned->employee->fullname ?? ''}}</span>
+    Purpose: <span class="text-strong">{{$data->purpose ?? ''}}</span>
     <br>
     Destination: <span class="text-strong">{{$data->destination ?? ''}}</span>
     <br>
