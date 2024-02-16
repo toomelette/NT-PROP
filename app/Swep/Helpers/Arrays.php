@@ -412,6 +412,7 @@ class Arrays
     public static function vehicles(){
         $v = Vehicles::query()
             ->selectRaw('*, concat(make," ",model1," - ",plate_no) as  make_model')
+            ->where('status', '=', 'SERVICEABLE')
             ->get();
         if(!empty($v)){
             return $v

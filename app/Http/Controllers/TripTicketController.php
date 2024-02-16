@@ -171,7 +171,7 @@ class TripTicketController extends Controller
                 ]);
             })
            ->editColumn('driver', function ($data) {
-               return $data->drivers->employee->fullname;
+               return $data->drivers->employee->fullname ?? 'Driver not found.';
            })
             ->editColumn('vehicle', function ($data) {
                 return $data->vehicles->make . ' ' .$data->vehicles->model . ' - ' . $data->vehicles->plate_no;

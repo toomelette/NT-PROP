@@ -111,7 +111,6 @@
         })
         
         $("#select_vehicle").change(function () {
-
             calendar.fullCalendar('refetchEvents');
 
         })
