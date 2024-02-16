@@ -208,7 +208,7 @@
                                 <td>&nbsp;</td>
                             </tr>
                             <tr style="text-align: center;" >
-                                <td>{{ now()->format('d') . ' ' . strtoupper(now()->format('M Y')) }}</td>
+                                <td></td>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>

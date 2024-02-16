@@ -43,7 +43,8 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('dateacquired',[
                                     'label' => 'Date Acquired:',
                                     'cols' => 2,
-                                    'type' => 'date'
+                                    'type' => 'date',
+                                    'class' => 'dateacquired'
                                  ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('article',[
                                       'cols' => 4,
@@ -82,11 +83,13 @@
                             <div class="row">
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('sub_major_account_group',[
                                                                 'label' => 'Sub-Major Acct. Group:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('general_ledger_account',[
                                                                 'label' => 'General Ledger Account:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('location',[
                                                                 'label' => 'Location:',
@@ -95,11 +98,13 @@
                                                             ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('serial_no',[
                                                                 'label' => 'Serial No.:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('propertyno',[
                                                                 'label' => 'Property No.:',
-                                                                'cols' => 4
+                                                                'cols' => 4,
+                                                                'readonly' => 'readonly'
                                                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
                                                                 'label' => 'Fund Cluster:',
@@ -280,24 +285,28 @@
             });
 
             $("select[name='invtacctcode']").change(function() {
-                var selectedValue = $(this).val();
-                // Make an AJAX request
-                let uri = '{{route("dashboard.par.getInventoryAccountCode","slug")}}';
-                uri = uri.replace('slug',selectedValue);
-                $.ajax({
-                    url: uri,
-                    method: "GET",
-                    data: { selectedValue: selectedValue },
-                    success: function(response) {
-                        $("input[name='serial_no']").val(response[1]);
-                        $("input[name='sub_major_account_group']").val(response[0].sub_major_account_group);
-                        $("input[name='general_ledger_account']").val(response[0].general_ledger_account);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle errors
-                        console.error("AJAX error:", error);
-                    }
-                });
+                if($("input[name='dateacquired']").val() === "") {
+                    toast('error','Date Acquired is required.','Error!');
+                } else{
+                    var selectedValue = $(this).val();
+                    // Make an AJAX request
+                    let uri = '{{route("dashboard.par.getInventoryAccountCode","slug")}}';
+                    uri = uri.replace('slug',selectedValue);
+                    $.ajax({
+                        url: uri,
+                        method: "GET",
+                        data: { selectedValue: selectedValue },
+                        success: function(response) {
+                            $("input[name='serial_no']").val(response[1]);
+                            $("input[name='sub_major_account_group']").val(response[0].sub_major_account_group);
+                            $("input[name='general_ledger_account']").val(response[0].general_ledger_account);
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
+                            console.error("AJAX error:", error);
+                        }
+                    });
+                }
             });
 
             $("#add_form").submit(function(e) {
