@@ -115,6 +115,7 @@
                                     'label' => 'Resp. Center:',
                                     'cols' => 8,
                                     'options' => \App\Swep\Helpers\PPUHelpers::respCentersArray(),
+                                    'required' => 'required'
                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('office',[
                                                                 'label' => 'Office:',
