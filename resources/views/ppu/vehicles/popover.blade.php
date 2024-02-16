@@ -11,7 +11,7 @@
     <br>
     Authorized Passenger(s):
     @if(!empty($data->passengers))
-        <ul style="padding-left: 13px">
+        <ul style="padding-left: 12px">
             @foreach($data->passengers as $passenger)
                 <li class="text-strong">{{$passenger->name}}</li>
             @endforeach
