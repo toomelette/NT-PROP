@@ -192,6 +192,7 @@
                 success: function (res) {
                     console.log(res);
                     $('input[name="odometer_from"]').val(res.ticket.odometer_to);
+                    $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
                 },
                 error: function (res) {
                     toast('error',res.responseJSON.message,'Error!');
