@@ -128,7 +128,10 @@
                             P.O. No./Date:
                         </td>
                         <td class="text-strong" style="vertical-align: top; width: 100%;">
-                            {{$par->pono}}/{{ date('F j, Y', strtotime($par->podate))}}
+                            {{$par->pono}}
+                            @if($par->podate != null && $par->podate != "" && $par->podate != "1970-01-01")
+                                /{{ date('F j, Y', strtotime($par->podate))}}
+                            @endif
                         </td>
                     </tr>
                     <tr style="border: 1px solid black">
@@ -136,7 +139,10 @@
                             Invoice Nos./Date:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: top;">
-                            {{$par->invoiceno}}/{{ date('F j, Y', strtotime($par->invoicedate))}}
+                            {{$par->invoiceno}}
+                            @if($par->invoicedate != null && $par->invoicedate != "" && $par->invoicedate != "1970-01-01")
+                                /{{ date('F j, Y', strtotime($par->invoicedate))}}
+                            @endif
                         </td>
                         <td style="border-right: 1px solid black; vertical-align: top;">
                             Account Code:
