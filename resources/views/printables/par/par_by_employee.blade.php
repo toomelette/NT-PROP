@@ -96,7 +96,13 @@
                         <tbody style="height: 350px">
                         <tr>
                             <td style="vertical-align: top;">{{$par->qtypercard}}</td>
-                            <td style="vertical-align: top;">{{$par->uom}}</td>
+                            <td style="vertical-align: top;">
+                                @foreach($units as $unit)
+                                    @if($unit->value === $par->uom)
+                                            {{$unit->display}}
+                                    @endif
+                                @endforeach
+                            </td>
                             <td class="" style="vertical-align: top;">
                                 <b>{{$par->article}}</b><br>
                                 <span style="white-space: pre-line; font-style: italic" >

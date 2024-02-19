@@ -98,7 +98,7 @@
                         <td>{{$rpci->article}}</td>
                         <td>{{$rpci->description}}</td>
                         <td style="text-align: center;">{{$rpci->propertyno}}</td>
-                        <td style="text-align: center;">{{$rpci->uom}}</td>
+                        <td style="text-align: center;">{{$rpci->unit->display}}</td>
                         <td style="text-align: right;">{{ number_format($rpci->acquiredcost, 2) }}</td>
                         <td style="text-align: center;">{{$rpci->qtypercard}}</td>
                         <td style="text-align: center;">{{$rpci->onhandqty}}</td>

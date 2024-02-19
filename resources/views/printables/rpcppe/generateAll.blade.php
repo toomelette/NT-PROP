@@ -108,7 +108,13 @@
                                     <td>{{$row->article}}</td>
                                     <td>{{$row->description}}</td>
                                     <td style="text-align: center;">{{$row->propertyno}}</td>
-                                    <td style="text-align: center;">{{$row->uom}}</td>
+                                    <td style="text-align: center;">
+                                        @foreach($units as $unit)
+                                            @if($unit->value === $row->uom)
+                                                {{$unit->display}}
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td style="text-align: right;">{{ number_format($row->acquiredcost, 2) }}</td>
                                     <td style="text-align: center;">{{$row->qtypercard}}</td>
                                     <td style="text-align: center;">{{$row->onhandqty}}</td>

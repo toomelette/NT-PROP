@@ -39,4 +39,8 @@ class InventoryPPE extends Model
     public function iac(){
         return $this->hasOne(AccountCode::class,'code','invtacctcode');
     }
+
+    public function unit(){
+        return $this->hasOne(Options::class,'value','uom');
+    }
 }

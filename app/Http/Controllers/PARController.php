@@ -11,6 +11,7 @@ use App\Models\Articles;
 use App\Models\Employee;
 use App\Models\InventoryPPE;
 use App\Models\Location;
+use App\Models\Options;
 use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\PropertyCard;
@@ -86,6 +87,9 @@ class PARController extends Controller
                     'data' => $data,
                 ]);
             })
+            ->editColumn('uom',function($data){
+                return $data->unit->display;
+            })
             ->editColumn('article',function($data){
                 return view('ppu.par.dtArticle')->with([
                     'data' => $data,
@@ -124,11 +128,13 @@ class PARController extends Controller
                         ->orWhere('condition', '');
                 });
         })->orderBy('invtacctcode')->get();
+        $units = Options::query()
+            ->get();
         /*$pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
             ->get();*/
         $respCenter = PPURespCodes::query()->get();
         return view('printables.par.par_by_employee')->with([
-            'pars' => $pars, 'resp_center' => $respCenter
+            'pars' => $pars, 'resp_center' => $respCenter, 'units' => $units
         ]);
     }
 
@@ -382,7 +388,8 @@ class PARController extends Controller
                     $data->code => $data->description,
                 ];
             });
-
+        $units = Options::query()
+            ->get();
 //        $rpciObj1 = InventoryPPE::query()->where(function ($query) {
 //            $query->where('condition', '!=', 'DERECOGNIZED')
 //                ->orWhereNull('condition')
@@ -406,8 +413,8 @@ class PARController extends Controller
             'accountCodes1' => $accountCodes1,
             'accountCodeRecords1' => $accountCodeRecords1,
             'fundClusters1' => $fund_clusters1,
+            'units' => $units,
         ]);
-
     }
 
     public function printInventoryCountForm($value){

@@ -92,7 +92,7 @@
                 <tbody style="height: 350px">
                     <tr>
                         <td class="text-strong" style="vertical-align: top;">{{$par->qtypercard}}</td>
-                        <td class="text-strong" style="vertical-align: top;">{{$par->uom}}</td>
+                        <td class="text-strong" style="vertical-align: top;">{{$par->unit->display}}</td>
                         <td class="" style="vertical-align: top;">
                             <b>{{$par->article}}</b><br>
                             <span style="white-space: pre-line; font-style: italic" >
