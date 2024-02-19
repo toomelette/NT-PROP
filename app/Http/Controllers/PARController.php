@@ -35,6 +35,10 @@ class PARController extends Controller
             return $this->dataTable($request);
         }
 
+        if($request->has('print_by_account_code')){
+            return  $this->printPropertyTagByAccountCode($request);
+        }
+
         if($request->has('print_by_location')){
             return  $this->printPropertyTagByLocation($request);
         }
@@ -90,6 +94,14 @@ class PARController extends Controller
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();
+    }
+
+    public function printPropertyTagByAccountCode(Request $request){
+        $pars = InventoryPPE::query()->where('invtacctcode','=',$request->account_code)
+            ->get();
+        return view('printables.par.property_tag_by_account_code')->with([
+            'pars' => $pars->chunk(2),
+        ]);
     }
 
     public function printPropertyTagByLocation(Request $request){

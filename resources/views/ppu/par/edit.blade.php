@@ -54,7 +54,8 @@
                                       'class' => 'select2_article',
                                       'autocomplete' => 'off',
                                       'options' => [],
-                                  ]) !!}
+                                  ],
+                                        $par ?? null) !!}
                                 <div class="form-group col-md-5 article_old">
                                     <label for="article_old">Article:</label>
                                     <input class="form-control " name="article_old" id="article_old" type="text" value="{{$par->article}}" placeholder="Article OLD">
@@ -62,7 +63,7 @@
                                 {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
                                       'cols' => 12,
                                       'label' => 'Description: ',
-                                      'rows' => 2
+////                                      'rows' => 2
                                     ],
                                         $par ?? null) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('invtacctcode',[

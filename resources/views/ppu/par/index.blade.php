@@ -13,6 +13,7 @@
                 <div class="btn-group pull-right">
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#par-by-employee"><i class="fa fa-print"></i> PAR by Employee</button>
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-account-code"><i class="fa fa-print"></i> Property Tag by Inv. Type</button>
                     <a class="btn btn-primary btn-sm" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>
                 </div>
             </div>
@@ -140,6 +141,32 @@
           </form>
         </div>
       </div>
+    </div>
+
+    <div class="modal fade" id="property-tag-by-account-code" tabindex="-1" role="dialog" aria-labelledby="property-tag-by-account-code_label">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form id="property-tag-by-account-code-form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Tag by Inventory Type</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
+                                'label' => 'Inventory Type:',
+                                'cols' => 12,
+                                'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
+                                'required' => 'required'
+                            ]) !!}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-sm">Generate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade" id="add_modal" tabindex="-1" role="dialog" aria-labelledby="add_modal_label">
@@ -449,6 +476,13 @@
                 filterDT(par_tbl);
             });
             $("#inventory_account_code_select2").select2();
+        });
+
+        $("#property-tag-by-account-code-form").submit(function (e){
+            e.preventDefault();
+            let url = '{{route("dashboard.par.index")}}?print_by_account_code=true&';
+            let form = $(this);
+            window.open(url+form.serialize(), '_blank');
         });
 
         $("#property-tag-by-location-form").submit(function (e){
