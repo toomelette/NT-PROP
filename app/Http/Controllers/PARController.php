@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Log;
 
 class PARController extends Controller
 {
+    // This is comment
     public function index(Request $request){
         if($request->ajax() && $request->has('draw')){
             return $this->dataTable($request);
