@@ -88,7 +88,7 @@ class PARController extends Controller
                 ]);
             })
             ->editColumn('uom',function($data){
-                return $data->unit->display;
+                return $data->unit->display ?? "";
             })
             ->editColumn('article',function($data){
                 return view('ppu.par.dtArticle')->with([
