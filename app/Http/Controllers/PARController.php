@@ -98,6 +98,7 @@ class PARController extends Controller
 
     public function printPropertyTagByAccountCode(Request $request){
         $pars = InventoryPPE::query()->where('invtacctcode','=',$request->account_code)
+            ->where('condition', "!=", 'DERECOGNIZED')
             ->get();
         return view('printables.par.property_tag_by_account_code')->with([
             'pars' => $pars->chunk(2),
@@ -106,6 +107,7 @@ class PARController extends Controller
 
     public function printPropertyTagByLocation(Request $request){
         $pars = InventoryPPE::query()->where('location','=',$request->location)
+            ->where('condition', "!=", 'DERECOGNIZED')
             ->get();
         return view('printables.par.property_tag_by_location')->with([
             'pars' => $pars->chunk(2),
