@@ -429,7 +429,7 @@ class Arrays
         if(!empty($drivers)){
             return $drivers
                 ->sortBy('employee.fullname')
-                ->pluck('employee.fullname','slug')
+                ->pluck('employee.fullname','employee_slug')
                 ->toArray();
         }
     }

@@ -265,14 +265,20 @@ class RISController extends Controller
 
 
         $arr = [];
+        $items = Articles::query()->get();
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
+
+                $itemName = $items->where('stockNo', $item['item'])->pluck('article')->first();
+                if($itemName == null){
+                    $itemName = $item['item'];
+                }
                 array_push($arr, [
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
                     'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
-                    'item' => $item['itemName'],
+                    'item' => $itemName,
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'actual_qty' => $item['actual_qty'],
