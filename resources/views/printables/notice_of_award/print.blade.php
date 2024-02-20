@@ -90,6 +90,10 @@
                 <p style="margin-left: 40px;">{{$noa->approved_by_designation}}</p>
             </div>
         </div>
+        <div class="qms-right" style="font-size: 12px;">
+            <p class="no-margin">FM-AFD-PPS-003,Rev.00</p>
+            <p class="no-margin">Effectivity Date: March 12, 2015</p>
+        </div>
     </div>
 
 @endsection
