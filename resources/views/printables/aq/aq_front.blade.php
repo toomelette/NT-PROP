@@ -289,11 +289,11 @@
                     </td>
                 </tr>
             </table>--}}
-        </div>
             <div class="qms-right" style="font-size: 12px;">
                 <p class="no-margin">FM-AFD-PPS-003,Rev.00</p>
                 <p class="no-margin">Effectivity Date: March 12, 2015</p>
             </div>
+        </div>
     @endforeach
     @else
         <h1>No quotations available</h1>
