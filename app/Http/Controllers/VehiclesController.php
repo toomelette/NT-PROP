@@ -104,6 +104,7 @@ class VehiclesController extends Controller
         $transNew->model1 = $request->model1;
         $transNew->plate_no = $request->plate_no;
         $transNew->odometer = $request->odometer;
+        $transNew->usage = $request->usage;
         $transNew->status = $request->status;
 
         if ($transNew->save()) {
@@ -136,6 +137,7 @@ class VehiclesController extends Controller
         $trans->model1 = $request->model1;
         $trans->plate_no = $request->plate_no;
         $trans->odometer = $request->odometer;
+        $trans->usage = $request->usage;
         $trans->status = $request->status;
 
         if ($trans->save()) {

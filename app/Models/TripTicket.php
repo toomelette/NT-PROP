@@ -30,7 +30,7 @@ class TripTicket extends Model
     protected $fillable = ['slug', 'ticket_no', 'driver', 'vehicle', 'passengers','request_no'];
 
     public function drivers(){
-        return $this->hasOne(Drivers::class,'slug','driver');
+        return $this->hasOne(Drivers::class,'employee_slug','driver');
     }
 
     public function vehicles(){

@@ -54,7 +54,7 @@
                                         <th style="width: 20%">Brand</th>
                                         <th style="width: 20%">Model</th>
                                         <th style="width: 12%">Plate Number</th>
-                                        <th style="width: 13%">Odometer</th>
+                                        <th style="width: 13%">KM per Liter</th>
                                         <th style="width: 20%">Status</th>
                                         <th style="width: 20px">Action</th>
                                     </tr>
@@ -94,7 +94,7 @@
                     { "data": "make" },
                     { "data": "model1" },
                     { "data": "plate_no" },
-                    { "data": "odometer" },
+                    { "data": "usage" },
                     { "data": "status" },
                     { "data": "action" }
                 ],

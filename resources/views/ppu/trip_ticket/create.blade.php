@@ -161,6 +161,7 @@
                       'label' => 'Distance Travelled (km)',
                       'cols' => 2,
                       'type' => 'number',
+                      'class' => 'distanceTravelled',
                     ]) !!}
 
                     </div>
@@ -180,6 +181,7 @@
 
 @section('scripts')
     <script type="text/javascript">
+        let vehicleUsage = 0;
         $('.vehicle1').on("change", function () {
             let uri = '{{route("dashboard.trip_ticket.findOdo", "vehicle") }}';
             uri = uri.replace('vehicle',$(this).val());
@@ -191,8 +193,9 @@
                 },
                 success: function (res) {
                     console.log(res);
-                    $('input[name="odometer_from"]').val(res.ticket.odometer_to);
+                    $('input[name="odometer_from"]').val(res.currentOdo);
                     $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
+                    vehicleUsage = res.usage;
                 },
                 error: function (res) {
                     toast('error',res.responseJSON.message,'Error!');
@@ -224,6 +227,7 @@
             let odoTo = $('input[name="odometer_to"]').val();
             let tot = odoTo - odoFrom;
             $('input[name="distance_traveled"]').val(tot);
+            $('input[name="distance_traveled"]').change();
         });
 
 
@@ -258,7 +262,9 @@
                                 },
                                 success: function (res) {
                                     console.log(res);
-                                    $('input[name="odometer_from"]').val(res.ticket.odometer_to);
+                                    // $('input[name="odometer_from"]').val(res.ticket.odometer_to);
+                                    $('input[name="odometer_from"]').val(res.currentOdo);
+                                    $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
                                 },
                                 error: function (res) {
                                     toast('error',res.responseJSON.message,'Error!');
@@ -329,11 +335,17 @@
                 },
                 error: function (res) {
                     errored(form,res);
-                    toast('error',res.responseJSON.message,'Error!');
+                    //toast('error',res.responseJSON.message,'Error!');
                 }
             })
         });
 
+        $(".distanceTravelled").change(function (){
+           let km = $(this).val();
+
+           let consumption = km / vehicleUsage;
+           $(".consumedd").val(consumption.toFixed(2));
+        });
     </script>
 @endsection
 

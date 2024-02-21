@@ -188,6 +188,7 @@
                       'label' => 'Distance Travelled (km)',
                       'cols' => 2,
                       'type' => 'number',
+                      'class' => 'distanceTravelled',
                     ],
                          $tt ?? null
                              ) !!}
@@ -208,6 +209,7 @@
 
 @section('scripts')
     <script type="text/javascript">
+        let vehicleUsage = {{$tt->vehicles->usage ?? 0}};
         $('.gas_liter').on("input", function () {
             let total = 0;
 
@@ -219,11 +221,13 @@
             $('input[name="total"]').val(total);
         });
 
-        $('.consumedd').on("input", function () {
+        $('.consumedd').on("change input", function () {
             let t = $(this).val();
+
             let total1 = $('input[name="total"]').val();
             let dif = total1 - t;
             $('input[name="gas_remaining_balance"]').val(dif);
+
         });
 
         $('.odometer').on("input", function () {
@@ -231,6 +235,7 @@
             let odoTo = $('input[name="odometer_to"]').val();
             let tot = odoTo - odoFrom;
             $('input[name="distance_traveled"]').val(tot);
+            $('input[name="distance_traveled"]').change();
         });
 
 
@@ -285,6 +290,14 @@
             const row = button.closest('tr');
             row.remove();
         }
+
+        $(".distanceTravelled").change(function (){
+            let km = $(this).val();
+            console.log(vehicleUsage);
+            let consumption = km / vehicleUsage;
+            $(".consumedd").val(consumption.toFixed(2));
+            $('.consumedd').change();
+        });
 
 
     </script>
