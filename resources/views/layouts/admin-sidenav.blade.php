@@ -54,6 +54,11 @@
                 </a>
             </li>
 
+            @php
+                $userId = \Illuminate\Support\Facades\Auth::user()->user_id;
+                $userDetailsRc = \App\Models\UserDetails::query()->where('user_id', '=', $userId)
+                                ->where('rc', '=', '065')->first();
+            @endphp
 
         @if(count($tree) > 0)
 {{--            @php($tree_copy = $tree)--}}
@@ -116,11 +121,19 @@
                                                     @else
                                                         {{--MLKNN9G - My PR ID  || EQTRT4 - My JR ID--}}
                                                         {{--NOT VISIBLE FOR ALL VISAYAS EMPLOYEE--}}
-                                                        @if(\Illuminate\Support\Facades\Auth::user()->user_id != "U10002" && \Illuminate\Support\Facades\Auth::user()->user_id != "9885457" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10006" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10010" && \Illuminate\Support\Facades\Auth::user()->user_id != "8118821")
-                                                            @if($submenu->submenu_id != "MLKNN9G" && $submenu->submenu_id != "EQTRT4")
+                                                        {{--@if(\Illuminate\Support\Facades\Auth::user()->user_id != "U10002" && \Illuminate\Support\Facades\Auth::user()->user_id != "9885457" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10006" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10010" && \Illuminate\Support\Facades\Auth::user()->user_id != "8118821")@if(\Illuminate\Support\Facades\Auth::user()->user_id != "U10002" && \Illuminate\Support\Facades\Auth::user()->user_id != "9885457" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10006" && \Illuminate\Support\Facades\Auth::user()->user_id != "U10010" && \Illuminate\Support\Facades\Auth::user()->user_id != "8118821")
+                                                        --}}
+                                                        @if(\Illuminate\Support\Facades\Auth::user()->project_id == 1)
+                                                            @if($userDetailsRc != null)
                                                                 <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
                                                                     <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
                                                                 </li>
+                                                            @else
+                                                                @if($submenu->submenu_id != "MLKNN9G" && $submenu->submenu_id != "EQTRT4")
+                                                                    <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
+                                                                        <a href="{{ route($submenu->route) }}"><i class="fa fa-caret-right"></i> {!!$submenu->nav_name!!}</a>
+                                                                    </li>
+                                                                @endif
                                                             @endif
                                                         @else
                                                             <li class="{!! Route::currentRouteNamed($submenu->route) ? 'active tree_active' : '' !!}">
