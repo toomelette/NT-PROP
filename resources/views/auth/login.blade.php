@@ -475,7 +475,7 @@
                                 <form class="login100-form validate-form" action="{{ route('auth.login') }}" method="POST">
                                     @csrf
                                     <span class="login100-form-title "> SWEP </span>
-                                    <span class="login100-form-subtitle m-b-16"> SRA - Web Protal | Login </span>
+                                    <span class="login100-form-subtitle m-b-16"> SRA - Web Portal | Login </span>
                                     @if ($errors->has('username'))
                                         <span class="help-block" style="color: darkred"> {{ $errors->first('username') }}</span>
                                     @endif

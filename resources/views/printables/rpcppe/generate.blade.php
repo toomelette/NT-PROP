@@ -105,7 +105,13 @@
                         <td style="text-align: center;">{{$rpci->shortqty}}</td>
                         <td style="text-align: center;">{{$rpci->shortvalue}}</td>
                         <td style="text-align: center;">{{$rpci->dateacquired}}</td>
-                        <td>{{$rpci->remarks}}</td>
+                        @php
+                            $slash = "";
+                            if($row->acctemployee_fname != "" && $row->remarks != ""){
+                                $slash = "/";
+                            }
+                        @endphp
+                        <td>{{$row->acctemployee_fname}} {{$slash}} {{$row->remarks}}</td>
                     </tr>
                     @php
                         $totalAcquiredCost += $rpci->acquiredcost;

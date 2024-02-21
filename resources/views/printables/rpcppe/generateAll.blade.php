@@ -121,7 +121,13 @@
                                     <td style="text-align: center;">{{$row->shortqty}}</td>
                                     <td style="text-align: center;">{{$row->shortvalue}}</td>
                                     <td style="text-align: center;">{{$row->dateacquired}}</td>
-                                    <td>{{$row->remarks}}</td>
+                                    @php
+                                        $slash = "";
+                                        if($row->acctemployee_fname != "" && $row->remarks != ""){
+                                            $slash = "/";
+                                        }
+                                    @endphp
+                                    <td>{{$row->acctemployee_fname}} {{$slash}} {{$row->remarks}}</td>
                                 </tr>
                             @endforeach
                             <tr>

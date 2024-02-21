@@ -191,6 +191,10 @@ class AqController extends Controller
         }
     }
 
+    public function createManual(){
+        return view('ppu.aq.createManual');
+    }
+
     public function edit($slug){
         $aq = $this->transactionService->findBySlug($slug);
         $items = [];
