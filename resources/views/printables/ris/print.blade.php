@@ -213,6 +213,11 @@
 
         </div>
 
+                <div class="qms-right" style="font-size: 12px">
+                    <p class="no-margin">FM-AFD-PPS-003,Rev.00</p>
+                    <p class="no-margin">Effectivity Date: March 12, 2015</p>
+                </div>
+
 
 
 
@@ -223,7 +228,7 @@
 
      <script type="text/javascript">
             $(document).ready(function () {
-                let set = 560;
+                let set = 540;
                 if($("#items_table_{{$rand}}").height() < set){
                     let rem = set - $("#items_table_{{$rand}}").height();
                     $("#adjuster").css('height',rem)
