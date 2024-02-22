@@ -19,6 +19,11 @@
             @endif
         @endif
     @endif
+    @if($data->document_type == "MANUAL AQ")
+        <a class="btn btn-default btn-sm" href="{{route('dashboard.aq.print',$data->slug)}}" target="_blank">
+            <i class="fa fa-print"></i>
+        </a>
+    @endif
 </div>
 
 

@@ -257,11 +257,11 @@ class Helper
 
     }
 
-    public static function wrapForSelect2($array){
+    public static function wrapForSelect2($array, $limit = 10){
         return [
             'results' => $array,
             "pagination" => [
-                "more" => (count($array) > 1) ? true : false ,
+                "more" => (count($array) < $limit) ? false : true ,
             ]
 
 
@@ -279,6 +279,10 @@ class Helper
             case 'JR':
                 $l = 'JOB';
                 $color = 'purple';
+                break;
+            case 'AQ':
+                $l = 'AQ';
+                $color = 'orange';
                 break;
             default:
                 $color = 'gray';

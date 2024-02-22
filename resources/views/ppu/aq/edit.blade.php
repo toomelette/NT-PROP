@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
         <h1>Prepare Abstract of Quotations
-            <span class="pull-right">ABC: {{number_format($aq->transaction->abc,2)}} </span></h1>
+            <span class="pull-right">ABC: {{$aq->document_type == "MANUAL AQ" ? number_format($aq->abc,2) : number_format($aq->transaction->abc,2)}} </span></h1>
     </section>
 @endsection
 @section('content2')
