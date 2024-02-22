@@ -226,7 +226,11 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td>Approved Budget: Php {{number_format($trans->transaction->abc,2)}}</td>
+                    @if($trans->document_type == "MANUAL AQ")
+                        <td>Approved Budget: Php {{number_format($trans->abc,2)}}</td>
+                    @else
+                        <td>Approved Budget: Php {{number_format($trans->transaction->abc,2)}}</td>
+                    @endif
                     <td colspan="{{count($quotations)}}" class="text-center">
                         <i>Please see supplier's quotation</i>
                     </td>

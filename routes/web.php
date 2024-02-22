@@ -181,7 +181,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
 
     Route::get('/aq/{slug}/print','AqController@print')->name('aq.print');
     Route::get('/aq/createManual','AqController@createManual')->name('aq.createManual');
-    Route::get('/aq/storeManual','AqController@storeManual')->name('aq.storeManual');
+    Route::post('/aq/storeManual','AqController@storeManual')->name('aq.storeManual');
     Route::resource('aq','AqController')->except(['create','store']);
     Route::get('/aq/create/{slug}','AqController@create')->name('aq.create');
     Route::post('/aq/store/{slug}','AqController@store')->name('aq.store');

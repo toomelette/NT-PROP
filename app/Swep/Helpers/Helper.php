@@ -280,6 +280,10 @@ class Helper
                 $l = 'JOB';
                 $color = 'purple';
                 break;
+            case 'AQ':
+                $l = 'AQ';
+                $color = 'orange';
+                break;
             default:
                 $color = 'gray';
                 break;

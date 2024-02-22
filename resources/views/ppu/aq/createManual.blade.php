@@ -33,7 +33,7 @@
             <form id="aq_form">
                 <div class="box-header with-border">
                     <div class="btn-group pull-right">
-                        <button type="submit" class="btn btn-primary btn-sm" id="submitForm_btn"><i class="fa fa-check"></i> Save</button>
+                        <button type="button" class="btn btn-primary btn-sm" id="submitForm_btn"><i class="fa fa-check"></i> Save</button>
                     </div>
                 </div>
 
@@ -153,5 +153,30 @@
             })
             $("#"+parentTableId+" .grandTotal").html($.number(grandTotal,2))
         })
+
+        $("#submitForm_btn").click(function (e) {
+            e.preventDefault();
+            let form = $("#aq_form");
+            loading_btn(form);
+            $.ajax({
+                url : '{{route("dashboard.aq.storeManual")}}',
+                data : form.serialize(),
+                type: 'POST',
+                headers: {
+                    {!! __html::token_header() !!}
+                },
+                success: function (res) {
+                    console.log(res);
+                    succeed(form,true,false);
+                    toast('success','AQ successfully created','Success');
+                    let redirectUrl = "{{route('dashboard.aq.edit','slug')}}";
+                    redirectUrl = redirectUrl.replace('slug',res);
+                    window.location.href = redirectUrl;
+                },
+                error: function (res) {
+                    errored(form,res);
+                }
+            })
+        });
     </script>
 @endsection
