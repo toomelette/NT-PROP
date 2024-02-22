@@ -35,4 +35,8 @@ class Vehicles extends Model
     }
 
     protected $table = 'vehicles';
+
+    public function tripTickets(){
+        return $this->hasMany(TripTicket::class,'vehicle','slug');
+    }
 }

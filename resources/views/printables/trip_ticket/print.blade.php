@@ -168,8 +168,16 @@
                         </div>
 
                         <div style="width: 10%; text-align: right; padding-right: 10px; ">
-                            <h5><b style="margin-left: 2px">{{$tt->odometer_from ?? "________" }}</b></h5>
-                            <h5><b style="margin-left: 2px">{{$tt->odometer_to ?? "________" }}</b></h5>
+                            <h5><b style="margin-left: 2px">{{$prevOdo = $tt->vehicles->odometer + $tt->vehicles->tripTickets->sum('distance_traveled') ?? "________" }}</b></h5>
+                            <h5>
+                                <b style="margin-left: 2px">
+                                    @if($tt->distance_traveled != null)
+                                    {{$prevOdo + $tt->distance_traveled ?? "________" }}
+                                        @else
+                                        ________
+                                    @endif
+                                </b>
+                            </h5>
                             <h5><b style="margin-left: 5px">{{$tt->distance_traveled ?? "________" }}</b></h5>
                         </div>
                     </div>

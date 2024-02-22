@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\RequestForVehicle;
 use App\Models\TripTicket;
+use App\Models\Vehicles;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -40,9 +41,20 @@ class TripTicketController extends Controller
             ->where('vehicle', '=', $vehicle)
             ->orderBy('id', 'desc')
             ->first();
-
+        $v = Vehicles::query()
+            ->where('slug','=',$vehicle)
+            ->withSum([
+                'tripTickets' => function($query) {
+//                    $query->where('ticket_no', '2024-001');
+                }
+            ],'distance_traveled')
+            ->first();
+        $baseOdo = $v->odometer ?? 0;
+        $currentOdo = $baseOdo + $v->trip_tickets_sum_distance_traveled;
         return response()->json([
             'ticket' => $ticket,
+            'usage' => ($v->usage ?? 0) * 1,
+            'currentOdo' => $currentOdo,
         ]);
     }
 
@@ -63,6 +75,23 @@ class TripTicketController extends Controller
 
     public function store(FormRequest $request)
     {
+
+        $t = TripTicket::query()
+            ->where('vehicle','=',$request->vehicle)
+            ->count();
+        if($t != 0){
+            $tripTicket = TripTicket::query()
+                ->where('vehicle','=',$request->vehicle)
+                ->where(function ($q){
+                    return $q->where('odometer_to','=',null)
+                        ->orWhere('gas_remaining_balance','=',null);
+                })
+                ->count();
+            if($tripTicket > 0){
+                abort(503,'Previous trip ticket is not yet fulfilled');
+            }
+        }
+
         $transNewSlug = Str::random();
         $transNew = new TripTicket();
         $transNew->slug = $transNewSlug;
@@ -182,7 +211,18 @@ class TripTicketController extends Controller
     }
 
     public function print($slug){
-        $tt = TripTicket::query()->where('slug', $slug)->first();
+        $t = TripTicket::query()
+            ->where('slug',"=",$slug)
+            ->first();
+        $tt = TripTicket::query()
+            ->with([
+                'vehicles.tripTickets' => function ($q) use ($t) {
+                    return $q->where('created_at','<',$t->created_at);
+                }
+            ])
+            ->where('slug', $slug)
+            ->first();
+
         $passengers = collect(explode(",",$tt->passengers))->chunk(3);
 
         return view('printables.trip_ticket.print')->with([

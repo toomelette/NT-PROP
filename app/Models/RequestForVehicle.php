@@ -41,7 +41,7 @@ class RequestForVehicle extends Model
     }
 
     public function driverAssigned(){
-        return $this->hasOne(Drivers::class,'slug','driver_assigned');
+        return $this->hasOne(Drivers::class,'employee_slug','driver_assigned');
     }
     public function responsibilityCenter(){
         return $this->hasOne(PPURespCodes::class,'rc_code','rc');

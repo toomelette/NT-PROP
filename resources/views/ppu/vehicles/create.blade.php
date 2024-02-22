@@ -47,11 +47,19 @@
                         'cols' => 3,
                         ]) !!}
 
+
+
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('usage',[
+                        'label' => 'KM per Liter:',
+                        'cols' => 3,
+                        'type' => 'number',
+                        ]) !!}
+
                         {!! \App\Swep\ViewHelpers\__form2::select('status',[
-                               'label' => 'Condition:',
-                               'cols' => 3,
-                               'options' => \App\Swep\Helpers\Arrays::condition(),
-                       ]) !!}
+                             'label' => 'Condition:',
+                             'cols' => 3,
+                             'options' => \App\Swep\Helpers\Arrays::condition(),
+                     ]) !!}
 
                     </div>
                 </div>
