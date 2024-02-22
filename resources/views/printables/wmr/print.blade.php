@@ -53,11 +53,11 @@
             <td style="margin-top: 5px; width: 15%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
                 Taken From:
             </td>
-            <td style="border-top: 1px solid black;" class="text-strong ">
+            <td colspan="2" style="border-top: 1px solid black;" class="text-strong ">
                 {{$wmr->taken_from}}
             </td>
 
-            </tr>
+
             </tbody>
         </table>
 
@@ -116,11 +116,16 @@
                     <td style="vertical-align: top; width: 10%;">{{$item->unit}}</td>
                     <td style="vertical-align: top; width: 10%;">{{$item->qty}}</td>
                     <td class="" style="vertical-align: top; width: 30%; text-align: left;">
-                        <b style="font-size: 11px; font-weight: normal  ">{{$item->item}}</b><br>
-                        <span style="font-size: 9px; font-style: italic" >
-                                    {{$item->description ? $item->description : ""}}
-                                    </span>
+                        <b style="font-size: 11px; font-weight: normal;">{{$item->item}}</b><br>
+                        <span style="font-size: 9px; font-style: italic;">
+                                <?php
+                                $description = $item->description ? $item->description : "";
+                                $description = str_replace('<br />', '; ', nl2br($description));
+                                echo $description;
+                                ?>
+                        </span>
                     </td>
+
                     <td style="vertical-align: top; width: 12%;">{{$item->or_no}}</td>
                     <td style="vertical-align: top; width: 10%;">{{$item->amount}}</td>
                 </tr>

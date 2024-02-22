@@ -52,7 +52,6 @@
                         <td style="border-top: 1px solid black; " class="text-strong ">
                             {{$tt->date}}
                         </td>
-                    </tr>
                     </tbody>
                 </table>
 
@@ -237,14 +236,8 @@
                             <br><br><br>
                         </div>
                     @endforeach
-
-
-
-
                     <br><br><br>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -259,14 +252,7 @@
 
  <script type="text/javascript">
      $(document).ready(function () {
-         let set = 500;
-         if($("#items_table_{{$rand}}").height() < set){
-             let rem = set - $("#items_table_{{$rand}}").height();
-             $("#adjuster").css('height',rem)
-             @if(!\Illuminate\Support\Facades\Request::has('noPrint'))
              print();
-             @endif
-         }
      })
  </script>
 @endsection
