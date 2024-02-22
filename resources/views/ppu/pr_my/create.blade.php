@@ -204,19 +204,20 @@
 
     $(".select2_papCode").select2({
         ajax: {
-            url: '{{route("dashboard.ajax.get","pap_codes")}}',
+            url: function () {
+                let baseUrl = "{{route('dashboard.ajax.get','pap_codes')}}";
+                let respCode = $(this).parents('form').find('select[name="resp_center"]').val();
+                return baseUrl+'?respCode='+respCode;
+            },
             dataType: 'json',
             delay : 250,
-            data: function (params) {
-                var query = {
-                    search: params.term,
-                    page: params.page || 1
-                }
-                return query;
-            }
+
         },
         placeholder: 'Type PAP Code/Title/Description',
     });
+
+
+
 
     $("body").on("change",".unitXcost",function () {
         let parentTableId = $(this).parents('table').attr('id');

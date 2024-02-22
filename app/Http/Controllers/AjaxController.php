@@ -33,7 +33,7 @@ class AjaxController extends Controller
         if($for == 'pap_codes'){
             $currentYear = \App\Swep\Helpers\Helper::getSetting('dashboard_report_year')->int_value;
             $arr = [];
-            $like = '%'.request('search').'%';
+            $like = '%'.request('q').'%';
             $papCodes = PAP::query()
                 ->select('year' ,'pap_code','pap_title','pap_desc')
                 ->where('year', '=', $currentYear)
@@ -42,6 +42,12 @@ class AjaxController extends Controller
                         ->orWhere('pap_desc','like',$like)
                         ->orWhere('pap_title','like',$like);
                 });
+
+            if(Request::get('respCode') == ''){
+                return  [];
+            }else{
+                $papCodes = $papCodes->where('resp_center','=',Request::get('respCode'));
+            }
 
             if(!empty(Auth::user()->userDetails)){
                 $papCodes = $papCodes->whereHas('responsibilityCenter',function ($query){
@@ -53,7 +59,11 @@ class AjaxController extends Controller
                 });
             }
 
-            $papCodes = $papCodes->limit(10)->offset(10*(request('page') - 1))->get();
+
+            $papCodes = $papCodes->limit(10)
+                ->offset(10*(request('page') - 1))
+                ->orderBy('pap_code','asc')
+                ->get();
 
             if(!empty($papCodes)){
                 foreach ($papCodes as $papCode){
@@ -66,7 +76,7 @@ class AjaxController extends Controller
                     ]);
                 }
             }
-            return Helper::wrapForSelect2($arr);
+            return Helper::wrapForSelect2($arr,10);
         }
 
         if($for == 'articles'){

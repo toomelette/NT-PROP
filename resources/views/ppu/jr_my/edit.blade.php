@@ -176,7 +176,11 @@
     <script type="text/javascript">
         $(".select2_pap_code_{{$rand}}").select2({
             ajax: {
-                url: '{{route("dashboard.ajax.get","pap_codes")}}',
+                url: function () {
+                    let baseUrl = "{{route('dashboard.ajax.get','pap_codes')}}";
+                    let respCode = $(this).parents('form').find('select[name="resp_center"]').val();
+                    return baseUrl+'?respCode='+respCode;
+                },
                 dataType: 'json',
                 delay : 250,
             },
