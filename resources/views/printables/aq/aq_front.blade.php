@@ -23,7 +23,7 @@
         @foreach($pages as $quotations)
         <div  class="page-breaks">
             <div style="position: relative; margin-bottom: 10px; margin-top: 10px">
-                <div class="" style="margin-bottom: 100px; padding-top: 10px;">
+                <div class="" style="margin-bottom: 116px; padding-top: 10px;">
                     <div>
                         <img src="{{ asset('images/sra.png') }}" style="width:100px; float: left">
                     </div>
@@ -38,19 +38,22 @@
                 </div>
                 <div style="position: absolute; bottom: 0; right: 0; text-align: right;">
                     @if($trans->is_locked)
-                        {{--<img alt="" src="data:image/png;base64, {{base64_decode(QrCode::format('png')->merge(asset('images/sra_old.png'),0.3, true)->size(60)->generate('Make me into a QrCode!') ) }}">--}}
                         {{ QrCode::size(60)->generate(route("dashboard.aq.print",$trans->slug)) }}
-                        {{--{{ QrCode::merge(asset('images/sra_old.png'), 5, true)->size(60)->generate(route("dashboard.aq.print", $trans->slug)) }}--}}
-                        {{--<h3 class="no-margin text-strong">FINAL</h3>--}}
                     @endif
                     <p class="no-margin">Page {{$loop->iteration}} of {{count($pages)}}</p>
-                    <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
+                        @if($trans->document_type == "MANUAL AQ")
+                            <h4 class="no-margin text-strong">AQ. No. _____________</h4>
+                        @else
+                            <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
+                        @endif
                     DATE: {{Carbon::createFromFormat('Y-m-d', $trans->date)->format('F j, Y')}}
                 </div>
                 @if($prjr->ref_book == "PR")
                     <h5 class="no-margin" style="text-align: left;"><strong>Purchase Request No. {{$prjr->ref_no}}</strong></h5>
                 @elseif($prjr->ref_book == "JR")
                     <h5 class="no-margin" style="text-align: left;"><strong>Job Request No. {{$prjr->ref_no}}</strong></h5>
+                @else
+                    <h5 class="no-margin" style="text-align: left;"><strong>Request No. ________________</strong></h5>
                 @endif
             </div>
             <table class="tbl-bordered" style="width: 100%;">
