@@ -257,11 +257,11 @@ class Helper
 
     }
 
-    public static function wrapForSelect2($array){
+    public static function wrapForSelect2($array, $limit = 10){
         return [
             'results' => $array,
             "pagination" => [
-                "more" => (count($array) > 1) ? true : false ,
+                "more" => (count($array) < $limit) ? false : true ,
             ]
 
 
