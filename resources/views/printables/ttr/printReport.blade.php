@@ -98,7 +98,7 @@
                                 {{number_format($tripTicket->distance_traveled / $tripTicket->consumed, 2) }}
                                 @endif
                             </td>
-                            <td style="text-align: center; width: 7%" >{{$d = $vehicle->usage}}</td>
+                            <td style="text-align: center; width: 7%" >{{$d = $vehicle->normal_usage}}</td>
                             <td style="text-align: center; width: 7%" >{{number_format($e = $a / $d * 1.1, 2)}}</td>
                             <td style="text-align: center; width: 7%" >{{number_format($b - $e, 2) }}</td>
                             <td style="width: 30%" >{{$tripTicket->purpose}}</td>
