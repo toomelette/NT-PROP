@@ -225,6 +225,7 @@ class AqController extends Controller
     public function storeManual(FormRequest $request){
         $trans = new Transactions();
         $trans->slug = Str::random();
+        $trans->cross_ref_no = $request->cross_ref_no;
         $trans->ref_book = 'AQ';
         $trans->resp_center = $request->resp_center;
         $trans->ref_no = $this->aqService->getNextAqNo();

@@ -41,11 +41,8 @@
                         {{ QrCode::size(60)->generate(route("dashboard.aq.print",$trans->slug)) }}
                     @endif
                     <p class="no-margin">Page {{$loop->iteration}} of {{count($pages)}}</p>
-                        @if($trans->document_type == "MANUAL AQ")
-                            <h4 class="no-margin text-strong">AQ. No. _____________</h4>
-                        @else
-                            <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
-                        @endif
+
+                    <h4 class="no-margin text-strong">AQ. No. {{$trans->ref_no}}</h4>
                     DATE: {{Carbon::createFromFormat('Y-m-d', $trans->date)->format('F j, Y')}}
                 </div>
                 @if($prjr->ref_book == "PR")
@@ -53,7 +50,8 @@
                 @elseif($prjr->ref_book == "JR")
                     <h5 class="no-margin" style="text-align: left;"><strong>Job Request No. {{$prjr->ref_no}}</strong></h5>
                 @else
-                    <h5 class="no-margin" style="text-align: left;"><strong>Request No. ________________</strong></h5>
+
+                    <h5 class="no-margin" style="text-align: left;"><strong>PR/JR Request No. {{$trans->cross_ref_no}}</strong></h5>
                 @endif
             </div>
             <table class="tbl-bordered" style="width: 100%;">

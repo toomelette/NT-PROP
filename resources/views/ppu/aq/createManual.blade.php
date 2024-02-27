@@ -38,22 +38,27 @@
                 </div>
 
                 <div class="box-body">
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('cross_ref_no',[
+                          'cols' => 3,
+                          'label' => 'PR/JR Number: '
+                        ]) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::select('resp_center',[
                                'label' => 'Requisitioning Office/Department',
-                               'cols' => 4,
+                               'cols' => 3,
                                'id' => 'resp_center',
                                'options' => \App\Swep\Helpers\Arrays::groupedRespCodes(),
                         ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::select('requested_by',[
                             'label' => 'Requested By:',
-                            'cols' => 4,
+                            'cols' => 3,
                             'options' => [],
                             'id' => 'requested_by'
                         ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_designation',[
-                          'cols' => 4,
+                          'cols' => 3,
                           'label' => 'Requested by (Designation): '
                         ]) !!}
 
