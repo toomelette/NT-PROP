@@ -66,6 +66,15 @@
                              $vhcl ?? null
                                  ) !!}
 
+                        {!! \App\Swep\ViewHelpers\__form2::textbox('normal_usage',[
+                      'label' => 'Normal KM per Liter:',
+                      'cols' => 3,
+                      'type' => 'number',
+                      ],
+                             $vhcl ?? null
+                                 ) !!}
+
+
                         {!! \App\Swep\ViewHelpers\__form2::select('status',[
                                'label' => 'Condition:',
                                'cols' => 3,

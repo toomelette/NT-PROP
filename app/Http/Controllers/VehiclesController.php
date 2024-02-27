@@ -105,6 +105,7 @@ class VehiclesController extends Controller
         $transNew->plate_no = $request->plate_no;
         $transNew->odometer = $request->odometer;
         $transNew->usage = $request->usage;
+        $transNew->normal_usage = $request->normal_usage;
         $transNew->status = $request->status;
 
         if ($transNew->save()) {
@@ -114,7 +115,7 @@ class VehiclesController extends Controller
     }
 
     public function edit($slug){
-        $vhcl =$this->findBySlug($slug);
+        $vhcl = $this->findBySlug($slug);
         return view('ppu.vehicles.edit')->with([
             'vhcl' => $vhcl
         ]);
@@ -138,6 +139,7 @@ class VehiclesController extends Controller
         $trans->plate_no = $request->plate_no;
         $trans->odometer = $request->odometer;
         $trans->usage = $request->usage;
+        $trans->normal_usage = $request->normal_usage;
         $trans->status = $request->status;
 
         if ($trans->save()) {

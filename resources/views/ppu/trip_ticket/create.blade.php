@@ -215,7 +215,7 @@
             $('input[name="total"]').val(total);
         });
 
-        $('.consumedd').on("input", function () {
+        $('.consumedd').on("change input", function () {
             let t = $(this).val();
             let total1 = $('input[name="total"]').val();
             let dif = total1 - t;
@@ -228,6 +228,7 @@
             let tot = odoTo - odoFrom;
             $('input[name="distance_traveled"]').val(tot);
             $('input[name="distance_traveled"]').change();
+            $('.consumedd').change();
         });
 
 
@@ -249,6 +250,11 @@
                         },
                         success: function (res) {
                             console.log(res);
+
+
+                            setTimeout(function (){
+                                $("select[name='vehicle']").change();
+                            },1000)
                             $('select[name="driver"]').val(res.dl.slug);
                             $('select[name="vehicle"]').val(res.va.slug);
 

@@ -268,7 +268,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/trip_ticket/{slug}/edit','TripTicketController@edit')->name('trip_ticket.edit');
     Route::patch('/trip_ticket/update/{slug}','TripTicketController@update')->name('trip_ticket.update');
 
-
+    Route::get('/trip_ticket/generateReport','TripTicketController@generateReport')->name('ttr.generateReport');
+    Route::get('/trip_ticket/printReport','TripTicketController@printReport')->name('ttr.printReport');
 
     Route::get('/ris/index','RISController@index')->name('ris.index');
 

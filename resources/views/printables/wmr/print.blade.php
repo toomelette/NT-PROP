@@ -125,7 +125,6 @@
                                 ?>
                         </span>
                     </td>
-
                     <td style="vertical-align: top; width: 12%;">{{$item->or_no}}</td>
                     <td style="vertical-align: top; width: 10%;">{{$item->amount}}</td>
                 </tr>

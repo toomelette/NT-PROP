@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Auth;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Vehicles extends Model
@@ -37,6 +38,9 @@ class Vehicles extends Model
     protected $table = 'vehicles';
 
     public function tripTickets(){
-        return $this->hasMany(TripTicket::class,'vehicle','slug');
+        return $this->hasMany(TripTicket::class,'vehicle','slug')
+            ->orderBy('date','asc');
     }
+
+
 }

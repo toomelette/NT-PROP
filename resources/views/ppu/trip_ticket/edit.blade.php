@@ -223,7 +223,6 @@
 
         $('.consumedd').on("change input", function () {
             let t = $(this).val();
-
             let total1 = $('input[name="total"]').val();
             let dif = total1 - t;
             $('input[name="gas_remaining_balance"]').val(dif);
