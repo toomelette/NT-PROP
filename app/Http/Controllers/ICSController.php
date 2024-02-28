@@ -218,4 +218,14 @@ class ICSController extends Controller
             'rc' => $rc
         ]);
     }
+
+    public function printIcsTag($slug){
+        $ics = Transactions::query()->where('slug','=',$slug)->first();
+        if(empty($ics)){
+            abort(503,'ICS not found.');
+        }
+        return view('printables.ics.property_tag')->with([
+            'ics' => $ics,
+        ]);
+    }
 }

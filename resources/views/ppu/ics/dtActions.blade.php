@@ -5,5 +5,8 @@
     <a class="btn btn-default btn-sm" href="{{route('dashboard.ics.print',$data->slug)}}" target="_blank">
         <i class="fa fa-print"></i>
     </a>
+    <a class="btn btn-sm btn-primary" href="{{route('dashboard.ics.print_ics_tag',$data->slug)}}" target="_blank">
+        <i class="fa fa-print"></i>
+    </a>
 </div>
 
