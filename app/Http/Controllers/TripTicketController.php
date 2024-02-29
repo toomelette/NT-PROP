@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\TripTicket\tripTicketFormRequest;
 use App\Models\RequestForVehicle;
 use App\Models\TripTicket;
 use App\Models\Vehicles;
@@ -74,7 +75,7 @@ class TripTicketController extends Controller
 
     }
 
-    public function store(FormRequest $request)
+    public function store(tripTicketFormRequest $request)
     {
 
         $t = TripTicket::query()
@@ -262,6 +263,8 @@ class TripTicketController extends Controller
             'vehicles' => $vehicles
         ]);
     }
+
+
 
 
 

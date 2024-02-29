@@ -25,13 +25,15 @@
                     <div class="box-body" style="display: none">
                         <form id="filter_form">
                             <div class="row">
-                                {!! \App\Swep\ViewHelpers\__form2::select('year',[
-                                    'cols' => '2 dt_filter-parent-div',
-                                    'label' => 'Year:',
+
+                                {!! \App\Swep\ViewHelpers\__form2::select('drivers',[
+                                    'label' => 'Drivers:',
+                                    'cols' => '4 dt_filter-parent-div',
                                     'class' => 'dt_filter filters',
-                                    'options' => \App\Swep\Helpers\Arrays::years(),
-                                    'for' => 'select2_papCode',
-                                ],\Illuminate\Support\Carbon::now()->format('Y')) !!}
+                                    'options' => \App\Swep\Helpers\Arrays::drivers(),
+                                    'for' => 'drivers',
+                                    'id' => 'drivers_select',
+                                   ]) !!}
 
                             </div>
                         </form>
@@ -76,12 +78,10 @@
     <script type="text/javascript">
         let active;
         $(document).ready(function () {
-            //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
-            //Initialize DataTable
 
             trip_tbl = $("#trip_table").DataTable({
-                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
+                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}'+$("#filter_form select[name='drivers']").val(),
                 "columns": [
                     { "data": "ticket_no" },
                     { "data": "departure" },
@@ -182,9 +182,9 @@
             })
         })
         $("body").on("change",".dt_filter",function () {
-            filterDT(gp_tbl);
+            filterDT(trip_tbl);
         });
-        $("#resp_center_select2").select2();
+        $("#drivers_select").select2();
 
     </script>
 @endsection

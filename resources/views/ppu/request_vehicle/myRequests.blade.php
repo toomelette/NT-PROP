@@ -22,7 +22,7 @@
                                     <th>Passengers</th>
                                     <th>Destination</th>
                                     <th>Date of Departure</th>
-                                    <th>Vehicle and Driver</th>
+                                    <th>Details</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -65,7 +65,7 @@
                 { "data": "passengers" },
                 { "data": "destination" },
                 { "data": "from" },
-                { "data": "assigned" },
+                { "data": "details" },
                 { "data": "action" }
             ],
             "buttons": [
