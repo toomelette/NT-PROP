@@ -30,49 +30,41 @@
                                                         <img src="{{ asset('images/sra_old.png') }}" style="width:40px; float: left">
                                                     </td>
                                                     <td class="" style="font-size: 10px">
-                                                        <p class="no-margin">Republic of the Philippines</p>
                                                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
-                                                        <p class="no-margin" style="font-size: 10px">{{\App\Swep\Helpers\Values::headerAddress()}}</p>
-                                                        <p class="no-margin" style="font-size: 10px">{{\App\Swep\Helpers\Values::headerTelephone()}}</p>
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <p class="no-margin text-strong text-center">GOVERNMENT PROPERTY</p>
-                                            <p class="text-center" style="font-size: 10px">COA Circular No. 80-124, JANUARY 1980</p>
+                                            <p class="no-margin text-strong text-center">SEMI-EXPENDABLE PROPERTY</p>
                                             <table style="width: 100%" class="tbl-not-padded">
                                                 <tr>
                                                     <td>Accountable Person</td>
                                                     <td>:</td>
                                                     <td class="b-bottom">{{strtoupper($ics->requested_by)}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Article/Item</td>
-                                                    <td>:</td>
-                                                    <td class="b-bottom">{{$ics->article}}</td>
-                                                </tr>
+                                                @foreach($ics->transDetails as $td)
+                                                    <tr>
+                                                        <td>Article/Item</td>
+                                                        <td>:</td>
+                                                        <td class="b-bottom">{{$td->item}}</td>
+                                                    </tr>
+                                                @endforeach
                                                 <tr>
                                                     <td>Acquisition Date</td>
                                                     <td>:</td>
-                                                    <td class="b-bottom">{{\App\Swep\Helpers\Helper::dateFormat($ics->dateacquired,'m/d/Y')}}</td>
+                                                    <td class="b-bottom">{{\App\Swep\Helpers\Helper::dateFormat($ics->received_at,'m/d/Y')}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Acquisition Cost</td>
                                                     <td>:</td>
-                                                    <td class="b-bottom">{{number_format($ics->acquiredcost,2)}}</td>
+                                                    <td class="b-bottom">{{number_format($ics->abc,2)}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>ICS No.</td>
                                                     <td>:</td>
-                                                    <td class="b-bottom">{{$par->propertyno}}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Condition</td>
-                                                    <td>:</td>
-                                                    <td class="b-bottom">{{$par->condition}}</td>
+                                                    <td class="b-bottom">{{$ics->ref_no}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="b-bottom">
-                                                        Validated:
                                                         <br><br>
                                                     </td>
                                                     <td></td>
