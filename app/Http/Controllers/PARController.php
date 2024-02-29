@@ -349,9 +349,32 @@ class PARController extends Controller
         return view('ppu.rpcppe.generateInventoryCountForm');
     }
 
+    public function printRpcppeExcel(Request $request){
+        $rpciObj = InventoryPPE::query()
+            ->with(['iac'])
+            ->where(function ($query) {
+                $query->where('condition', '!=', 'DERECOGNIZED')
+                    ->orWhereNull('condition')
+                    ->orWhere('condition', '');
+            });
+
+
+        if($request->has('period_covered')){
+            $rpciObj = $rpciObj->whereBetween('dateacquired',[$request->date_start,$request->date_end]);
+        }else{
+            $rpciObj = $rpciObj->whereDate('dateacquired','<=',$request->as_of);
+        }
+        if($request->has('fund_cluster') && $request->fund_cluster != ''){
+            $rpciObj = $rpciObj->where('fund_cluster','=',$request->fund_cluster);
+        }
+
+
+        $rpciObj = $rpciObj->orderBy('invtacctcode');
+        $rpciObj = $rpciObj->get();
+    }
+
     public function printRpcppe(Request $request){
 
-        $fund_cluster = $request->fund_cluster;
         $asOfDate = $request->as_of;
         $rpciObj = InventoryPPE::query()
             ->with(['iac'])

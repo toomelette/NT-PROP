@@ -54,8 +54,11 @@
                     </div>
                     <div class="clearfix"></div>
                     <div class="box-footer pull-left">
-                        <button class="btn btn-primary btn-md" type="submit">
+                        <button class="btn btn-primary btn-md print" type="submit">
                             <i class="fa fa-print"></i> Print
+                        </button>
+                        <button class="btn btn-success btn-md downloadCsv" type="button">
+                            <i class="fa fa-download"></i> Download Excel
                         </button>
                     </div>
                 </div>
@@ -73,6 +76,21 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+            $('.downloadCsv').click(function (){
+                var formData = $('#rpci_form').serialize();
+                $.ajax({
+                    url: "{{route('dashboard.rpcppe.printRpcppeExcel')}}",
+                    type: 'GET',
+                    data: formData,
+                    success: function(data) {
+                        console.log('Success:', data);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
             // Add change event listener to the checkbox
             $('#period_covered').change(function() {
                 // Check if checkbox is checked

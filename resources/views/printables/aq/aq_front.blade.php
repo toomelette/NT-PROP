@@ -299,6 +299,64 @@
                 <p class="no-margin">Effectivity Date: March 12, 2015</p>
             </div>
         </div>
+            @if($trans->project_id == 2)
+            <div  class="page-breaks">
+                <div style="position: relative; margin-bottom: 10px; margin-top: 10px">
+                    <br>
+                    <br>
+                    <div style="align-items: center;">
+                        <div style="text-align: center">
+                            <p class="no-margin text-strong">Approved by:</p>
+                            <p class="no-margin text-strong" style="font-size: 18px">BIDDING & AWARDS COMMITTEE</p>
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="text-align: center">
+                            <p class="no-margin">________________________</p>
+                            <p class="no-margin text-strong" style="font-size: 18px">MARCO D. SORIANO</p>
+                            <span class="text-strong">Member</span>
+                        </div>
+                        <div style="display: inline-block; text-align: center">
+                            <div style="text-align: center">
+                                <p class="no-margin">________________________</p>
+                                <p class="no-margin text-strong" style="font-size: 18px">DIGNA D. GONZALES</p>
+                                <span class="text-strong">Member</span>
+                            </div>
+                        </div>
+                        <div style="display: inline-block; text-align: left;">
+                            <div style="text-align: center">
+                                <p class="no-margin">__________________________</p>
+                                <p class="no-margin text-strong" style="font-size: 18px">BLESILDA S. GREGORIO</p>
+                                <span class="text-strong">Member</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+                    <div style="align-items: center;">
+                        <div class="col-md-6" style="text-align: center">
+                            <p class="no-margin">________________________</p>
+                            <p class="no-margin text-strong" style="font-size: 18px">ATTY. ARVIN C. BEÑAS</p>
+                            <span class="text-strong">Vice-Chairman</span>
+                        </div>
+                        <div class="col-md-6"  style="text-align: center">
+                            <p class="no-margin">________________________</p>
+                            <p class="no-margin text-strong" style="font-size: 18px">ATTY. RONALD RIMANDO</p>
+                            <span class="text-strong">Chairperson</span>
+                        </div>
+                    </div>
+
+                    <div class="qms-right" style="font-size: 12px; margin-top: 20px;">
+                        <p class="no-margin">FM-AFD-PPS-003,Rev.00</p>
+                        <p class="no-margin">Effectivity Date: March 12, 2015</p>
+                    </div>
+                </div>
+            </div>
+            @endif
     @endforeach
     @else
         <h1>No quotations available</h1>

@@ -31,6 +31,7 @@
                                                     </td>
                                                     <td class="" style="font-size: 10px">
                                                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
+                                                        <p class="no-margin" style="font-size: 8px">Property/Procurement/Building & Transportation Maintenance Section</p>
                                                     </td>
                                                 </tr>
                                             </table>
