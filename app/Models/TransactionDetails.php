@@ -18,4 +18,8 @@ class TransactionDetails extends Model
     public function article(){
         return $this->belongsTo(Articles::class,'stock_no','stockNo');
     }
+
+    public function units(){
+        return $this->hasOne(Options::class,'value','unit');
+    }
 }

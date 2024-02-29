@@ -138,7 +138,7 @@
                         @foreach($ics->transDetails as $item)
                             <tr>
                                 <td style="vertical-align: top;">{{$item->qty}}</td>
-                                <td style="vertical-align: top;">{{$item->unit}}</td>
+                                <td style="vertical-align: top;">{{$item->units->display}}</td>
                                 <td style=" vertical-align: top; text-align: right">{{number_format($item->unit_cost,2)}}</td>
                                 <td style="vertical-align: top; text-align: right">{{number_format($item->total_cost,2)}}</td>
                                 <td class="" style="vertical-align: top; text-align: left;">
