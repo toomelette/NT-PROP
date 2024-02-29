@@ -65,7 +65,7 @@
                 { "data": "passengers" },
                 { "data": "destination" },
                 { "data": "from" },
-                { "data": "assigned" },
+                { "data": "details" },
                 { "data": "action" }
             ],
             "buttons": [

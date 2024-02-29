@@ -57,7 +57,7 @@
 
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
-                          'label' => 'Date:',
+                         'label' => "<span style='color: red;'>Date: (REQUIRED)</span>",
                           'cols' => 3,
                           'type' => 'date',
                          ]) !!}

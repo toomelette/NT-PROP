@@ -204,7 +204,10 @@ class RequestForVehicleController extends Controller
             ->editColumn('created_at',function($data){
                 return Carbon::parse($data->created_at)->format('M. d, Y');
             })
-            ->addColumn('assigned',function($data){
+            ->addColumn('details',function($data){
+                return view('ppu.request_vehicle.dtMyDetails')->with([
+                    'data' => $data,
+                ]);
                 return ($data->vehicleAssigned->make ?? '').' '.($data->vehicleAssigned->model ?? '').' - '.($data->vehicleAssigned->plate_no ?? '').' '.($data->driverAssigned->employee->fullname ?? '');
             })
             ->escapeColumns([])
