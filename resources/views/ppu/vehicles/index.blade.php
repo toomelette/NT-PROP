@@ -55,6 +55,7 @@
                                         <th style="width: 20%">Model</th>
                                         <th style="width: 12%">Plate Number</th>
                                         <th style="width: 13%">KM per Liter</th>
+                                        <th style="width: 13%">Normal KM per Liter</th>
                                         <th style="width: 20%">Status</th>
                                         <th style="width: 20px">Action</th>
                                     </tr>
@@ -95,6 +96,7 @@
                     { "data": "model1" },
                     { "data": "plate_no" },
                     { "data": "usage" },
+                    { "data": "normal_usage" },
                     { "data": "status" },
                     { "data": "action" }
                 ],
