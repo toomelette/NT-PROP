@@ -28,10 +28,10 @@
 
                                 {!! \App\Swep\ViewHelpers\__form2::select('drivers',[
                                     'label' => 'Drivers:',
-                                    'cols' => '4 dt_filter-parent-div',
+                                    'cols' => '3 dt_filter-parent-div',
                                     'class' => 'dt_filter filters',
                                     'options' => \App\Swep\Helpers\Arrays::drivers(),
-                                    'for' => 'drivers',
+                                    'for' => 'select2_drivers',
                                     'id' => 'drivers_select',
                                    ]) !!}
 
@@ -81,7 +81,7 @@
             modal_loader = $("#modal_loader").parent('div').html();
 
             trip_tbl = $("#trip_table").DataTable({
-                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}'+$("#filter_form select[name='drivers']").val(),
+                "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}',
                 "columns": [
                     { "data": "ticket_no" },
                     { "data": "departure" },
@@ -94,6 +94,7 @@
                 "buttons": [
                     {!! __js::dt_buttons() !!}
                 ],
+                "order" : [[1,'desc']],
                 "responsive": false,
                 'dom' : 'lBfrtip',
                 "processing": true,
