@@ -31,35 +31,36 @@
                                                     </td>
                                                     <td class="" style="font-size: 10px">
                                                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
+                                                        <p class="no-margin" style="font-size: 8px">Property/Procurement/Building & Transportation Maintenance Section</p>
                                                     </td>
                                                 </tr>
                                             </table>
                                             <p class="no-margin text-strong text-center">SEMI-EXPENDABLE PROPERTY</p>
                                             <table style="width: 100%" class="tbl-not-padded">
                                                 <tr>
-                                                    <td>Accountable Person</td>
+                                                    <td style="width: 35%">Accountable Person</td>
                                                     <td>:</td>
                                                     <td class="b-bottom">{{strtoupper($ics->requested_by)}}</td>
                                                 </tr>
                                                 @foreach($ics->transDetails as $td)
                                                     <tr>
-                                                        <td>Article/Item</td>
+                                                        <td style="width: 35%">Article/Item</td>
                                                         <td>:</td>
                                                         <td class="b-bottom">{{$td->item}}</td>
                                                     </tr>
                                                 @endforeach
                                                 <tr>
-                                                    <td>Acquisition Date</td>
+                                                    <td style="width: 35%">Acquisition Date</td>
                                                     <td>:</td>
                                                     <td class="b-bottom">{{\App\Swep\Helpers\Helper::dateFormat($ics->received_at,'m/d/Y')}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Acquisition Cost</td>
+                                                    <td style="width: 35%">Acquisition Cost</td>
                                                     <td>:</td>
                                                     <td class="b-bottom">{{number_format($ics->abc,2)}}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>ICS No.</td>
+                                                    <td style="width: 35%">ICS No.</td>
                                                     <td>:</td>
                                                     <td class="b-bottom">{{$ics->ref_no}}</td>
                                                 </tr>

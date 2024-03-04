@@ -233,6 +233,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/edit/{slug}','PARController@edit')->name('par.edit');
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');
     Route::get('/par/printRpcppe','PARController@printRpcppe')->name('rpcppe.printRpcppe');
+    Route::get('/par/printRpcppeExcel','PARController@printRpcppeExcel')->name('rpcppe.printRpcppeExcel');
 
     Route::get('/par/generateRpcppeByCriteria','PARController@rpcppeByCriteria')->name('rpcppe.rpcppeByCriteria');
     Route::get('/par/generateRpcppe','PARController@generateRpcppe')->name('rpcppe.generateRpcppe');
