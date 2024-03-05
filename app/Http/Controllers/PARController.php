@@ -12,22 +12,19 @@ use App\Models\Employee;
 use App\Models\InventoryPPE;
 use App\Models\Location;
 use App\Models\Options;
-use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\PropertyCard;
 use App\Models\PropertyCardDetails;
-use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
-use http\Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
-use function Symfony\Component\String\Slugger\slug;
-use function Termwind\ValueObjects\w;
 use Illuminate\Support\Facades\Log;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Response;
 
 class PARController extends Controller
 {
@@ -351,13 +348,11 @@ class PARController extends Controller
 
     public function printRpcppeExcel(Request $request){
         $rpciObj = InventoryPPE::query()
-            ->with(['iac'])
             ->where(function ($query) {
                 $query->where('condition', '!=', 'DERECOGNIZED')
                     ->orWhereNull('condition')
                     ->orWhere('condition', '');
             });
-
 
         if($request->has('period_covered')){
             $rpciObj = $rpciObj->whereBetween('dateacquired',[$request->date_start,$request->date_end]);
@@ -368,9 +363,9 @@ class PARController extends Controller
             $rpciObj = $rpciObj->where('fund_cluster','=',$request->fund_cluster);
         }
 
-
-        $rpciObj = $rpciObj->orderBy('invtacctcode');
         $rpciObj = $rpciObj->get();
+
+        return "";
     }
 
     public function printRpcppe(Request $request){

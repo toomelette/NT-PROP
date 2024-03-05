@@ -299,7 +299,7 @@
                 <p class="no-margin">Effectivity Date: March 12, 2015</p>
             </div>
         </div>
-            @if($trans->project_id == 2)
+            @if($trans->project_id == 1)
             <div  class="page-breaks">
                 <div style="position: relative; margin-bottom: 10px; margin-top: 10px">
                     <br>

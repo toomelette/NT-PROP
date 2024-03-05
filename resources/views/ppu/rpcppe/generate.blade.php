@@ -83,7 +83,7 @@
                     type: 'GET',
                     data: formData,
                     success: function(data) {
-                        console.log('Success:', data);
+
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
