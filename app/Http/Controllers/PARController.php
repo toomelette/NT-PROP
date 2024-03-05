@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\Exports\InventoryPPEExport;
 use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
 use App\Models\AccountCode;
 use App\Models\Articles;
@@ -22,9 +23,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use Illuminate\Support\Facades\Response;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PARController extends Controller
 {
@@ -347,25 +346,11 @@ class PARController extends Controller
     }
 
     public function printRpcppeExcel(Request $request){
-        $rpciObj = InventoryPPE::query()
-            ->where(function ($query) {
-                $query->where('condition', '!=', 'DERECOGNIZED')
-                    ->orWhereNull('condition')
-                    ->orWhere('condition', '');
-            });
+        // Instantiate the export class with the request object
+        $export = new InventoryPPEExport($request);
 
-        if($request->has('period_covered')){
-            $rpciObj = $rpciObj->whereBetween('dateacquired',[$request->date_start,$request->date_end]);
-        }else{
-            $rpciObj = $rpciObj->whereDate('dateacquired','<=',$request->as_of);
-        }
-        if($request->has('fund_cluster') && $request->fund_cluster != ''){
-            $rpciObj = $rpciObj->where('fund_cluster','=',$request->fund_cluster);
-        }
-
-        $rpciObj = $rpciObj->get();
-
-        return "";
+        // Download the Excel file
+        return Excel::download($export, 'par.xlsx');
     }
 
     public function printRpcppe(Request $request){

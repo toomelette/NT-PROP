@@ -79,17 +79,38 @@
             $('.downloadCsv').click(function (){
                 var formData = $('#rpci_form').serialize();
                 $.ajax({
-                    url: "{{route('dashboard.rpcppe.printRpcppeExcel')}}",
+                    url: "{{ route('dashboard.rpcppe.printRpcppeExcel') }}",
                     type: 'GET',
                     data: formData,
-                    success: function(data) {
+                    xhrFields: {
+                        responseType: 'blob' // Set the response type to 'blob' to handle binary data
+                    },
+                    success: function(response) {
+                        // Create a blob URL for the Excel file
+                        var url = window.URL.createObjectURL(new Blob([response]));
 
+                        // Create a temporary anchor element
+                        var a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'par.xlsx'; // Set the filename for the downloaded file
+                        a.style.display = 'none';
+
+                        // Append the anchor element to the body and trigger the click event
+                        document.body.appendChild(a);
+                        a.click();
+
+                        // Remove the anchor element
+                        document.body.removeChild(a);
+
+                        // Release the object URL
+                        window.URL.revokeObjectURL(url);
                     },
                     error: function(xhr, status, error) {
                         console.error('Error:', error);
                     }
                 });
             });
+
 
             // Add change event listener to the checkbox
             $('#period_covered').change(function() {
