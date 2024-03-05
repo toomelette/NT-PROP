@@ -188,13 +188,13 @@ class TripTicketController extends Controller
     }
 
 
-    public function dataTable($request)
+    public function dataTable(Request $request)
     {
 
         $tt = TripTicket::query();
-//        if($request->has('year') && $request->year != ''){
-//            $tt = $tt->where('ticket_no','like',$request->year.'%');
-//        }
+        if($request->has('drivers') && $request->drivers != ''){
+            $tt = $tt->where('driver','=',$request->drivers);
+        }
         return DataTables::of($tt)
             ->addColumn('action', function ($data) {
                 return view('ppu.trip_ticket.dtActions')->with([

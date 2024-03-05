@@ -17,31 +17,6 @@
                         {{--                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>--}}
                         <a class="btn btn-primary btn-sm" href="{{route('dashboard.vehicles.create')}}" > <i class="fa fa-plus"></i> Add</a>
                     </div>
-
-{{--                    <div class="box box-sm box-default box-solid collapsed-box"  style=" margin-top: 5px;">--}}
-{{--                        <div class="box-header with-border">--}}
-{{--                            <p class="no-margin"><i class="fa fa-filter"></i> Advanced Filters <small id="filter-notifier" class="label bg-blue blink"></small></p>--}}
-{{--                            <div class="box-tools pull-right">--}}
-{{--                                <button type="button" class="btn btn-box-tool advanced_filters_toggler" data-widget="collapse"><i class="fa fa-plus"></i>--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="box-body" style="display: none">--}}
-{{--                            <form id="filter_form">--}}
-{{--                                <div class="row">--}}
-{{--                                    {!! \App\Swep\ViewHelpers\__form2::select('year',[--}}
-{{--                                        'cols' => '2 dt_filter-parent-div',--}}
-{{--                                        'label' => 'Year:',--}}
-{{--                                        'class' => 'dt_filter filters',--}}
-{{--                                        'options' => \App\Swep\Helpers\Arrays::years(),--}}
-{{--                                        'for' => 'select2_papCode',--}}
-{{--                                    ],\Illuminate\Support\Carbon::now()->format('Y')) !!}--}}
-
-{{--                                </div>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
                 </div>
                 <div class="box-body">
                     <div class="row">
