@@ -350,7 +350,7 @@ class PARController extends Controller
         $export = new InventoryPPEExport($request);
 
         // Download the Excel file
-        return Excel::download($export, 'par.xlsx');
+        return Excel::download($export, 'rpcppe.xlsx');
     }
 
     public function printRpcppe(Request $request){
