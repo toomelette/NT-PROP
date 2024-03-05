@@ -205,7 +205,7 @@ class TripTicketController extends Controller
                return $data->drivers->employee->fullname ?? 'Driver not found.';
            })
             ->editColumn('vehicle', function ($data) {
-                return $data->vehicles->make . ' ' .$data->vehicles->model . ' - ' . $data->vehicles->plate_no;
+                return $data->vehicles->make . ' ' .$data->vehicles->model1 . ' - ' . $data->vehicles->plate_no;
             })
             ->escapeColumns([])
             ->setRowId('id')
