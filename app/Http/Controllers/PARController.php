@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 
+use App\Exports\InventoryPPEExport;
 use App\Http\Requests\InventoryPPE\InventoryPPEFormRequest;
 use App\Models\AccountCode;
 use App\Models\Articles;
@@ -12,22 +13,17 @@ use App\Models\Employee;
 use App\Models\InventoryPPE;
 use App\Models\Location;
 use App\Models\Options;
-use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\PropertyCard;
 use App\Models\PropertyCardDetails;
-use App\Models\RCDesc;
 use App\Swep\Helpers\Helper;
-use http\Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
-use function Symfony\Component\String\Slugger\slug;
-use function Termwind\ValueObjects\w;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PARController extends Controller
 {
@@ -350,27 +346,11 @@ class PARController extends Controller
     }
 
     public function printRpcppeExcel(Request $request){
-        $rpciObj = InventoryPPE::query()
-            ->with(['iac'])
-            ->where(function ($query) {
-                $query->where('condition', '!=', 'DERECOGNIZED')
-                    ->orWhereNull('condition')
-                    ->orWhere('condition', '');
-            });
+        // Instantiate the export class with the request object
+        $export = new InventoryPPEExport($request);
 
-
-        if($request->has('period_covered')){
-            $rpciObj = $rpciObj->whereBetween('dateacquired',[$request->date_start,$request->date_end]);
-        }else{
-            $rpciObj = $rpciObj->whereDate('dateacquired','<=',$request->as_of);
-        }
-        if($request->has('fund_cluster') && $request->fund_cluster != ''){
-            $rpciObj = $rpciObj->where('fund_cluster','=',$request->fund_cluster);
-        }
-
-
-        $rpciObj = $rpciObj->orderBy('invtacctcode');
-        $rpciObj = $rpciObj->get();
+        // Download the Excel file
+        return Excel::download($export, 'rpcppe.xlsx');
     }
 
     public function printRpcppe(Request $request){
