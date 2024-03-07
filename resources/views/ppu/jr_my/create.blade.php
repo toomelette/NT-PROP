@@ -21,9 +21,9 @@
        $employeesCollection = $employees->map(function ($data){
             return [
                 'id' => $data->employee_no,
-                'text' => $data->firstname.' '.$data->lastname.' '.($data->name_ext != '' ? $data->name_ext.'.':'').' - '.$data->employee_no,
+                'text' => $data->prefix.' '.$data->firstname.' '.$data->lastname.' '.($data->name_ext != '' ? $data->name_ext.'.':'').' - '.$data->employee_no,
                 'employee_no' => $data->employee_no,
-                'fullname' => $data->firstname.' '.$data->lastname.' '.$data->name_ext,
+                'fullname' => $data->prefix.' '.$data->firstname.' '.$data->lastname.' '.$data->name_ext,
                 'position' => $data->position,
             ];
         })->toJson();

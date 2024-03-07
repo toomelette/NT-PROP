@@ -78,6 +78,8 @@
                 "buttons": [
                     {!! __js::dt_buttons() !!}
                 ],
+
+                "order" : [[6,'asc']],
                 "responsive": false,
                 'dom' : 'lBfrtip',
                 "processing": true,

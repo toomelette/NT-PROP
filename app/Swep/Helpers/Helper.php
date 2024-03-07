@@ -231,7 +231,25 @@ class Helper
 
         return$values[$val];
     }
-
+    public static function convertFromBytes($byte,$to){
+        $to = strtoupper($to);
+        $final = null;
+        switch ($to){
+            case 'KB':
+                $final = $byte/1000;
+                break;
+            case 'MB':
+                $final = $byte/1000000;
+                break;
+            case 'GB':
+                $final = $byte/1000000000;
+                break;
+            case 'TB':
+                $final = $byte/1000000000000;
+                break;
+        }
+        return $final;
+    }
     public static function sanitizeAutonum($num){
         if($num == '' || $num == null){
             return 0;

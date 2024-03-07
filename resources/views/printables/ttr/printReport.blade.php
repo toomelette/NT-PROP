@@ -56,7 +56,8 @@
                 <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
                     <thead >
                     <tr>
-                        <th style="text-align: center; width: 12%" >Date</th>
+                        <th style="text-align: center; width: 9%" >Departure</th>
+                        <th style="text-align: center; width: 9%" >Arrival</th>
                         <th style="text-align: center; width: 7%" >Driver</th>
                         <th style="text-align: center; width: 7%" >Odometer from</th>
                         <th style="text-align: center; width: 7%" >Odometer to</th>
@@ -64,9 +65,9 @@
                         <th style="text-align: center; width: 7%" >(B) Total fuel used</th>
                         <th style="text-align: center; width: 7%" >(C) Distance Travelled per Liter [C=A/B]</th>
                         <th style="text-align: center; width: 7%" >(D) Normal Travel KM. per Liter</th>
-                        <th style="text-align: center; width: 7%" >(E) Total Liters Consumed [E=A/D*1.1]</th>
-                        <th style="text-align: center; width: 7%" >(F) Excess[F=B-E]</th>
-                        <th style="text-align: center; width: 25%" >Remarks</th>
+                        <th style="text-align: center; width: 6%" >(E) Total Liters Consumed [E=A/D*1.1]</th>
+                        <th style="text-align: center; width: 6%" >(F) Excess[F=B-E]</th>
+                        <th style="text-align: center; width: 23%" >Remarks</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -84,9 +85,10 @@
                     @foreach($vehicle->tripTickets as $tripTicket)
 
                         <tr>
-                            <td style="text-align: center; width: 12%" >{{$tripTicket->date}}</td>
-                            <td style="text-align: center; width: 12%" >{{$tripTicket->drivers->employee->fullname}}</td>
-                            <td style="text-align: center; width: 8%"> {{$running_odo}}</td>
+                            <td style="text-align: center; width: 9%" >{{$tripTicket->departure}}</td>
+                            <td style="text-align: center; width: 9%" >{{$tripTicket->return}}</td>
+                            <td style="text-align: center; width: 7%" >{{$tripTicket->drivers->employee->fullname}}</td>
+                            <td style="text-align: center; width: 7%"> {{$running_odo}}</td>
                             @php
                                 $running_odo = $running_odo + $tripTicket->distance_traveled;
                             @endphp
@@ -99,9 +101,9 @@
                                 @endif
                             </td>
                             <td style="text-align: center; width: 7%" >{{$d = $vehicle->normal_usage}}</td>
-                            <td style="text-align: center; width: 7%" >{{number_format($e = $a / $d * 1.1, 2)}}</td>
-                            <td style="text-align: center; width: 7%" >{{number_format($b - $e, 2) }}</td>
-                            <td style="width: 30%" >{{$tripTicket->purpose}}</td>
+                            <td style="text-align: center; width: 6%" >{{number_format($e = $a / $d * 1.1, 2)}}</td>
+                            <td style="text-align: center; width: 6%" >{{number_format($b - $e, 2) }}</td>
+                            <td style="width: 23%" >{{$tripTicket->purpose}}, <br><b>Passengers: </b>{{$tripTicket->passengers}}</td>
 
                         </tr>
                     @endforeach
