@@ -25,45 +25,44 @@ class VehiclesController extends Controller
 
     public function schedule(Request $request){
         if($request->ajax() && $request->has('fetch')){
-            $requestsForVehicle = RequestForVehicle::query()
-                ->with(['vehicleAssigned','passengers'])
-                ->where('action','=','APPROVED')
-                ->where(function($q) use ($request){
-                    $q->whereBetween('from',[
+
+            $tripTicket = TripTicket::query()
+                ->with(['drivers', 'vehicles'])
+                ->where(function($w) use ($request){
+                    $w->whereBetween('departure',[
                         $request->start,
                         $request->end,
-                    ])->orWhereBetween('to',[
+                    ])->orWhereBetween('return',[
                         $request->start,
                         $request->end,
                     ]);
                 });
+
             if(!empty($request->vehicle) && $request->vehicle != null & $request->vehicle != ''){
-                $requestsForVehicle = $requestsForVehicle->whereHas('vehicleAssigned',function ($q) use ($request){
-                    $q->where('slug','=',$request->vehicle);
+                $tripTicket = $tripTicket->whereHas('vehicles',function ($w) use ($request){
+                    $w->where('slug','=',$request->vehicle);
                 });
             }
-            $requestsForVehicle = $requestsForVehicle->get();
+            $tripTicket = $tripTicket->get();
 
-            $requestsForVehicle = $requestsForVehicle->map(function ($data,$key){
+            $tripTicket = $tripTicket->map(function ($data){
                 return [
-                    'title' => $data->driverAssigned != null ? $data->driverAssigned->employee->fullname : "",
-                    'start' => Carbon::parse($data->from)->format('Y-m-d\TH:i:s'),
+                    'title' => $data->drivers != null ? $data->drivers->employee->fullname : "",
+                    'start' => Carbon::parse($data->departure)->format('Y-m-d\TH:i:s'),
                     'description' => view('ppu.vehicles.popover')
                         ->with([
                             'data' => $data,
                         ])
                         ->render(),
-                    'end' => Helper::dateFormat($data->to,'Y-m-d\TH:i:s'),
+                    'end' => Helper::dateFormat($data->return,'Y-m-d\TH:i:s'),
 //                'allDay' => false,
-                    'backgroundColor' => $data->vehicleAssigned->color ?? '',
+                    'backgroundColor' => $data->vehicles->color ?? '',
 //                'borderColor' => '#00a65a' //Success (green)
                 ];
             });
 
-            return $requestsForVehicle;
+            return $tripTicket;
         }
-
-// comment
         return view('ppu.vehicles.schedule')->with([
 
         ]);

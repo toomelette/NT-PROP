@@ -3,17 +3,20 @@
     <br>
     Destination: <span class="text-strong">{{$data->destination ?? ''}}</span>
     <br>
-    Vehicle: <span class="text-strong">{{$data->vehicleAssigned->make ?? ''}} {{$data->vehicleAssigned->model1 ?? ''}} - {{$data->vehicleAssigned->plate_no ?? ''}}</span>
+    Vehicle: <span class="text-strong">{{$data->vehicles->make ?? ''}} {{$data->vehicles->model1 ?? ''}} - {{$data->vehicles->plate_no ?? ''}}</span>
     <br>
-    From: <span class="text-strong">{{$data->from ?? ''}}</span>
+    From: <span class="text-strong">{{$data->departure ?? ''}}</span>
     <br>
-    To:<span class="text-strong">{{$data->to ?? ''}}</span>
+    To:<span class="text-strong">{{$data->return ?? ''}}</span>
     <br>
-    Authorized Passenger(s):
+    Authorized Passenger(s): {{$data->passengers}}
+    @php
+        $passengers = explode(',',$data->passengers);
+    @endphp
     @if(!empty($data->passengers))
         <ul style="padding-left: 12px">
-            @foreach($data->passengers as $passenger)
-                <li class="text-strong">{{$passenger->name}}</li>
+            @foreach($passengers as $passenger)
+                <li class="text-strong">{{$passenger}}</li>
             @endforeach
         </ul>
     @endif
