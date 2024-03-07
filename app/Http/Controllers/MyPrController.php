@@ -10,6 +10,7 @@ use App\Models\Articles;
 use App\Models\Employee;
 use App\Models\PR;
 use App\Models\PRItems;
+use App\Models\TransactionAttachments;
 use App\Models\TransactionDetails;
 use App\Models\Transactions;
 use App\Swep\Helpers\Arrays;
@@ -18,6 +19,7 @@ use App\Swep\Services\PRService;
 use App\Swep\Traits\PRTimelineTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Str;
 
 class MyPrController extends Controller
@@ -109,12 +111,34 @@ class MyPrController extends Controller
     }
 
     public function store(PRFormRequest $request){
+
         $trans = new Transactions();
         $trans->slug = Str::random();
         $trans->ref_book = 'PR';
         $trans->resp_center = $request->resp_center;
         $trans->pap_code = $request->pap_code;
         $trans->ref_no = $this->prService->getNextPRNo();
+
+        //Attachments
+        $files = [
+            'path_market_survey' => '',
+            'path_specs' => '',
+            'path_ppmp' => '',
+            'path_app' => '',
+        ];
+        $attachmentToInsert = $files;
+        $attachmentToInsert['slug'] = $trans->slug;
+        foreach ($files as $input => $null){
+            if(!empty($request->$input) && $request->$input != ''){
+                $upload = $this->uploadAttachment($request->$input,$trans,$input);
+                if($upload){
+                    $attachmentToInsert[$input] = $upload;
+                }
+            }
+        }
+        TransactionAttachments::insert($attachmentToInsert);
+        //End Attachment;
+
 //        $trans->date = Carbon::now()->format('Y-m-d');
         $trans->account_code = $request->account_code;
         $trans->document_type = $request->document_type;
@@ -150,7 +174,6 @@ class MyPrController extends Controller
         $trans->abc = $abc;
         if($trans->save()){
             TransactionDetails::insert($arr);
-
             //Send Mail
             $to = $trans->userCreated->email;
             $subject = Arrays::acronym($trans->ref_book).' No. '.$trans->ref_no;
@@ -161,6 +184,21 @@ class MyPrController extends Controller
             return $trans->only('slug');
         }
         abort(503,'Error creating PR. [PRController::store]');
+    }
+
+    private function uploadAttachment($file,$trans,$input){
+
+        if(Helper::convertFromBytes($file->getSize(),'MB') > 5){
+            abort(503,'Max file size: 5Mb');
+        }
+        $original_ext = $file->getClientOriginalExtension();
+        $original_file_name_only = str_replace('.'.$original_ext,'',$file->getClientOriginalName());
+        $new_file_name_full = Str::of($input)->replace('path_','')->upper().' '.Carbon::now()->format('Y-m-d His').'.'.$original_ext;
+        $fullPath = '/prjr_attachments/'.Auth::user()->project_id.'/'.$trans->ref_no.'/'.$new_file_name_full;
+        if(\Storage::disk('local')->put($fullPath,$file->get())){
+            return $fullPath;
+        }
+
     }
 
     public function edit($slug){

@@ -21,9 +21,9 @@
        $employeesCollection = $employees->map(function ($data){
             return [
                 'id' => $data->employee_no,
-                'text' => $data->firstname.' '.$data->lastname.' '.($data->name_ext != '' ? $data->name_ext.'.':'').' - '.$data->employee_no,
+                'text' => $data->prefix.' '.$data->firstname.' '.$data->lastname.' '.($data->name_ext != '' ? $data->name_ext.'.':'').' - '.$data->employee_no,
                 'employee_no' => $data->employee_no,
-                'fullname' => $data->firstname.' '.$data->lastname.' '.$data->name_ext,
+                'fullname' => $data->prefix.' '.$data->firstname.' '.$data->lastname.' '.$data->name_ext,
                 'position' => $data->position,
             ];
         })->toJson();
@@ -162,6 +162,32 @@
                         </div>
                     </div>
 
+                <p class="page-header-sm text-info" style="border-bottom: 1px solid #cedbe1">
+                    Attachments
+                </p>
+                <div class="row">
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('path_market_survey',[
+                      'cols' => 3,
+                      'label' => 'Market Survey: ',
+                      'type' => 'file',
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('path_specs',[
+                      'cols' => 3,
+                      'label' => 'Specs: ',
+
+                      'type' => 'file',
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('path_ppmp',[
+                      'cols' => 3,
+                      'label' => 'PPMP: ',
+                      'type' => 'file',
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('path_app',[
+                      'cols' => 3,
+                      'label' => 'APP: ',
+                      'type' => 'file',
+                    ]) !!}
+                </div>
 
             </div>
         </form>
@@ -237,14 +263,16 @@
     $("#btnSave").click(function (e) {
         e.preventDefault();
         let form = $("#add_pr_form");
-        loading_btn(form);
+
         $.ajax({
             url : '{{route("dashboard.my_pr.store")}}',
-            data : form.serialize(),
+            data : new FormData(document.getElementById('add_pr_form')),
             type: 'POST',
             headers: {
                 {!! __html::token_header() !!}
             },
+            processData: false,
+            contentType: false,
             success: function (res) {
                 succeed(form,true,false);
                 $("#pr_items_table .zero").each(function () {

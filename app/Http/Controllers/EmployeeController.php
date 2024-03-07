@@ -279,6 +279,7 @@ class EmployeeController extends Controller{
 
     public function serviceRecordUpdate(EmployeeServiceRecordCreateForm $request, $slug){
         //slug is for sr
+
         $sr = $this->employee_sr->update($request, $slug);
         if($sr){
             return $sr->only('slug');

@@ -17,7 +17,7 @@ class EmployeeServiceRecord extends Model{
 
     public $timestamps = false;
     
-
+    protected $touches = ['employee'];
 
 
 
