@@ -165,7 +165,7 @@
                 <p class="page-header-sm text-info" style="border-bottom: 1px solid #cedbe1">
                     Attachments
                 </p>
-                <div class="row">
+                <div class="row" hidden>
                     {!! \App\Swep\ViewHelpers\__form2::textbox('path_market_survey',[
                       'cols' => 3,
                       'label' => 'Market Survey: ',
