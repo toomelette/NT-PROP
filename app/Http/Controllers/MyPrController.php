@@ -110,6 +110,14 @@ class MyPrController extends Controller
         return trim($cleanedString); // Trim to remove any leading or trailing spaces
     }
 
+    function removeTitles2($inputString) {
+        $titlesToRemove = array('ENGR', 'Engr', 'engr', 'ENGR.', 'Engr.', 'engr.', 'ENGINEER', 'Engineer', 'engineer');
+        $cleanedString = str_replace($titlesToRemove, '', $inputString);
+        $cleanedString = trim($cleanedString, ". "); // Trim spaces and periods from the beginning and end
+
+        return trim($cleanedString); // Trim to remove any leading or trailing spaces
+    }
+
     public function store(PRFormRequest $request){
 
         $trans = new Transactions();
@@ -136,7 +144,9 @@ class MyPrController extends Controller
                 }
             }
         }
-        TransactionAttachments::insert($attachmentToInsert);
+        if(count($attachmentToInsert) > 0){
+            TransactionAttachments::insert($attachmentToInsert);
+        }
         //End Attachment;
 
 //        $trans->date = Carbon::now()->format('Y-m-d');
@@ -223,7 +233,7 @@ class MyPrController extends Controller
         $trans->sai = $request->sai;
         $trans->sai_date = $request->sai_date;
         $trans->purpose = $request->purpose;
-        $trans->requested_by = $this->removeTitles($request->requested_by);
+        $trans->requested_by = (Auth::user()->project_id == 1 ? $this->removeTitles($request->requested_by) : $this->removeTitles2($request->requested_by));
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
         $trans->approved_by_designation = $request->approved_by_designation;
