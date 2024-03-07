@@ -162,6 +162,7 @@
                                 <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
                                     <thead>
                                     <tr class="">
+                                        <th hidden>RFQ</th>
                                         <th>Stock No.</th>
                                         <th>Unit</th>
                                         <th>Item</th>
@@ -177,6 +178,7 @@
                                     <tbody>
                                     @foreach($trans->transDetails as $transDetail)
                                         <tr id="{{$transDetail->slug}}">
+                                            <td hidden><input class="form-control" id="items['{{$transDetail->slug}}'][rfq_slug]" name="items['{{$transDetail->slug}}'][rfq_slug]" type="text" value="{{$transDetail->rfq_slug}}"></td>
                                             <td><input class="form-control" id="items['{{$transDetail->slug}}'][stock_no]" name="items['{{$transDetail->slug}}'][stock_no]" type="text" value="{{$transDetail->stock_no}}"></td>
                                             <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit]" name="items['{{$transDetail->slug}}'][unit]" type="text" value="{{$transDetail->unit}}"></td>
                                             <td><input class="form-control" id="items['{{$transDetail->slug}}'][item]" name="items['{{$transDetail->slug}}'][item]" type="text" value="{{$transDetail->item}}"></td>

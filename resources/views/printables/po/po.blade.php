@@ -420,7 +420,7 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            //print();
+            print();
             // close();
             let set = 625;
             if($("#items_table_{{$rand}}").height() < set){

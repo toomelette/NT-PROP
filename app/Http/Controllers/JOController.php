@@ -166,6 +166,7 @@ class JOController extends Controller
                 array_push($arr,[
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
+                    'rfq_slug' => $item['rfq_slug'],
                     'stock_no' => $item['stock_no'],
                     'unit' => $item['unit'],
                     'item' => $item['item'],
