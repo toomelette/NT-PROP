@@ -99,6 +99,14 @@ class MyJrController extends Controller
         return trim($cleanedString); // Trim to remove any leading or trailing spaces
     }
 
+    function removeTitles2($inputString) {
+        $titlesToRemove = array('ATTY', 'Atty', 'atty', 'ATTY.', 'Atty.', 'atty.', 'ATTORNEY', 'Attorney', 'attorney');
+        $cleanedString = str_replace($titlesToRemove, '', $inputString);
+        $cleanedString = trim($cleanedString, ". "); // Trim spaces and periods from the beginning and end
+
+        return trim($cleanedString); // Trim to remove any leading or trailing spaces
+    }
+
     public function store(JRFormRequest $request){
         $trans = new Transactions();
         $trans->slug = Str::random();
@@ -181,7 +189,7 @@ class MyJrController extends Controller
         $trans->date = $request->date;
         $trans->certified_by = $request->certified_by;
         $trans->certified_by_designation = $request->certified_by_designation;
-        $trans->requested_by = $this->removeTitles($request->requested_by);
+        $trans->requested_by = (Auth::user()->project_id == 1 ? $this->removeTitles($request->requested_by) : $this->removeTitles2($request->requested_by));;
         //$trans->requested_by = $request->requested_by;
         $trans->requested_by_designation = $request->requested_by_designation;
         $trans->approved_by = $request->approved_by;
