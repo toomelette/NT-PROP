@@ -436,7 +436,9 @@ class Arrays
     }
 
     public static function employee(){
-        $employees = Employee::query()->get();
+        $employees = Employee::query()
+            ->where('is_active', '=', 'ACTIVE')
+            ->get();
         $arr = [];
         if(!empty($employees)){
             foreach ($employees as $employee){
