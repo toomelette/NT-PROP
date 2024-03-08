@@ -370,16 +370,41 @@ class PARController extends Controller
         if($request->has('fund_cluster') && $request->fund_cluster != ''){
             $rpciObj = $rpciObj->where('fund_cluster','=',$request->fund_cluster);
         }
+        if($request->has('employee_no') && $request->employee_no != ''){
+            $rpciObj = $rpciObj->where('acctemployee_no','=',$request->employee_no);
+        }
 
+//        invtacctcode
+        switch ($request->view){
+            case 'per_employee' :
+                $rpciObj = $rpciObj->orderBy('acctemployee_no');
+                break;
+            case 'per_account_code':
+                $rpciObj = $rpciObj->orderBy('invtacctcode');
+                break;
+            default:
+                break;
+        }
 
-        $rpciObj = $rpciObj->orderBy('invtacctcode');
         $rpciObj1 = $rpciObj->get();
         $rpciObj = $rpciObj->get();
 
-        $g = $rpciObj->groupBy('invtacctcode');
+        switch ($request->view){
+            case 'per_employee' :
+                $g = $rpciObj->groupBy('acctemployee_no');
+                break;
+            case 'per_account_code':
+                $g = $rpciObj->groupBy('invtacctcode');
+                break;
+            default:
+                break;
+        }
+
         $g = $g->map(function ($d){
             return $d->sortBy('fund_cluster')->groupBy('fund_cluster');
         });
+
+
 
 
         $accountCodes = AccountCode::query()
@@ -387,6 +412,14 @@ class PARController extends Controller
             ->mapWithKeys(function ($data){
                 return [
                     $data->code => $data->description,
+                ];
+            });
+        $employees = Employee::query()
+            ->select('slug','employee_no','fullname')
+            ->get()
+            ->mapWithKeys(function ($data){
+                return [
+                    $data->employee_no => $data->fullname,
                 ];
             });
         $units = Options::query()
@@ -405,6 +438,8 @@ class PARController extends Controller
         $accountCodeRecords1 = AccountCode::whereIn('code', $accountCodes1)->get();
         $fund_clusters1 = $rpciObj1->pluck('fund_cluster')->unique()->sort();
 
+
+
         return view('printables.rpcppe.generateAll')->with([
             'rpciObj' => $rpciObj,
             'asOf' => $asOfDate,
@@ -415,6 +450,8 @@ class PARController extends Controller
             'accountCodeRecords1' => $accountCodeRecords1,
             'fundClusters1' => $fund_clusters1,
             'units' => $units,
+            'view' => $request->view,
+            'employees' => $employees
         ]);
     }
 

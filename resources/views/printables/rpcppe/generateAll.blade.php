@@ -48,14 +48,24 @@
                             </td>
                             <td style="font-size: 20px">
                                 <p class="no-margin text-strong">REPORT ON THE PHYSICAL COUNT OF PROPERTY, PLANT & EQUIPMENT</p>
-                                <p class="no-margin text-strong" style="font-size: 18px">{{$accountCodes[$account_code]}}</p>
+                                <p class="no-margin text-strong" style="font-size: 18px">{{$accountCodes[$account_code] ?? ''}}</p>
                                 <p class="no-margin">As at SUGAR REGULATORY ADMINISTRATION, {{\App\Swep\Helpers\Values::headerAddress()}}</p>
                                 <p class="no-margin" style="font-size: 16px">As of {{ \Carbon\Carbon::parse($asOf)->format('F d, Y') }}</p>
                             </td>
                         </tr>
                     </table>
                     <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman">
-                        <strong>Inventory Type: {{$account_code}} - {{$accountCodes[$account_code]}}</strong>
+                       @switch($view)
+                           @case('per_employee')
+                                <strong>Employee: {{$employees[$account_code] ?? ''}} - {{$account_code}}</strong>
+                           @break
+                           @case('per_account_code')
+                                <strong>Inventory Type: {{$account_code}} - {{$accountCodes[$account_code] ?? ''}}</strong>
+                           @break
+
+                           @default
+                           @break
+                       @endswitch
                     </h5>
 
                     <div>
@@ -131,7 +141,18 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="4" class="text-strong">SUB TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code]}} - {{$fund}}</td>
+                                @switch($view)
+                                    @case('per_employee')
+                                        <td colspan="4" class="text-strong">SUB TOTAL: {{$employees[$account_code] ?? ''}} {{$account_code}} - {{$accountCodes[$account_code] ?? ''}} - {{$fund}}</td>
+                                        @break
+                                    @case('per_account_code')
+                                        <td colspan="4" class="text-strong">SUB TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code] ?? ''}} - {{$fund}}</td>
+                                        @break
+                                    @default
+                                        @break
+                                @endswitch
+
+
                                 <td class="text-strong" style="text-align: right;">{{ number_format($rows->sum('acquiredcost'), 2) }}</td>
                             </tr>
                             </tbody>
@@ -145,7 +166,7 @@
                         <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
                             <tbody class="">
                                 <tr>
-                                    <td class="text-strong" style="width: 50%">TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code]}}
+                                    <td class="text-strong" style="width: 50%">TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code] ?? ''}}
                                     </td>
                                     <td class="text-strong" style="width: 50%">{{ number_format($inventoryTypeTotal, 2) }}</td>
                                 </tr>

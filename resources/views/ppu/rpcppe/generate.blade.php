@@ -16,11 +16,29 @@
                     <div class="embed-responsive embed-responsive-16by9 hidden" style="height: 1019.938px;">
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
+                    {!! \App\Swep\ViewHelpers\__form2::select('view',[
+                        'id' => 'view',
+                        'label' => 'Layout:',
+                        'cols' => 3,
+                        'options' => [
+                            'per_employee' => 'Per Employee',
+                            'per_account_code' => 'Per Account Code',
+                        ],
+                        'required' => 'required',
+                    ]) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
                     'id' => 'fund_cluster',
                     'label' => 'Fund Cluster:',
                     'cols' => 3,
                     'options' => \App\Swep\Helpers\Arrays::fundSources(),
+                    ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::select('employee_no',[
+                    'id' => 'employee_no',
+                    'label' => 'Employee Number',
+                    'cols' => 3,
+                    'options' => \App\Swep\Helpers\Arrays::employee(),
                     ]) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('as_of',[
@@ -140,5 +158,6 @@
             });
         });
 
+        $("#employee_no").select2();
     </script>
 @endsection

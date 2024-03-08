@@ -8,6 +8,7 @@ use App\Models\AccountCode;
 use App\Models\DocumentType;
 use App\Models\Drivers;
 use App\Models\EmailRecipients;
+use App\Models\Employee;
 use App\Models\JRType;
 use App\Models\Location;
 use App\Models\ModeOfProcurement;
@@ -432,6 +433,17 @@ class Arrays
                 ->pluck('employee.fullname','employee_slug')
                 ->toArray();
         }
+    }
+
+    public static function employee(){
+        $employees = Employee::query()->get();
+        $arr = [];
+        if(!empty($employees)){
+            foreach ($employees as $employee){
+                $arr[$employee->employee_no] = $employee->employee_no .' - '. $employee->fullname;
+            }
+        }
+        return $arr;
     }
 
     public static function recipientsOfProcurementUpdates(){
