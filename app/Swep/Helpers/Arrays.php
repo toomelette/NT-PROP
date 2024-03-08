@@ -438,6 +438,7 @@ class Arrays
     public static function employee(){
         $employees = Employee::query()
             ->where('is_active', '=', 'ACTIVE')
+            ->whereIn('locations', ['VISAYAS', 'LUZON/MINDANAO'])
             ->get();
         $arr = [];
         if(!empty($employees)){
