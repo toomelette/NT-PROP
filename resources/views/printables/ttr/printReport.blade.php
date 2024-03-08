@@ -103,7 +103,18 @@
                             <td style="text-align: center; width: 7%" >{{$d = $vehicle->normal_usage}}</td>
                             <td style="text-align: center; width: 6%" >{{number_format($e = $a / $d * 1.1, 2)}}</td>
                             <td style="text-align: center; width: 6%" >{{number_format($b - $e, 2) }}</td>
-                            <td style="width: 23%" >{{$tripTicket->purpose}}, <br><b>Passengers: </b>{{$tripTicket->passengers}}</td>
+                            <td style="width: 23%">
+                                {{$tripTicket->purpose}}
+                                <br><b>Passengers: </b>{{$tripTicket->passengers}}
+
+                                @if($tripTicket->gas_issued != 0)
+                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
+                                @endif
+
+                                @if($tripTicket->purchased != 0)
+                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}
+                                @endif
+                            </td>
 
                         </tr>
                     @endforeach
