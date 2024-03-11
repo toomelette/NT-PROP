@@ -2,13 +2,13 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Generate Fuel Consumption Report</h1>
+        <h1>Generate Monthly Report of Official Travels</h1>
     </section>
 @endsection
 @section('content2')
     <section class="content col-md-12">
         <div class="box box-solid">
-            <form id="ttr_form" action="{{route('dashboard.ttr.printReport')}}">
+            <form id="ttr_form" action="{{route('dashboard.ttr.printReport2')}}">
                 <div class="box-header with-border">
                 </div>
                 <div class="box-body">
@@ -22,11 +22,11 @@
 {{--                    'options' => \App\Swep\Helpers\Arrays::drivers(),--}}
 {{--                    ]) !!}--}}
 
-                    {!! \App\Swep\ViewHelpers\__form2::select('vehicle',[
-                    'id' => 'vehicles',
-                    'label' => 'Vehicle',
+                    {!! \App\Swep\ViewHelpers\__form2::select('driver',[
+                    'id' => 'drivers',
+                    'label' => 'Driver',
                     'cols' => 3,
-                    'options' => \App\Swep\Helpers\Arrays::vehicles(),
+                    'options' => \App\Swep\Helpers\Arrays::drivers(),
                     ]) !!}
 
 
