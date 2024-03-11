@@ -294,7 +294,7 @@
             let km = $(this).val();
             console.log(vehicleUsage);
             let consumption = km / vehicleUsage;
-            $(".consumedd").val(consumption.toFixed(2));
+            $(".consumedd").val(consumption.toFixed(3));
             $('.consumedd').change();
         });
 
