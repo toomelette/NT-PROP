@@ -57,6 +57,7 @@
                     <thead>
                     <tr>
                         <th style="text-align: center; width: 15%" >Date</th>
+                        <th style="text-align: center; width: 15%" >Vehicle</th>
                         <th style="text-align: center; width: 15%" >Distance Travelled (KM)</th>
                         <th style="text-align: center; width: 15%" >Gasoline Consumed (L)</th>
                         <th style="text-align: center; width: 55%" >Remarks</th>
@@ -74,10 +75,19 @@
                         @php
                         $dtotal += $tripTicket->distance_traveled;
                         $tconsumed += $tripTicket->consumed;
+                        $v = "";
                         @endphp
 
+                        @foreach($vehicles as $vehicle)
+                            @if($vehicle->slug === $tripTicket->vehicle)
+                                @php
+                                    $v = $vehicle->make . " " . $vehicle->model1 . " - " . $vehicle->plate_no
+                                @endphp
+                            @endif
+                        @endforeach
                         <tr>
                             <td style="text-align: center; width: 9%" >{{$tripTicket->date}}</td>
+                            <td style="text-align: center; width: 9%" >{{$v}}</td>
                             <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>
                             <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>
                             <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}
@@ -93,8 +103,8 @@
 
                     @endforeach
                         <tr>
-
-                            <td style="text-align: center; width: 9%" >Total</td>
+                            <td style="text-align: center; width: 9%" ></td>
+                            <td style="text-align: center; width: 9%;" >TOTAL</td>
                             <td style="text-align: center; width: 9%" >{{$dtotal}}</td>
                             <td style="text-align: center; width: 9%" >{{$tconsumed}}</td>
                         </tr>

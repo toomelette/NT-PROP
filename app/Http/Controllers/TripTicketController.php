@@ -290,10 +290,12 @@ class TripTicketController extends Controller
             $drivers = $drivers->where('employee_slug','=',$request->driver);
         }
         $drivers = $drivers->get();
+        $vehicles = Vehicles::get();
 //        dd($drivers);
         return view('printables.ttr.printReport2')->with([
             'ttreport2' => $ttreport2,
-            'drivers' => $drivers
+            'drivers' => $drivers,
+            'vehicles' => $vehicles
         ]);
     }
 
