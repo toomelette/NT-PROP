@@ -23,6 +23,11 @@ class ICSController extends Controller
         if($request->ajax() && $request->has('draw')){
             return $this->dataTable($request);
         }
+
+        if($request->has('ics_by_employee')){
+            return  $this->printByEmployee($request->employee);
+        }
+
         return view('ppu.ics.index');
     }
 
@@ -216,6 +221,16 @@ class ICSController extends Controller
             'ics' => $ics,
             'iar' => $iar,
             'rc' => $rc
+        ]);
+    }
+
+    public function printByEmployee($employee){
+        $ics = Transactions::query()->where('requested_by', $employee)->where('ref_book', 'ICS')->orderBy('fund_cluster')->get();
+        $uniquePosition = $ics->unique('requested_by_designation')->pluck('requested_by_designation')->first();
+        return view('printables.ics.printByEmployee')->with([
+            'icsS' => $ics,
+            'employee' => $employee,
+            'position' => $uniquePosition,
         ]);
     }
 
