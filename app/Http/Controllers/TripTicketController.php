@@ -287,7 +287,7 @@ class TripTicketController extends Controller
                 }
             ]);
         if($request->has('driver') && $request->driver != ''){
-            $drivers = $drivers->where('slug','=',$request->driver);
+            $drivers = $drivers->where('employee_slug','=',$request->driver);
         }
         $drivers = $drivers->get();
 //        dd($drivers);

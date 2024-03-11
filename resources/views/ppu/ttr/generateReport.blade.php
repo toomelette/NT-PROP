@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Generate Trip Ticket Report</h1>
+        <h1>Generate Fuel Consumption Report</h1>
     </section>
 @endsection
 @section('content2')
