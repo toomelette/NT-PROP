@@ -349,7 +349,7 @@
         $(".distanceTravelled").change(function (){
            let km = $(this).val();
            let consumption = km / vehicleUsage;
-           $(".consumedd").val(consumption.toFixed(2));
+           $(".consumedd").val(consumption.toFixed(3));
         });
     </script>
 @endsection

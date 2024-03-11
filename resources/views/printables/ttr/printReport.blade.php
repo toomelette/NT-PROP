@@ -54,7 +54,7 @@
             </h5>
             <div>
                 <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
-                    <thead >
+                    <thead>
                     <tr>
                         <th style="text-align: center; width: 9%" >Departure</th>
                         <th style="text-align: center; width: 9%" >Arrival</th>
@@ -107,13 +107,13 @@
                                 {{$tripTicket->purpose}}
                                 <br><b>Passengers: </b>{{$tripTicket->passengers}}
 
-                                @if($tripTicket->gas_issued != 0)
-                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
-                                @endif
+{{--                                @if($tripTicket->gas_issued != 0)--}}
+{{--                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}--}}
+{{--                                @endif--}}
 
-                                @if($tripTicket->purchased != 0)
-                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}
-                                @endif
+{{--                                @if($tripTicket->purchased != 0)--}}
+{{--                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}--}}
+{{--                                @endif--}}
                             </td>
 
                         </tr>
@@ -143,7 +143,6 @@
                         </td><br>
                     </div>
                 </div>
-
             </div>
         </div>
     @endforeach
