@@ -129,7 +129,7 @@
                     <p style="text-align: left;">Received by:</p>
                     <p><br></p>
                     <p style="margin: 0; padding:0; font-size: 16px;"><strong><u>{{$employee}}</u></strong></p>
-                    <p style="margin: 0; padding:0">{{$ics->requested_by_designation}}</p>
+                    <p style="margin: 0; padding:0">{{$position}}</p>
                     <p>_______________________________</p>
                     <p style="margin-top: -10px;">Date</p>
                 </div>
