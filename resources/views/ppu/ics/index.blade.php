@@ -7,12 +7,35 @@
     </section>
 @endsection
 @section('content2')
+    @php
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
 
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'firstname' =>  $data->firstname,
+                'middlename' =>  $data->middlename,
+                'lastname' =>  $data->lastname,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
                 <h3 class="box-title">Manage Inventory Custodian Slip</h3>
                 <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#ics-by-employee"><i class="fa fa-print"></i> ICS by Employee</button>
                     <a class="btn btn-primary btn-sm" href="{{route('dashboard.ics.create')}}" > <i class="fa fa-plus"></i> Create</a>
                 </div>
             </div>
@@ -47,13 +70,45 @@
                 </div>
             </div>
         </div>
-        {!! \App\Swep\ViewHelpers\__html::blank_modal('edit_modal','lg') !!}
     </section>
 @endsection
-
+@section('modals')
+    <div class="modal fade" id="ics-by-employee" aria-labelledby="ics-by-employee">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form id="ics-by-employee-form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">ICS by Employee</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            {!! \App\Swep\ViewHelpers\__form2::select('select-employee',[
+                                    'label' => 'Employee:',
+                                    'cols' => 12,
+                                    'options' => [],
+                                    'id' => 'select-employee',
+                                ]) !!}
+                            <div class="hidden">
+                                {!! \App\Swep\ViewHelpers\__form2::textbox('employee',[
+                                'label' => '',
+                                'cols' => 12,
+                                ]) !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-sm">Generate</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
 @section('scripts')
     <script type="text/javascript">
         let active;
+        var data = {!!$employeesCollection!!};
         $(document).ready(function () {
             //-----DATATABLES-----//
             modal_loader = $("#modal_loader").parent('div').html();
@@ -115,27 +170,31 @@
 
             });
 
-            /*$("body").on("click",".edit_btn",function () {
-                let btn = $(this);
-                load_modal2(btn);
-                let uri = '{{route("dashboard.ics.edit","slug")}}';
-                uri = uri.replace('slug',btn.attr('data'));
-                $.ajax({
-                    url : uri,
-                    type: 'GET',
-                    headers: {
-                        {!! __html::token_header() !!}
-                    },
-                    success: function (res) {
-                        populate_modal2(btn,res);
-                    },
-                    error: function (res) {
-                        console.log(res);
-                        populate_modal2_error(res);
-                    }
-                })
-            });*/
+            $("#select-employee").select2({
+                data : data,
+            });
 
+            $("#select-employee").change(function (){
+                let value = $(this).val();
+                if(value != ''){
+                    let index = data.findIndex( object => {
+                        return object.id == value;
+                    });
+                    var middleName = data[index].middlename;
+                    var middleInitial = middleName != null ? middleName.charAt(0) : "";
+                    var mI = middleInitial != "" ? middleInitial + '. ' : "";
+                    $("input[name='acctemployee_fname']").val(data[index].firstname +' '+ mI + data[index].lastname);
+                }else{
+                    $("input[name='acctemployee_fname']").val('');
+                }
+            });
+
+            $("#ics-by-employee-form").submit(function (e){
+                e.preventDefault();
+                let url = '{{route("dashboard.ics.index")}}?ics_by_employee=true&';
+                let form = $(this);
+                window.open(url+form.serialize(), '_blank');
+            })
         })
     </script>
 @endsection
