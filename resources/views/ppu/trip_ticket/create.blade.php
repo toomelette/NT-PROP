@@ -219,7 +219,7 @@
             let t = $(this).val();
             let total1 = $('input[name="total"]').val();
             let dif = total1 - t;
-            $('input[name="gas_remaining_balance"]').val(dif);
+            $('input[name="gas_remaining_balance"]').val(dif.toFixed(3));
         });
 
         $('.odometer').on("input", function () {
@@ -229,6 +229,12 @@
             $('input[name="distance_traveled"]').val(tot);
             $('input[name="distance_traveled"]').change();
             $('.consumedd').change();
+        });
+
+        $(".distanceTravelled").change(function (){
+            let km = $(this).val();
+            let consumption = km / vehicleUsage;
+            $(".consumedd").val(consumption.toFixed(3));
         });
 
 
@@ -345,11 +351,7 @@
                 }
             })
         });
-        $(".distanceTravelled").change(function (){
-           let km = $(this).val();
-           let consumption = km / vehicleUsage;
-           $(".consumedd").val(consumption.toFixed(3));
-        });
+
     </script>
 @endsection
 
