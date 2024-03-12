@@ -91,11 +91,6 @@ class Employee extends Model{
 
     protected $fillable = ['employee_no'];
 
-    public function getFullnameAttribute()
-    {
-        return "{$this->firstname} {$this->middlename} {$this->lastname}";
-    }
-
     public function getActivitylogOptions():LogOptions {
         return LogOptions::defaults();
     }

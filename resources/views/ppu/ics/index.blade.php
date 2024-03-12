@@ -183,9 +183,9 @@
                     var middleName = data[index].middlename;
                     var middleInitial = middleName != null ? middleName.charAt(0) : "";
                     var mI = middleInitial != "" ? middleInitial + '. ' : "";
-                    $("input[name='acctemployee_fname']").val(data[index].firstname +' '+ mI + data[index].lastname);
+                    $("input[name='employee']").val(data[index].firstname +' '+ mI + data[index].lastname);
                 }else{
-                    $("input[name='acctemployee_fname']").val('');
+                    $("input[name='employee']").val('');
                 }
             });
 
