@@ -45,7 +45,7 @@
                         ]) !!}
                     </div>
                 <div class="box-footer pull-left">
-                    <button class="btn btn-primary btn-md" type="submit">
+                    <button class="btn btn-primary btn-md" type="submit" >
                         <i class="fa fa-print; "></i> Print
                     </button>
                 </div>
@@ -69,6 +69,7 @@
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function() {
+
 
             // Add change event listener to the checkbox
             // $('#period_covered').change(function() {

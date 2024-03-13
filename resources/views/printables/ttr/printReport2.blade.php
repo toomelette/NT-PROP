@@ -91,6 +91,7 @@
                             <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>
                             <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>
                             <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}
+                                <br><b>Passengers: </b>{{$tripTicket->passengers}}
                                 @if($tripTicket->gas_issued != 0)
                                     <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
                                 @endif

@@ -42,6 +42,17 @@ class GPController extends Controller
         if($request->has('year') && $request->year != ''){
             $gp = $gp->where('gp_number','like',$request->year.'%');
         }
+
+        if($request->has('item') && $request->item != null){
+            $gp->whereIn('slug',function ($q) use ($request){
+                $q->select('transaction_slug')
+                    ->from(with(new GatePassDetails)->getTable())
+                    ->where('item','like','%'.$request->item.'%')
+                    ->orWhere('description','like','%'.$request->item.'%');
+            });
+
+        }
+
         return DataTables::of($gp)
             ->addColumn('action', function ($data) {
                 return view('ppu.gp.dtActions')->with([

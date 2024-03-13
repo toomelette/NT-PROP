@@ -45,7 +45,7 @@
                         ]) !!}
                     </div>
                 <div class="box-footer pull-left">
-                    <button class="btn btn-primary btn-md" type="submit">
+                    <button class="btn btn-primary btn-md" type="submit" target="_blank">
                         <i class="fa fa-print; "></i> Print
                     </button>
                 </div>

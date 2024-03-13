@@ -38,7 +38,23 @@
 
                             </div>
                         </form>
+                        <div class="row">
+                            <form id="search_by_item_form">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Search by Item: <small class="text-danger">(This may take some time.)</small></label>
+                                        <div class="input-group">
+                                            <input name="item" type="text" class="form-control">
+                                            <span class="input-group-btn">
+                                            <button type="submit" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
 
             </div>
@@ -189,6 +205,19 @@
             filterDT(gp_tbl);
         });
         $("#resp_center_select2").select2();
+
+        $("body").on("change",".dt_filter",function () {
+            let form = $(this).parents('form');
+            $("#search_by_item_form").get(0).reset();
+            filterDT(gp_tbl);
+        })
+
+
+        $("#search_by_item_form").submit(function (e) {
+            e.preventDefault();
+            let data = $("#search_by_item_form").serialize();
+            gp_tbl.ajax.url("{{Request::url()}}?"+$("#filter_form").serialize()+"&"+data).load();
+        })
 
     </script>
 @endsection
