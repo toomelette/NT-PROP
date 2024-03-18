@@ -66,7 +66,9 @@
                     @foreach($vehicle->tripTickets as $tripTicket)
 
                         <tr>
-                            <td style="text-align: center; width: 9%" >{{$tripTicket->date}}</td>
+                            <td style="text-align: center; width: 9%">
+                                    <?php echo date('Y-m-d', strtotime($tripTicket->departure ?? null)); ?>
+                            </td>
                             <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>
                             <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>
                             <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}
