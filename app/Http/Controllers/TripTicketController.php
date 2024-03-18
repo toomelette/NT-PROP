@@ -274,34 +274,49 @@ class TripTicketController extends Controller
         $ttreport2 = TripTicket::all();
 
 
-        $drivers = Drivers::query()
+//        $drivers = Drivers::query()
+//            ->with([
+//                'tripTickets' => function($w) use($request){
+//
+//                    if($request->has('date_start') && $request->date_start != ''){
+//                        $w->where('date','>=',$request->date_start);
+//                    }
+//                    if($request->has('date_end') && $request->date_end != ''){
+//                        $w->where('date','<=',$request->date_end);
+//                    }
+//                }
+//            ]);
+//        if($request->has('driver') && $request->driver != ''){
+//            $drivers = $drivers->where('employee_slug','=',$request->driver);
+//        }
+//        $drivers = $drivers->get();
+//        $vehicles = Vehicles::get();
+////        dd($drivers);
+//        return view('printables.ttr.printReport2')->with([
+//            'ttreport2' => $ttreport2,
+//            'drivers' => $drivers,
+//            'vehicles' => $vehicles
+//        ]);
+
+        $vehicles = Vehicles::query()
             ->with([
-                'tripTickets' => function($w) use($request){
+                'tripTickets' => function($q) use($request){
 
                     if($request->has('date_start') && $request->date_start != ''){
-                        $w->where('date','>=',$request->date_start);
+                        $q->where('date','>=',$request->date_start);
                     }
                     if($request->has('date_end') && $request->date_end != ''){
-                        $w->where('date','<=',$request->date_end);
+                        $q->where('date','<=',$request->date_end);
                     }
                 }
             ]);
-        if($request->has('driver') && $request->driver != ''){
-            $drivers = $drivers->where('employee_slug','=',$request->driver);
+        if($request->has('vehicle') && $request->vehicle != ''){
+            $vehicles = $vehicles->where('slug','=',$request->vehicle);
         }
-        $drivers = $drivers->get();
-        $vehicles = Vehicles::get();
-//        dd($drivers);
+        $vehicles = $vehicles->get();
         return view('printables.ttr.printReport2')->with([
             'ttreport2' => $ttreport2,
-            'drivers' => $drivers,
             'vehicles' => $vehicles
         ]);
     }
-
-
-
-
-
-
 }

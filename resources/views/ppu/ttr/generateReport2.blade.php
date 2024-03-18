@@ -22,11 +22,11 @@
 {{--                    'options' => \App\Swep\Helpers\Arrays::drivers(),--}}
 {{--                    ]) !!}--}}
 
-                    {!! \App\Swep\ViewHelpers\__form2::select('driver',[
-                    'id' => 'drivers',
-                    'label' => 'Driver',
+                    {!! \App\Swep\ViewHelpers\__form2::select('vehicle',[
+                    'id' => 'vehicle',
+                    'label' => 'Vehicle',
                     'cols' => 3,
-                    'options' => \App\Swep\Helpers\Arrays::drivers(),
+                    'options' => \App\Swep\Helpers\Arrays::vehicles(),
                     ]) !!}
 
 

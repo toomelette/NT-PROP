@@ -54,7 +54,7 @@
                              ) !!}
 
 
-                        {!! \App\Swep\ViewHelpers\__form2::textbox('purpose',[
+                        {!! \App\Swep\ViewHelpers\__form2::textarea('purpose',[
                         'label' => 'Purpose:',
                         'cols' => 3,
                          ],

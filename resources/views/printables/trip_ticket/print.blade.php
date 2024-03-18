@@ -82,34 +82,23 @@
 
                     <tr style=" width: 100%; border-bottom: 1px solid black; ">
 
-                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: center;">
+                        <td  rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: top;">
                             Purpose:
                         </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 34.7%">
                             {{$tt->purpose}}
                         </td>
 
-                        <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
-                            Destination:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->destination}}
-                        </td>
-                    </tr>
-
-                </table>
-
-                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;" >
-
-
-                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
-
-                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: center;">
+                        <td  style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: center;">
                             Departure:
                         </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
+                        <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
                             {{$tt->departure}}
                         </td>
+
+                    </tr>
+
+                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
 
                         <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
                             Return:
@@ -117,6 +106,24 @@
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
                             {{$tt->return}}
                         </td>
+
+                    </tr>
+
+                </table>
+
+                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;" >
+
+
+                    <tr style=" width: 100%; border-left: 1px solid black; border-bottom: 1px solid black; ">
+
+                        <td style="border-right: 1px solid black; width: 13.62%; vertical-align: center;">
+                            Destination:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 87.25%">
+                            {{$tt->destination}}
+                        </td>
+
+
                     </tr>
 
                 </table>
