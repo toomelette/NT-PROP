@@ -135,6 +135,11 @@ class RequestForVehicleController extends Controller
             ->editColumn('created_at',function($data){
                 return Carbon::parse($data->created_at)->format('M. d, Y');
             })
+            ->editColumn('requested_by',function ($data){
+                return view('ppu.request_vehicle.dtName')->with([
+                    'data' => $data,
+                ]);
+            })
             ->escapeColumns([])
             ->setRowId('slug')
             ->toJson();

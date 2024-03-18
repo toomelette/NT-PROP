@@ -107,13 +107,13 @@
                                 {{$tripTicket->purpose}}
                                 <br><b>Passengers: </b>{{$tripTicket->passengers}}
 
-{{--                                @if($tripTicket->gas_issued != 0)--}}
-{{--                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}--}}
-{{--                                @endif--}}
+                                @if($tripTicket->gas_issued != 0)
+                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
+                                @endif
 
-{{--                                @if($tripTicket->purchased != 0)--}}
-{{--                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}--}}
-{{--                                @endif--}}
+                                @if($tripTicket->purchased != 0)
+                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}
+                                @endif
                             </td>
 
                         </tr>
