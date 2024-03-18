@@ -57,14 +57,17 @@
                                'label' => 'Destination:',
                            ]) !!}
 
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by',[
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by', [
+                                 'cols' => 3,
+                                 'label' => 'Requested by:',
+                                 'readonly' => true, // Add readonly attribute
+                             ], Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_position', [
                                 'cols' => 3,
-                                'label' => 'Requested by:'
-                            ],Auth::user()->employee->firstname.' '.Auth::user()->employee->lastname) !!}
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('requested_by_position',[
-                                'cols' => 3,
-                                'label' => 'Position:'
-                            ],Auth::user()->employee->position) !!}
+                                'label' => 'Position:',
+                                'readonly' => true, // Add readonly attribute
+                            ], Auth::user()->employee->position) !!}
                         </div>
 
                     </div>
