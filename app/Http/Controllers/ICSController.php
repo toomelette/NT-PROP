@@ -51,8 +51,6 @@ class ICSController extends Controller
     }
 
     public function create(){
-        //$suppliers = Suppliers::orderBy('name')->pluck('name','slug');
-        //return view('ppu.ics.create', compact('suppliers'));
         return view('ppu.ics.create');
     }
 

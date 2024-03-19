@@ -62,6 +62,11 @@
                           'label' => 'Requested by (Designation): '
                         ]) !!}
 
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('abcTotal',[
+                          'cols' => 3,
+                          'label' => 'ABC: '
+                        ]) !!}
+
                     <button data-target="#aq_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=aq_items" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
                     <table class="table-bordered table-striped table-condensed" style="width: 100%; overflow-y: auto" id="aq_items_table">
                         <thead id="items_head">
