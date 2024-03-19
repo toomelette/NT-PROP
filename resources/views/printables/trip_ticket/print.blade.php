@@ -152,18 +152,18 @@
                         </div>
 
                         <div style="width: 10%; padding-right: 10px; border-right: 1px solid black; text-align: right;">
-                            <h5><b style="margin-left: 2px">{{ $tt->gas_balance ?? "________" }}</b></h5>
-                            <h5><b style="margin-left: 2px">{{ $tt->gas_issued ?? "________" }}</b></h5>
-                            <h5><b style="margin-left: 2px">{{ $tt->purchased ?? "________" }}</b></h5>
-                            <h5><b style="margin-left: 2px">{{ $tt->total ?? "________" }}</b></h5>
+                            <h5><u><b style="margin-left: 2px">{{ $tt->gas_balance ?? "________" }}</b></u></h5>
+                            <h5><u><b style="margin-left: 2px">{{ $tt->gas_issued ?? "________" }}</b></u></h5>
+                            <h5><u><b style="margin-left: 2px">{{ $tt->purchased ?? "________" }}</b></u></h5>
+                            <h5><u><b style="margin-left: 2px">{{ $tt->total ?? "________" }}</b></u></h5>
                         </div>
 
                         <!-- Middle column -->
                         <div style="width: 30%; padding: 10px; border-right: 1px solid black;">
                             <h5 style="margin: 0; text-align: left;">Fuel consumed (L): </h5>
-                            <h5><b style="margin-left: 5px; text-align: left;">{{$tt->consumed ?? "________" }}</b></h5>
+                            <h5><u><b style="margin-left: 5px; text-align: left;">{{$tt->consumed ?? "________" }}</b></u></h5>
                             <h5 style="margin: 0; text-align: left;">Balance at end of Trip (L): </h5>
-                            <h5><b style="margin-left: 2px; text-align: left;">{{$tt->gas_remaining_balance ?? "________" }}</b></h5>
+                            <h5><u><b style="margin-left: 2px; text-align: left;">{{$tt->gas_remaining_balance ?? "________" }}</b></u></h5>
                         </div>
 
                         <!-- Right column -->
@@ -174,8 +174,9 @@
                         </div>
 
                         <div style="width: 10%; text-align: right; padding-right: 10px; ">
-                            <h5><b style="margin-left: 2px">{{$prevOdo = $tt->vehicles->odometer + $tt->vehicles->tripTickets->sum('distance_traveled') ?? "________" }}</b></h5>
+                            <h5><u><b style="margin-left: 2px">{{$prevOdo = $tt->vehicles->odometer + $tt->vehicles->tripTickets->sum('distance_traveled') ?? "________" }}</b></u></h5>
                             <h5>
+                                <u>
                                 <b style="margin-left: 2px">
                                     @if($tt->distance_traveled != null)
                                     {{$prevOdo + $tt->distance_traveled ?? "________" }}
@@ -183,8 +184,9 @@
                                         ________
                                     @endif
                                 </b>
+                                </u>
                             </h5>
-                            <h5><b style="margin-left: 5px">{{$tt->distance_traveled ?? "________" }}</b></h5>
+                            <h5><u><b style="margin-left: 5px">{{$tt->distance_traveled ?? "________" }}</b></u></h5>
                         </div>
                     </div>
 
