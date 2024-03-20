@@ -34,11 +34,6 @@
                 <div class="box box-success">
                     <div class="box-body">
                         <div class="row">
-
-{{--                            {!! \App\Swep\ViewHelpers\__form2::textbox('ref_no',[--}}
-{{--                                        'label' => 'ICS No:',--}}
-{{--                                        'cols' => 3,--}}
-{{--                                    ]) !!}--}}
                             {!! \App\Swep\ViewHelpers\__form2::select('account_code',[
                                     'label' => 'Account Code:',
                                     'cols' => 3,

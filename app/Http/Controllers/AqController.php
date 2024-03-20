@@ -252,7 +252,7 @@ class AqController extends Controller
                 $abc = $abc + $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']);
             }
         }
-        $trans->abc = $abc;
+        $trans->abc = $abc == 0 ? Helper::sanitizeAutonum($request->abcTotal) : $abc;
         if($trans->save()){
             TransactionDetails::insert($arr);
 
