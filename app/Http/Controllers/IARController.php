@@ -249,6 +249,7 @@ class IARController extends Controller
         $trans->supplier = $request->supplier;
         $trans->resp_center = $request->resp_center;
         $trans->requested_by = $request->requested_by;
+        $trans->cross_ref_no = $request->cross_ref_no;
 
 
         $totalabc = 0;
