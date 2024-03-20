@@ -34,8 +34,8 @@
         }
     </style>
 
-    @foreach($vehicles as $vehicle)
-        <div class="page-breaks">
+@foreach($vehicles as $vehicle)
+    <div class="page-breaks">
             <table style="width: 100%; font-family: 'Cambria',Times New Roman">
                 <tr>
                     <td style="width: 20%">
@@ -52,140 +52,66 @@
             <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman">
                 <strong>Vehicle: {{$vehicle->make}} {{$vehicle->model1}} - {{$vehicle->plate_no}}</strong>
             </h5>
-            <div>
-                <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
-                    <thead>
+
+        <div>
+            <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
+                <thead>
+                <tr>
+                    <th style="text-align: center; width: 15%" >Date</th>
+                    <th style="text-align: center; width: 15%" >Distance Travelled (KM)</th>
+                    <th style="text-align: center; width: 15%" >Gasoline Consumed (L)</th>
+                    <th style="text-align: center; width: 55%" >Remarks</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($vehicle->tripTickets as $tripTicket)
+
                     <tr>
-                        <th style="text-align: center; width: 15%" >Date</th>
-                        <th style="text-align: center; width: 15%" >Distance Travelled (KM)</th>
-                        <th style="text-align: center; width: 15%" >Gasoline Consumed (L)</th>
-                        <th style="text-align: center; width: 55%" >Remarks</th>
+                        <td style="text-align: center; width: 9%">
+                                <?php echo date('Y-m-d', strtotime($tripTicket->departure ?? null)); ?>
+                        </td>
+                        <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>
+                        <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>
+                        <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}
+                            <br><b>Passengers: </b>{{$tripTicket->passengers}}
+                            @if($tripTicket->gas_issued != 0)
+                                <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
+                            @endif
+
+                            @if($tripTicket->purchased != 0)
+                                <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}
+                            @endif
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($vehicle->tripTickets as $tripTicket)
+                @endforeach
+                </tbody>
+            </table>
 
-                        <tr>
-                            <td style="text-align: center; width: 9%">
-                                    <?php echo date('Y-m-d', strtotime($tripTicket->departure ?? null)); ?>
-                            </td>
-                            <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>
-                            <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>
-                            <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}
-                                <br><b>Passengers: </b>{{$tripTicket->passengers}}
-                                @if($tripTicket->gas_issued != 0)
-                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
-                                @endif
-
-                                @if($tripTicket->purchased != 0)
-                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}
-                                @endif
-                            </td>
-                        </tr>
-
-                    @endforeach
-                    </tbody>
-                </table>
-
-                <div style="font-family: Cambria,Arial; display: flex;">
-                    <div style="flex: 1; text-align: center; ">
-                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center;">
-                            Prepared By:
-                        </h5><br>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            <b><u>{{$tripTicket->drivers->employee->fullname ?? null}}</u></b>
-                        </td><br>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            DRIVER
-                        </td><br>
-                    </div>
-                    <div style="font-family: Cambria,Arial; flex: 1; text-align: center; ">
-                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            <b><u>{{$tripTicket->approved_by ?? null}}</u></b>
-                        </td><br>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            {{$tripTicket->approved_by_designation ?? null}}
+            <div style="font-family: Cambria,Arial; display: flex;">
+                <div style="flex: 1; text-align: center; ">
+                    <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center;">
+                        Prepared By:
+                    </h5><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        <b><u>{{$tripTicket->drivers->employee->fullname ?? null}}</u></b>
+                    </td><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        DRIVER
                     </td><br>
                 </div>
+                <div style="font-family: Cambria,Arial; flex: 1; text-align: center; ">
+                    <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        <b><u>{{$tripTicket->approved_by ?? null}}</u></b>
+                    </td><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        {{$tripTicket->approved_by_designation ?? null}}
+                </td><br>
+                </div>
             </div>
-
-
-    @endforeach
-
-{{--                    @php--}}
-{{--                        dd($driver->tripTickets);--}}
-{{--                    @endphp--}}
-{{--                @php--}}
-{{--                $dtotal = 0;--}}
-{{--                $tconsumed = 0;--}}
-{{--                @endphp--}}
-{{--                    @foreach($driver->tripTickets as $tripTicket)--}}
-{{--                        @php--}}
-{{--                        $dtotal += $tripTicket->distance_traveled;--}}
-{{--                        $tconsumed += $tripTicket->consumed;--}}
-{{--                        $v = "";--}}
-{{--                        @endphp--}}
-
-{{--                        @foreach($vehicles as $vehicle)--}}
-{{--                            @if($vehicle->slug === $tripTicket->vehicle)--}}
-{{--                                @php--}}
-{{--                                    $v = $vehicle->make . " " . $vehicle->model1 . " - " . $vehicle->plate_no--}}
-{{--                                @endphp--}}
-{{--                            @endif--}}
-{{--                        @endforeach--}}
-{{--                        <tr>--}}
-{{--                            <td style="text-align: center; width: 9%" >{{$tripTicket->date}}</td>--}}
-{{--                            <td style="text-align: center; width: 9%" >{{$v}}</td>--}}
-{{--                            <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>--}}
-{{--                            <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>--}}
-{{--                            <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}--}}
-{{--                                <br><b>Passengers: </b>{{$tripTicket->passengers}}--}}
-{{--                                @if($tripTicket->gas_issued != 0)--}}
-{{--                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}--}}
-{{--                                @endif--}}
-
-{{--                                @if($tripTicket->purchased != 0)--}}
-{{--                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}--}}
-{{--                                @endif--}}
-{{--                            </td>--}}
-{{--                        </tr>--}}
-
-{{--                    @endforeach--}}
-{{--                        <tr>--}}
-{{--                            <td style="text-align: center; width: 9%" ></td>--}}
-{{--                            <td style="text-align: center; width: 9%;" >TOTAL</td>--}}
-{{--                            <td style="text-align: center; width: 9%" >{{$dtotal}}</td>--}}
-{{--                            <td style="text-align: center; width: 9%" >{{$tconsumed}}</td>--}}
-{{--                        </tr>--}}
-{{--                    </tbody>--}}
-{{--                </table>--}}
-
-{{--                <div style="font-family: Cambria,Arial; display: flex;">--}}
-{{--                    <div style="flex: 1; text-align: center; ">--}}
-{{--                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center;">--}}
-{{--                            Prepared By:--}}
-{{--                        </h5><br>--}}
-{{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
-{{--                            <b><u>{{$driver->employee->fullname ?? null}}</u></b>--}}
-{{--                        </td><br>--}}
-{{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
-{{--                            DRIVER--}}
-{{--                        </td><br>--}}
-{{--                    </div>--}}
-{{--                    <div style="font-family: Cambria,Arial; flex: 1; text-align: center; ">--}}
-{{--                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br>--}}
-{{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
-{{--                            <b><u>{{$tripTicket->approved_by ?? null}}</u></b>--}}
-{{--                        </td><br>--}}
-{{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
-{{--                            {{$tripTicket->approved_by_designation ?? null}}--}}
-{{--                        </td><br>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
+        </div>
+    </div>
+@endforeach
 
 
 
@@ -198,3 +124,85 @@
         })
     </script>
 @endsection
+
+
+
+
+
+
+
+
+
+        {{--                    @php--}}
+        {{--                        dd($driver->tripTickets);--}}
+        {{--                    @endphp--}}
+        {{--                @php--}}
+        {{--                $dtotal = 0;--}}
+        {{--                $tconsumed = 0;--}}
+        {{--                @endphp--}}
+        {{--                    @foreach($driver->tripTickets as $tripTicket)--}}
+        {{--                        @php--}}
+        {{--                        $dtotal += $tripTicket->distance_traveled;--}}
+        {{--                        $tconsumed += $tripTicket->consumed;--}}
+        {{--                        $v = "";--}}
+        {{--                        @endphp--}}
+
+        {{--                        @foreach($vehicles as $vehicle)--}}
+        {{--                            @if($vehicle->slug === $tripTicket->vehicle)--}}
+        {{--                                @php--}}
+        {{--                                    $v = $vehicle->make . " " . $vehicle->model1 . " - " . $vehicle->plate_no--}}
+        {{--                                @endphp--}}
+        {{--                            @endif--}}
+        {{--                        @endforeach--}}
+        {{--                        <tr>--}}
+        {{--                            <td style="text-align: center; width: 9%" >{{$tripTicket->date}}</td>--}}
+        {{--                            <td style="text-align: center; width: 9%" >{{$v}}</td>--}}
+        {{--                            <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>--}}
+        {{--                            <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>--}}
+        {{--                            <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}--}}
+        {{--                                <br><b>Passengers: </b>{{$tripTicket->passengers}}--}}
+        {{--                                @if($tripTicket->gas_issued != 0)--}}
+        {{--                                    <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}--}}
+        {{--                                @endif--}}
+
+        {{--                                @if($tripTicket->purchased != 0)--}}
+        {{--                                    <br><b>Gas Purchased (L): </b>{{$tripTicket->purchased}}--}}
+        {{--                                @endif--}}
+        {{--                            </td>--}}
+        {{--                        </tr>--}}
+
+        {{--                    @endforeach--}}
+        {{--                        <tr>--}}
+        {{--                            <td style="text-align: center; width: 9%" ></td>--}}
+        {{--                            <td style="text-align: center; width: 9%;" >TOTAL</td>--}}
+        {{--                            <td style="text-align: center; width: 9%" >{{$dtotal}}</td>--}}
+        {{--                            <td style="text-align: center; width: 9%" >{{$tconsumed}}</td>--}}
+        {{--                        </tr>--}}
+        {{--                    </tbody>--}}
+        {{--                </table>--}}
+
+        {{--                <div style="font-family: Cambria,Arial; display: flex;">--}}
+        {{--                    <div style="flex: 1; text-align: center; ">--}}
+        {{--                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center;">--}}
+        {{--                            Prepared By:--}}
+        {{--                        </h5><br>--}}
+        {{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
+        {{--                            <b><u>{{$driver->employee->fullname ?? null}}</u></b>--}}
+        {{--                        </td><br>--}}
+        {{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
+        {{--                            DRIVER--}}
+        {{--                        </td><br>--}}
+        {{--                    </div>--}}
+        {{--                    <div style="font-family: Cambria,Arial; flex: 1; text-align: center; ">--}}
+        {{--                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br>--}}
+        {{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
+        {{--                            <b><u>{{$tripTicket->approved_by ?? null}}</u></b>--}}
+        {{--                        </td><br>--}}
+        {{--                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">--}}
+        {{--                            {{$tripTicket->approved_by_designation ?? null}}--}}
+        {{--                        </td><br>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
+
