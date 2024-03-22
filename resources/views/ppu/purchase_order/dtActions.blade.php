@@ -5,12 +5,18 @@
             <i class="fa fa-edit"></i>
         </a>
     @endif--}}
+    @if($data->transaction->document_type == "MANUAL PO")
+        <a class="btn btn-default btn-sm" href="{{route('dashboard.po.printManual',$data->slug)}}" target="_blank">
+            <i class="fa fa-print"></i>
+        </a>
+    @else
         <a class="btn btn-default btn-sm edit_btn" href="{{route('dashboard.po.edit',$data->slug)}}">
             <i class="fa fa-edit"></i>
         </a>
-    <a class="btn btn-default btn-sm" href="{{route('dashboard.po.print1',$data->slug)}}" target="_blank">
-        <i class="fa fa-print"></i>
-    </a>
+        <a class="btn btn-default btn-sm" href="{{route('dashboard.po.print1',$data->slug)}}" target="_blank">
+            <i class="fa fa-print"></i>
+        </a>
+    @endif
         @if($data->transaction != null)
             @if($data->transaction->cancelled_at == null)
                 <div class="btn-group btn-group-sm" role="group">

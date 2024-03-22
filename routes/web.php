@@ -208,12 +208,15 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/purchase_order/print/{slug}','PurchaseOrderController@print')->name('purchaseOrder.print');*/
 
     Route::get('/po/{slug}/print1','POController@print1')->name('po.print1');
+    Route::get('/po/{slug}/printManual','POController@printManual')->name('po.printManual');
     Route::get('/po/{slug}/edit','POController@edit')->name('po.edit');
     Route::get('/po/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','POController@findTransByRefNumber')->name('po.findTransByRefNumber');
     Route::get('/po/findSupplier/{slug}','POController@findSupplier')->name('po.findSupplier');
     Route::patch('/po/update/{slug}','POController@update')->name('po.update');
     Route::get('/po/createpublicbidding','POController@createpublicbidding')->name('po.createpublicbidding');
     Route::post('/po/{slug}/cancel','POController@cancel')->name('po.cancel');
+    Route::get('/po/createManual','POController@createManual')->name('po.createManual');
+    Route::post('/po/storeManual','POController@storeManual')->name('po.storeManual');
     Route::resource('po', 'POController');
 
     Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');
