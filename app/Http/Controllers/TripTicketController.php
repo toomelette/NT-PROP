@@ -319,4 +319,41 @@ class TripTicketController extends Controller
             'vehicles' => $vehicles
         ]);
     }
+
+    public function generateReport3(){
+        return view('ppu.ttr.generateReport3');
+
+    }
+
+    public function printReport3(Request $request)
+    {
+        $ttreport3 = TripTicket::all();
+
+
+        $drivers = Drivers::query()
+            ->with([
+                'tripTickets' => function ($w) use ($request) {
+
+                    if ($request->has('date_start') && $request->date_start != '') {
+                        $w->where('date', '>=', $request->date_start);
+                    }
+                    if ($request->has('date_end') && $request->date_end != '') {
+                        $w->where('date', '<=', $request->date_end);
+                    }
+                }
+            ]);
+        if ($request->has('driver') && $request->driver != '') {
+            $drivers = $drivers->where('employee_slug', '=', $request->driver);
+        }
+        $drivers = $drivers->get();
+        $vehicles = Vehicles::get();
+//        dd($drivers);
+        return view('printables.ttr.printReport3')->with([
+            'ttreport3' => $ttreport3,
+            'drivers' => $drivers,
+            'vehicles' => $vehicles
+        ]);
+    }
+
 }
+
