@@ -5,7 +5,7 @@
             <i class="fa fa-edit"></i>
         </a>
     @endif--}}
-    @if($data->transaction->document_type == "MANUAL PO")
+    @if($data->transaction->document_type == "PO MANUAL")
         <a class="btn btn-default btn-sm" href="{{route('dashboard.po.printManual',$data->slug)}}" target="_blank">
             <i class="fa fa-print"></i>
         </a>
