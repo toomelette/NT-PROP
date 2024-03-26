@@ -276,6 +276,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/trip_ticket/printReport','TripTicketController@printReport')->name('ttr.printReport');
     Route::get('/trip_ticket/generateReport2','TripTicketController@generateReport2')->name('ttr.generateReport2');
     Route::get('/trip_ticket/printReport2','TripTicketController@printReport2')->name('ttr.printReport2');
+    Route::get('/trip_ticket/generateReport3','TripTicketController@generateReport3')->name('ttr.generateReport3');
+    Route::get('/trip_ticket/printReport3','TripTicketController@printReport3')->name('ttr.printReport3');
 
     Route::get('/ris/index','RISController@index')->name('ris.index');
 

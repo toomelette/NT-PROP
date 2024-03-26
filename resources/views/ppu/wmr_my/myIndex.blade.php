@@ -30,7 +30,7 @@
                                     <th style="width: 23%">Taken From</th>
                                     <th style="width: 10%">Taken Through</th>
                                     <th style="width: 10%">Certified by</th>
-                                    <th style="width: 10%">Approved by</th>
+                                    <th style="width: 10%">Witnessed by</th>
                                     <th style="width: 20px">Action</th>
                                 </tr>
                                 </thead>
@@ -69,7 +69,7 @@
                     { "data": "taken_from" },
                     { "data": "taken_through" },
                     { "data": "certified_by" },
-                    { "data": "approved_by" },
+                    { "data": "witnessed_by" },
                     { "data": "action" }
                 ],
                 "buttons": [

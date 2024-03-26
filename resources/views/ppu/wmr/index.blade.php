@@ -51,7 +51,7 @@
                                     <th style="width: 15%">Item</th>
                                     <th style="width: 23%">Taken From</th>
                                     <th style="width: 10%">Condition</th>
-                                    <th style="width: 10%">Certified by</th>
+                                    <th style="width: 10%">Witnessed by</th>
                                     <th style="width: 20px">Action</th>
                                 </tr>
                                 </thead>
@@ -90,7 +90,7 @@
                     { "data": "item" },
                     { "data": "taken_from" },
                     { "data": "condition" },
-                    { "data": "certified_by" },
+                    { "data": "witnessed_by" },
                     { "data": "action" }
                 ],
                 "buttons": [
