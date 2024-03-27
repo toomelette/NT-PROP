@@ -457,7 +457,7 @@ class POController extends Controller
                     'transaction_slug' => $transNewSlug,
                     'stock_no' => $item['stockNo'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
