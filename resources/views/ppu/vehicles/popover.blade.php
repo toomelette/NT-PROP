@@ -1,4 +1,6 @@
 <small>
+    Ticket No.: <span class="text-strong">{{$data->ticket_no ?? ''}}</span>
+    <br>
     Purpose: <span class="text-strong">{{$data->purpose ?? ''}}</span>
     <br>
     Destination: <span class="text-strong">{{$data->destination ?? ''}}</span>
