@@ -124,7 +124,7 @@ class VehiclesController extends Controller
         $vhcl = Vehicles::query()
             ->where('slug','=',$slug)->first();
 
-        return $vhcl ?? abort(503,'Trip Ticket not found');
+        return $vhcl ?? abort(503,'Vehicle not found');
     }
 
     public function update(FormRequest $request, $slug)

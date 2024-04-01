@@ -283,6 +283,11 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/trip_ticket/generateReport3','TripTicketController@generateReport3')->name('ttr.generateReport3');
     Route::get('/trip_ticket/printReport3','TripTicketController@printReport3')->name('ttr.printReport3');
 
+
+    Route::get('/drivers/index','DriversController@index')->name('drivers.index');
+    Route::get('/drivers/create','DriversController@create')->name('drivers.create');
+    Route::get('/drivers/edit','DriversController@edit')->name('drivers.edit');
+
     Route::get('/ris/index','RISController@index')->name('ris.index');
 
     Route::get('/wmr/index','WMRController@index')->name('wmr.index');
