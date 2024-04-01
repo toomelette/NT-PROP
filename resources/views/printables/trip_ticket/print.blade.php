@@ -2,6 +2,7 @@
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
     $rand = \Illuminate\Support\Str::random();
 
+    $passengers = collect(explode(",",$tt->passengers))->chunk(3);
 @endphp
 
 @extends('printables.print_layouts.print_layout_main')
@@ -11,7 +12,7 @@
 
 @section('wrapper')
 
-    <div class="printable">
+    <div class="printable" style="break-after: page">
         <div style="width: 100%;">
             <div class="" style="margin-bottom: 100px; padding-top: 20px;">
                 <div>

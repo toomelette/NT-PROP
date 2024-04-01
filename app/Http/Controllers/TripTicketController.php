@@ -226,11 +226,10 @@ class TripTicketController extends Controller
             ->where('slug', $slug)
             ->first();
 
-        $passengers = collect(explode(",",$tt->passengers))->chunk(3);
+
 
         return view('printables.trip_ticket.print')->with([
-            'tt' => $tt,
-           'passengers' =>  $passengers,
+            'tt' => $tt
         ]);
     }
 
