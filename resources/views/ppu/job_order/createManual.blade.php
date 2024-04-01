@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Create Purchase Order - Manual</h1>
+        <h1>Create Job Order - Manual</h1>
     </section>
 @endsection
 @section('content2')
@@ -30,7 +30,7 @@
 
     <section class="content col-md-12">
         <div class="box box-solid">
-            <form id="po_form">
+            <form id="jo_form">
                 <div class="box-header with-border">
                 </div>
                 <div class="box-body">
@@ -42,23 +42,32 @@
                     <input class="hidden" type="text" id="itemSlugEdit" name="itemSlugEdit"/>
                     <input class="hidden" type="text" id="isVat" name="isVat"/>
                     <input class="hidden" type="text" id="isGovernment" name="isGovernment"/>
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('po_number',[
-                                            'label' => 'PO Number:',
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('jo_number',[
+                                            'label' => 'JO Number:',
                                             'cols' => 3
                                         ],
-                                        $po_number ?? null
+                                        $jo_number ?? null
                                         ) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::select('mode', [
                                             'label' => 'Mode of Procurement:',
                                             'cols' => 3,
                                             'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
                                         ]) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::textbox('date',[
-                                'label' => 'PO Date:',
+                                'label' => 'JO Date:',
                                 'cols' => 3,
                                 'type' => 'date',
                                 'required' => 'required'
                              ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::select('jr_type',[
+                            'cols' => 3,
+                            'label' => 'JR Type:',
+                            'class' => 'jr_type_selector',
+                            'options' => \App\Swep\Helpers\Arrays::jrType(),
+                        ]) !!}
                     <div class="clearfix"></div>
                     <div class="form-group col-md-3 supplier">
                         <label for="awardee">Supplier: </label>
@@ -126,7 +135,7 @@
                                     ) !!}
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                                            'label' => 'PR Reference Number:',
+                                            'label' => 'JR Reference Number:',
                                             'cols' => 3,
                                             'required' => 'required'
                                         ]) !!}
@@ -182,7 +191,7 @@
                             </div>
                             <div class="form-group col-md-2 vatValue">
                                 <label for="vatValue">W/TAX Percent:</label>
-                                <input class="form-control" name="poValue" id="poValue" type="text" value="" placeholder="" autocomplete="" required="">
+                                <input class="form-control" name="joValue" id="joValue" type="text" value="" placeholder="" autocomplete="" required="">
                             </div>
                             <div class="form-group col-md-2 tax_base_2">
                                 <label for="tax_base_2">W/TAX Amount:</label>
@@ -205,31 +214,31 @@
                                             'required' => 'required'
                                         ]) !!}
                             <div class="" id="tableContainer" style="margin-top: 50px">
-                                <button data-target="#trans_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=po_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+                                <button data-target="#trans_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=jo_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
                                 <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
                                     <thead>
-                                        <tr class="">
-                                            <th style="width: 5%">Stock No.</th>
-                                            <th>Unit</th>
-                                            <th style="width: 15%">Item</th>
-                                            <th>Description</th>
-                                            <th>Qty</th>
-                                            <th>Unit Cost</th>
-                                            <th>Total Cost</th>
-                                            <th>Prop. No.</th>
-                                            <th>Nature of Work</th>
-                                            <th style="width: 3%"></th>
-                                        </tr>
+                                    <tr class="">
+                                        <th style="width: 5%">Stock No.</th>
+                                        <th>Unit</th>
+                                        <th style="width: 15%">Item</th>
+                                        <th>Description</th>
+                                        <th>Qty</th>
+                                        <th>Unit Cost</th>
+                                        <th>Total Cost</th>
+                                        <th>Prop. No.</th>
+                                        <th>Nature of Work</th>
+                                        <th style="width: 3%"></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @include('dynamic_rows.po_items')
+                                    @include('dynamic_rows.jo_items')
                                     </tbody>
                                     <tfoot>
-                                        <tr>
-                                            <th colspan="6">
-                                            </th>
-                                            <th class="grandTotal text-right zero">0.00</th>
-                                        </tr>
+                                    <tr>
+                                        <th colspan="6">
+                                        </th>
+                                        <th class="grandTotal text-right zero">0.00</th>
+                                    </tr>
                                     </tfoot>
                                 </table>
                             </div>
@@ -354,7 +363,7 @@
             words += convertWholeNumber(wholePart);
 
             if (decimalPart > 0) {
-                words += ' AND ' + convertTwoDigitNumber(decimalPart) + ' CENTS';
+                words += ' AND ' + convertTwoDigitNumber(decimalPart) + 'CENTS';
             }
 
             return words.trim();
@@ -375,6 +384,128 @@
             $("#"+parentTableId+" .grandTotal").html($.number(grandTotal,2))
         })
 
+        $(document).ready(function() {
+            $('input[name="vatValue"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $('input[name="total_gross"]').val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="vatValue"]').on('blur', function() {
+                var totalGrossRaw = $('input[name="total_gross"]').val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+
+            $('input[name="joValue"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $('input[name="total_gross"]').val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="joValue"]').on('blur', function() {
+                var totalGrossRaw = $('input[name="total_gross"]').val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+
+            $('input[name="total_gross"]').on('keypress', function(event) {
+                if (event.which === 13) { // Check if Enter key is pressed
+                    var totalGrossRaw = $(this).val();
+                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                    var totalGross = parseFloat(cleanedTotalGross);
+                    let taxBase = totalGross;
+                    if($('#isVat').val() === 'True'){
+                        taxBase = totalGross/1.12;
+                    }
+                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                    let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                    $('#tax_base_1').val(tb1.toFixed(2));
+                    $('#tax_base_2').val(pOjOTax.toFixed(2));
+                    let totalAmt = totalGross - (tb1 + pOjOTax);
+                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+                    // Prevent the default form submission behavior
+                    event.preventDefault();
+                }
+            });
+
+            $('input[name="total_gross"]').on('blur', function() {
+                var totalGrossRaw = $(this).val();
+                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
+                var totalGross = parseFloat(cleanedTotalGross);
+                let taxBase = totalGross;
+                if($('#isVat').val() === 'True'){
+                    taxBase = totalGross/1.12;
+                }
+                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
+                $('#tax_base_1').val(tb1.toFixed(2));
+                $('#tax_base_2').val(pOjOTax.toFixed(2));
+                let totalAmt = totalGross - (tb1 + pOjOTax);
+                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
+            });
+        });
+
         function deleteRow(button) {
             const row = button.closest('tr');
             if (row) {
@@ -391,7 +522,7 @@
                     taxBase = overAllTotal/1.12;
                 }
                 let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
+                let pOjOTax = ($('#joValue').val() / 100) * taxBase;
                 $('#tax_base_1').val(tb1.toFixed(2));
                 $('#tax_base_2').val(pOjOTax.toFixed(2));
                 let totalAmt = overAllTotal - (tb1 + pOjOTax);
@@ -416,8 +547,8 @@
 
         $('#saveBtn').click(function(e) {
             e.preventDefault();
-            let form = $('#po_form');
-            let uri = '{{route("dashboard.po.storeManual")}}';
+            let form = $('#jo_form');
+            let uri = '{{route("dashboard.jo.storeManual")}}';
             loading_btn(form);
             $.ajax({
                 type: 'POST',
@@ -452,7 +583,7 @@
                         cancelButtonAriaLabel: 'Thumbs down'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            let link = "{{route('dashboard.po.printManual','slug')}}";
+                            let link = "{{route('dashboard.jo.printManual','slug')}}";
                             link = link.replace('slug',res.slug);
                             window.open(link, '_blank');
                         }
@@ -466,7 +597,7 @@
         });
 
         $('select[name="supplier"]').change(function() {
-            let uri = '{{route("dashboard.po.findSupplier", ["slug"]) }}';
+            let uri = '{{route("dashboard.jo.findSupplier", ["slug"]) }}';
             uri = uri.replace('slug',$(this).val());
             $.ajax({
                 url : uri,
@@ -481,7 +612,7 @@
                     $('input[name="isVat"]').val(res.supplier.is_vat == 1?"True":"False");
                     $('input[name="isGovernment"]').val(res.supplier.is_government == 1?"True":"False");
                     $('input[name="vatValue"]').val(res.tax_computation.percent);
-                    $('input[name="poValue"]').val(res.tcPO.percent);
+                    $('input[name="joValue"]').val(res.tcJO.percent);
                     console.log(res);
                 },
                 error: function (res) {
@@ -491,126 +622,6 @@
             })
         });
 
-        $(document).ready(function() {
-            $('input[name="vatValue"]').on('keypress', function(event) {
-                if (event.which === 13) { // Check if Enter key is pressed
-                    var totalGrossRaw = $('input[name="total_gross"]').val();
-                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
-                    var totalGross = parseFloat(cleanedTotalGross);
-                    let taxBase = totalGross;
-                    if($('#isVat').val() === 'True'){
-                        taxBase = totalGross/1.12;
-                    }
-                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
-                    $('#tax_base_1').val(tb1.toFixed(2));
-                    $('#tax_base_2').val(pOjOTax.toFixed(2));
-                    let totalAmt = totalGross - (tb1 + pOjOTax);
-                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
-                    // Prevent the default form submission behavior
-                    event.preventDefault();
-                }
-            });
 
-            $('input[name="vatValue"]').on('blur', function() {
-                var totalGrossRaw = $('input[name="total_gross"]').val();
-                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
-                var totalGross = parseFloat(cleanedTotalGross);
-                let taxBase = totalGross;
-                if($('#isVat').val() === 'True'){
-                    taxBase = totalGross/1.12;
-                }
-                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
-                $('#tax_base_1').val(tb1.toFixed(2));
-                $('#tax_base_2').val(pOjOTax.toFixed(2));
-                let totalAmt = totalGross - (tb1 + pOjOTax);
-                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
-            });
-
-            $('input[name="poValue"]').on('keypress', function(event) {
-                if (event.which === 13) { // Check if Enter key is pressed
-                    var totalGrossRaw = $('input[name="total_gross"]').val();
-                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
-                    var totalGross = parseFloat(cleanedTotalGross);
-                    let taxBase = totalGross;
-                    if($('#isVat').val() === 'True'){
-                        taxBase = totalGross/1.12;
-                    }
-                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
-                    $('#tax_base_1').val(tb1.toFixed(2));
-                    $('#tax_base_2').val(pOjOTax.toFixed(2));
-                    let totalAmt = totalGross - (tb1 + pOjOTax);
-                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
-                    // Prevent the default form submission behavior
-                    event.preventDefault();
-                }
-            });
-
-            $('input[name="poValue"]').on('blur', function() {
-                var totalGrossRaw = $('input[name="total_gross"]').val();
-                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
-                var totalGross = parseFloat(cleanedTotalGross);
-                let taxBase = totalGross;
-                if($('#isVat').val() === 'True'){
-                    taxBase = totalGross/1.12;
-                }
-                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
-                $('#tax_base_1').val(tb1.toFixed(2));
-                $('#tax_base_2').val(pOjOTax.toFixed(2));
-                let totalAmt = totalGross - (tb1 + pOjOTax);
-                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
-            });
-
-            $('input[name="total_gross"]').on('keypress', function(event) {
-                if (event.which === 13) { // Check if Enter key is pressed
-                    var totalGrossRaw = $(this).val();
-                    var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
-                    var totalGross = parseFloat(cleanedTotalGross);
-                    let taxBase = totalGross;
-                    if($('#isVat').val() === 'True'){
-                        taxBase = totalGross/1.12;
-                    }
-                    let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                    let pOjOTax = ($('#poValue').val() / 100) * taxBase;
-                    $('#tax_base_1').val(tb1.toFixed(2));
-                    $('#tax_base_2').val(pOjOTax.toFixed(2));
-                    let totalAmt = totalGross - (tb1 + pOjOTax);
-                    //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                    $('input[name="total_in_words"]').val(numberToWords(totalAmt));
-                    // Prevent the default form submission behavior
-                    event.preventDefault();
-                }
-            });
-
-            $('input[name="total_gross"]').on('blur', function() {
-                var totalGrossRaw = $(this).val();
-                var cleanedTotalGross = totalGrossRaw.replace(/,/g, '');
-                var totalGross = parseFloat(cleanedTotalGross);
-                let taxBase = totalGross;
-                if($('#isVat').val() === 'True'){
-                    taxBase = totalGross/1.12;
-                }
-                let tb1 = ($('#vatValue').val()/ 100)*taxBase;
-                let pOjOTax = ($('#poValue').val() / 100) * taxBase;
-                $('#tax_base_1').val(tb1.toFixed(2));
-                $('#tax_base_2').val(pOjOTax.toFixed(2));
-                let totalAmt = totalGross - (tb1 + pOjOTax);
-                //$('input[name="total_gross"]').val(overAllTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('input[name="total"]').val(totalAmt.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
-                $('input[name="total_in_words"]').val(numberToWords(totalAmt));
-            });
-        });
     </script>
 @endsection

@@ -48,7 +48,7 @@
                 <p class="no-margin">Department of Agriculture</p>
                 <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                 <p class="no-margin">{{\App\Swep\Helpers\Values::headerAddress()}}, {{\App\Swep\Helpers\Values::headerTelephone()}}</p>
-                <p class="no-margin" style="font-size: 30px"><strong>{{$order->ref_book=="PO"?"PURCHASE ORDER":"JOB ORDER"}}</strong></p>
+                <p class="no-margin" style="font-size: 30px"><strong>JOB ORDER</strong></p>
             </td>
         </tr>
     </table>
@@ -106,126 +106,229 @@
             </td>
         </tr>
     </table>
-    <table style="width: 99%; font-family: 'Cambria',Times New Roman">
+    <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
-            <td style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;text-align: center;">
-                <div>
-                    <b><span style="font-size: 14px;">
-                          THIS ORDER IS SUBJECT TO THE CONDITIONS PRINTED AT THE BACK HEREOF.
-                        </span></b>
+            <td style="width: 33%;">
+                <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
+                    <b>JR No.<span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->cross_ref_no) }}</u></span></b>
+                </div>
+            </td>
+            <td style="width: 33%;">
+                <div style="display: flex; align-items: center; justify-content: flex-start; background-color: yellow">
+                    <b>Charge to: <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($trans->pap_code) }}</u></span></b>
+                </div>
+            </td>
+            <td style="width: 33%;">
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b>For: <span style="margin-left: 10px; font-size: 14px"><u>{{ strtoupper($rc->desc) }}</u></span></b>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: flex-start;">
+                    <b><span style="margin-left: 36px; font-size: 14px"><u>{{ strtoupper($trans->requested_by) }}</u></span></b>
                 </div>
             </td>
         </tr>
     </table>
 
-    @foreach($order->joDetails as $item)
-        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria', Times New Roman;">
+        <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
             <tr style="font-size: 14px">
-                <td style="width: 33%;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start; color: #0a53be">
-                        <b>JR No. <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($item->jr_number) }}</u></span></b>
+                <td style="border: 1px solid black; text-align: center;">
+                    <div>
+                        <b><span style="font-size: 14px;">
+                          THIS ORDER IS SUBJECT TO THE CONDITIONS PRINTED AT THE BACK HEREOF.
+                        </span></b>
                     </div>
-                </td>
-                <td style="width: 33%;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start; background-color: yellow">
-                        <b>Charge to: <span style="margin-left: 40px; font-size: 14px"><u>{{ strtoupper($item->pap_code) }}</u></span></b>
-                    </div>
-                </td>
-                <td style="width: 33%;">
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        @php
-                            $desc = $rc->where('rc_code', $item->resp_center)->pluck('desc')->first();
-                        @endphp
-
-                        <b><span style="margin-left: 10px; font-size: 12px"><u>{{ strtoupper($desc) }}</u></span></b>
-                    </div>
-                    <div style="display: flex; align-items: center; justify-content: flex-start;">
-                        <b><span style="margin-left: 10px; font-size: 12px"><u>{{ strtoupper($item->requested_by) }}</u></span></b>
-                    </div>
-                </td>
-            </tr>
-            <tr style="font-size: 14px;">
-                <td colspan="3">
-                    <table style="width: 100%;">
-                        <tr>
-                            <td style="float: left;">
-                                <b>Description / Specifications:</b><br>
-                                <ul class="text-strong" style="font-size: 14px;">
-                                    @if(!empty($order->transaction->transDetails))
-                                        @foreach($order->transaction->transDetails as $items)
-                                            @if($item->jr_number === $items->rfq_slug )
-                                                <li>{{$items->item}}</li>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </ul>
-                                <b>Scope of Work:</b><br>
-                                <ul class="text-strong" style="font-size: 14px;">
-                                    @if(!empty($order->transaction->transDetails))
-                                        @foreach($order->transaction->transDetails as $items)
-                                            @if($item->jr_number === $items->rfq_slug )
-                                               @if($items->nature_of_work !== null && $items->nature_of_work !== "")
-                                                    <li>{{$items->nature_of_work}}</li>
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </ul>
-                            </td>
-                        </tr>
-                    </table>
                 </td>
             </tr>
         </table>
-    @endforeach
-    <table style="width: 99%; font-family: 'Cambria', Times New Roman; border-top: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
-        <thead>
-        <tr>
-            <td class="text-right" style="color: white">n/a</td>
-            <td class="text-right" style="color: white">n/a</td>
-            <td class="text-right text-strong">TOTAL (GROSS)</td>
-            <td class="text-right text-strong">{{number_format($order->total_gross, 2)}}</td>
-        </tr>
-        <tr>
-            <td colspan="4" style="width: 100%;">
-                <table style="width: 100%" class="tbl-no-pad align-self-end">
-                    <tr>
-                        <td class="text-right" style="color: white">n/an/a</td>
-                        <td class="text-right" style="color: white">n/an/a</td>
-                        <td class="text-right" style="color: white">n/an/a</td>
-                        <td class="text-right" style="color: white">n/an/a</td>
-                        <td class="text-right">Tax Base:</td>
-                        @if($supplier->is_vat == true)
-                            <td class="text-right">{{number_format($order->total_gross/1.12, 2)}}</td>
-                        @else
-                            <td class="text-right">{{number_format($order->total_gross, 2)}}</td>
-                        @endif
-                        <td class="text-right"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-right"></td>
-                        <td class="text-right"></td>
-                        <td class="text-right"></td>
-                        <td class="text-right"></td>
-                        <td class="text-right">{{$order->vat}}%</td>
-                        <td class="text-right">{{number_format($order->tax_base_1, 2)}}</td>
-                        <td class="text-right"></td>
-                    </tr>
-                    <tr>
-                        <td class="text-right"></td>
-                        <td class="text-right"></td>
-                        <td class="text-right"></td>
-                        <td class="text-right"></td>
-                        <td class="text-right">{{$order->withholding_tax}}%</td>
-                        <td class="text-right">{{number_format($order->tax_base_2, 2)}}</td>
-                        <td class="text-right">{{number_format($order->tax_base_1 + $order->tax_base_2, 2)}}</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        </thead>
-    </table>
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+            <tr style="font-size: 14px">
+                <td style="text-align: center;">
+                    <div>
+                        <b style="float: left">Description / Specifications:</b><br>
+                        <b><span style="font-size: 14px;">
+                        @if(!empty($td))
+                            @foreach($td as $item)
+                                {{$item->nature_of_work}}
+                                @endforeach
+                                @endif
+                        </span></b>
+                    </div>
+                </td>
+            </tr>
+        </table>
 
+    @if($trans->jr_type != 'PAKYAW')
+        <table style="width: 99%; height: 100px; font-family: 'Cambria',Times New Roman" class="tbl-bordered">
+            <thead>
+            <tr>
+                <th class="" style="width:100%; font-size: 16px;">Scope of Work</th>
+                <th class="text-center" style="width:20%; font-size: 16px;"></th>
+                <th class="text-center" style="width:20%; font-size: 16px;">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if(!empty($td))
+                @php
+                    $nowCount = 0;
+                @endphp
+                @foreach($td as $item)
+                    @php
+                        $nowCount = $nowCount + 1;
+                    @endphp
+                    <tr style="">
+                        <td class="text-strong" style="vertical-align: top;">{!! nl2br(e(preg_replace('/\*(\s*)/', '*', $item->description))) !!}</td>
+                        <td class="text-center" style="vertical-align: top;">{{strtoupper($item->unit)}}</td>
+                        <td class="text-right" style="vertical-align: top;">
+                            <b>{{number_format($item->total_cost,2)}}</b>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2" class="text-right text-strong">TOTAL (GROSS)</td>
+                <td class="text-strong text-right">
+                    {{number_format($order->total_gross,2)}}
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+            <tr style="font-size: 14px">
+                <td style="width: 65%; font-size: 12px">
+                    {{$order->remarks}}
+                </td>
+                <td style="width: 35%;">
+                    <table style="width: 100%" class="tbl-no-pad">
+                        <tr>
+                            <td>Tax Base:</td>
+                            @if($supplier->is_vat == true)
+                                <td style="text-align: right;">{{number_format($order->total_gross/1.12,2)}}</td>
+                            @else
+                                <td style="text-align: right;">{{number_format($order->total_gross,2)}}</td>
+                            @endif
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">{{$order->vat}}%</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_1,2)}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">{{$order->withholding_tax}}%</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_2,2)}}</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</td>
+                        </tr>
+                    </table>
+                    {{--<div style="display: flex; align-items: center; justify-content: flex-start;">
+                        Tax Base: <span style="font-size: 12px">{{number_format($order->total_gross/1.12,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
+                        <span style="font-size: 12px">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</span>
+                    </div>--}}
+                </td>
+            </tr>
+        </table>
+    @else
+        <table id="items_table_{{$rand}}" style="width: 99%; height: 100px; border-right: 1px solid black; border-left: 1px solid black; font-family: 'Cambria',Times New Roman" class="">
+            <thead>
+            <tr>
+                <th class="text-center" colspan="2" style="width:10%; font-size: 16px;">Scope of Work:</th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+                <th class="text-center" style="width:50%; font-size: 16px;"></th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+                <th class="text-center" style="width:10%; font-size: 16px;"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if(!empty($td))
+                @php
+                    $nowCount = 0;
+                @endphp
+                @foreach($td as $item)
+                    @php
+                        $nowCount = $nowCount + 1;
+                    @endphp
+                    <tr style="height: 10%">
+                        <td class="text-center " style="vertical-align: top;width:10%;">{{$item->stock_no}}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;">{{strtoupper($item->unit)}}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;"><b>{{$item->item}}</b><br>{!! nl2br(e(preg_replace('/\*(\s*)/', '*', $item->description))) !!}</td>
+                        <td class="text-center " style="vertical-align: top;width:10%;">{{$item->qty}}</td>
+                        <td class="text-right" style="vertical-align: top;width:10%;">
+                            <b>{{number_format($item->unit_cost,2)}}</b>
+                        </td>
+                        <td class="text-right" style="vertical-align: top;width:10%;">
+                            <b>{{number_format($item->total_cost,2)}}</b>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+            <tr>
+                <td id="adjuster"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="5" class="text-right text-strong"></td>
+                <td class="text-strong text-right">
+                    <b><u>{{number_format($order->total_gross,2)}}</u></b>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <table style="width: 99%; border-left: 1px solid black; border-right: 1px solid black; font-family: 'Cambria',Times New Roman">
+            <tr style="font-size: 14px">
+                <td style="width: 65%; font-size: 12px">
+                    {{$order->remarks}}
+                </td>
+                <td style="width: 35%;">
+                    <table style="width: 100%" class="tbl-no-pad">
+                        <tr>
+                            <td>Tax Base:</td>
+                            @if($supplier->is_vat == true)
+                                <td style="text-align: right;">{{number_format($order->total_gross/1.12,2)}}</td>
+                            @else
+                                <td style="text-align: right;">{{number_format($order->total_gross,2)}}</td>
+                            @endif
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">{{$order->vat}}%</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_1,2)}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">{{$order->withholding_tax}}%</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_2,2)}}</td>
+                            <td style="text-align: right;">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</td>
+                        </tr>
+                    </table>
+                    {{--<div style="display: flex; align-items: center; justify-content: flex-start;">
+                        Tax Base: <span style="font-size: 12px">{{number_format($order->total_gross/1.12,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="font-size: 12px">{{number_format($order->tax_base_1,2)}}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span style="font-size: 12px">{{number_format($order->tax_base_2,2)}}</span>
+                        <span style="font-size: 12px">{{number_format($order->tax_base_1 + $order->tax_base_2,2)}}</span>
+                    </div>--}}
+                </td>
+            </tr>
+        </table>
+    @endif
     <table style="width: 99%; border: 1px solid black; font-family: 'Cambria',Times New Roman">
         <tr style="font-size: 14px">
             <td class="text-strong" style="width: 80%; border: 1px solid black;">
@@ -350,7 +453,7 @@
             </td>
         </tr>
     </table>
-    <div class="qms-right" style="font-size: 12px;">
+    <div class="qms-right" style="font-size: 12px; margin-right: 10px;">
         <p class="no-margin">FM-AFD-PPS-003,Rev.00</p>
         <p class="no-margin">Effectivity Date: March 12, 2015</p>
     </div>

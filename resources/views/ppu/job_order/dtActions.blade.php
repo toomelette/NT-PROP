@@ -8,9 +8,16 @@
         <a class="btn btn-default btn-sm edit_btn" href="{{route('dashboard.jo.edit',$data->slug)}}">
             <i class="fa fa-edit"></i>
         </a>
-    <a class="btn btn-default btn-sm" href="{{route('dashboard.jo.print',$data->slug)}}" target="_blank">
-        <i class="fa fa-print"></i>
-    </a>
+    @if($data->transaction->document_type == "JO Manual")
+        <a class="btn btn-default btn-sm" href="{{route('dashboard.jo.printManual',$data->slug)}}" target="_blank">
+            <i class="fa fa-print"></i>
+        </a>
+    @else
+        <a class="btn btn-default btn-sm" href="{{route('dashboard.jo.print',$data->slug)}}" target="_blank">
+            <i class="fa fa-print"></i>
+        </a>
+    @endif
+
     @if($data->transaction->cancelled_at == null)
         <div class="btn-group btn-group-sm" role="group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
