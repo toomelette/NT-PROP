@@ -10,6 +10,7 @@ use App\Jobs\EmailNotification;
 use App\Models\AQOfferDetails;
 use App\Models\AQQuotation;
 use App\Models\AwardNoticeAbstract;
+use App\Models\Employee;
 use App\Models\JODetails;
 use App\Models\Order;
 use App\Models\PPURespCodes;
@@ -80,6 +81,12 @@ class JOController extends Controller
         $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
         $jo_number = $this->getNextJONo("JO");
         return view('ppu.job_order.create', compact('suppliers', 'jo_number'));
+    }
+
+    public function createManual(){
+        $suppliers = Suppliers::orderBy('name')->pluck('name','slug');
+        $jo_number = $this->getNextJONo("JO");
+        return view('ppu.job_order.createManual', compact('suppliers', 'jo_number'));
     }
 
     public function findSupplier($slug){
@@ -186,6 +193,107 @@ class JOController extends Controller
         }
         abort(503,'Error updating job order.');
     }
+
+    public function storeManual(JOFormRequest $request) {
+        $refBook = "JO";
+        $joNumber = $request->jo_number;
+        $orderExist = Order::query()->where('ref_no','=',$joNumber)
+            ->where('ref_book', '=', $refBook)->first();
+        if($orderExist != null) {
+            return abort(503,'JO Number already exist.');
+        }
+        $randomSlug = Str::random();
+        $s = Suppliers::query()->where('slug','=', $request->supplier)->first();
+
+        $order = new Order();
+        $order->ref_no = $joNumber;
+        $order->slug = $randomSlug;
+        $order->date = $request->date;
+        $order->supplier = $s->slug;
+        $order->supplier_name = $s->name;
+        $order->supplier_address = $request->supplier_address;
+        $order->supplier_tin = $request->supplier_tin;
+        $order->supplier_representative = $request->supplier_representative;
+        $order->place_of_delivery = $request->place_of_delivery;
+        $order->delivery_term = $request->delivery_term;
+        $order->payment_term = $request->payment_term;
+        $order->delivery_date = $request->delivery_date??null;
+        $order->mode = $request->mode;
+        $order->authorized_official = $request->authorized_official;
+        $order->authorized_official_designation = $request->authorized_official_designation;
+        $order->funds_available = $request->funds_available;
+        $order->funds_available_designation = $request->funds_available_designation;
+        $order->ref_book = $refBook;
+        $order->remarks = $request->remarks;
+        $order->vat = $request->vatValue;
+        $order->withholding_tax = $request->joValue;
+
+        $order->total_gross = Helper::sanitizeAutonum($request->total_gross);
+        $order->total =  Helper::sanitizeAutonum($request->total);
+        $order->total_in_words = $request->total_in_words;
+        $order->tax_base_1 = Helper::sanitizeAutonum($request->tax_base_1);
+        $order->tax_base_2 = Helper::sanitizeAutonum($request->tax_base_2);
+
+        $arr = [];
+
+        $transNewSlug = Str::random();
+        $transNew = new Transactions();
+        $transNew->slug = $transNewSlug;
+        $transNew->resp_center = $request->resp_center;
+        $transNew->pap_code = $request->pap_code;
+        $transNew->ref_book = $refBook;
+        $transNew->ref_no = $joNumber;
+        $transNew->cross_ref_no = $request->ref_number;
+        $transNew->jr_type = $request->jr_type;
+        $employee = Employee::query()->where('employee_no', '=', $request->requested_by)->first();
+        $transNew->requested_by = $employee->firstname . ' ' . substr($employee->middlename, 0, 1) . '. ' . $employee->lastname;
+        $transNew->requested_by_designation = $request->requested_by_designation;
+        $transNew->approved_by = $request->approved_by;
+        $transNew->approved_by_designation = $request->approved_by_designation;
+        $transNew->order_slug = $randomSlug;
+        $transNew->date = $request->date;
+        $transNew->document_type = "JO Manual";
+        if(!empty($request->items)){
+            foreach ($request->items as $item) {
+                array_push($arr,[
+                    'slug' => Str::random(),
+                    'transaction_slug' => $transNewSlug,
+                    'stock_no' => $item['stockNo'],
+                    'unit' => $item['unit'],
+                    'item' => $item['itemName'],
+                    'description' => $item['description'],
+                    'qty' => $item['qty'],
+                    'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
+                    'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
+                    'property_no' => $item['property_no'],
+                    'nature_of_work' => $item['nature_of_work'],
+                ]);
+            }
+        }
+
+        if($order->save()){
+            if($transNew->save()){
+                TransactionDetails::insert($arr);
+                /*//EMAIL NOTIFICATION
+                    $to = $transNew->transaction->userCreated->email;
+                    $subject = Arrays::acronym($transNew->transaction->ref_book).' No. '.$transNew->transaction->ref_no;
+                    $cc = $transNew->rc->emailRecipients->pluck('email_address')->toArray();
+                    $body = view('mailables.email_notifier.body-po-created')->with([
+                        'prOrJr' => $transNew->transaction,
+                        'po' => $transNew,
+                    ])->render();
+
+                    //QUEUE EMAIL
+                    EmailNotification::dispatch($to,$subject,$body,$cc);*/
+            }else{
+                abort(503,'Error saving JO.');
+            }
+
+            return $order->only('slug');
+        }
+        abort(503,'Error creating Job Order');
+    }
+
 
     public function store(JOFormRequest $request) {
 
@@ -477,6 +585,27 @@ class JOController extends Controller
                 'transDetails' => $detailsArray
             ]);
         }
+    }
+
+    public function printManual($slug){
+        $order = Order::query()->where('slug','=', $slug)->first();
+        $trans = Transactions::query()->where('order_slug','=', $order->slug)->first();
+        $nature_of_work_arr = [];
+        $td = TransactionDetails::query()->where('transaction_slug', '=', $trans->slug)->get();
+        $supplier = Suppliers::query()->where('slug','=', $order->supplier)->first();
+        $rc = PPURespCodes::query()->where('rc_code','=', $trans->resp_center)->first();
+
+        foreach ($td as $tran){
+            $nature_of_work_arr[] = $tran->nature_of_work;
+        }
+        return view('printables.jo.joManual')->with([
+            'order' => $order,
+            'trans' => $trans,
+            'td' => $td,
+            'nature_of_work_arr' => $nature_of_work_arr,
+            'rc' => $rc,
+            'supplier' => $supplier
+        ]);
     }
 
     public function print($slug){

@@ -220,12 +220,16 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::resource('po', 'POController');
 
     Route::get('/jo/{slug}/print','JOController@print')->name('jo.print');
+    Route::get('/jo/{slug}/printManual','JOController@printManual')->name('jo.printManual');
     Route::get('/jo/{slug}/edit','JOController@edit')->name('jo.edit');
     Route::get('/jo/findTransByRefNumber/{refNumber}/{refBook}/{action}/{id}','JOController@findTransByRefNumber')->name('jo.findTransByRefNumber');
     Route::get('/jo/findSupplier/{slug}','JOController@findSupplier')->name('jo.findSupplier');
     Route::patch('/jo/update/{slug}','JOController@update')->name('jo.update');
     Route::post('/jo/{slug}/cancel','JOController@cancel')->name('jo.cancel');
     Route::get('/jo/createpublicbidding','JOController@createpublicbidding')->name('jo.createpublicbidding');
+    Route::get('/jo/{slug}/printManual','JOController@printManual')->name('jo.printManual');
+    Route::get('/jo/createManual','JOController@createManual')->name('jo.createManual');
+    Route::post('/jo/storeManual','JOController@storeManual')->name('jo.storeManual');
     Route::resource('jo', 'JOController');
 
     Route::get('/par/{slug}/print_property_tag','PARController@printPropertyTag')->name('par.print_property_tag');
