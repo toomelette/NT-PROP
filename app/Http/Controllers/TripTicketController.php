@@ -239,8 +239,6 @@ class TripTicketController extends Controller
     }
 
     public function printReport(Request $request){
-    $ttreport = TripTicket::all();
-
 
     $vehicles = Vehicles::query()
         ->with([
@@ -259,7 +257,6 @@ class TripTicketController extends Controller
     }
     $vehicles = $vehicles->get();
     return view('printables.ttr.printReport')->with([
-        'ttreport' => $ttreport,
         'vehicles' => $vehicles
     ]);
 }

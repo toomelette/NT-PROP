@@ -79,25 +79,7 @@ class DriversController extends Controller
         return $drvr ?? abort(503,'Driver not found');
     }
 
-//    public function update(FormRequest $request, $slug)
-//    {
 //
-//        $trans = Vehicles::query()->where('slug', '=', $slug)->first();
-//
-//        $trans->year = $request->year;
-//        $trans->make = $request->make;
-//        $trans->model1 = $request->model1;
-//        $trans->plate_no = $request->plate_no;
-//        $trans->odometer = $request->odometer;
-//        $trans->usage = $request->usage;
-//        $trans->normal_usage = $request->normal_usage;
-//        $trans->status = $request->status;
-//
-//        if ($trans->save()) {
-//            return $trans->only('slug');
-//        }
-//        abort(503, 'Error Updating Vehicle');
-//    }
 
     public function generateTripTicket(){
         return view('ppu.drivers_ttr.generateTripTicket');

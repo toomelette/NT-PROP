@@ -10,6 +10,7 @@
 @endsection
 
 @section('wrapper')
+
     {!! $html !!}
 
 @endsection
