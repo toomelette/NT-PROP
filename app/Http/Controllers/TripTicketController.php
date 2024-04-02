@@ -255,8 +255,9 @@ class TripTicketController extends Controller
     if($request->has('vehicle') && $request->vehicle != ''){
         $vehicles = $vehicles->where('slug','=',$request->vehicle);
     }
-    $vehicles = $vehicles->get();
-    return view('printables.ttr.printReport')->with([
+        $vehicles = $vehicles->orderBy('departure')->get();
+    
+        return view('printables.ttr.printReport')->with([
         'vehicles' => $vehicles
     ]);
 }
