@@ -245,17 +245,17 @@ class TripTicketController extends Controller
             'tripTickets' => function($q) use($request){
 
                 if($request->has('date_start') && $request->date_start != ''){
-                    $q->where('date','>=',$request->date_start);
+                    $q->where('date','>=',$request->date_start)->orderBy('departure');
                 }
                 if($request->has('date_end') && $request->date_end != ''){
-                    $q->where('date','<=',$request->date_end);
+                    $q->where('date','<=',$request->date_end)->orderBy('departure');
                 }
             }
         ]);
     if($request->has('vehicle') && $request->vehicle != ''){
         $vehicles = $vehicles->where('slug','=',$request->vehicle);
     }
-        $vehicles = $vehicles->tripticket->orderBy('departure')->get();
+        $vehicles = $vehicles->get();
 
         return view('printables.ttr.printReport')->with([
         'vehicles' => $vehicles
