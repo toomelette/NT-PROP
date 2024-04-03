@@ -112,40 +112,38 @@ class DriversController extends Controller
         return view('printables.drivers_ttr.printTripTicket')->with([
             'html' => $html,
         ]);
-
-
-
-        $driversttr = TripTicket::all();
-
-
-        $drivers = Drivers::query()
-            ->with([
-                'tripTickets' => function ($w) use ($request) {
-
-                    if ($request->has('date_start') && $request->date_start != '') {
-                        $w->where('date', '>=', $request->date_start);
-                    }
-                    if ($request->has('date_end') && $request->date_end != '') {
-                        $w->where('date', '<=', $request->date_end);
-                    }
-                }
-            ]);
-        if ($request->has('driver') && $request->driver != '') {
-            $drivers = $drivers->where('employee_slug', '=', $request->driver);
-        }
-        $drivers = $drivers->get();
-        $vehicles = Vehicles::get();
-//        dd($drivers);
-//        $passengers = collect(explode(",",$driversttr->passengers))->chunk(3);
-
-        return view('printables.drivers_ttr.printTripTicket')->with([
-            'driversttr' => $driversttr,
-            'drivers' => $drivers,
-            'vehicles' => $vehicles,
-//           'passengers' => $passengers
-        ]);
     }
 
-
-
 }
+
+
+
+//        $driversttr = TripTicket::all();
+//
+//
+//        $drivers = Drivers::query()
+//            ->with([
+//                'tripTickets' => function ($w) use ($request) {
+//
+//                    if ($request->has('date_start') && $request->date_start != '') {
+//                        $w->where('date', '>=', $request->date_start);
+//                    }
+//                    if ($request->has('date_end') && $request->date_end != '') {
+//                        $w->where('date', '<=', $request->date_end);
+//                    }
+//                }
+//            ]);
+//        if ($request->has('driver') && $request->driver != '') {
+//            $drivers = $drivers->where('employee_slug', '=', $request->driver);
+//        }
+//        $drivers = $drivers->get();
+//        $vehicles = Vehicles::get();
+////        dd($drivers);
+////        $passengers = collect(explode(",",$driversttr->passengers))->chunk(3);
+//
+//        return view('printables.drivers_ttr.printTripTicket')->with([
+//            'driversttr' => $driversttr,
+//            'drivers' => $drivers,
+//            'vehicles' => $vehicles,
+////           'passengers' => $passengers
+//        ]);
