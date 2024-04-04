@@ -22,7 +22,7 @@
                     <i class="fa fa-check"></i> Save
                 </button>
 
-                <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.myIndex')}}">Back</a>
+                <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.index')}}">Back</a>
                 </div>
 
             <div class="box-body">
