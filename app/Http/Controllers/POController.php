@@ -207,6 +207,7 @@ class POController extends Controller
         if($orderExist != null) {
             return abort(503,'PO Number already exist.');
         }
+
         $randomSlug = Str::random();
         //$poNUmber = $this->getNextPONo($refBook);
         $s = Suppliers::query()->where('slug','=', $request->supplier)->first();
@@ -255,6 +256,7 @@ class POController extends Controller
             $transNew->order_slug = $randomSlug;
 
             $transactionTotals = [];
+
             if(!empty($request->items)){
                 foreach ($request->items as $item) {
                     $slug = $item['transaction_slug'];
@@ -281,6 +283,7 @@ class POController extends Controller
                     ]);
                 }
             }
+            
             foreach ($transactionTotals as $slug => $total_cost) {
                 foreach ($refNumberArray as $refNumber) {
                     $trans = $transRecords->where('ref_no', $refNumber)->first();

@@ -125,7 +125,6 @@
                                                                 'cols' => 4
                                                                 ]) !!}
                             </div>
-                        </div>
                     </div>
                 </div>
 
@@ -256,6 +255,26 @@
 
         let active;
         $(document).ready(function () {
+
+            $("input[name='acquiredcost']").on('input', function() {
+                // Retrieve the value from the input field
+                let acqCost = $(this).val();
+                // Convert the value to a number
+                let numericValue = parseFloat(acqCost.replace(/,/g, ''));
+                // Check if the parsed value is NaN
+                if (!isNaN(numericValue)) {
+                    // Check if the value has a fractional part
+                    let decimalPlaces = (numericValue % 1 === 0) ? 0 : 2;
+                    // Format the numeric value with commas and decimal places
+                    acqCost = numericValue.toLocaleString('en-US', {minimumFractionDigits: decimalPlaces, maximumFractionDigits: decimalPlaces});
+                } else {
+                    // If the value is NaN (not a number), set it to an empty string
+                    acqCost = '';
+                }
+                // Update the input field value with the formatted value
+                $(this).val(acqCost);
+            });
+
             $("input[name='acctemployee_no']").on('keyup', function(event) {
                 if (event.type === "keyup" && event.keyCode === 13) {
                     var inputValue = $(this).val();
