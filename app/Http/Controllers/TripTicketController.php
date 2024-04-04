@@ -53,7 +53,7 @@ class TripTicketController extends Controller
             ],'distance_traveled')
             ->first();
         $baseOdo = $v->odometer ?? 0;
-        $currentOdo = $baseOdo + $v->trip_tickets_sum_distance_traveled;
+        $currentOdo = $baseOdo + ($v->trip_tickets_sum_distance_traveled ?? 0);
         return response()->json([
             'ticket' => $ticket,
             'usage' => ($v->usage ?? 0) * 1,
@@ -79,21 +79,21 @@ class TripTicketController extends Controller
     public function store(tripTicketFormRequest $request)
     {
 
-        $t = TripTicket::query()
-            ->where('vehicle','=',$request->vehicle)
-            ->count();
-        if($t != 0){
-            $tripTicket = TripTicket::query()
-                ->where('vehicle','=',$request->vehicle)
-                ->where(function ($q){
-                    return $q->where('odometer_to','=',null)
-                        ->orWhere('gas_remaining_balance','=',null);
-                })
-                ->count();
-            if($tripTicket > 0){
-                abort(503,'Previous trip ticket is not yet fulfilled');
-            }
-        }
+//        $t = TripTicket::query()
+//            ->where('vehicle','=',$request->vehicle)
+//            ->count();
+//        if($t != 0){
+//            $tripTicket = TripTicket::query()
+//                ->where('vehicle','=',$request->vehicle)
+//                ->where(function ($q){
+//                    return $q->where('odometer_to','=',null)
+//                        ->orWhere('gas_remaining_balance','=',null);
+//                })
+//                ->count();
+//            if($tripTicket > 0){
+//                abort(503,'Previous trip ticket is not yet fulfilled');
+//            }
+//        }
 
         $transNewSlug = Str::random();
         $transNew = new TripTicket();
@@ -119,6 +119,10 @@ class TripTicketController extends Controller
         $transNew->odometer_from = $request->odometer_from;
         $transNew->odometer_to = $request->odometer_to;
         $transNew->distance_traveled = $request->distance_traveled;
+        $transNew->gear_oil = $request->gear_oil;
+        $transNew->lubricant_oil = $request->lubricant_oil;
+        $transNew->grease = $request->grease;
+        $transNew->remarks = $request->remarks;
 
         if ($transNew->save()) {
             return $transNew->only('slug');
@@ -154,6 +158,10 @@ class TripTicketController extends Controller
         $trans->odometer_from = $request->odometer_from;
         $trans->odometer_to = $request->odometer_to;
         $trans->distance_traveled = $request->distance_traveled;
+        $trans->gear_oil = $request->gear_oil;
+        $trans->lubricant_oil = $request->lubricant_oil;
+        $trans->grease = $request->grease;
+        $trans->remarks = $request->remarks;
 
         if ($trans->save()) {
             return $trans->only('slug');

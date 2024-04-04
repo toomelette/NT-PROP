@@ -36,7 +36,8 @@
                            'label' => 'Vehicle:',
                            'cols' => 3,
                            'options' => \App\Swep\Helpers\Arrays::vehicles(),
-                           'class' => 'vehicle1'
+                           'class' => 'vehicle1',
+                           'id' => 'vehicle',
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('passengers',[
@@ -94,11 +95,44 @@
                     \App\Swep\Helpers\Helper::getSetting('tt_approved_by_designation')->string_value ?? null
                      ) !!}
 
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('gear_oil',[
+                    'label' => 'Gear Oil issued:',
+                    'cols' => 3,
+                    'class' => 'gear_oil'
+                  ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('lubricant_oil',[
+                      'label' => 'Lub. Oil issued:',
+                      'cols' => 3,
+                      'class' => 'lubricant_oil'
+                    ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('grease',[
+                      'label' => 'Grease issued:',
+                      'cols' => 3,
+                      'class' => 'grease'
+                    ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textarea('remarks',[
+                     'label' => 'Remarks:',
+                     'cols' => 3,
+                     'class' => 'remarks'
+                   ]) !!}
+
+
 
                 </div>
             </div>
 
+
             <div class="box box-success">
+                <div class="box-header with-border">
+
+                    <button class="btn btn-primary btn-sm " id="getBalance" type="button" style="margin-left: 15px">
+                        <i class=""></i> Get Balance and Odo
+                    </button>
+
+            </div>
                 <div class="box-body">
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('gas_balance',[
@@ -164,6 +198,7 @@
                       'class' => 'distanceTravelled',
                     ]) !!}
 
+
                     </div>
                 </div>
             </div>
@@ -183,6 +218,7 @@
     <script type="text/javascript">
         let vehicleUsage = 0;
         $('.vehicle1').on("change", function () {
+            /*
             let uri = '{{route("dashboard.trip_ticket.findOdo", "vehicle") }}';
             uri = uri.replace('vehicle',$(this).val());
             $.ajax({
@@ -193,14 +229,47 @@
                 },
                 success: function (res) {
                     console.log(res);
-                    $('input[name="odometer_from"]').val(res.currentOdo);
                     $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
+                    $('input[name="odometer_from"]').val(res.currentOdo);
                     vehicleUsage = res.usage;
                 },
                 error: function (res) {
                     toast('error',res.responseJSON.message,'Error!');
                 }
             })
+             */
+
+        });
+
+        $("#getBalance").click(function (res){
+            let vehicle = $('#vehicle').val();
+            let uri = '{{route("dashboard.trip_ticket.findOdo", "vehicle") }}';
+            uri = uri.replace('vehicle',vehicle);
+            if (vehicle !== ""){
+                $.ajax({
+                    url : uri,
+                    type: 'GET',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
+                        $('input[name="odometer_from"]').val(res.currentOdo);
+                        vehicleUsage = res.usage;
+                    },
+                    error: function (res) {
+                        toast('error',res.responseJSON.message,'Error!');
+                    }
+                })
+            }
+            else{
+                toast('error','Please select vehicle.');
+            }
+
+        });
+
+        $(".getOdometer").click(function (res){
 
         });
 
@@ -275,8 +344,8 @@
                                 success: function (res) {
                                     console.log(res);
                                     // $('input[name="odometer_from"]').val(res.ticket.odometer_to);
-                                    $('input[name="odometer_from"]').val(res.currentOdo);
-                                    $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
+                                    // $('input[name="odometer_from"]').val(res.currentOdo);
+                                    // $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
                                 },
                                 error: function (res) {
                                     toast('error',res.responseJSON.message,'Error!');
