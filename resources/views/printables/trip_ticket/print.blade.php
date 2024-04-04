@@ -131,6 +131,15 @@
 
                 <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;  text-align: center" >
                     <tr style=" width: 100%; border-bottom: 1px solid black; ">
+                        <td style="border-right: 1px solid black; border-left: 1px solid black; font-size: 17px; width: 100%; vertical-align: center;">
+                            <b>To be filled by the driver</b>
+                        </td>
+
+                    </tr>
+                </table>
+
+                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;  text-align: center" >
+                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
                         <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; font-size: 15px; width: 62.5%; vertical-align: center;">
                             <b>Fuel Issued, Purchased, Used</b>
                         </td>
@@ -139,6 +148,8 @@
                         </td>
                     </tr>
                 </table>
+
+
 
                 <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
 
@@ -194,6 +205,50 @@
                     </div>
 
                 </table>
+
+                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
+
+                    <tr style="border-bottom: 1px solid black; border-left: 1px solid black; width: 100%;">
+
+                        <td rowspan="2" style="border-right: 1px solid black; width: 15.4%; vertical-align: center;">
+                            Gear oil issued:
+                        </td>
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
+                            {{$tt->gear_oil ?? null}}
+                        </td>
+
+                        <td style="border-right: 1px solid black; width: 15.3%; vertical-align: center;">
+                            Lubricant oil issued:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
+                            {{$tt->lubricant_oil ?? null}}
+                        </td>
+                    </tr>
+
+                </table>
+
+                <table style="font-family: Cambria,Arial;  width: 100%; " >
+
+                    <tr style="border-bottom: 1px solid black; border-left: 1px solid black; width: 100%;">
+
+                        <td rowspan="2" style="border-right: 1px solid black; width: 15.4%; vertical-align: center;">
+                            Grease issued:
+                        </td>
+                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
+                            {{$tt->grease ?? null}}
+                        </td>
+
+                        <td style="border-right: 1px solid black; width: 15.3%; vertical-align: center;">
+                            Remarks:
+                        </td>
+                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
+                            {{$tt->remarks ?? null}}
+                        </td>
+                    </tr>
+
+                </table>
+
+
 
                 <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
 
