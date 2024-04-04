@@ -21,6 +21,7 @@
                 <button class="btn btn-primary btn-sm pull-right"  type="submit">
                     <i class="fa fa-check"></i> Save
                 </button>
+
                 <a type="button" style="margin-right: 3px" class="btn btn-danger btn-sm pull-right" id="backBtn" href="{{route('dashboard.ris.myIndex')}}">Back</a>
                 </div>
 
@@ -153,6 +154,7 @@
                     <div class="box-body">
 
                         <div class="" id="tableContainer" style="margin-top: 50px">
+                            <button data-target="#trans_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=ris_items" style="margin-bottom: 5px; margin-top: 5px; margin-right: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
                             <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
                                 <thead>
                                 <tr>
