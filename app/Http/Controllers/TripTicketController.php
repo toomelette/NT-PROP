@@ -226,11 +226,10 @@ class TripTicketController extends Controller
             ->where('slug', $slug)
             ->first();
 
-        $passengers = collect(explode(",",$tt->passengers))->chunk(3);
+
 
         return view('printables.trip_ticket.print')->with([
-            'tt' => $tt,
-           'passengers' =>  $passengers,
+            'tt' => $tt
         ]);
     }
 
@@ -240,27 +239,25 @@ class TripTicketController extends Controller
     }
 
     public function printReport(Request $request){
-    $ttreport = TripTicket::all();
-
 
     $vehicles = Vehicles::query()
         ->with([
             'tripTickets' => function($q) use($request){
 
                 if($request->has('date_start') && $request->date_start != ''){
-                    $q->where('date','>=',$request->date_start);
+                    $q->where('date','>=',$request->date_start)->orderBy('departure');
                 }
                 if($request->has('date_end') && $request->date_end != ''){
-                    $q->where('date','<=',$request->date_end);
+                    $q->where('date','<=',$request->date_end)->orderBy('departure');
                 }
             }
         ]);
     if($request->has('vehicle') && $request->vehicle != ''){
         $vehicles = $vehicles->where('slug','=',$request->vehicle);
     }
-    $vehicles = $vehicles->get();
-    return view('printables.ttr.printReport')->with([
-        'ttreport' => $ttreport,
+        $vehicles = $vehicles->get();
+
+        return view('printables.ttr.printReport')->with([
         'vehicles' => $vehicles
     ]);
 }
@@ -303,10 +300,10 @@ class TripTicketController extends Controller
                 'tripTickets' => function($q) use($request){
 
                     if($request->has('date_start') && $request->date_start != ''){
-                        $q->where('date','>=',$request->date_start);
+                        $q->where('date','>=',$request->date_start)->orderBy('departure');
                     }
                     if($request->has('date_end') && $request->date_end != ''){
-                        $q->where('date','<=',$request->date_end);
+                        $q->where('date','<=',$request->date_end)->orderBy('departure');
                     }
                 }
             ]);
@@ -335,10 +332,10 @@ class TripTicketController extends Controller
                 'tripTickets' => function ($w) use ($request) {
 
                     if ($request->has('date_start') && $request->date_start != '') {
-                        $w->where('date', '>=', $request->date_start);
+                        $w->where('date', '>=', $request->date_start)->orderBy('departure');
                     }
                     if ($request->has('date_end') && $request->date_end != '') {
-                        $w->where('date', '<=', $request->date_end);
+                        $w->where('date', '<=', $request->date_end)->orderBy('departure');
                     }
                 }
             ]);

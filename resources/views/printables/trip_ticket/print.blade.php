@@ -2,6 +2,7 @@
     use SimpleSoftwareIO\QrCode\Facades\QrCode;
     $rand = \Illuminate\Support\Str::random();
 
+    $passengers = collect(explode(",",$tt->passengers))->chunk(3);
 @endphp
 
 @extends('printables.print_layouts.print_layout_main')
@@ -11,7 +12,7 @@
 
 @section('wrapper')
 
-    <div class="printable">
+    <div class="printable" style="break-after: page">
         <div style="width: 100%;">
             <div class="" style="margin-bottom: 100px; padding-top: 20px;">
                 <div>
@@ -174,15 +175,17 @@
                         </div>
 
                         <div style="width: 10%; text-align: right; padding-right: 10px; ">
-                            <h5><u><b style="margin-left: 2px">{{$prevOdo = $tt->vehicles->odometer + $tt->vehicles->tripTickets->sum('distance_traveled') ?? "________" }}</b></u></h5>
+                            <h5>
+                                <u>
+                                    <b style="margin-left: 2px">
+                                        {{$tt->odometer_from ?? "________" }}
+                                    </b>
+                                </u>
+                            </h5>
                             <h5>
                                 <u>
                                 <b style="margin-left: 2px">
-                                    @if($tt->distance_traveled != null)
-                                    {{$prevOdo + $tt->distance_traveled ?? "________" }}
-                                        @else
-                                        ________
-                                    @endif
+                                    {{$tt->odometer_to ?? "________" }}
                                 </b>
                                 </u>
                             </h5>

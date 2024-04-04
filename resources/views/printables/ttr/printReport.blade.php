@@ -41,7 +41,7 @@
                     <td style="width: 20%">
                         <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
                     </td>
-                    <td style="font-size: 20px">
+                    <td style="font-size: 16px">
                         <p class="no-margin">Republic of the Philippines</p>
                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                         <p class="no-margin">{{\App\Swep\Helpers\Values::headerAddress()}}, {{\App\Swep\Helpers\Values::headerTelephone()}}</p>
@@ -73,12 +73,12 @@
                     <tbody>
                     @php
                         $request = \Illuminate\Support\Facades\Request::capture();
-                        $running_odo = \App\Models\TripTicket::query()
+                        /*$running_odo = \App\Models\TripTicket::query()
                             ->where('date','<',$request->date_start)
                             ->where('vehicle','=',$vehicle->slug)
                             ->sum('distance_traveled');
 
-                        $running_odo = $running_odo + $vehicle->odometer;
+                        $running_odo = $running_odo + $vehicle->odometer;*/
                     @endphp
 
 
@@ -88,11 +88,11 @@
                             <td style="text-align: center; width: 9%" >{{$tripTicket->departure}}</td>
                             <td style="text-align: center; width: 9%" >{{$tripTicket->return}}</td>
                             <td style="text-align: center; width: 7%" >{{$tripTicket->drivers->employee->fullname}}</td>
-                            <td style="text-align: center; width: 7%"> {{$running_odo}}</td>
+                            <td style="text-align: center; width: 7%"> {{$tripTicket->odometer_from}}</td>
                             @php
-                                $running_odo = $running_odo + $tripTicket->distance_traveled;
+                                /*$running_odo = $running_odo + $tripTicket->distance_traveled;*/
                             @endphp
-                            <td style="text-align: center; width: 8%"> {{$running_odo}} </td>
+                            <td style="text-align: center; width: 8%"> {{$tripTicket->odometer_to}} </td>
                             <td style="text-align: center; width: 7%" >{{$a = $tripTicket->distance_traveled}}</td>
                             <td style="text-align: center; width: 7%" >{{$b = $tripTicket->consumed}}</td>
                             <td style="text-align: center; width: 7%" >

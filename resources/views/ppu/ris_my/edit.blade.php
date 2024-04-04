@@ -153,6 +153,7 @@
                     <div class="box-body">
 
                         <div class="" id="tableContainer" style="margin-top: 50px">
+
                             <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
                                 <thead>
                                 <tr>

@@ -48,7 +48,7 @@
                             {{$ris->ref_no}}
                         </td>
                     </tr>
-
+                    <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
                         <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
                             RIS Date:
                         </td>

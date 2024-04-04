@@ -41,7 +41,7 @@
                     <td style="width: 20%">
                         <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
                     </td>
-                    <td style="font-size: 20px">
+                    <td style="font-size: 16px">
                         <p class="no-margin">Republic of the Philippines</p>
                         <p class="no-margin text-strong">SUGAR REGULATORY ADMINISTRATION</p>
                         <p class="no-margin">{{\App\Swep\Helpers\Values::headerAddress()}}, {{\App\Swep\Helpers\Values::headerTelephone()}}</p>
