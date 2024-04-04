@@ -66,7 +66,7 @@
                     <tr style="border: 1px solid black; width: 100%;">
 
                         <td style="border-right: 1px solid black; width: 11%; vertical-align: top;">
-                            Invoice Number:
+                            Invoice/Billing No.:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black;  width: 35%">
                             {{$iar->invoice_number}}
@@ -85,7 +85,7 @@
                     <tr style="border: 1px solid black; width: 100%;">
 
                         <td style="border-right: 1px solid black; vertical-align: center; width: 11%">
-                            Invoice Date:
+                            Invoice/Billing Date:
                         </td>
                         <td class="text-strong" style="vertical-align: center; width: 35%;">
                             {{$iar->invoice_date}}
