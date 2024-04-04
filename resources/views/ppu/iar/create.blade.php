@@ -22,24 +22,24 @@
                     <div class="box-body">
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('po_date',[
-                           'label' => 'PO Date',
+                           'label' => 'PO/JO Date',
                            'cols' => 2,
                            'type' => 'date',
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('ref_number',[
-                            'label' => 'PO No:',
+                            'label' => 'PO/JO No:',
                             'cols' => 3,
                          ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_date',[
-                           'label' => 'Invoice Date',
+                           'label' => 'Invoice/Billing Date',
                            'cols' => 2,
                            'type' => 'date',
                         ]) !!}
 
                         {!! \App\Swep\ViewHelpers\__form2::textbox('invoice_number',[
-                          'label' => 'Invoice No:',
+                          'label' => 'Invoice/Billing No:',
                           'cols' => 3,
                           'id' => 'invoice_number',
                        ]) !!}
