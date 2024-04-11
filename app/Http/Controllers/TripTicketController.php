@@ -110,6 +110,8 @@ class TripTicketController extends Controller
         $transNew->approved_by_designation = $request->approved_by_designation;
         $transNew->departure = $request->departure;
         $transNew->return = $request->return;
+        $transNew->arrival = $request->arrival;
+        $transNew->return_departure = $request->return_departure;
         $transNew->gas_balance = $request->gas_balance;
         $transNew->gas_issued = $request->gas_issued;
         $transNew->purchased = $request->purchased;
@@ -149,6 +151,8 @@ class TripTicketController extends Controller
         $trans->approved_by_designation = $request->approved_by_designation;
         $trans->departure = $request->departure;
         $trans->return = $request->return;
+        $trans->arrival = $request->arrival;
+        $trans->return_departure = $request->return_departure;
         $trans->gas_balance = $request->gas_balance;
         $trans->gas_issued = $request->gas_issued;
         $trans->purchased = $request->purchased;

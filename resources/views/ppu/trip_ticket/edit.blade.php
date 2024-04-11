@@ -101,6 +101,22 @@
                          $tt ?? null
                              ) !!}
 
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('arrival',[
+                    'label' => 'Arrival',
+                    'cols' => 3,
+                    'type' => 'datetime-local',
+                  ],
+                         $tt ?? null
+                             ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('return_departure',[
+                      'label' => 'Return Departure',
+                      'cols' => 3,
+                      'type' => 'datetime-local',
+                    ],
+                         $tt ?? null
+                             ) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
                      'label' => 'Approved By:',
                      'cols' => 3,
