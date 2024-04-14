@@ -316,7 +316,7 @@
 
             <div style="font-family: Cambria,Arial; border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black">
                 <br><h5 class="" style=" margin: 0px; padding-left: 10px; font-size: 17px; float: left">
-                   I hereby certify that I/We used motor vehicle on official business as stated above:
+                   I hereby certify that I/We used this motor vehicle on official business as stated above:
                 </h5><br>
                 <h5 class="" style="margin: 0px; padding-left: 10px; float: left">
                     <i>(Signature of Authorized Passengers)</i>
