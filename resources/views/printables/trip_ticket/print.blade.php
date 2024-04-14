@@ -30,282 +30,314 @@
                 <span class="" style="float: right">
                     {{ QrCode::size(50)->generate(route("dashboard.trip_ticket.index",$tt->slug)) }}
                 </span>
+            </div>
 
-                <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; margin-top: 105px">
-                    <tbody>
+            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black;  border-left: 1px solid black; border-right: 1px solid black; margin-top: 105px">
+                <tbody>
 
-                    <tr style="border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black;">
-                        <td rowspan="2" style="width: 49%; border-right: 1px solid black; font-size: 30px">
-                            <strong>DRIVER'S TRIPS TICKET</strong>
+                    <tr style="border-top: 1px solid black; border-left: 1px solid black;  text-align: center;  border-right: 1px solid black;">
+                        <td rowspan="2" style="width: 65%; border-right: 1px solid black; font-size: 30px">
+                            <strong>DRIVER'S TRIP TICKET</strong>
                         </td>
-                        <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
-                            Trip Ticket No.:
+                        <td style="width: 35%;  font-size: 15px; text-align: left;">
+                           Ticket No.:  &nbsp;  &nbsp;<strong>{{$tt->ticket_no}}</strong>
                         </td>
-                        <td style="border-top: 1px solid black;" class="text-strong ">
-                            {{$tt->ticket_no}}
-                        </td>
-
-
                     </tr>
-                        <td style="margin-top: 5px; width: 14%; border-right: 1px solid black; border-top: 1px solid black; position: relative;">
-                            Date:
+                    <tr>
+                        <td style="width: 35%;  font-size: 15px; text-align: left; border-top: 1px solid black;" >
+                            Date:  &nbsp;  &nbsp; <strong>{{$tt->date}}</strong>
                         </td>
-                        <td style="border-top: 1px solid black; " class="text-strong ">
-                            {{$tt->date}}
-                        </td>
-                    </tbody>
-                </table>
+                    </tr>
+                </tbody>
+            </table>
 
-                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
+            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; ">
 
-
-                    <tr style="border: 1px solid black; width: 100%;">
-
-                        <td rowspan="2" style="border-right: 1px solid black; width: 13.4%; vertical-align: center;">
-                            Vehicle:
-                        </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->vehicles->make . ' ' .$tt->vehicles->model . ' - ' . $tt->vehicles->plate_no}}
-                        </td>
-
-                        <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
-                            Driver:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->drivers->employee->fullname}}
+                    <tr style=" border-left: 1px solid black; border-top: 1px solid black; text-align: left;  border-right: 1px solid black;">
+                        <td style="width: 50%;  font-size: 17px">
+                            <strong>A. &nbsp; &nbsp; To be filled by the Administrative Official Authorizing Official Travel</strong>
                         </td>
                     </tr>
 
-                </table>
+            </table>
 
-                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;" >
+            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; ">
 
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        1. Name of driver of the Vehicle
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->drivers->employee->fullname}}
+                    </td>
+                </tr>
 
-                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        2. Government car to be used, Plate No.
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->vehicles->make . ' ' .$tt->vehicles->model1 . ' - ' . $tt->vehicles->plate_no}}
+                    </td>
+                </tr>
 
-                        <td  rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: top;">
-                            Purpose:
-                        </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: top;  width: 34.7%">
-                            {{$tt->purpose}}
-                        </td>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        3. Name of Authorized passenger(s)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        * SEE BELOW *
+                    </td>
+                </tr>
 
-                        <td  style="border-right: 1px solid black; border-left: 1px solid black; width: 13.4%; vertical-align: center;">
-                            Departure:
-                        </td>
-                        <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->departure}}
-                        </td>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        4. Place or places to be visited/inspected
+                    </td>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->destination}}
+                    </td>
+                </tr>
 
-                    </tr>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        5. Purpose
+                    </td>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->purpose}}
+                    </td>
+                </tr>
 
-                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
+            </table>
 
-                        <td style="border-right: 1px solid black; width: 13.75%; vertical-align: center;">
-                            Return:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->return}}
-                        </td>
+            <table style="font-family: Cambria,Arial; width: 100%; border-left: 1px solid black; border-right: 1px solid black; ">
 
-                    </tr>
+                <tr style=" border-left: 1px solid black; text-align: left;  border-right: 1px solid black;">
+                    <td style="width: 50%;  font-size: 17px">
+                        <strong>B. &nbsp; &nbsp; To be filled by the Driver</strong>
+                    </td>
+                </tr>
 
-                </table>
+            </table>
 
-                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;" >
+            <table style="font-family: Cambria,Arial; width: 100%; border-top: 1px solid black; border-left: 1px solid black; border-right: 1px solid black; ">
 
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        1. Time of departure from office/garage
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->departure ?? null}}
+                    </td>
+                </tr>
 
-                    <tr style=" width: 100%; border-left: 1px solid black; border-bottom: 1px solid black; ">
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        2. Time of arrival at (per No.4)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->arrival ?? null}}
+                    </td>
+                </tr>
 
-                        <td style="border-right: 1px solid black; width: 13.62%; vertical-align: center;">
-                            Destination:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 87.25%">
-                            {{$tt->destination}}
-                        </td>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        3. Time of departure from (per No.4)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->return_departure ?? null}}
+                    </td>
+                </tr>
 
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        4. Time of arrival back to office/garage
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->return ?? null}}
+                    </td>
+                </tr>
 
-                    </tr>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        5. Approximate distance travelled (to and from) (KM)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->distance_traveled ?? null}}
+                    </td>
+                </tr>
 
-                </table>
-
-                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;  text-align: center" >
-                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
-                        <td style="border-right: 1px solid black; border-left: 1px solid black; font-size: 17px; width: 100%; vertical-align: center;">
-                            <b>To be filled by the driver</b>
-                        </td>
-
-                    </tr>
-                </table>
-
-                <table style="font-family: Cambria,Arial; width: 100%; border: #0a0a0a;  text-align: center" >
-                    <tr style=" width: 100%; border-bottom: 1px solid black; ">
-                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; font-size: 15px; width: 62.5%; vertical-align: center;">
-                            <b>Fuel Issued, Purchased, Used</b>
-                        </td>
-                        <td rowspan="2" style="border-right: 1px solid black; border-left: 1px solid black; font-size: 15px; width: 37.5%; vertical-align: center;">
-                            <b>Odometer</b>
-                        </td>
-                    </tr>
-                </table>
-
-
-
-                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
-
-                    <div style="font-family: Cambria, Arial; font-size: 13px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; display: flex;">
-
-                        <!-- Left column -->
-                        <div style="width: 29%; padding: 10px; ">
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Balance in tank (L):</h5>
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Issued from Office/Supplier (L): </h5>
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Purchase/s during trip (L): </h5>
-                            <h5 style="margin: 0; text-align: left; width: 200px;">TOTAL (L): </h5>
-                        </div>
-
-                        <div style="width: 10%; padding-right: 10px; border-right: 1px solid black; text-align: right;">
-                            <h5><u><b style="margin-left: 2px">{{ $tt->gas_balance ?? "________" }}</b></u></h5>
-                            <h5><u><b style="margin-left: 2px">{{ $tt->gas_issued ?? "________" }}</b></u></h5>
-                            <h5><u><b style="margin-left: 2px">{{ $tt->purchased ?? "________" }}</b></u></h5>
-                            <h5><u><b style="margin-left: 2px">{{ $tt->total ?? "________" }}</b></u></h5>
-                        </div>
-
-                        <!-- Middle column -->
-                        <div style="width: 30%; padding: 10px; border-right: 1px solid black;">
-                            <h5 style="margin: 0; text-align: left;">Fuel consumed (L): </h5>
-                            <h5><u><b style="margin-left: 5px; text-align: left;">{{$tt->consumed ?? "________" }}</b></u></h5>
-                            <h5 style="margin: 0; text-align: left;">Balance at end of Trip (L): </h5>
-                            <h5><u><b style="margin-left: 2px; text-align: left;">{{$tt->gas_remaining_balance ?? "________" }}</b></u></h5>
-                        </div>
-
-                        <!-- Right column -->
-                        <div style="width: 29%; padding: 10px;">
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: Start of trip: </h5>
-                            <h5 style="margin: 0 0 10px 0; text-align: left; width: 200px;">Odometer: End of trip: </h5>
-                            <h5 style="margin: 0; text-align: left; width: 200px;">Distance Travelled (KM): </h5>
-                        </div>
-
-                        <div style="width: 10%; text-align: right; padding-right: 10px; ">
-                            <h5>
-                                <u>
-                                    <b style="margin-left: 2px">
-                                        {{$tt->odometer_from ?? "________" }}
-                                    </b>
-                                </u>
-                            </h5>
-                            <h5>
-                                <u>
-                                <b style="margin-left: 2px">
-                                    {{$tt->odometer_to ?? "________" }}
-                                </b>
-                                </u>
-                            </h5>
-                            <h5><u><b style="margin-left: 5px">{{$tt->distance_traveled ?? "________" }}</b></u></h5>
-                        </div>
-                    </div>
-
-                </table>
-
-                <table style="font-family: Cambria,Arial;  width: 100%; border: #0a0a0a;" >
-
-                    <tr style="border-bottom: 1px solid black; border-left: 1px solid black; width: 100%;">
-
-                        <td rowspan="2" style="border-right: 1px solid black; width: 15.4%; vertical-align: center;">
-                            Gear oil issued:
-                        </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->gear_oil ?? null}}
-                        </td>
-
-                        <td style="border-right: 1px solid black; width: 15.3%; vertical-align: center;">
-                            Lubricant oil issued:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->lubricant_oil ?? null}}
-                        </td>
-                    </tr>
-
-                </table>
-
-                <table style="font-family: Cambria,Arial;  width: 100%; " >
-
-                    <tr style="border-bottom: 1px solid black; border-left: 1px solid black; width: 100%;">
-
-                        <td rowspan="2" style="border-right: 1px solid black; width: 15.4%; vertical-align: center;">
-                            Grease issued:
-                        </td>
-                        <td rowspan="2" class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 34.7%">
-                            {{$tt->grease ?? null}}
-                        </td>
-
-                        <td style="border-right: 1px solid black; width: 15.3%; vertical-align: center;">
-                            Remarks:
-                        </td>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 36.3%">
-                            {{$tt->remarks ?? null}}
-                        </td>
-                    </tr>
-
-                </table>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style=" width: 50%; vertical-align: center;">
+                        <b>6. Gasoline issued, Purchased and Consumed (L)</b>
+                    </td>
+                </tr>
 
 
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 6.1. Balance in tank (L)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->gas_balance}}
+                    </td>
+                </tr>
 
-                <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 6.2. Issued by the office from stock (L)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->gas_issued}}
+                    </td>
+                </tr>
 
-                    <div style="flex: 1; text-align: center; border-left: 1px solid black">
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 6.3. Add-Purchased during trip (L)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->purchased}}
+                    </td>
+                </tr>
 
-                        <h5 class="" style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px; text-align: justify; float: left">
-                            I hereby certify to the correctness of the above statement / travel:
-                        </h5><br><br><br>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 6.4. TOTAL (L)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->total}}
+                    </td>
+                </tr>
 
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            <b><u>{{$tt->drivers->employee->fullname}}</u></b>
-                        </td><br>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            DRIVER
-                        </td><br>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        7. Gear oil issued
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->gear_oil ?? null}}
+                    </td>
+                </tr>
 
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        8. Lub. oil issued
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->lubricant_oil ?? null}}
+                    </td>
+                </tr>
 
-                    </div>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        9. Grease issued
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->grease ?? null}}
+                    </td>
+                </tr>
 
-                    <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style=" width: 50%; vertical-align: center;">
+                        <b>10. Odometer Readings, if any</b>
+                    </td>
+                </tr>
 
-                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: justify; float: left">Approved by:</h5><br><br><br>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 10.1. At beginning of trip
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->odometer_from}}
+                    </td>
+                </tr>
 
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            <b><u>{{$tt->approved_by}}</u></b>
-                        </td><br>
-                        <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            {{$tt->approved_by_designation}}
-                        </td><br>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 10.2. At end of trip
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->odometer_to}}
+                    </td>
+                </tr>
 
-                    </div>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 10.3. Distance Travelled (per No. 5) (KM)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->distance_traveled}}
+                    </td>
+                </tr>
 
-                </div>
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        11. Remarks
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->remarks ?? null}}
+                    </td>
+                </tr>
 
-                <div style="font-family: Cambria,Arial; border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black">
-                    <br><h5 class="" style=" margin: 0px; padding-left: 10px; float: left">
-                        I hereby certify that this vehicle is used on official business / travel:
-                    </h5><br>
-                    <h5 class="" style="margin: 0px; padding-left: 10px; float: left">
-                        <i>(Signature of Authorized Passengers)</i>
+            </table>
+
+            <div style="font-family: Cambria,Arial; display: flex; border-right: 1px solid black; border-bottom: 1px solid black">
+
+                <div style="flex: 1; text-align: center; border-left: 1px solid black">
+
+                    <h5 class="" style="margin-left: 10px; margin-right: 10px; margin-bottom: 10px; text-align: justify; float: left">
+                        I hereby certify to the correctness of the above statement of record of travel.
                     </h5><br><br><br>
 
-                    @foreach($passengers as $group)
-                        <div>
-                            @foreach($group as $passenger)
-                                <div style="float: left; width: 33.33%; ">
-                                    <h5 class="" style="margin: 0;">
-                                        <u>{{$passenger}}</u>
-                                    </h5>
-                                </div>
-                            @endforeach
-                            <br><br><br>
-                        </div>
-                    @endforeach
-                    <br><br><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        <b><u>{{$tt->drivers->employee->fullname}}</u></b>
+                    </td><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        DRIVER
+                    </td><br>
+
+
                 </div>
+
+                <div style="font-family: Cambria,Arial; flex: 1; text-align: center; border-left: 1px solid black">
+
+                    <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: justify; float: left">Approved by:</h5><br><br><br>
+
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        <b><u>{{$tt->approved_by}}</u></b>
+                    </td><br>
+                    <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
+                        {{$tt->approved_by_designation}}
+                    </td><br>
+
+                </div>
+
             </div>
+
+            <div style="font-family: Cambria,Arial; border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black">
+                <br><h5 class="" style=" margin: 0px; padding-left: 10px; font-size: 17px; float: left">
+                   I hereby certify that I/We used motor vehicle on official business as stated above:
+                </h5><br>
+                <h5 class="" style="margin: 0px; padding-left: 10px; float: left">
+                    <i>(Signature of Authorized Passengers)</i>
+                </h5><br><br><br>
+
+                @foreach($passengers as $group)
+                    <div>
+                        @foreach($group as $passenger)
+                            <div style="float: left; width: 33.33%; ">
+                                <h5 class="" style="margin: 0; font-size: 15px">
+                                    <b><u>{{$passenger}}</u></b>
+                                </h5>
+                            </div>
+                        @endforeach
+                        <br><br><br>
+                    </div>
+                @endforeach
+                <br><br>
+            </div>
+
+
         </div>
     </div>
 
