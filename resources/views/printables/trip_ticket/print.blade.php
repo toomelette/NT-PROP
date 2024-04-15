@@ -221,7 +221,7 @@
 
                 <tr style="border: 1px solid black; width: 100%;">
                     <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
-                        &nbsp; 6.6 Balance at the end of trip (L)
+                        &nbsp; 6.6. Balance at the end of trip (L)
                     </td>
                     <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
                         {{$tt->gas_remaining_balance}}
