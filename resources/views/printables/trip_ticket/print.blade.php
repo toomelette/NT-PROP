@@ -203,7 +203,16 @@
 
                 <tr style="border: 1px solid black; width: 100%;">
                     <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
-                        &nbsp; 6.4. TOTAL (L)
+                        &nbsp; 6.4. Deduct use in trip (L)
+                    </td>
+                    <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
+                        {{$tt->consumed}}
+                    </td>
+                </tr>
+
+                <tr style="border: 1px solid black; width: 100%;">
+                    <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
+                        &nbsp; 6.5. TOTAL (L)
                     </td>
                     <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
                         {{$tt->total}}
