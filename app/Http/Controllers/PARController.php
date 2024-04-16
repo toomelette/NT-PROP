@@ -260,7 +260,7 @@ class PARController extends Controller
 
     public function savePict(Request $request){
         $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png'
+            'file' => 'required|mimes:jpg,jpeg,png,pdf'
         ]);
 
         $file = $request->file('file');
