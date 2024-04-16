@@ -73,7 +73,7 @@
                         </td>
 
                         <td style="border-right: 1px solid black; width: 13.9%; vertical-align: center;">
-                            PO Number:
+                            PO/JO No.:
                         </td>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 40%">
                             {{$iar->po_number}}
@@ -92,7 +92,7 @@
                         </td>
 
                         <td style="border-right: 1px solid black; border-left: 1px solid black; vertical-align: top; width: 13.9%">
-                            PO Date:
+                            PO/JO Date:
                         </td>
                         <td class="text-strong" style="vertical-align: top; width: 40%;">
                             {{$iar->po_date}}

@@ -96,8 +96,10 @@
                             <td style="text-align: center; width: 7%" >{{$a = $tripTicket->distance_traveled}}</td>
                             <td style="text-align: center; width: 7%" >{{$b = $tripTicket->consumed}}</td>
                             <td style="text-align: center; width: 7%" >
-                                @if($tripTicket->consumed != null or $tripTicket->consumed != 0)
-                                {{number_format($tripTicket->distance_traveled / $tripTicket->consumed, 2) }}
+                                @if($tripTicket->consumed != null or $tripTicket->consumed != 0 )
+                                    @if($tripTicket->distance_traveled != null or $tripTicket->distance_traveled != 0 )
+                                        {{number_format($tripTicket->distance_traveled / $tripTicket->consumed, 2) }}
+                                    @endif
                                 @endif
                             </td>
                             <td style="text-align: center; width: 7%" >{{$d = $vehicle->normal_usage}}</td>

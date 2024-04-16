@@ -42,6 +42,8 @@
                            'label' => 'Vehicle:',
                            'cols' => 3,
                            'options' => \App\Swep\Helpers\Arrays::vehicles(),
+                           'class' => 'vehicle1',
+                           'id' => 'vehicle',
                         ],
                          $tt ?? null
                              ) !!}
@@ -99,6 +101,22 @@
                          $tt ?? null
                              ) !!}
 
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('arrival',[
+                    'label' => 'Arrival',
+                    'cols' => 3,
+                    'type' => 'datetime-local',
+                  ],
+                         $tt ?? null
+                             ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('return_departure',[
+                      'label' => 'Return Departure',
+                      'cols' => 3,
+                      'type' => 'datetime-local',
+                    ],
+                         $tt ?? null
+                             ) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::textbox('approved_by',[
                      'label' => 'Approved By:',
                      'cols' => 3,
@@ -114,11 +132,52 @@
                              ) !!}
 
 
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('gear_oil',[
+                    'label' => 'Gear Oil issued:',
+                    'cols' => 3,
+                    'class' => 'gear_oil'
+                  ],
+                         $tt ?? null
+                             ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('lubricant_oil',[
+                      'label' => 'Lub. Oil issued:',
+                      'cols' => 3,
+                      'class' => 'lubricant_oil'
+                    ],
+                         $tt ?? null
+                             ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('grease',[
+                      'label' => 'Grease issued:',
+                      'cols' => 3,
+                      'class' => 'grease'
+                    ],
+                         $tt ?? null
+                             ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textarea('remarks',[
+                     'label' => 'Remarks:',
+                     'cols' => 3,
+                     'class' => 'remarks'
+                   ],
+                         $tt ?? null
+                             ) !!}
+
+
+
                 </div>
             </div>
 
             <div class="box box-success">
-                <div class="box-body">
+                <div class="box-header with-border">
+
+                    <button class="btn btn-primary btn-sm " id="getBalance" type="button" style="margin-left: 15px">
+                        <i class=""></i> Get Balance and Odo
+                    </button>
+
+                </div>
+            <div class="box-body">
 
                     {!! \App\Swep\ViewHelpers\__form2::textbox('gas_balance',[
                       'label' => 'Balance in Tank (L)',
@@ -219,6 +278,34 @@
             });
 
             $('input[name="total"]').val(total);
+        });
+
+        $("#getBalance").click(function (res){
+            let vehicle = $('#vehicle').val();
+            let uri = '{{route("dashboard.trip_ticket.findOdo", "vehicle") }}';
+            uri = uri.replace('vehicle',vehicle);
+            if (vehicle !== ""){
+                $.ajax({
+                    url : uri,
+                    type: 'GET',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $('input[name="gas_balance"]').val(res.ticket.gas_remaining_balance);
+                        $('input[name="odometer_from"]').val(res.currentOdo);
+                        vehicleUsage = res.usage;
+                    },
+                    error: function (res) {
+                        toast('error',res.responseJSON.message,'Error!');
+                    }
+                })
+            }
+            else{
+                toast('error','Please select vehicle.');
+            }
+
         });
 
         $('.consumedd').on("change input", function () {

@@ -116,17 +116,13 @@
                     <td style="vertical-align: top; width: 10%;">{{$item->unit}}</td>
                     <td style="vertical-align: top; width: 10%;">{{$item->qty}}</td>
                     <td class="" style="vertical-align: top; width: 30%; text-align: left;">
-                        <b style="font-size: 11px; font-weight: normal;">{{$item->item}}</b><br>
-                        <span style="font-size: 9px; font-style: italic;">
-                                <?php
-                                $description = $item->description ? $item->description : "";
-                                $description = str_replace('<br />', '; ', nl2br($description));
-                                echo $description;
-                                ?>
+                        <b style="font-size: 13px; font-weight: normal;">{{$item->item}}</b><br>
+                        <span style="white-space: pre-line; font-size: 11px; font-style: italic" >
+                                    {{$item->description}}
                         </span>
                     </td>
                     <td style="vertical-align: top; width: 12%;">{{$item->or_no}}</td>
-                    <td style="vertical-align: top; width: 10%;">{{$item->amount}}</td>
+                    <td style="vertical-align: top; width: 10%;">{{number_format($item->amount, 2, '.', ',')}}</td>
                 </tr>
 
             @endforeach
