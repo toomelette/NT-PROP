@@ -65,7 +65,16 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $dtotal = 0;
+                    $tconsumed = 0;
+                @endphp
                 @foreach($vehicle->tripTickets as $tripTicket)
+                    @php
+                        $dtotal += $tripTicket->distance_traveled;
+                        $tconsumed += $tripTicket->consumed;
+                        $v = "";
+                    @endphp
                     <tr>
                         <td style="text-align: center; width: 12%">
                                 <?php echo date('Y-m-d', strtotime($tripTicket->departure ?? null)); ?>
@@ -86,6 +95,11 @@
                         </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td style="text-align: center; width: 9%;" >TOTAL</td>
+                    <td style="text-align: center; width: 9%" >{{$dtotal}}</td>
+                    <td style="text-align: center; width: 9%" >{{$tconsumed}}</td>
+                </tr>
                 </tbody>
             </table>
 
