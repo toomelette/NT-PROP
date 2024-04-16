@@ -202,7 +202,7 @@
             });
 
         Dropzone.options.myGreatDropzone = { // camelized version of the `id`
-            acceptedFiles: ".jpg, .jpeg, .png", // Add a comma between each file extension
+            acceptedFiles: ".jpg, .jpeg, .png, .pdf", // Add a comma between each file extension
             paramName: "file", // The name that will be used to transfer the file
             maxFilesize: 2, // MB
             success: function (file, response) {
