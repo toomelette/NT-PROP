@@ -64,9 +64,7 @@
 
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
                                                                         <div class="col-md-3 thumb">
-                                                                            <a class="thumbnail" href="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" download="{{ $file->getFilename() }}">
-                                                                                {{ $file->getFilename() }}
-                                                                            </a>
+                                                                            <iframe src="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" width="100%" height="500px"></iframe>
                                                                         </div>
                                                                     @else
                                                                         {{-- File extension is for an image --}}
