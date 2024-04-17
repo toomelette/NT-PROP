@@ -126,12 +126,13 @@
 
 @section('scripts')
     <script>
+
+        function openInNewTab(url) {
+            window.open(url, '_blank');
+        }
+
         let modalId = $('#image-gallery');
         $(document).ready(function () {
-            function openInNewTab(url) {
-                window.open(url, '_blank');
-            }
-
                 loadGallery(true, 'a.thumbnail');
 
                 //This function disables buttons when needed
