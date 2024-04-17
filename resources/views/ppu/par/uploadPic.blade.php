@@ -127,6 +127,7 @@
         $(document).ready(function () {
             $('.preview-link').click(function() {
                 var url = $(this).data('url');
+                alert(url);
                 window.open(url, '_blank');
             });
 
