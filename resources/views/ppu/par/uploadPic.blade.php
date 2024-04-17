@@ -65,7 +65,7 @@
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
                                                                         <div class="col-md-3 thumb">
                                                                             <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}" target="_blank">
-                                                                                <img src="{{ asset('images/pdf-file.svg') }}" alt="">
+                                                                                <img src="{{ asset('images/pdf-file.svg') }}" alt="" width="25%">
                                                                                 {{$file->getFilename()}}
                                                                             </a>
                                                                         </div>
