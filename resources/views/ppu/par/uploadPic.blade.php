@@ -57,15 +57,29 @@
                                                         <div class="row">
                                                             <div class="row">
                                                                 @foreach($files as $file)
-                                                                    <div class="col-md-3 thumb">
-                                                                        <a class="thumbnail" href="javascript:void(0);" data-image-id="" data-toggle="modal" data-title=""
-                                                                           data-image="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
-                                                                           data-target="#image-gallery">
-                                                                            <img class="img-thumbnail"
-                                                                                 src="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
-                                                                                 alt="{{$file->getFilename()}}" width="200">
-                                                                        </a>
-                                                                    </div>
+                                                                    @php
+                                                                        $fileExtension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
+                                                                        $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp']; // List of common image file extensions
+                                                                    @endphp
+
+                                                                    @if(!in_array(strtolower($fileExtension), $imageExtensions))
+                                                                        <div class="col-md-3 thumb">
+                                                                            <a class="thumbnail" href="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" download="{{ $file->getFilename() }}">
+                                                                                {{ $file->getFilename() }}
+                                                                            </a>
+                                                                        </div>
+                                                                    @else
+                                                                        {{-- File extension is for an image --}}
+                                                                        <div class="col-md-3 thumb">
+                                                                            <a class="thumbnail" href="javascript:void(0);" data-image-id="" data-toggle="modal" data-title=""
+                                                                               data-image="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
+                                                                               data-target="#image-gallery">
+                                                                                <img class="img-thumbnail"
+                                                                                     src="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
+                                                                                     alt="{{$file->getFilename()}}" width="200">
+                                                                            </a>
+                                                                        </div>
+                                                                    @endif
                                                                 @endforeach
                                                             </div>
                                                             <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
