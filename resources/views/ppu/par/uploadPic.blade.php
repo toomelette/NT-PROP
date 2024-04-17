@@ -63,10 +63,8 @@
                                                                     @endphp
 
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
-                                                                        <div class="col-md-3 thumb">
-                                                                            <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" target="_blank">
-                                                                                <iframe src="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" width="100%" height="500px"></iframe>
-                                                                            </a>
+                                                                        <div class="col-md-3 preview-link" data-url="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}">
+                                                                            <iframe src="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" width="100%" height="350px"></iframe>
                                                                         </div>
                                                                     @else
                                                                         {{-- File extension is for an image --}}
@@ -127,6 +125,10 @@
     <script>
         let modalId = $('#image-gallery');
         $(document).ready(function () {
+            $('.preview-link').click(function() {
+                var url = $(this).data('url');
+                window.open(url, '_blank');
+            });
 
                 loadGallery(true, 'a.thumbnail');
 
