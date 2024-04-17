@@ -65,7 +65,7 @@
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
                                                                         <div class="col-md-3 thumb">
                                                                             <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}" target="_blank">
-                                                                                <img src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/svgs/solid/file-pdf.svg" alt="">
+                                                                                <img src="{{ asset('images/pdf-file.svg') }}" alt="">
                                                                                 {{$file->getFilename()}}
                                                                             </a>
                                                                         </div>
