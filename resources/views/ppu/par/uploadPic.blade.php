@@ -64,7 +64,7 @@
 
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
                                                                         <div class="col-md-3 thumb">
-                                                                            <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" target="_blank">Preview PDF</a>
+                                                                            <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" target="_blank">{{$file->getFilename()}}</a>
                                                                         </div>
                                                                     @else
                                                                         {{-- File extension is for an image --}}
