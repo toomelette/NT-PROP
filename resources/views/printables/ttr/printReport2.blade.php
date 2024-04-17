@@ -56,21 +56,34 @@
             <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
                 <thead>
                 <tr>
-                    <th style="text-align: center; width: 15%" >Date</th>
-                    <th style="text-align: center; width: 15%" >Distance Travelled (KM)</th>
-                    <th style="text-align: center; width: 15%" >Gasoline Consumed (L)</th>
-                    <th style="text-align: center; width: 55%" >Remarks</th>
+                    <th style="text-align: center; width: 12%" >Date</th>
+                    <th style="text-align: center; width: 12%" >Distance Travelled (KM)</th>
+                    <th style="text-align: center; width: 12%" >Gasoline Consumed (L)</th>
+                    <th style="text-align: center; width: 12%" >Oil Used (L)</th>
+                    <th style="text-align: center; width: 12%" >Grease Used</th>
+                    <th style="text-align: center; width: 40%" >Remarks</th>
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $dtotal = 0;
+                    $tconsumed = 0;
+                @endphp
                 @foreach($vehicle->tripTickets as $tripTicket)
+                    @php
+                        $dtotal += $tripTicket->distance_traveled;
+                        $tconsumed += $tripTicket->consumed;
+                        $v = "";
+                    @endphp
                     <tr>
-                        <td style="text-align: center; width: 9%">
+                        <td style="text-align: center; width: 12%">
                                 <?php echo date('Y-m-d', strtotime($tripTicket->departure ?? null)); ?>
                         </td>
-                        <td style="text-align: center; width: 9%" >{{$tripTicket->distance_traveled}}</td>
-                        <td style="text-align: center; width: 7%" >{{$tripTicket->consumed}}</td>
-                        <td style="text-align: left; width: 7%"> {{$tripTicket->purpose}}
+                        <td style="text-align: center; width: 12%" >{{$tripTicket->distance_traveled}}</td>
+                        <td style="text-align: center; width: 12%" >{{$tripTicket->consumed}}</td>
+                        <td style="text-align: center; width: 12%" >{{$tripTicket->gear_oil}}</td>
+                        <td style="text-align: center; width: 12%" >{{$tripTicket->grease}}</td>
+                        <td style="text-align: left; width: 40%"> {{$tripTicket->purpose}}
                             <br><b>Passengers: </b>{{$tripTicket->passengers}}
                             @if($tripTicket->gas_issued != 0)
                                 <br><b>Gas Issued (L): </b>{{$tripTicket->gas_issued}}
@@ -82,6 +95,11 @@
                         </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td style="text-align: center; width: 9%;" >TOTAL</td>
+                    <td style="text-align: center; width: 9%" >{{$dtotal}}</td>
+                    <td style="text-align: center; width: 9%" >{{$tconsumed}}</td>
+                </tr>
                 </tbody>
             </table>
 
@@ -89,16 +107,16 @@
                 <div style="flex: 1; text-align: center; ">
                     <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center;">
                         Prepared By:
-                    </h5><br>
+                    </h5><br><br>
                     <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                         <b><u>{{$tripTicket->drivers->employee->fullname ?? null}}</u></b>
                     </td><br>
                     <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                        DRIVER
+                        DRIVER II
                     </td><br>
                 </div>
                 <div style="font-family: Cambria,Arial; flex: 1; text-align: center; ">
-                    <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br>
+                    <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br><br>
                     <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                         <b><u>{{$tripTicket->approved_by ?? null}}</u></b>
                     </td><br>

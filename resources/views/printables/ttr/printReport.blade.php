@@ -127,16 +127,16 @@
                     <div style="flex: 1; text-align: center; ">
                         <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center;">
                             Prepared By:
-                        </h5><br>
+                        </h5><br><br>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                             <b><u>{{$tripTicket->drivers->employee->fullname ?? null}}</u></b>
                         </td><br>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
-                            DRIVER
+                            DRIVER II
                         </td><br>
                     </div>
                     <div style="font-family: Cambria,Arial; flex: 1; text-align: center; ">
-                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br>
+                        <h5 class="" style="margin-left: 10px; margin-bottom: 10px; text-align: center; ">Approved by:</h5><br><br>
                         <td class="text-strong" style="border-right: 1px solid black; vertical-align: top; ">
                             <b><u>{{$tripTicket->approved_by ?? null}}</u></b>
                         </td><br>
