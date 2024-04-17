@@ -44,7 +44,7 @@ class InventoryPPE extends Model
         return $this->hasOne(Options::class,'value','uom');
     }
 
-    public function employee(){
-//        return $this->belongsTo(Employee::class,'','');
-    }
+    /*public function empl(){
+        return $this->hasOne(Employee::class,'employee_no','acctemployee_no');
+    }*/
 }

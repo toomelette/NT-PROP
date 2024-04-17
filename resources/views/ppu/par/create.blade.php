@@ -250,8 +250,7 @@
 @section('scripts')
     <script type="text/javascript">
 
-        var data = {!!$employeesCollection!!};
-
+        let data = {!!$employeesCollection!!};
 
         let active;
         $(document).ready(function () {

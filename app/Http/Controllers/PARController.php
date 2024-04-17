@@ -59,9 +59,13 @@ class PARController extends Controller
                 return $query->where('code','=',$request->invtacctcode);
             });
         }
+        else if($request->has('select_employee') && $request->select_employee != '') {
+            $par = $par->where('acctemployee_no','=',$request->select_employee);
+        }
 
-        return DataTables::of($par)
-            ->addColumn('action',function($data){
+        $dt = \DataTables::of($par);
+
+        $dt = $dt->addColumn('action',function($data){
                 return view('ppu.par.dtActions')->with([
                     'data' => $data,
                 ]);
@@ -95,6 +99,8 @@ class PARController extends Controller
             ->escapeColumns([])
             ->setRowId('id')
             ->toJson();
+
+        return $dt;
     }
 
     public function printPropertyTagByAccountCode(Request $request){

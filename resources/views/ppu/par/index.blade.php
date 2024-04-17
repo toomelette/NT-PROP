@@ -6,6 +6,29 @@
     </section>
 @endsection
 @section('content2')
+    @php
+        $employees = \App\Models\Employee::query()
+        ->where(function ($query) {
+            $query->where('locations', '=', 'VISAYAS')
+                ->orWhere('locations', '=', 'LUZON/MINDANAO');
+        })
+        ->where('is_active', '=', 'ACTIVE')
+        ->orderBy('fullname', 'asc')
+        ->get();
+
+       $employeesCollection = $employees->map(function ($data){
+            return [
+                'id' => $data->employee_no,
+                'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
+                'employee_no' => $data->employee_no,
+                'firstname' =>  $data->firstname,
+                'middlename' =>  $data->middlename,
+                'lastname' =>  $data->lastname,
+                'fullname' => $data->firstname.' '.$data->lastname,
+                'position' => $data->position,
+            ];
+        })->toJson();
+    @endphp
     <section class="content">
         <div class="box box-success">
             <div class="box-header with-border">
@@ -48,6 +71,15 @@
                                                 'for' => 'select2_inventoryAccountCode',
                                                 'id' => 'inventory_account_code_select2',
                                                ]) !!}
+
+                                            {!! \App\Swep\ViewHelpers\__form2::select('select_employee',[
+                                                'label' => 'Accountable Officer:',
+                                                'cols' => '4 dt_filter-parent-div',
+                                                'class' => 'dt_filter filters',
+                                                'options' => [],
+                                                'id' => 'select_employee',
+                                                'for' => 'select_employee'
+                                            ]) !!}
                                         </div>
                                     </form>
                                 </div>
@@ -347,6 +379,9 @@
 
 @section('scripts')
     <script type="text/javascript">
+
+        let data = {!!$employeesCollection!!};
+
         let active;
         $(document).ready(function () {
             $("#add_form").submit(function (e) {
@@ -370,7 +405,11 @@
                         errored(form,res);
                     }
                 })
-            })
+            });
+
+            $("#select_employee").select2({
+                data : data,
+            });
 
             $(".select2_article").select2({
                 ajax: {
