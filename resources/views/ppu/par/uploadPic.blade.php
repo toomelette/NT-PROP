@@ -64,11 +64,8 @@
 
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
                                                                         <div class="col-md-3 thumb">
-                                                                            <div class="preview-link" onclick="openInNewTab('{{ asset("images/par/{$slug}/{$file->getFilename()}")}}')">
-                                                                                <iframe src="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" width="100%" height="400px"></iframe>
-                                                                            </div>
+                                                                            <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}")}}" target="_blank">Preview PDF</a>
                                                                         </div>
-
                                                                     @else
                                                                         {{-- File extension is for an image --}}
                                                                         <div class="col-md-3 thumb">
@@ -126,11 +123,6 @@
 
 @section('scripts')
     <script>
-
-        function openInNewTab(url) {
-            window.open(url, '_blank');
-        }
-
         let modalId = $('#image-gallery');
         $(document).ready(function () {
                 loadGallery(true, 'a.thumbnail');
