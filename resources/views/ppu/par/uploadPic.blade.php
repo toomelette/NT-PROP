@@ -230,7 +230,7 @@
             },
             error: function (res) {
                 console.error("Error:", res);
-                toast('error',"Error uploading file.",'Error!');
+                toast('error',"Error:"+JSON.parse(res.xhr.responseText).message,'Error!',null,-1);
             }
         };
     </script>

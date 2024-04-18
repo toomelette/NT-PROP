@@ -268,20 +268,36 @@ class PARController extends Controller
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png,pdf'
         ]);
+//
+//        if ($file) {
+//            try {
+//                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
+//                \Storage::disk('local_ppu')->put($directoryPath, $file->get());
+//            } catch (\Exception $ex) {
+//                return redirect()->back()->withErrors('Failed to save the file.');
+//            }
+//        }
+//        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
+//    }
 
         $file = $request->file('file');
-
-        if ($file) {
+        $baseFilename = str_replace('.'.$file->getClientOriginalExtension(),'',$file->getClientOriginalName());
+        $par = InventoryPPE::query()->where('slug','=',$request->par_slug)->first();
+        if($par->propertyno != $baseFilename){
+            abort(503, 'File name must be the same with property number.');
+        }
+        if(!empty($par)){
             try {
-                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
+                $directoryPath = "PAR/{$par->slug}/".$baseFilename.'_'.Carbon::now()->format('Ymd-Hi').'.'.$file->getClientOriginalExtension();
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
+                return true;
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors('Failed to save the file.');
             }
+        }else {
+            abort(503, 'PAR does not exist. Filename:' . $file->getClientOriginalName());
         }
-        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
     }
-
     public function update(FormRequest $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         $article = Articles::query()->where('stockNo','=', $request->article)->first();
@@ -671,7 +687,8 @@ class PARController extends Controller
         return view('ppu.par.batchUploadPic');
     }
 
-    public function batchUploadPicPost(Request $request){
+    public function batchUploadPicPost(Request $request)
+    {
 
 
         $request->validate([
@@ -679,30 +696,22 @@ class PARController extends Controller
         ]);
 
         $file = $request->file('file');
-        $baseFilename = str_replace('.'.$file->getClientOriginalExtension(),'',$file->getClientOriginalName());
-        $par = InventoryPPE::query()->where('propertyno','=',$baseFilename)->first();
-        if(!empty($par)){
+        $baseFilename = str_replace('.' . $file->getClientOriginalExtension(), '', $file->getClientOriginalName());
+        $par = InventoryPPE::query()->where('propertyno', '=', $baseFilename)->first();
+        if (!empty($par)) {
             try {
-                $directoryPath = "PAR/{$par->slug}/".$baseFilename.'_'.Carbon::now()->format('Ymd-Hi').'.'.$file->getClientOriginalExtension();
+                $directoryPath = "PAR/{$par->slug}/" . $baseFilename . '_' . Carbon::now()->format('Ymd-Hi') . '.' . $file->getClientOriginalExtension();
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
                 return true;
             } catch (\Exception $ex) {
                 return redirect()->back()->withErrors('Failed to save the file.');
             }
-        }else{
-            abort(503,'PAR does not exist. Filename:'.$file->getClientOriginalName());
+        } else {
+            abort(503, 'PAR does not exist. Filename:' . $file->getClientOriginalName());
         }
-
-        if ($file) {
-            try {
-                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
-                \Storage::disk('local_ppu')->put($directoryPath, $file->get());
-            } catch (\Exception $ex) {
-                return redirect()->back()->withErrors('Failed to save the file.');
-            }
-        }
-        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
     }
+
+
 
 
 
