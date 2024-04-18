@@ -667,6 +667,44 @@ class PARController extends Controller
     }
 
 
+    public function batchUploadPic(){
+        return view('ppu.par.batchUploadPic');
+    }
+
+    public function batchUploadPicPost(Request $request){
+
+
+        $request->validate([
+            'file' => 'required|mimes:jpg,jpeg,png,pdf'
+        ]);
+
+        $file = $request->file('file');
+        $baseFilename = str_replace('.'.$file->getClientOriginalExtension(),'',$file->getClientOriginalName());
+        $par = InventoryPPE::query()->where('propertyno','=',$baseFilename)->first();
+        if(!empty($par)){
+            try {
+                $directoryPath = "PAR/{$par->slug}/".$baseFilename.'_'.Carbon::now()->format('Ymd-Hi').'.'.$file->getClientOriginalExtension();
+                \Storage::disk('local_ppu')->put($directoryPath, $file->get());
+                return true;
+            } catch (\Exception $ex) {
+                return redirect()->back()->withErrors('Failed to save the file.');
+            }
+        }else{
+            abort(503,'PAR does not exist. Filename:'.$file->getClientOriginalName());
+        }
+
+        if ($file) {
+            try {
+                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
+                \Storage::disk('local_ppu')->put($directoryPath, $file->get());
+            } catch (\Exception $ex) {
+                return redirect()->back()->withErrors('Failed to save the file.');
+            }
+        }
+        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
+    }
+
+
 
 
 }
