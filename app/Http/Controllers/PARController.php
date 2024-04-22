@@ -381,8 +381,7 @@ class PARController extends Controller
             $query->where('condition', '!=', 'DERECOGNIZED')
                 ->orWhereNull('condition')
                 ->orWhere('condition', '');
-        });
-
+        })->orderBy('article');
 
         if($request->has('period_covered')){
             $rpciObj = $rpciObj->whereBetween('dateacquired',[$request->date_start,$request->date_end]);
