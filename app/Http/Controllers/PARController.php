@@ -281,14 +281,14 @@ class PARController extends Controller
 //    }
 
         $file = $request->file('file');
-        $baseFilename = str_replace('.'.$file->getClientOriginalExtension(),'',$file->getClientOriginalName());
+        //$baseFilename = str_replace('.'.$file->getClientOriginalExtension(),'',$file->getClientOriginalName());
         $par = InventoryPPE::query()->where('slug','=',$request->par_slug)->first();
-        if($par->propertyno != $baseFilename){
+        /*if($par->propertyno != $baseFilename){
             abort(503, 'File name must be the same with property number.');
-        }
+        }*/
         if(!empty($par)){
             try {
-                $directoryPath = "PAR/{$par->slug}/".$baseFilename.'_'.Carbon::now()->format('Ymd-Hi').'.'.$file->getClientOriginalExtension();
+                $directoryPath = "PAR/{$par->slug}/".Carbon::now()->format('Ymd-Hi').'_'.$file->getClientOriginalName();
                 \Storage::disk('local_ppu')->put($directoryPath, $file->get());
                 return true;
             } catch (\Exception $ex) {
