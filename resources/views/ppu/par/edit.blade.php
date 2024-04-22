@@ -29,6 +29,9 @@
                 'id' => $data->employee_no,
                 'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
                 'employee_no' => $data->employee_no,
+                'firstname' =>  $data->firstname,
+                'middlename' =>  $data->middlename,
+                'lastname' =>  $data->lastname,
                 'fullname' => $data->firstname.' '.$data->lastname,
                 'position' => $data->position,
             ];
@@ -398,8 +401,12 @@
                     let index = data.findIndex( object => {
                         return object.id == value;
                     });
+                    var middleName = data[index].middlename;
+                    var middleInitial = middleName != null ? middleName.charAt(0) : "";
+                    var mI = middleInitial != "" ? middleInitial + '. ' : "";
+                    $("input[name='acctemployee_fname']").val(data[index].firstname +' '+ mI + data[index].lastname);
+
                     $("input[name='acctemployee_no']").val(data[index].employee_no);
-                    $("input[name='acctemployee_fname']").val(data[index].fullname);
                     $("input[name='acctemployee_post']").val(data[index].position);
                 }else{
                     $("input[name='acctemployee_no']").val('');
