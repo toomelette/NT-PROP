@@ -124,7 +124,7 @@
 
                 <tr style="border: 1px solid black; width: 100%;">
                     <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
-                        1. Time of departure from office/garage
+                        1. Date/Time of departure from office/garage
                     </td>
                     <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
                         {{$tt->departure ?? null}}
@@ -133,7 +133,7 @@
 
                 <tr style="border: 1px solid black; width: 100%;">
                     <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
-                        2. Time of arrival at (per No.4)
+                        2. Date/Time of arrival at (per No.4)
                     </td>
                     <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
                         {{$tt->arrival ?? null}}
@@ -142,7 +142,7 @@
 
                 <tr style="border: 1px solid black; width: 100%;">
                     <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
-                        3. Time of departure from (per No.4)
+                        3. Date/Time of departure from (per No.4)
                     </td>
                     <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
                         {{$tt->return_departure ?? null}}
@@ -151,7 +151,7 @@
 
                 <tr style="border: 1px solid black; width: 100%;">
                     <td  style="border-right: 1px solid black; width: 50%; vertical-align: center;">
-                        4. Time of arrival back to office/garage
+                        4. Date/Time of arrival back to office/garage
                     </td>
                     <td  class="text-strong" style="border-right: 1px solid black; vertical-align: center;  width: 50%">
                         {{$tt->return ?? null}}
