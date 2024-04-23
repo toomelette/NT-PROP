@@ -344,7 +344,7 @@
                     <div>
                         @foreach($group as $passenger)
                             <div style="float: left; width: 33.33%;">
-                                <h5 class="" style="margin: 0; font-size: 14px;">
+                                <h5 class="" style="margin: 0; font-size: 12px;">
                                     <u><?php echo strtoupper($passenger); ?></u>
                                 </h5>
                             </div>
