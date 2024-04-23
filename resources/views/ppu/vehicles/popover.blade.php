@@ -11,7 +11,7 @@
     <br>
     To:<span class="text-strong">{{$data->return ?? ''}}</span>
     <br>
-    Authorized Passenger(s): {{$data->passengers}}
+    Authorized Passenger(s):
     @php
         $passengers = explode(',',$data->passengers);
     @endphp
