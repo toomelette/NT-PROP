@@ -343,9 +343,9 @@
                 @foreach($passengers as $group)
                     <div>
                         @foreach($group as $passenger)
-                            <div style="float: left; width: 33.33%; ">
-                                <h5 class="" style="margin: 0; font-size: 15px">
-                                    <b><u>{{$passenger}}</u></b>
+                            <div style="float: left; width: 33.33%;">
+                                <h5 class="" style="margin: 0; font-size: 14px;">
+                                    <u><?php echo strtoupper($passenger); ?></u>
                                 </h5>
                             </div>
                         @endforeach
