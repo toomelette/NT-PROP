@@ -268,24 +268,9 @@ class PARController extends Controller
         $request->validate([
             'file' => 'required|mimes:jpg,jpeg,png,pdf'
         ]);
-//
-//        if ($file) {
-//            try {
-//                $directoryPath = "PAR/{$request->par_slug}/".$file->getClientOriginalName();
-//                \Storage::disk('local_ppu')->put($directoryPath, $file->get());
-//            } catch (\Exception $ex) {
-//                return redirect()->back()->withErrors('Failed to save the file.');
-//            }
-//        }
-//        return redirect()->route('dashboard.par.uploadPic', ['slug' => $request->par_slug]);
-//    }
-
         $file = $request->file('file');
-        //$baseFilename = str_replace('.'.$file->getClientOriginalExtension(),'',$file->getClientOriginalName());
+
         $par = InventoryPPE::query()->where('slug','=',$request->par_slug)->first();
-        /*if($par->propertyno != $baseFilename){
-            abort(503, 'File name must be the same with property number.');
-        }*/
         if(!empty($par)){
             try {
                 $directoryPath = "PAR/{$par->slug}/".Carbon::now()->format('Ymd-Hi').'_'.$file->getClientOriginalName();
@@ -298,6 +283,25 @@ class PARController extends Controller
             abort(503, 'PAR does not exist. Filename:' . $file->getClientOriginalName());
         }
     }
+
+    public function deletePicture(Request $request) {
+        $parSlug = $request->input('par_slug');
+        $fileName = $request->input('file_name');
+        $par = InventoryPPE::query()->where('slug', '=', $parSlug)->first();
+        if (!empty($par)) {
+            $filePath = "PAR/{$par->slug}/{$fileName}";
+
+            if (\Storage::disk('local_ppu')->exists($filePath)) {
+                \Storage::disk('local_ppu')->delete($filePath);
+                return true;
+            } else {
+                return redirect()->back()->withErrors('Failed to delete the file.');
+            }
+        } else {
+            abort(503, 'PAR does not exist.');
+        }
+    }
+
     public function update(FormRequest $request, $slug){
         $par = InventoryPPE::query()->where('slug','=', $slug)->first();
         $article = Articles::query()->where('stockNo','=', $request->article)->first();

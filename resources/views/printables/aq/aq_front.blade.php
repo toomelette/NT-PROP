@@ -62,7 +62,13 @@
                     <th class="text-center" rowspan="4" style="width: 5%;">Unit</th>
                     <th class="text-center">Description of Articles</th>
                     @if(count($quotations) > 0)
+                        @php
+                            $ii = 0;
+                        @endphp
                         @foreach($quotations as $quotation)
+                            @php
+                                $ii = $ii + 1;
+                            @endphp
                             <th class="text-center" style="width: 15%">
                                 SUPPLIER/DEALER
                             </th>

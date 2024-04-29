@@ -59,9 +59,11 @@
                                                                         $fileExtension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
                                                                         $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp']; // List of common image file extensions
                                                                     @endphp
-
                                                                     @if(!in_array(strtolower($fileExtension), $imageExtensions))
                                                                         <div class="col-md-3 thumb">
+                                                                            <button type="button" class="btn btn-sm btn-danger delete_user_btn" onclick="return deletePicture('{{ $slug }}', '{{ $file->getFilename() }}')" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
                                                                             <a href="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}" target="_blank">
                                                                                 <img src="{{ asset('images/pdf-file.svg') }}" alt="" width="25%">
                                                                                 {{$file->getFilename()}}
@@ -70,7 +72,9 @@
                                                                     @else
                                                                         {{-- File extension is for an image --}}
                                                                         <div class="col-md-3 thumb">
-                                                                            <a class="thumbnail" href="javascript:void(0);" data-image-id="" data-toggle="modal" data-title=""
+                                                                            <button type="button" class="btn btn-sm btn-danger delete_user_btn" onclick="return deletePicture('{{ $slug }}', '{{ $file->getFilename() }}')" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button><a class="thumbnail" href="javascript:void(0);" data-image-id="" data-toggle="modal" data-title=""
                                                                                data-image="{{ asset("images/par/{$slug}/{$file->getFilename()}") }}"
                                                                                data-target="#image-gallery">
                                                                                 <img class="img-thumbnail"
@@ -113,7 +117,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,6 +128,34 @@
 @section('scripts')
     <script>
         let modalId = $('#image-gallery');
+
+        function deletePicture(parSlug, fileName) {
+            if (confirm('Are you sure you want to delete this file?')) {
+                $.ajax({
+                    url: "{{ route('dashboard.par.deletePicture') }}",
+                    type: 'POST',
+                    data: {
+                        par_slug: parSlug,
+                        file_name: fileName,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        // Handle success response
+                        toast('success',"File Successfully deleted.",'Success!');
+                        // Reload the page or update UI as needed
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1000); // Reload after 1 second (1000 milliseconds)
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle error response
+                        console.error("Error:", res);
+                        toast('error',"Error:"+JSON.parse(res.xhr.responseText).message,'Error!',null,-1);
+                    }
+                });
+            }
+            return false; // Prevent the default link behavior
+        }
 
         $(document).ready(function () {
                 loadGallery(true, 'a.thumbnail');
@@ -220,7 +251,7 @@
             maxFilesize: 2, // MB
             success: function (file, response) {
                 console.log("Logs:", response);
-                toast('success',"Image Successfully uploaded.",'Success!');
+                toast('success',"File Successfully uploaded.",'Success!');
                 /*Swal.fire({
                     title: 'Success!',
                     text: 'Image Successfully uploaded. Thank you.',
