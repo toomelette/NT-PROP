@@ -220,7 +220,7 @@
                                     <tr class="">
                                         <th style="width: 5%">Stock No.</th>
                                         <th>Unit</th>
-                                        <th style="width: 15%">Item</th>
+                                        <th style="width: 15%">Article</th>
                                         <th>Description</th>
                                         <th>Qty</th>
                                         <th>Unit Cost</th>
@@ -266,7 +266,7 @@
 
         $(".select2_item").select2({
             ajax: {
-                url: '{{route("dashboard.ajax.get","articles")}}',
+                url: '{{route("dashboard.ajax.get","par_articles")}}',
                 dataType: 'json',
                 delay : 250,
             },
@@ -278,10 +278,10 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='stockNo']").val(data.id);
-            $("#"+parentTrId+" [for='itemName']").val(data.text);
+            $("#"+parentTrId+" [for='serial_no']").val(data.id);
+            $("#"+parentTrId+" [for='itemName']").val(data.populate.itemName);
             $("#"+parentTrId+" [for='unit']").val(data.populate.uom);
-            $("#"+parentTrId+" [for='unit_cost']").html('Est: '+$.number(data.populate.unit_cost,2));
+            $("#"+parentTrId+" [for='propertyno']").val(data.populate.propertyno);
         });
 
         $(".select2_papCode").select2({

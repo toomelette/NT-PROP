@@ -3,11 +3,11 @@
 @endphp
 <tr id="item_{{$rand}}">
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][stockNo]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][serial_no]',[
             'class' => 'input-sm',
             'readonly'=>'readonly',
-            'for' => 'stockNo',
-        ],$item->stock_no ?? null) !!}
+            'for' => 'serial_no',
+        ],$item->serial_no ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][unit]',[
@@ -72,10 +72,11 @@
         @endif
     </td>
     <td>
-        {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][property_no]',[
+        {!! \App\Swep\ViewHelpers\__form2::textboxOnly('items['.$rand.'][propertyno]',[
             'class' => 'input-sm',
             'label' => 'Prop. No.:',
-        ],$item->property_no ?? null) !!}
+            'for' => 'propertyno',
+        ],$item->propertyno ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
@@ -101,7 +102,7 @@
 
         $(".select2_item_{{$rand}}").select2({
             ajax: {
-                url: '{{route("dashboard.ajax.get","articles")}}',
+                url: '{{route("dashboard.ajax.get","par_articles")}}',
                 dataType: 'json',
                 delay : 250,
             },
@@ -114,10 +115,10 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='stockNo']").val(data.id);
+            $("#"+parentTrId+" [for='serial_no']").val(data.id);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
-            $("#"+parentTrId+" [for='unit_cost']").html('Est: '+$.number(data.populate.unit_cost,2));
-            $("#"+parentTrId+" [for='itemName']").val(data.text);
+            $("#"+parentTrId+" [for='propertyno']").val(data.populate.propertyno);
+            $("#"+parentTrId+" [for='itemName']").val(data.populate.itemName);
         });
 
     </script>

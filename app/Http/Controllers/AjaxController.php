@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Articles;
+use App\Models\InventoryPPE;
 use App\Models\PAP;
 use App\Models\PR;
 use App\Models\Suppliers;
@@ -111,6 +112,33 @@ class AjaxController extends Controller
             }
             return Helper::wrapForSelect2($arr);
         }
+
+        if($for == 'par_articles'){
+            $arr = [];
+            $like = '%'.request('q').'%';
+            $parArticles = InventoryPPE::query()
+                ->select('article','uom','propertyno','acquiredcost','serial_no')
+                ->where('article','like',$like);
+
+            $parArticles = $parArticles->orderBy('article','asc')
+                ->get();
+            if(!empty($parArticles)){
+                foreach ($parArticles as $parArticle){
+                    array_push($arr,[
+                        'id' => $parArticle->serial_no,
+                        'text' => $parArticle->article.' - '.$parArticle->propertyno,
+                        'populate' => [
+                            'itemName' => $parArticle->article,
+                            'uom' => $parArticle->uom,
+                            'propertyno' => $parArticle->propertyno,
+                            'acquiredcost' => $parArticle->acquiredcost,
+                        ]
+                    ]);
+                }
+            }
+            return Helper::wrapForSelect2($arr);
+        }
+
         if($for == 'suppliers'){
             $arr = [];
             $like = '%'.request('q').'%';
