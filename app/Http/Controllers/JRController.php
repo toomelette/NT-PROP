@@ -186,8 +186,10 @@ class JRController extends Controller
             })
             ->addColumn('jo_date',function($data){
                 $output = "";
-                foreach ($data->jo as $item) {
-                    $output += Helper::dateFormat($item->date ?? null,'M. d, Y'). '<br>';
+                if($data->jo->count() > 0){
+                    foreach ($data->jo as $item) {
+                        $output .=  Helper::dateFormat($item->date ?? null,'M. d, Y'). '<br>';
+                    }
                 }
                 return $output;
             })
