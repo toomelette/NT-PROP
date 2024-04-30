@@ -253,6 +253,7 @@ class JOController extends Controller
         $transNew->order_slug = $randomSlug;
         $transNew->date = $request->date;
         $transNew->document_type = "JO Manual";
+
         if(!empty($request->items)){
             foreach ($request->items as $item) {
                 array_push($arr,[
@@ -270,6 +271,8 @@ class JOController extends Controller
                 ]);
             }
         }
+
+
 
         if($order->save()){
             if($transNew->save()){
