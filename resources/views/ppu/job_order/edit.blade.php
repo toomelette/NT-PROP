@@ -176,20 +176,24 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+
+
                                     @foreach($trans->transDetails as $transDetail)
-                                        <tr id="{{$transDetail->slug}}">
-                                            <td hidden><input class="form-control" id="items['{{$transDetail->slug}}'][rfq_slug]" name="items['{{$transDetail->slug}}'][rfq_slug]" type="text" value="{{$transDetail->rfq_slug}}"></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][stock_no]" name="items['{{$transDetail->slug}}'][stock_no]" type="text" value="{{$transDetail->stock_no}}"></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit]" name="items['{{$transDetail->slug}}'][unit]" type="text" value="{{$transDetail->unit}}"></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][item]" name="items['{{$transDetail->slug}}'][item]" type="text" value="{{$transDetail->item}}"></td>
-                                            <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][description]" name="items['{{$transDetail->slug}}'][description]" type="text">{{$transDetail->description}}</textarea></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][qty]" name="items['{{$transDetail->slug}}'][qty]" type="text" value="{{$transDetail->qty}}"></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit_cost]" name="items['{{$transDetail->slug}}'][unit_cost]" type="text" value="{{$transDetail->unit_cost}}"></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][total_cost]" name="items['{{$transDetail->slug}}'][total_cost]" type="text" value="{{$transDetail->total_cost}}"></td>
-                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][property_no]" name="items['{{$transDetail->slug}}'][property_no]" type="text" value="{{$transDetail->property_no}}"></td>
-                                            <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][nature_of_work]" name="items['{{$transDetail->slug}}'][nature_of_work]" type="text">{{$transDetail->nature_of_work}}</textarea></td>
-                                            <td><button type="button" class="btn btn-danger btn-sm delete-btn" data-slug="{{$transDetail->slug}}" onclick="deleteRow(this)"><i class="fa fa-times"></i></button></td>
-                                        </tr>
+                                        @include('dynamic_rows.jo_items',['item' => $transDetail])
+
+{{--                                        <tr id="{{$transDetail->slug}}">--}}
+{{--                                            <td hidden><input class="form-control" id="items['{{$transDetail->slug}}'][rfq_slug]" name="items['{{$transDetail->slug}}'][rfq_slug]" type="text" value="{{$transDetail->rfq_slug}}"></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][stock_no]" name="items['{{$transDetail->slug}}'][stock_no]" type="text" value="{{$transDetail->stock_no}}"></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit]" name="items['{{$transDetail->slug}}'][unit]" type="text" value="{{$transDetail->unit}}"></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][item]" name="items['{{$transDetail->slug}}'][item]" type="text" value="{{$transDetail->item}}"></td>--}}
+{{--                                            <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][description]" name="items['{{$transDetail->slug}}'][description]" type="text">{{$transDetail->description}}</textarea></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][qty]" name="items['{{$transDetail->slug}}'][qty]" type="text" value="{{$transDetail->qty}}"></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit_cost]" name="items['{{$transDetail->slug}}'][unit_cost]" type="text" value="{{$transDetail->unit_cost}}"></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][total_cost]" name="items['{{$transDetail->slug}}'][total_cost]" type="text" value="{{$transDetail->total_cost}}"></td>--}}
+{{--                                            <td><input class="form-control" id="items['{{$transDetail->slug}}'][property_no]" name="items['{{$transDetail->slug}}'][property_no]" type="text" value="{{$transDetail->property_no}}"></td>--}}
+{{--                                            <td><textarea class="input-sm" id="items['{{$transDetail->slug}}'][nature_of_work]" name="items['{{$transDetail->slug}}'][nature_of_work]" type="text">{{$transDetail->nature_of_work}}</textarea></td>--}}
+{{--                                            <td><button type="button" class="btn btn-danger btn-sm delete-btn" data-slug="{{$transDetail->slug}}" onclick="deleteRow(this)"><i class="fa fa-times"></i></button></td>--}}
+{{--                                        </tr>--}}
                                     @endforeach
                                     </tbody>
                                 </table>
@@ -269,6 +273,26 @@
 
             return words.trim();
         }
+
+        $(".select2_item").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","par_articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            placeholder: 'Select item',
+        });
+
+        $('.select2_item').on('select2:select', function (e) {
+            let t = $(this);
+            let parentTrId = t.parents('tr').attr('id');
+            let data = e.params.data;
+
+            $("#"+parentTrId+" [for='serial_no']").val(data.id);
+            $("#"+parentTrId+" [for='itemName']").val(data.populate.itemName);
+            $("#"+parentTrId+" [for='unit']").val(data.populate.uom);
+            $("#"+parentTrId+" [for='propertyno']").val(data.populate.propertyno);
+        });
 
         $(document).ready(function() {
             $('input[name="vatValue"]').on('keypress', function(event) {
@@ -430,6 +454,8 @@
                 slugsInput.value = slugs.join('~');
             }
         }
+
+
 
         $('#saveBtn').click(function(e) {
             e.preventDefault();

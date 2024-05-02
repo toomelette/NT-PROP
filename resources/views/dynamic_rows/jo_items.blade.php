@@ -32,6 +32,7 @@
             {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][item]',[
                 'class' => 'input-sm select2_item items_'.$rand.'_item',
                 'options' => [],
+                'select2_preSelected' => $item->article->article ?? null,
             ],$item->item ?? null) !!}
             <input name="items[{{$rand}}][itemName]" value="" for="itemName" hidden>
         </td>
