@@ -161,17 +161,17 @@
                             <div class="row" id="tableContainer" style="margin-top: 50px">
                                 <table class="table table-bordered table-striped table-hover" id="trans_table" style="width: 100% !important">
                                     <thead>
-                                    <tr class="">
-                                        <th hidden>RFQ</th>
-                                        <th>Stock No.</th>
-                                        <th>Unit</th>
-                                        <th>Item</th>
-                                        <th>Description</th>
-                                        <th>Qty</th>
-                                        <th>Unit Cost</th>
-                                        <th>Total Cost</th>
-                                        <th>Prop. No.</th>
-                                        <th>Nature of Work</th>
+                                    <tr class="" style="width: 100%">
+                                        <th style="width: 1%" hidden>RFQ</th>
+                                        <th style="width: 7%">Stock No.</th>
+                                        <th style="width: 7%">Unit</th>
+                                        <th style="width: 20%">Item</th>
+                                        <th style="width: 10%">Description</th>
+                                        <th style="width: 7%">Qty</th>
+                                        <th style="width: 10%">Unit Cost</th>
+                                        <th style="width: 10%">Total Cost</th>
+                                        <th style="width: 15%">Prop. No.</th>
+                                        <th style="width: 10%">Nature of Work</th>
                                         <th style="width: 3%"></th>
                                     </tr>
                                     </thead>
@@ -194,7 +194,8 @@
                                     </tbody>
                                 </table>
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-primary" id="saveBtn">Update</button>
+                                    <button type="button" class="btn btn-primary" style="margin-right: 10px" id="saveBtn">Update</button>
+                                    <a type="button" style="margin-right: 17px" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.jo.index')}}">Back</a>
                                 </div>
                             </div>
                         </div>
