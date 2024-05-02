@@ -19,6 +19,10 @@ class TransactionDetails extends Model
         return $this->belongsTo(Articles::class,'stock_no','stockNo');
     }
 
+    public function parArticle(){
+        return $this->belongsTo(InventoryPPE::class,'inventoryppe_slug','slug');
+    }
+
     public function units(){
         return $this->hasOne(Options::class,'value','unit');
     }

@@ -117,7 +117,7 @@ class AjaxController extends Controller
             $arr = [];
             $like = '%'.request('q').'%';
             $parArticles = InventoryPPE::query()
-                ->select('article','uom','propertyno','acquiredcost','serial_no')
+                ->select('slug','article','uom','propertyno','acquiredcost','serial_no')
                 ->where('article','like',$like);
 
             $parArticles = $parArticles->orderBy('article','asc')
@@ -125,13 +125,14 @@ class AjaxController extends Controller
             if(!empty($parArticles)){
                 foreach ($parArticles as $parArticle){
                     array_push($arr,[
-                        'id' => $parArticle->serial_no,
+                        'id' => $parArticle->slug,
                         'text' => $parArticle->article.' - '.$parArticle->propertyno,
                         'populate' => [
                             'itemName' => $parArticle->article,
                             'uom' => $parArticle->uom,
                             'propertyno' => $parArticle->propertyno,
                             'acquiredcost' => $parArticle->acquiredcost,
+                            'serial_no' => $parArticle->serial_no,
                         ]
                     ]);
                 }

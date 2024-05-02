@@ -173,15 +173,15 @@ class JOController extends Controller
                 array_push($arr,[
                     'slug' => Str::random(),
                     'transaction_slug' => $trans->slug,
-                    'rfq_slug' => $item['rfq_slug'],
-                    'stock_no' => $item['stock_no'],
+                    'inventoryppe_slug' => $item['item'],
+                    'stock_no' => $item['serial_no'],
                     'unit' => $item['unit'],
-                    'item' => $item['item'],
+                    'item' => $item['itemName'],
                     'description' => $item['description'],
                     'qty' => $item['qty'],
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
-                    'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
-                    'property_no' => $item['property_no'],
+                    'total_cost' => $item['qty'] * Helper::sanitizeAutonum($item['unit_cost']),
+                    'property_no' => $item['propertyno'],
                     'nature_of_work' => $item['nature_of_work'],
                 ]);
             }
@@ -259,6 +259,7 @@ class JOController extends Controller
                 array_push($arr,[
                     'slug' => Str::random(),
                     'transaction_slug' => $transNewSlug,
+                    'inventoryppe_slug' => $item['item'],
                     'stock_no' => $item['serial_no'],
                     'unit' => $item['unit'],
                     'item' => $item['itemName'],
@@ -271,7 +272,6 @@ class JOController extends Controller
                 ]);
             }
         }
-
 
 
         if($order->save()){

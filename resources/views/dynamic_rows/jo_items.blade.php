@@ -7,7 +7,7 @@
             'class' => 'input-sm',
             'readonly'=>'readonly',
             'for' => 'serial_no',
-        ],$item->serial_no ?? null) !!}
+        ],$item->parArticle->serial_no ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][unit]',[
@@ -23,8 +23,8 @@
             {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][item]',[
                 'class' => 'input-sm select2_item_'.$rand.' items_'.$rand.'_item',
                 'options' => [],
-                'select2_preSelected' => $item->article->article ?? null,
-            ],$item->item ?? null) !!}
+                'select2_preSelected' => $item->parArticle->article ?? null,
+            ],$item->inventoryppe_slug ?? null) !!}
             <input name="items[{{$rand}}][itemName]" value="{{$item->item ?? null}}" for="itemName" hidden>
         </td>
     @else
@@ -32,8 +32,8 @@
             {!! \App\Swep\ViewHelpers\__form2::selectOnly('items['.$rand.'][item]',[
                 'class' => 'input-sm select2_item items_'.$rand.'_item',
                 'options' => [],
-                'select2_preSelected' => $item->article->article ?? null,
-            ],$item->item ?? null) !!}
+                'select2_preSelected' => $item->parArticle->article ?? null,
+            ],$item->inventoryppe_slug ?? null) !!}
             <input name="items[{{$rand}}][itemName]" value="" for="itemName" hidden>
         </td>
     @endif
@@ -77,7 +77,7 @@
             'class' => 'input-sm',
             'label' => 'Prop. No.:',
             'for' => 'propertyno',
-        ],$item->propertyno ?? null) !!}
+        ],$item->parArticle->propertyno ?? null) !!}
     </td>
     <td>
         {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][nature_of_work]',[
@@ -116,7 +116,7 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='serial_no']").val(data.id);
+            $("#"+parentTrId+" [for='serial_no']").val(data.populate.serial_no);
             $("#"+parentTrId+" [for='uom']").val(data.populate.uom);
             $("#"+parentTrId+" [for='propertyno']").val(data.populate.propertyno);
             $("#"+parentTrId+" [for='itemName']").val(data.populate.itemName);

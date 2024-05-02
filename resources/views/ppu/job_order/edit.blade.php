@@ -6,6 +6,7 @@
     </section>
 @endsection
 @section('content2')
+
     <section class="content col-md-12">
         <div class="box box-solid">
             <form id="jo_form">
@@ -288,7 +289,7 @@
             let parentTrId = t.parents('tr').attr('id');
             let data = e.params.data;
 
-            $("#"+parentTrId+" [for='serial_no']").val(data.id);
+            $("#"+parentTrId+" [for='serial_no']").val(data.populate.serial_no);
             $("#"+parentTrId+" [for='itemName']").val(data.populate.itemName);
             $("#"+parentTrId+" [for='unit']").val(data.populate.uom);
             $("#"+parentTrId+" [for='propertyno']").val(data.populate.propertyno);
