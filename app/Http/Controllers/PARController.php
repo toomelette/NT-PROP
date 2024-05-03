@@ -77,7 +77,7 @@ class PARController extends Controller
                     '</div>';
             })
             ->editColumn('acquiredcost', function($data) {
-                $path = "PAR/{$data->slug}/"; // Assuming $data contains the InventoryPPE object
+                $path = "PAR/{$data->slug}/";
                 $count = $this->countFiles($path);
                 return number_format($data->acquiredcost, 2) .
                     '<div class="table-subdetail" style="margin-top: 3px">' . $count .' - file(s)'. '</div>';
@@ -134,7 +134,7 @@ class PARController extends Controller
                         ->orWhereNull('condition')
                         ->orWhere('condition', '');
                 });
-        })->orderBy('invtacctcode')->get();
+        })->orderBy('invtacctcode')->orderBy('article')->get();
         $units = Options::query()
             ->get();
         /*$pars = InventoryPPE::query()->where('acctemployee_no','=',$request->employee_no)
