@@ -24,6 +24,7 @@ use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class PARController extends Controller
 {
@@ -75,8 +76,11 @@ class PARController extends Controller
                     '<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->desc ?? null).
                     '</div>';
             })
-            ->editColumn('acquiredcost',function($data){
-                return number_format($data->acquiredcost,2);
+            ->editColumn('acquiredcost', function($data) {
+                $path = "PAR/{$data->slug}/"; // Assuming $data contains the InventoryPPE object
+                $count = $this->countFiles($path);
+                return number_format($data->acquiredcost, 2) .
+                    '<div class="table-subdetail" style="margin-top: 3px">' . $count .' - file(s)'. '</div>';
             })
             ->editColumn('dateacquired',function($data){
                 return ($data->dateacquired ? Carbon::parse($data->dateacquired)->format('M. d, Y') : '').
@@ -262,6 +266,16 @@ class PARController extends Controller
         return view('ppu.par.uploadPic')->with([
             'par' => $par
         ]);
+    }
+
+    public function countFiles($path)
+    {
+        try {
+            $files = Storage::disk('local_ppu')->files($path);
+            return count($files);
+        } catch (\Exception $ex) {
+            return 0; // or handle the exception as per your requirement
+        }
     }
 
     public function savePict(Request $request){
