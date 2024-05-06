@@ -137,7 +137,8 @@
                                         </tbody>
                                     </table>
                                     <div class="pull-right">
-                                        <button type="button" class="btn btn-primary" id="saveBtn">Save</button>
+                                        <button type="button" class="btn btn-primary" style="margin-right: 10px" id="saveBtn">Save</button>
+                                        <a type="button" style="margin-right: 17px" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.ics.index')}}">Back</a>
                                     </div>
                                 </div>
                             </div>
