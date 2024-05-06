@@ -221,6 +221,7 @@
                         },
                         success: function (res) {
                             console.log(res);
+                            $('#trans_table tbody').remove();
                             let tableHtml = '<tbody>';
                             for(let i=0; i<res.transDetails.length; i++){
                                 let stock = res.transDetails[i].stock_no;
