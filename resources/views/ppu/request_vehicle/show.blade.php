@@ -21,7 +21,7 @@
                 </dl>
             </div>
             <div class="col-md-7">
-                <dl style="margin-bottom: 5px">
+                <dl style="margin-bottom: 5px; margin-left: 72px">
                     <dt>Authorized Passengers:</dt>
                     <dd>
                         @if(!empty($request->passengers))
@@ -46,7 +46,7 @@
             </div>
             <div class="col-md-6">
                 @if($request->action == 'DISAPPROVED')
-                <dl style="margin-bottom: 5px">
+                <dl style="margin-bottom: 5px;">
                     <dt>Reason for disapproval:</dt>
                     <dd>
                         {{$request->remarks}}
