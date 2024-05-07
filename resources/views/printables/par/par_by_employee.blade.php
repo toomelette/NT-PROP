@@ -158,7 +158,7 @@
                                 Account Code:
                             </td>
                             <td class="text-strong" style="vertical-align: top;">
-                                {{$par->invtacctcode}}
+                                {{$par->invtacctcode}} / {{$par->fund_cluster}}
                             </td>
                         </tr>
                         <tr style="border: 1px solid black">

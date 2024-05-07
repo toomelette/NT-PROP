@@ -73,7 +73,6 @@
                         <td>{{\App\Swep\Helpers\Helper::dateFormat($request->from,'M. d, Y | h:i A')}}</td>
                         <td>{{$request->destination}}</td>
                         <td>{{$request->vehicleAssigned->make ?? ''}} {{$request->vehicleAssigned->model ?? ''}} - {{$request->vehicleAssigned->plate_no ?? ''}}</td>
-
                         <td>{{$request->driverAssigned->employee->fullname ?? ''}}</td>
                     </tr>
 {{--                @endforeach--}}
