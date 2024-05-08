@@ -230,6 +230,11 @@
             });
         });
 
+        function deleteRow(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+
 
         $(function(){
             $('#iar_no').keypress(function (event){
