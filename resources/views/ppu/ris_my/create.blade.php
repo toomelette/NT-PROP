@@ -160,6 +160,7 @@
                                     </table>
                                 <div class="pull-right">
                                     <button type="button" style="margin-right: 7px; margin-bottom: 7px" class="btn btn-primary" id="saveBtn">Save</button>
+                                    <a type="button" style="margin-right: 17px" class="btn btn-danger pull-right" id="backBtn" href="{{route('dashboard.ris.myIndex')}}">Back</a>
                                 </div>
                             </div>
                         </div>
