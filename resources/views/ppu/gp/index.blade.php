@@ -104,8 +104,8 @@
                 "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
                     { "data": "gp_number" },
-                    { "data": "bearer" },
-                    { "data": "originated_from" },
+                    { "data": "beoriginated_fromarer" },
+                    { "data": "" },
                     { "data": "item" },
                     { "data": "description" },
                     { "data": "qty" },
@@ -211,7 +211,6 @@
             $("#search_by_item_form").get(0).reset();
             filterDT(gp_tbl);
         })
-
 
         $("#search_by_item_form").submit(function (e) {
             e.preventDefault();

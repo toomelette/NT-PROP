@@ -80,7 +80,6 @@ class GPController extends Controller
             ->setRowId('id')
             ->toJson();
 
-
     }
 
     public function receiveGp($slug){
@@ -198,7 +197,6 @@ class GPController extends Controller
         $trans->received_by = $request->received_by;
         $trans->guard_on_duty = $request->guard_on_duty;
 
-
         $arr = [];
         if (!empty($request->items)) {
             foreach ($request->items as $item) {
@@ -220,9 +218,5 @@ class GPController extends Controller
         }
         abort(503, 'Error saving Gate Pass');
     }
-
-
-
-
 
 }
