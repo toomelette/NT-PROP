@@ -71,10 +71,10 @@ class PARController extends Controller
                     'data' => $data,
                 ]);
             })
-            ->editColumn('propertyno',function($data){
-                return ($data->propertyno ?? null).
-                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->rc->desc ?? null).
-                    '</div>';
+            ->editColumn('propertyno', function ($data) {
+                return ($data->propertyno ?? null) .
+                    '<div class="table-subdetail" style="margin-top: 3px">' . ($data->rc->desc ?? null) . '</div>' .
+                    '<div class="table-subdetail" style="margin-top: 3px">' . ($data->fund_cluster ?? null) . '</div>';
             })
             ->editColumn('acquiredcost', function($data) {
                 $path = "PAR/{$data->slug}/";
