@@ -82,10 +82,14 @@ class PARController extends Controller
                 return number_format($data->acquiredcost, 2) .
                     '<div class="table-subdetail" style="margin-top: 3px">' . $count .' - file(s)'. '</div>';
             })
-            ->editColumn('dateacquired',function($data){
-                return ($data->dateacquired ? Carbon::parse($data->dateacquired)->format('M. d, Y') : '').
-                    '<div class="table-subdetail" style="margin-top: 3px">'.($data->condition ?? null).
-                    '</div>';
+            ->editColumn('dateacquired', function($data){
+                $condition = $data->condition ?? null;
+                $dateAcquired = $data->dateacquired ? Carbon::parse($data->dateacquired)->format('M. d, Y') : '';
+
+                $fontColor = $condition === 'DERECOGNIZED' ? 'red' : 'inherit';
+
+                return ($dateAcquired ? '<span>'.$dateAcquired.'</span>' : '').
+                    '<div class="table-subdetail" style="margin-top: 3px; color: '.$fontColor.'">'.$condition.'</div>';
             })
             ->editColumn('description',function ($data){
                 return view('ppu.par.dtDescription')->with([
