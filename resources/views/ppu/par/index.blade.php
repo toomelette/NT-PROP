@@ -37,7 +37,7 @@
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#par-by-employee"><i class="fa fa-print"></i> PAR by Employee</button>
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-location"><i class="fa fa-print"></i> Property Tag by Location</button>
                     <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#property-tag-by-account-code"><i class="fa fa-print"></i> Property Tag by Inv. Type</button>
-                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>
+{{--                    <a class="btn btn-primary btn-sm" href="{{route('dashboard.par.create')}}" > <i class="fa fa-plus"></i> Create</a>--}}
                 </div>
             </div>
             <div class="box-body">
