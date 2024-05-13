@@ -29,6 +29,7 @@ class TreeComposer
             ->where('portal','=','PPU')
             ->orderBy('category','asc')
             ->orderBy('su_menus.order','asc')
+            ->orderBy('su_submenus.sort','asc')
             ->get();
 
 
