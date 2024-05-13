@@ -104,8 +104,8 @@
                 "ajax" : '{{\Illuminate\Support\Facades\Request::url()}}?year='+$("#filter_form select[name='year']").val(),
                 "columns": [
                     { "data": "gp_number" },
-                    { "data": "beoriginated_fromarer" },
-                    { "data": "" },
+                    { "data": "bearer" },
+                    { "data": "originated_from" },
                     { "data": "item" },
                     { "data": "description" },
                     { "data": "qty" },
