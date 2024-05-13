@@ -91,6 +91,7 @@ class PARController extends Controller
                 return ($dateAcquired ? '<span>'.$dateAcquired.'</span>' : '').
                     '<div class="table-subdetail" style="margin-top: 3px; color: '.$fontColor.'">'.$condition.'</div>';
             })
+
             ->editColumn('description',function ($data){
                 return view('ppu.par.dtDescription')->with([
                     'data' => $data,
