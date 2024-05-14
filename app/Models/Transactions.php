@@ -43,6 +43,10 @@ class Transactions extends Model
         return $this->hasOne(PPURespCodes::class,'rc_code','resp_center');
     }
 
+    public function iac(){
+        return $this->hasOne(AccountCode::class,'code','invtacctcode');
+    }
+
     public function pap(){
         return $this->belongsTo(PAP::class,'pap_code','pap_code');
     }

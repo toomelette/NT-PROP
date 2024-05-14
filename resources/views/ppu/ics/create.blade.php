@@ -290,7 +290,8 @@
             }
         });
 
-
         $("#inventory-account-code").select2();
+
+
     </script>
 @endsection

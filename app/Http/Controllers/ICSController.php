@@ -4,6 +4,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\AccountCode;
+use App\Models\Options;
 use App\Models\Order;
 use App\Models\PPURespCodes;
 use App\Models\Suppliers;
@@ -239,6 +241,99 @@ class ICSController extends Controller
         }
         return view('printables.ics.property_tag')->with([
             'ics' => $ics,
+        ]);
+    }
+
+    public function generateRsepi(){
+        return view('ppu.rsepi.generateRsepi');
+    }
+
+    public function printRsepi(Request $request){
+
+        $asOfDate = $request->as_of;
+        $rsepiObj = Transactions::query()
+            ->with(['iac'])
+            ->where(function ($query) {
+                $query->where('ref_book', '=', 'ICS');
+            })->orderBy('ref_no');
+
+        if($request->has('period_covered')){
+            $rsepiObj = $rsepiObj->whereBetween('date',[$request->date_start,$request->date_end]);
+        }else{
+            $rsepiObj = $rsepiObj->whereDate('date','<=',$request->as_of);
+        }
+        if($request->has('fund_cluster') && $request->fund_cluster != ''){
+            $rsepiObj = $rsepiObj->where('fund_cluster','=',$request->fund_cluster);
+        }
+        if($request->has('employee_no') && $request->employee_no != ''){
+            $rsepiObj = $rsepiObj->where('acctemployee_no','=',$request->employee_no);
+        }
+
+        switch ($request->view){
+            case 'per_employee' :
+                $rsepiObj = $rsepiObj->orderBy('acctemployee_no');
+                break;
+            case 'per_account_code':
+                $rsepiObj = $rsepiObj->orderBy('invtacctcode');
+                break;
+            default:
+                break;
+        }
+
+        $rsepiObj1 = $rsepiObj->get();
+        $rsepiObj = $rsepiObj->get();
+
+        switch ($request->view){
+            case 'per_employee' :
+                $g = $rsepiObj->groupBy('acctemployee_no');
+                break;
+            case 'per_account_code':
+                $g = $rsepiObj->groupBy('invtacctcode');
+                break;
+            default:
+                break;
+        }
+
+        $g = $g->map(function ($d){
+            return $d->sortBy('fund_cluster')->groupBy('fund_cluster');
+        });
+
+        $accountCodes = AccountCode::query()
+            ->get()
+            ->mapWithKeys(function ($data){
+                return [
+                    $data->code => $data->description,
+                ];
+            });
+        $employees = Employee::query()
+            ->select('slug','employee_no','fullname')
+            ->get()
+            ->mapWithKeys(function ($data){
+                return [
+                    $data->employee_no => $data->fullname,
+                ];
+            });
+        $units = Options::query()
+            ->get();
+
+        $accountCodes1 = $rsepiObj1->pluck('invtacctcode')->unique();
+        $accountCodeRecords1 = AccountCode::whereIn('code', $accountCodes1)->get();
+        $fund_clusters1 = $rsepiObj1->pluck('fund_cluster')->unique()->sort();
+
+
+
+        return view('printables.rpcppe.generateAll')->with([
+            'rsepi' => $rsepiObj,
+            'asOf' => $asOfDate,
+            'data' => $g,
+            'accountCodes' => $accountCodes,
+            'rsepiObj1' => $rsepiObj1,
+            'accountCodes1' => $accountCodes1,
+            'accountCodeRecords1' => $accountCodeRecords1,
+            'fundClusters1' => $fund_clusters1,
+            'units' => $units,
+            'view' => $request->view,
+            'employees' => $employees
         ]);
     }
 }

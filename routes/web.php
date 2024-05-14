@@ -242,6 +242,9 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/printRpcppe','PARController@printRpcppe')->name('rpcppe.printRpcppe');
     Route::get('/par/printRpcppeExcel','PARController@printRpcppeExcel')->name('rpcppe.printRpcppeExcel');
 
+    Route::get('/ics/generateRsepi','ICSController@generateRsepi')->name('rsepi.generateRsepi');
+    Route::get('/ics/printRsepi','ICSController@printRsepi')->name('rsepi.printRsepi');
+
     Route::get('/par/generateRpcppeByCriteria','PARController@rpcppeByCriteria')->name('rpcppe.rpcppeByCriteria');
     Route::get('/par/generateRpcppe','PARController@generateRpcppe')->name('rpcppe.generateRpcppe');
     Route::get('/par/{location}/printInventoryCountForm','PARController@printInventoryCountForm')->name('rpcppe.printInventoryCountForm');
@@ -315,6 +318,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/ics/report','ICSController@report')->name('ics.report');
     Route::get('/ics/{slug}/print_ics_tag','ICSController@printIcsTag')->name('ics.print_ics_tag');
     Route::get('/ics/{employee}/printByEmployee','ICSController@printByEmployee')->name('ics.printByEmployee');
+    Route::get('/ics/generateRsepi','ICSController@generateRsepi')->name('rsepi.generateRsepi');
+    Route::get('/ics/printRsepi','ICSController@printRsepi')->name('rsepi.printRsepi');
     Route::resource('ics', 'ICSController');
 
     Route::post('/noa/store','NOAController@store')->name('noa.store');
