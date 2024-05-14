@@ -34,6 +34,13 @@
                     'options' => \App\Swep\Helpers\Arrays::fundSources(),
                     ]) !!}
 
+                    {!! \App\Swep\ViewHelpers\__form2::select('condition',[
+                    'id' => 'condition',
+                    'label' => 'Condition:',
+                    'cols' => 3,
+                    'options' => \App\Swep\Helpers\Arrays::condition(),
+                    ]) !!}
+
                     {!! \App\Swep\ViewHelpers\__form2::select('employee_no',[
                     'id' => 'employee_no',
                     'label' => 'Employee Number',
@@ -144,18 +151,34 @@
                 }
             });
 
-            $('#as_of').val(new Date().toISOString().slice(0, 10));
-            let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";
-            href = href.replace('fund_cluster', 'all');
-            href = href.replace('as_of', $('#as_of').val());
-            $('a.btn').attr('href', href);
+            {{--$('#as_of').val(new Date().toISOString().slice(0, 10));--}}
+            {{--let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";--}}
+            {{--href = href.replace('fund_cluster', 'all');--}}
+            {{--href = href.replace('as_of', $('#as_of').val());--}}
+            {{--$('a.btn').attr('href', href);--}}
 
-            $('#fund_cluster, #as_of').change(function() {
-                let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";
+            {{--$('#fund_cluster, #as_of').change(function() {--}}
+            {{--    let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of']) }}";--}}
+            {{--    href = href.replace('fund_cluster', $('#fund_cluster').val() || "all");--}}
+            {{--    href = href.replace('as_of', $('#as_of').val());--}}
+            {{--    $('a.btn').attr('href', href);--}}
+            {{--});--}}
+
+            $('#as_of').val(new Date().toISOString().slice(0, 10));
+            updateHref();
+
+            $('#fund_cluster, #as_of, #condition').change(function() {
+                updateHref();
+            });
+
+            function updateHref() {
+                let href = "{{ route('dashboard.rpcppe.printRpcppe', ['fund_cluster', 'as_of', 'condition']) }}";
                 href = href.replace('fund_cluster', $('#fund_cluster').val() || "all");
                 href = href.replace('as_of', $('#as_of').val());
+                href = href.replace('condition', $('#condition').val() || "all");
                 $('a.btn').attr('href', href);
-            });
+            }
+
         });
 
         $("#employee_no").select2();

@@ -417,6 +417,9 @@ class PARController extends Controller
         if($request->has('employee_no') && $request->employee_no != ''){
             $rpciObj = $rpciObj->where('acctemployee_no','=',$request->employee_no);
         }
+        if($request->has('condition') && $request->condition != ''){
+            $rpciObj = $rpciObj->where('condition','=',$request->condition);
+        }
 
 //        invtacctcode
         switch ($request->view){
