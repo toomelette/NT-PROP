@@ -22,98 +22,99 @@
             border: 1px solid black;
         }
     </style>
-    @foreach($data as $account_code => $groupedByFunds)
-        @php
-            $groupedByFunds->sort();
-            $inventoryTypeTotal = 0;
-        @endphp
+    @forelse($articles as $stock_no => $icsDetails)
+        <div class="page-breaks">
+            <table style="width: 100%; margin-left: -120px; font-family: 'Cambria',Times New Roman">
+                <tr>
+                    <td style="width: 20%">
+                        <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
+                    </td>
+                    <td style="font-size: 20px">
+                        <p class="no-margin text-strong">REPORT ON THE PHYSICAL COUNT OF PROPERTY, PLANT & EQUIPMENT</p>
+                        <p class="no-margin">As at SUGAR REGULATORY ADMINISTRATION, {{\App\Swep\Helpers\Values::headerAddress()}}</p>
+{{--                        <p class="no-margin" style="font-size: 16px">As of {{ \Carbon\Carbon::parse($asOf)->format('F d, Y') }}</p>--}}
+                    </td>
+                </tr>
+            </table>
+            <table>
+                <tr style="width: 100%; font-size: 15px ">
+{{--                    <td style="width: 50%"> Entity Name: <strong></strong></td>--}}
+                    <td style="text-align: center; width: 50%"> Semi-Expendable Property: <strong>{{$articlesList[$stock_no]->article ?? 'N/A'}} | {{$stock_no}}</strong></td>
 
-        @foreach($groupedByFunds as $fund => $rows)
-            <div class="page-breaks">
-                <table style="width: 100%; margin-left: -120px; font-family: 'Cambria',Times New Roman">
-                    <tr>
-                        <td style="width: 20%">
-                            <img src="{{ asset('images/sra.png') }}" style="width:100px; float: right">
-                        </td>
-                        <td style="font-size: 20px">
-                            <p class="no-margin text-strong">REPORT ON THE PHYSICAL COUNT OF PROPERTY, PLANT & EQUIPMENT</p>
-                            <p class="no-margin text-strong" style="font-size: 18px">{{$accountCodes[$account_code] ?? ''}}</p>
-                            <p class="no-margin">As at SUGAR REGULATORY ADMINISTRATION, {{\App\Swep\Helpers\Values::headerAddress()}}</p>
-                            <p class="no-margin" style="font-size: 16px">As of {{ \Carbon\Carbon::parse($asOf)->format('F d, Y') }}</p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        @endforeach
+                </tr>
 
-        <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman">
-            @switch($view)
-                @case('per_employee')
-                    <strong>Employee: {{$employees[$account_code] ?? ''}} - {{$account_code}}</strong>
-                @break
-                @case('per_account_code')
-                    <strong>Inventory Type: {{$account_code}} - {{$accountCodes[$account_code] ?? ''}}</strong>
-                @break
 
-                @default
-                @break
-            @endswitch
-        </h5>
 
-        <div>
-            <h5 style="text-align: left; margin-left: 30px; font-family: 'Cambria',Times New Roman"><strong>Fund Cluster: {{$fund}}</strong></h5>
+
+            </table>
 
             <table id="mainTable" style="margin-left: 30px; width: 95%; font-family: 'Cambria',Times New Roman">
                 <thead >
                 <tr>
-                    <th style="text-align: center; width: 8%" rowspan="2">DATE</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">ICS/RRSP NO.</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">PROPERTY NO.</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">DESCRIPTION</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">USEFUL LIFE</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">ISSUED QTY.</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">ISSUED OFFICE</th>
-                    <th style="text-align: center; width: 8%" colspan="2">RETURNED QTY.</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">RETURNED OFFICE</th>
-                    <th style="text-align: center; width: 8%" colspan="2">RE-ISSUED QTY.</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">RE-ISSUED OFFICE</th>
-                    <th style="text-align: center; width: 8%" colspan="2">DISPOSED QTY.</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">BALANCE OFFICE</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">AMOUNT</th>
-                    <th style="text-align: center; width: 8%" rowspan="2">REMARKS</th>
+                    <th style="text-align: center; width: 6%" rowspan="2">DATE</th>
+                    <th style="text-align: center; width: 15%" colspan="2">REFERENCE</th>
+                    <th style="text-align: center; width: 20%" rowspan="2">ITEM DESCRIPTION</th>
+                    <th style="text-align: center; width: 5%" rowspan="2">USEFUL LIFE</th>
+                    <th style="text-align: center; width: 10%" colspan="2">ISSUED</th>
+                    <th style="text-align: center; width: 10%" colspan="2">RETURNED</th>
+                    <th style="text-align: center; width: 5%" rowspan="2">DISPOSED QTY</th>
+                    <th style="text-align: center; width: 5%" rowspan="2">BALANCE QTY</th>
+                    <th style="text-align: center; width: 5%" rowspan="2">AMOUNT</th>
+                    <th style="text-align: center; width: 20%" rowspan="2">REMARKS</th>
                 </tr>
                 <tr>
+                    <th style="text-align: center;">ICS/RRSP NO.</th>
+                    <th style="text-align: center;">PROPERTY NO</th>
                     <th style="text-align: center;">QTY</th>
-                    <th style="text-align: center;">VALUE</th>
+                    <th style="text-align: center;">OFFICE/OFFICER</th>
+                    <th style="text-align: center;">QTY</th>
+                    <th style="text-align: center;">OFFICE/OFFICER</th>
                 </tr>
                 </thead>
-                <tbody id="tableBody">
-
+                <tbody>
+                @php
+                    $runningBal = 0;
+                @endphp
+                @forelse($icsDetails as $icsDetail)
+                    <tr>
+                        <td style="text-align: center; width: 6%" >{{$icsDetail->transaction->po_date ?? null}}</td>
+                        <td style="text-align: center; width: 15%" > {{$icsDetail->transaction->ref_no ?? null}}</td>
+                        <td style="text-align: center; width: 20%" > {{$icsDetail->property_no ?? null}}</td>
+                        <td style="text-align: center; width: 5%" > {{$icsDetail->description ?? null}}</td>
+                        <td style="text-align: center; width: 10%" > {{$icsDetail->estimated_useful_life ?? null}}</td>
+                        <td style="text-align: center; width: 10%" > {{$icsDetail->qty ?? null}}</td>
+                        <td style="text-align: center; width: 5%" > {{$icsDetail->transaction->requested_by ?? null}}</td>
+                        <td style="text-align: center; width: 5%" > </td>
+                        <td style="text-align: center; width: 5%" ></td>
+                        <td style="text-align: center; width: 20%" ></td>
+                        <td style="text-align: center; width: 5%" > {{$runningBal = $runningBal + $icsDetail->qty}} </td>
+                        <td style="text-align: center; width: 5%" >  {{$icsDetail->total_cost ?? null}}</td>
+                        <td style="text-align: center; width: 20%" >  {{$icsDetail->remarks ?? null}}</td>
+                    </tr>
+                @empty
+                @endforelse
                 <tr>
-
-                    @switch($view)
-                        @case('per_employee')
-                            <td colspan="4" class="text-strong">SUB TOTAL: {{$employees[$account_code] ?? ''}} {{$account_code}} - {{$accountCodes[$account_code] ?? ''}} - {{$fund}}</td>
-                            @break
-                        @case('per_account_code')
-                            <td colspan="4" class="text-strong">SUB TOTAL OF ACCT. {{$account_code}} - {{$accountCodes[$account_code] ?? ''}} - {{$fund}}</td>
-                            @break
-                        @default
-                            @break
-                    @endswitch
-
+                    <td colspan="10" style="text-align: right"><b>TOTAL</b></td>
+                    <td>{{$runningBal}}</td>
+                    <td>{{$icsDetails->sum('total_cost')}}</td>
                 </tr>
                 </tbody>
-            </table>`
+            </table>
         </div>
 
-    @endforeach
+
+
+
+    @empty
+        <p>No data</p>
+    @endforelse
+
 @endsection
 
 @section('scripts')
     <script type="text/javascript">
         $(document).ready(function () {
-            print();
+            // print();
             // close();
         })
     </script>

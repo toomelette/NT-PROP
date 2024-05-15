@@ -449,6 +449,20 @@ class Arrays
         return $arr;
     }
 
+    public static function employeeBySlug(){
+        $employees = Employee::query()
+            ->where('is_active', '=', 'ACTIVE')
+            ->whereIn('locations', ['VISAYAS', 'LUZON/MINDANAO'])
+            ->get();
+        $arr = [];
+        if(!empty($employees)){
+            foreach ($employees as $employee){
+                $arr[$employee->slug] = $employee->employee_no .' - '. $employee->fullname;
+            }
+        }
+        return $arr;
+    }
+
     public static function recipientsOfProcurementUpdates(){
         $recipients = [];
         $r = EmailRecipients::query()

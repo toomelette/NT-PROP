@@ -19,7 +19,7 @@
 
        $employeesCollection = $employees->map(function ($data){
             return [
-                'id' => $data->employee_no,
+                'id' => $data->slug,
                 'text' => $data->firstname.' '.$data->lastname.' - '.$data->employee_no,
                 'employee_no' => $data->employee_no,
                 'fullname' => $data->firstname.' '.$data->lastname,

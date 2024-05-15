@@ -35,4 +35,13 @@ class Articles extends Model
         });
     }
     protected $table = 'inv_master';
+
+    public function icsDetails()
+    {
+        return $this->hasMany(TransactionDetails::class,'stock_no', 'stockNo')
+            ->whereHas('transaction',function ($q){
+                $q
+                    ->icsOnly();
+            });
+    }
 }

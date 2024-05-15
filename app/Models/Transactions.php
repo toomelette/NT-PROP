@@ -101,4 +101,12 @@ class Transactions extends Model
     public function scopeJoOnly(Builder $query){
         $query->where('ref_book','=','JO');
     }
+
+    public function scopeIcsOnly(Builder $query){
+        $query->where('ref_book','=','ICS');
+    }
+
+    public function icsEmployee(){
+        return $this->hasOne(Employee::class,'slug','supplier_tin');
+    }
 }

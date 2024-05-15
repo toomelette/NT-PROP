@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="content-header">
-        <h1>Generate RPCPPE</h1>
+        <h1>Generate RSEPI</h1>
     </section>
 @endsection
 @section('content2')
@@ -16,46 +16,39 @@
                     <div class="embed-responsive embed-responsive-16by9 hidden" style="height: 1019.938px;">
                         <iframe class="embed-responsive-item" src="" id="printIframe"></iframe>
                     </div>
-                    {!! \App\Swep\ViewHelpers\__form2::select('view',[
-                        'id' => 'view',
-                        'label' => 'Layout:',
-                        'cols' => 3,
-                        'options' => [
-                            'per_employee' => 'Per Employee',
-                            'per_account_code' => 'Per Account Code',
-                        ],
-                        'required' => 'required',
-                    ]) !!}
-
-                    {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[
-                    'id' => 'fund_cluster',
-                    'label' => 'Fund Cluster:',
-                    'cols' => 3,
-                    'options' => \App\Swep\Helpers\Arrays::fundSources(),
-                    ]) !!}
-
-{{--                    {!! \App\Swep\ViewHelpers\__form2::select('condition',[--}}
-{{--                    'id' => 'condition',--}}
-{{--                    'label' => 'Condition:',--}}
-{{--                    'cols' => 3,--}}
-{{--                    'options' => \App\Swep\Helpers\Arrays::condition(),--}}
+{{--                    {!! \App\Swep\ViewHelpers\__form2::select('view',[--}}
+{{--                        'id' => 'view',--}}
+{{--                        'label' => 'Layout:',--}}
+{{--                        'cols' => 3,--}}
+{{--                        'options' => [--}}
+{{--                            'per_employee' => 'Per Employee',--}}
+{{--                            'per_account_code' => 'Per Account Code',--}}
+{{--                        ],--}}
+{{--                        'required' => 'required',--}}
 {{--                    ]) !!}--}}
 
-                    {!! \App\Swep\ViewHelpers\__form2::select('employee_no',[
+{{--                    {!! \App\Swep\ViewHelpers\__form2::select('fund_cluster',[--}}
+{{--                    'id' => 'fund_cluster',--}}
+{{--                    'label' => 'Fund Cluster:',--}}
+{{--                    'cols' => 3,--}}
+{{--                    'options' => \App\Swep\Helpers\Arrays::fundSources(),--}}
+{{--                    ]) !!}--}}
+
+                    {!! \App\Swep\ViewHelpers\__form2::select('article',[
+                    'id' => 'article',
+                    'label' => 'Article:',
+                    'cols' => 3,
+                    'options' => \App\Swep\Helpers\Arrays::condition(),
+                    ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::select('employee_slug',[
                     'id' => 'employee_no',
                     'label' => 'Employee Number',
                     'cols' => 3,
-                    'options' => \App\Swep\Helpers\Arrays::employee(),
+                    'options' => \App\Swep\Helpers\Arrays::employeeBySlug(),
                     ]) !!}
 
-                    {!! \App\Swep\ViewHelpers\__form2::textbox('as_of',[
-                            'id' => 'as_of',
-                           'label' => 'As of:',
-                           'cols' => 3,
-                           'type' => 'date',
-                        ]) !!}
 
-                    <div id="dateRangeDiv" class="hidden">
                         {!! \App\Swep\ViewHelpers\__form2::textbox('date_start',[
                             'id' => 'date_start',
                            'label' => 'Date Start:',
@@ -69,14 +62,10 @@
                            'cols' => 3,
                            'type' => 'date',
                         ]) !!}
-                    </div>
 
                     <div class="clearfix"></div>
 
-                    <div class="form-group col-md-4 period_covered">
-                        <input id="period_covered" name="period_covered" type="checkbox" autocomplete="">
-                        <label for="period_covered">Generate for a specific period</label>
-                    </div>
+
                     <div class="clearfix"></div>
                     <div class="box-footer pull-left">
                         <button class="btn btn-primary btn-md print" type="submit">
@@ -145,6 +134,15 @@
             {{--    $('a.btn').attr('href', href);--}}
             {{--}--}}
 
+        });
+
+        $("#article").select2({
+            ajax: {
+                url: '{{route("dashboard.ajax.get","articles")}}',
+                dataType: 'json',
+                delay : 250,
+            },
+            placeholder: 'Select item',
         });
 
             $("#employee_no").select2();
