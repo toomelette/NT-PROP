@@ -128,7 +128,8 @@
                                             <th>Qty</th>
                                             <th>Unit Cost</th>
                                             <th>Total Cost</th>
-                                            <th>Useful Life</th>
+                                            <th>Useful Life (Month)</th>
+                                            <th>Remarks</th>
                                             <th style="width: 3%"></th>
                                         </tr>
                                         </thead>
