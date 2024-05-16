@@ -395,5 +395,23 @@ Route::get('/mailtest',function (){
 
 });
 
+Route::get('/slugg',function (){
+
+    $employees = \App\Models\Employee::query()->where('locations','=','VISAYAS')
+        ->where('is_active','=','ACTIVE')->get();
+    foreach ($employees as $employee){
+        $transactions = \App\Models\Transactions::query()
+            ->where('requested_by','like',$employee->firstname.'%')
+            ->where('requested_by','like','%'.$employee->lastname.'%')
+            ->icsOnly();
+
+        $transactions->update([
+            'supplier_tin' => $employee->slug,
+        ]);
+
+    }
+    return 1;
+
+});
 
 
