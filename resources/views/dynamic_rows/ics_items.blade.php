@@ -72,6 +72,11 @@
         'label' => 'Useful life',
     ],$item->estimated_useful_life ?? null) !!}
     </td>
+    <td style="width: 8%">
+        {!! \App\Swep\ViewHelpers\__form2::textareaOnly('items['.$rand.'][remarks]',[
+         'label' => 'Remarks:',
+     ],$item->remarks ?? null) !!}
+    </td>
     <td style="width: 3%">
         <button tabindex="-1" data="S01QH" type="button" class="btn btn-danger btn-sm remove_row_btn"><i class="fa fa-times"></i></button>
     </td>

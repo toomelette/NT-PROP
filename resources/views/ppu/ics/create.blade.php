@@ -128,7 +128,8 @@
                                             <th>Qty</th>
                                             <th>Unit Cost</th>
                                             <th>Total Cost</th>
-                                            <th>Useful Life</th>
+                                            <th>Useful Life (Month)</th>
+                                            <th>Remarks</th>
                                             <th style="width: 3%"></th>
                                         </tr>
                                         </thead>
@@ -235,8 +236,9 @@
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][qty]" name="items['+res.transDetails[i].slug+'][qty]" type="text" value="' + res.transDetails[i].qty + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][unit_cost]" name="items['+res.transDetails[i].slug+'][unit_cost]" type="text" value="' + res.transDetails[i].unit_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
                                     '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][total_cost]" name="items['+res.transDetails[i].slug+'][total_cost]" type="text" value="' + res.transDetails[i].total_cost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + '"></td>' +
-                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][estimated_useful_life]" name="items['+res.transDetails[i].slug+'][estimated_useful_life]" type="text" value="' +  res.transDetails[i].estimated_useful_life + '"></td>' +
-                                    '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][estimated_useful_life]" name="items['+res.transDetails[i].slug+'][estimated_useful_life]" type="text" value="' +  (res.transDetails[i].estimated_useful_life || '') + '"></td>' +
+                                    '<td><input class="form-control" id="items['+res.transDetails[i].slug+'][remarks]" name="items['+res.transDetails[i].slug+'][remarks]" type="text" value="' + (res.transDetails[i].remarks || '') + '"></td>' +
+                                '<td><button type=\'button\' class=\'btn btn-danger btn-sm delete-btn\' data-slug='+res.transDetails[i].slug+' onclick="deleteRow(this)"><i class=\'fa fa-times\'></i></button></td>' +
                                     '</tr>';
                             }
                             tableHtml += '</tbody>';

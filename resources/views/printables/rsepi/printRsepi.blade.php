@@ -54,7 +54,7 @@
                     <th style="text-align: center; width: 6%" rowspan="2">DATE</th>
                     <th style="text-align: center; width: 15%" colspan="2">REFERENCE</th>
                     <th style="text-align: center; width: 20%" rowspan="2">ITEM DESCRIPTION</th>
-                    <th style="text-align: center; width: 5%" rowspan="2">USEFUL LIFE</th>
+                    <th style="text-align: center; width: 5%" rowspan="2">USEFUL LIFE (M)</th>
                     <th style="text-align: center; width: 10%" colspan="2">ISSUED</th>
                     <th style="text-align: center; width: 10%" colspan="2">RETURNED</th>
                     <th style="text-align: center; width: 5%" rowspan="2">DISPOSED QTY</th>
@@ -77,26 +77,26 @@
                 @endphp
                 @forelse($icsDetails as $icsDetail)
                     <tr>
-                        <td style="text-align: center; width: 6%" >{{$icsDetail->transaction->po_date ?? null}}</td>
-                        <td style="text-align: center; width: 15%" > {{$icsDetail->transaction->ref_no ?? null}}</td>
-                        <td style="text-align: center; width: 20%" > {{$icsDetail->property_no ?? null}}</td>
-                        <td style="text-align: center; width: 5%" > {{$icsDetail->description ?? null}}</td>
-                        <td style="text-align: center; width: 10%" > {{$icsDetail->estimated_useful_life ?? null}}</td>
-                        <td style="text-align: center; width: 10%" > {{$icsDetail->qty ?? null}}</td>
-                        <td style="text-align: center; width: 5%" > {{$icsDetail->transaction->requested_by ?? null}}</td>
-                        <td style="text-align: center; width: 5%" > </td>
-                        <td style="text-align: center; width: 5%" ></td>
-                        <td style="text-align: center; width: 20%" ></td>
-                        <td style="text-align: center; width: 5%" > {{$runningBal = $runningBal + $icsDetail->qty}} </td>
-                        <td style="text-align: center; width: 5%" >  {{$icsDetail->total_cost ?? null}}</td>
-                        <td style="text-align: center; width: 20%" >  {{$icsDetail->remarks ?? null}}</td>
+                        <td style="text-align: center;" >{{$icsDetail->transaction->po_date ?? null}}</td>
+                        <td style="text-align: center;" > {{$icsDetail->transaction->ref_no ?? null}}</td>
+                        <td style="text-align: center;" > {{$icsDetail->property_no ?? null}}</td>
+                        <td style="text-align: center;" > {{$icsDetail->description ?? null}}</td>
+                        <td style="text-align: center;" > {{$icsDetail->estimated_useful_life ?? null}}</td>
+                        <td style="text-align: center;" > {{$icsDetail->qty ?? null}}</td>
+                        <td style="text-align: center;" > {{$icsDetail->transaction->requested_by ?? null}}</td>
+                        <td style="text-align: center;" > </td>
+                        <td style="text-align: center;" ></td>
+                        <td style="text-align: center;" ></td>
+                        <td style="text-align: center;" > {{$runningBal = $runningBal + $icsDetail->qty}} </td>
+                        <td style="text-align: center;" > {{ number_format($icsDetail->total_cost ?? null, 2)}}</td>
+                        <td style="text-align: left;" > {{$icsDetail->remarks ?? null}}</td>
                     </tr>
                 @empty
                 @endforelse
                 <tr>
                     <td colspan="10" style="text-align: right"><b>TOTAL</b></td>
-                    <td>{{$runningBal}}</td>
-                    <td>{{$icsDetails->sum('total_cost')}}</td>
+                    <td style="text-align: center">{{$runningBal}}</td>
+                    <td style="text-align: center">{{ number_format($icsDetails->sum('total_cost'), 2) }}</td>
                 </tr>
                 </tbody>
             </table>

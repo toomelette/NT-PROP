@@ -151,6 +151,7 @@ class ICSController extends Controller
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
                     'estimated_useful_life' => $item['estimated_useful_life'],
+                    'remarks' => $item['remarks'],
                 ]);
                 $totalAbc = $totalAbc + Helper::sanitizeAutonum($item['total_cost']);
             }
@@ -199,6 +200,7 @@ class ICSController extends Controller
                     'unit_cost' => Helper::sanitizeAutonum($item['unit_cost']),
                     'total_cost' => Helper::sanitizeAutonum($item['total_cost']),
                     'estimated_useful_life' => $item['estimated_useful_life'],
+                    'remarks' => $item['remarks'],
                 ]);
                 $totalAbc = $totalAbc + Helper::sanitizeAutonum($item['total_cost']);
             }
