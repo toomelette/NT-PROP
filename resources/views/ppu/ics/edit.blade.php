@@ -118,6 +118,7 @@
                                                 <td><input class="form-control" id="items['{{$transDetail->slug}}'][unit_cost]" name="items['{{$transDetail->slug}}'][unit_cost]" type="text" value="{{$transDetail->unit_cost}}"></td>
                                                 <td><input class="form-control" id="items['{{$transDetail->slug}}'][total_cost]" name="items['{{$transDetail->slug}}'][total_cost]" type="text" value="{{$transDetail->total_cost}}"></td>
                                                 <td><input class="form-control" id="items['{{$transDetail->slug}}'][estimated_useful_life]" name="items['{{$transDetail->slug}}'][estimated_useful_life]" type="text" value="{{$transDetail->estimated_useful_life}}"></td>
+                                                <td><input class="form-control" id="items['{{$transDetail->slug}}'][remarks]" name="items['{{$transDetail->slug}}'][remarks]" type="text" value="{{$transDetail->remarks}}"></td>
                                                 <td><button type="button" class="btn btn-danger btn-sm delete-btn" data-slug="{{$transDetail->slug}}" onclick="deleteRow(this)"><i class="fa fa-times"></i></button></td>
                                             </tr>
                                         @endforeach
