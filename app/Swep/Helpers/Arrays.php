@@ -457,7 +457,7 @@ class Arrays
         $arr = [];
         if(!empty($employees)){
             foreach ($employees as $employee){
-                $arr[$employee->slug] = $employee->employee_no .' - '. $employee->fullname;
+                $arr[$employee->slug] =  $employee->fullname;
             }
         }
         return $arr;
