@@ -284,7 +284,8 @@ class Arrays
             $data = [
                 'ATTY. JOHANA S. JADOC' => 'ATTY. JOHANA S. JADOC',
                 'HELEN B. LOBATON' => 'HELEN B. LOBATON',
-                'WILFREDO R. MONARES' => 'WILFREDO R. MONARES'
+                'WILFREDO R. MONARES' => 'WILFREDO R. MONARES',
+                'RINA VI H. MARABE' => 'RINA VI H. MARABE'
             ];
         }elseif($project_id == 2){
             $data = [
@@ -311,7 +312,8 @@ class Arrays
             $data = [
                 'MANAGER III, AFD-VISAYAS' => 'MANAGER III, AFD-VISAYAS',
                 'MANAGER III, RDE-VISAYAS' => 'MANAGER III, RDE-VISAYAS',
-                'MANAGER III, RD-VISAYAS' => 'MANAGER III, RD-VISAYAS'
+                'MANAGER III, RD-VISAYAS' => 'MANAGER III, RD-VISAYAS',
+                'EXECUTIVE ASSISTANT IV' => 'EXECUTIVE ASSISTANT IV'
             ];
         }elseif($project_id == 2){
             $data = [
