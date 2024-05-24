@@ -65,13 +65,13 @@
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td style="width: 20%; border-right: 1px solid black;"><small>Date and Time of Departure</small></td>
-            <td style="width: 30%" class="text-strong">{{\App\Swep\Helpers\Helper::dateFormat($request->from,'F d, Y | h:i A')}}</td>
+            <td style="width: 30%; border-right: 1px solid black;" class="text-strong">{{\App\Swep\Helpers\Helper::dateFormat($request->from,'F d, Y | h:i A')}}</td>
             <td style="width: 20%; border-right: 1px solid black;"><small> Date and Time of Return (If applicable)</small></td>
             <td class="text-strong">{{\App\Swep\Helpers\Helper::dateFormat($request->to,'F d, Y | h:i A')}}</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td style="border-right: 1px solid black;">Vehicle Assigned</td>
-            <td class="text-strong">{{$request->vehicleAssigned->make ?? ''}} {{$request->vehicleAssigned->model ?? ''}} - {{$request->vehicleAssigned->plate_no ?? ''}}</td>
+            <td style="border-right: 1px solid black;" class="text-strong">{{$request->vehicleAssigned->make ?? ''}} {{$request->vehicleAssigned->model ?? ''}} - {{$request->vehicleAssigned->plate_no ?? ''}}</td>
             <td style="border-right: 1px solid black;">Driver Assigned</td>
             <td class="text-strong">{{$request->driverAssigned->employee->fullname ?? ' - '}}</td>
         </tr>
