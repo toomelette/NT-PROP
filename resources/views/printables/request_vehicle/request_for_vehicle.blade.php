@@ -22,8 +22,8 @@
     </table>
     <table style="width: 100%; font-family: Cambria; font-size: 14px" class="tbl-bordered">
         <tr>
-            <td style="width: 50%">
-                <p style="font-size: 22px" class="text-strong">REQUEST FOR SHUTTLE SERVICE</p>
+            <td style="width: 50%; margin: 0px !important;">
+                <p style="font-size: 22px; margin-top: 10px" class="text-strong">REQUEST FOR SHUTTLE SERVICE</p>
             </td>
 
             <td style="padding-right: 0px !important; padding-left: 0px !important; padding-top: 0px !important; padding-bottom: 0px !important;">
