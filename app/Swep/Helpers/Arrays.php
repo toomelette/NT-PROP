@@ -301,7 +301,7 @@ class Arrays
             ];
         }else{
             $data = [
-            ];
+            ];  
         }
         return $data;
     }

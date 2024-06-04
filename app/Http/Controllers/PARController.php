@@ -736,9 +736,18 @@ class PARController extends Controller
         }
     }
 
+    public function inventoryTaking(){
+        return view('ppu.par.inventoryTaking');
+    }
 
 
+    public function findTransByPropNumber($propertyNo)
+    {
+        $parinv = InventoryPPE::query()->where('propertyno', '=', $propertyNo)->first();
+        return response()->json([
+            'parinv' => $parinv,
+        ]);
 
-
+    }
 
 }

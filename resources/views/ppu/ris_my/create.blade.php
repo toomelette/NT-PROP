@@ -77,9 +77,9 @@
                             ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('iar_no',[
-                                      'label' => 'IAR Reference No:',
-                                      'cols' => 3,
-                                      'id' => 'iar_no'
+                              'label' => 'IAR Reference No:',
+                              'cols' => 3,
+                              'id' => 'iar_no'
                             ]) !!}
 
                         </div>

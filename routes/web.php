@@ -241,6 +241,8 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::patch('/par/update/{slug}','PARController@update')->name('par.update');
     Route::get('/par/printRpcppe','PARController@printRpcppe')->name('rpcppe.printRpcppe');
     Route::get('/par/printRpcppeExcel','PARController@printRpcppeExcel')->name('rpcppe.printRpcppeExcel');
+    Route::get('/par/inventoryTaking','PARController@inventoryTaking')->name('par.inventoryTaking');
+    Route::get('/par/findTransByPropNumber/{propertyno}','PARController@findTransByPropNumber')->name('par.findTransByPropNumber');
 
     Route::get('/ics/generateRsepi','ICSController@generateRsepi')->name('rsepi.generateRsepi');
     Route::get('/ics/printRsepi','ICSController@printRsepi')->name('rsepi.printRsepi');
