@@ -8,7 +8,7 @@
 @section('content2')
     <section class="content col-md-12">
         <div role="document">
-            <form id="add_form">
+            <form id="edit_form">
 
                     <div class="box box-success">
                         <div class="box-header with-border">
@@ -16,7 +16,7 @@
                             <button class="btn btn-primary btn-sm pull-right" id="saveBtn" type="button">
                                 <i class="fa fa-check"></i> Save
                             </button>
-                        </div>
+                             </div>
 
                         <div class="box-body">
 
@@ -36,7 +36,7 @@
                             'cols' => 3,
                             'options' => \App\Swep\Helpers\Arrays::location(),
                             'id' => 'location'
-                          ]) !!}
+                            ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::textbox('article',[
                                 'label' => 'Article',
@@ -44,22 +44,28 @@
                                 'id' => 'article'
                              ]) !!}
 
-                            {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
-                               'label' => 'Description',
+
+                            {!! \App\Swep\ViewHelpers\__form2::textbox('office',[
+                               'label' => 'Office',
                                'cols' => 3,
-                               'id' => 'description'
+                               'id' => 'office'
                             ]) !!}
 
                             {!! \App\Swep\ViewHelpers\__form2::select('condition',[
-                          'label' => 'Condition:',
-                          'cols' => 3,
-                          'options' => \App\Swep\Helpers\Arrays::condition(),
-                          'id' => 'condition'
+                              'label' => 'Condition:',
+                              'cols' => 3,
+                              'options' => \App\Swep\Helpers\Arrays::condition(),
+                              'id' => 'condition'
                             ]) !!}
 
+
+                            {!! \App\Swep\ViewHelpers\__form2::textarea('description',[
+                              'label' => 'Description',
+                              'cols' => 3,
+                              'id' => 'description'
+                           ]) !!}
+
                         </div>
-
-
 
                     </div>
                 </form>
@@ -78,8 +84,8 @@
                     } else {
                         if (e.keyCode === 13) {
                             e.preventDefault();
-                            let uri = '{{ route("dashboard.par.findTransByPropNumber", ":propertyno") }}';
-                            uri = uri.replace(':propertyno', $(this).val());
+                            let uri = '{{ route("dashboard.par.findTransByPropNumber", "propertyno") }}';
+                            uri = uri.replace('propertyno', $(this).val());
                             $.ajax({
                                 url: uri,
                                 type: 'GET',
@@ -92,6 +98,7 @@
                                         $('input[name="article"]').val(res.parinv.article);
                                         $('textarea[name="description"]').val(res.parinv.description);
                                         $('select[name="condition"]').val(res.parinv.condition);
+                                        $('input[name="office"]').val(res.parinv.office);
                                     } else {
                                         toast('error', 'No data found', 'Error!');
                                     }
@@ -103,6 +110,31 @@
                         }
                     }
                 });
+            });
+
+            $("#saveBtn").click(function(e) {
+                e.preventDefault();
+                let form = $('#edit_form');
+                let uri = '{{route("dashboard.par.inventoryTaking","propertyno")}}';
+                uri = uri.replace('propertyno',$('#propertyno').val());
+                loading_btn(form);
+                $.ajax({
+                    url : uri,
+                    data : form.serialize(),
+                    type: 'PATCH',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success: function (res) {
+                        succeed(form,true,true);
+                        toast('info','PAR successfully updated.','Updated');
+                        setTimeout(function() {
+                        }, 3000);
+                    },
+                    error: function (res) {
+                        errored(form,res);
+                    }
+                })
             });
 
 

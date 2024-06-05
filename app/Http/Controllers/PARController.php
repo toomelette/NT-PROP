@@ -740,6 +740,22 @@ class PARController extends Controller
         return view('ppu.par.inventoryTaking');
     }
 
+    public function inventoryTakingUpdate(Request $request){
+
+        $parinv = InventoryPPE::query()->where('propertyno', '=', $request->propertyno)->first();
+
+        $parinv->location = $request->location;
+        $parinv->article = $request->article;
+        $parinv->description = $request->description;
+        $parinv->office = $request->office;
+        $parinv->condition = $request->condition;
+        $parinv->inv_date = Carbon::now();
+        $parinv->inv_taken = 1;
+        $parinv->save();
+
+        return $parinv->only('propertyno');
+    }
+
 
     public function findTransByPropNumber($propertyNo)
     {
