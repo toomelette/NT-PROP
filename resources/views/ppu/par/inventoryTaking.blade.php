@@ -16,6 +16,9 @@
                             <button class="btn btn-primary btn-sm pull-right" id="saveBtn" type="button">
                                 <i class="fa fa-check"></i> Save
                             </button>
+                            <button class="btn btn-secondary btn-sm pull-right" id="scanBtn" type="button" style="margin-right: 10px;">
+                                <i class="fa fa-camera"></i> Scan
+                            </button>
                              </div>
 
                         <div class="box-body">
@@ -66,8 +69,8 @@
                            ]) !!}
 
                         </div>
-
                     </div>
+
                 </form>
             </div>
     </section>
@@ -108,6 +111,65 @@
                                 }
                             });
                         }
+                    }
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('scanBtn').addEventListener('click', function() {
+                    // Check if the browser supports media devices
+                    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                        // Request the camera
+                        navigator.mediaDevices.getUserMedia({ video: true })
+                            .then(function(stream) {
+                                // Create a video element to display the camera stream
+                                const video = document.createElement('video');
+                                video.srcObject = stream;
+                                video.play();
+
+                                // Style and position the video element as needed
+                                video.style.position = 'fixed';
+                                video.style.top = '50%';
+                                video.style.left = '50%';
+                                video.style.transform = 'translate(-50%, -50%)';
+                                video.style.zIndex = '1000';
+                                video.style.width = '80%';
+                                video.style.maxWidth = '600px';
+                                video.style.border = '2px solid black';
+                                video.style.backgroundColor = 'black';
+
+                                // Append the video element to the body (or another container)
+                                document.body.appendChild(video);
+
+                                // Create a close button to stop the video stream and remove the video element
+                                const closeButton = document.createElement('button');
+                                closeButton.textContent = 'Close';
+                                closeButton.style.position = 'fixed';
+                                closeButton.style.top = '10%';
+                                closeButton.style.right = '10%';
+                                closeButton.style.zIndex = '1001';
+                                closeButton.style.padding = '10px';
+                                closeButton.style.backgroundColor = '#f00';
+                                closeButton.style.color = '#fff';
+                                closeButton.style.border = 'none';
+                                closeButton.style.borderRadius = '5px';
+                                closeButton.style.cursor = 'pointer';
+
+                                document.body.appendChild(closeButton);
+
+                                // Event listener for the close button
+                                closeButton.addEventListener('click', function() {
+                                    stream.getTracks().forEach(track => track.stop());
+                                    document.body.removeChild(video);
+                                    document.body.removeChild(closeButton);
+                                });
+                            })
+                            .catch(function(error) {
+                                console.error("Error accessing the camera: ", error);
+                                alert("Error accessing the camera: " + error.message);
+                            });
+                    } else {
+                        alert("Your browser does not support camera access.");
                     }
                 });
             });
