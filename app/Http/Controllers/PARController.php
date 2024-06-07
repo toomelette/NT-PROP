@@ -97,9 +97,12 @@ class PARController extends Controller
                     'data' => $data,
                 ]);
             })
-            ->editColumn('uom',function($data){
-                return $data->unit->display ?? "";
+
+            ->editColumn('uom', function ($data) {
+                return ($data->unit->display ?? "");
+
             })
+
             ->editColumn('article',function($data){
                 return view('ppu.par.dtArticle')->with([
                     'data' => $data,
