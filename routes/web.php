@@ -242,6 +242,7 @@ Route::group(['prefix'=> 'dashboard','as'=> 'dashboard.', 'middleware' => ['chec
     Route::get('/par/printRpcppe','PARController@printRpcppe')->name('rpcppe.printRpcppe');
     Route::get('/par/printRpcppeExcel','PARController@printRpcppeExcel')->name('rpcppe.printRpcppeExcel');
     Route::get('/par/inventoryTaking','PARController@inventoryTaking')->name('par.inventoryTaking');
+
     Route::patch('/par/inventoryTaking','PARController@inventoryTakingUpdate')->name('par.inventoryTaking');
     Route::get('/par/findTransByPropNumber/{propertyno}','PARController@findTransByPropNumber')->name('par.findTransByPropNumber');
 

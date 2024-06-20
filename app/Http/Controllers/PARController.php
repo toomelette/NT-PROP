@@ -739,7 +739,16 @@ class PARController extends Controller
         }
     }
 
-    public function inventoryTaking(){
+    public function inventoryTaking(Request $request){
+        if($request->has('getInv') && $request->has('property_no') && $request->property_no != ''){
+            $parInv = InventoryPPE::query()->where('propertyno','=',$request->property_no)->first();
+            if(empty($parInv)){
+                return  '';
+            }
+            return view('ppu.par.onAfterScan')->with([
+                'parInv' => $parInv,
+            ]);
+        }
         return view('ppu.par.inventoryTaking');
     }
 

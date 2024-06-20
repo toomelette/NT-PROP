@@ -87,6 +87,7 @@
 
 <script type="text/javascript" src="{{asset('template/plugins/html2canvas/html2canvas.js')}}"></script>
 <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<script type="text/javascript" src="{{asset('template/plugins/html5-qrcode/qrcode.js')}}"></script>
 <script type="text/javascript">
 
         // autonum_settings = {
