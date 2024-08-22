@@ -211,10 +211,10 @@
                                 <td>&nbsp;</td>
                             </tr>
                             <tr class="text-strong" style="text-align: center; margin: 0; padding: 0; font-family: Cambria,Arial; font-size: 13px;">
-                                <td><u>NOLI T. TINGSON</u></td>
+                                <td><u>{{ \App\Swep\Helpers\Values::parSgntr()['name'] }}</u></td>
                             </tr>
                             <tr style="text-align: center; font-family: Cambria, Arial; font-size: 11px; margin: -5px; padding: 0;">
-                                <td>{{strtoupper("Supply Officer IV")}}</td>
+                                <td>{{strtoupper(\App\Swep\Helpers\Values::parSgntr()['position'])}}</td>
                             </tr>
                             <tr style="text-align: center;" >
                                 <td>&nbsp;</td>

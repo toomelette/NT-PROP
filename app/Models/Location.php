@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Location extends Model
 {
@@ -21,6 +22,10 @@ class Location extends Model
             $a->user_created = Auth::user()->user_id;
             $a->ip_created = request()->ip();
             $a->created_at = \Carbon::now();
+        });
+
+        static::addGlobalScope('transactions', function (Builder $builder) {
+            $builder->where('project_id', '=', Auth::user()->project_id);
         });
     }
 

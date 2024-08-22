@@ -29,4 +29,20 @@ class Values
     public static function currentUserProjectId(){
         return \Auth::user()->project_id ?? 0;
     }
+
+    public static function parSgntr(){
+        $project_id = self::currentUserProjectId();
+        if($project_id == 1){
+            return [
+                'name'=>"NOLI T. TINGSON",'position'=>"Supply Officer IV"
+            ];
+        }elseif($project_id == 2){
+            return [
+                'name'=>"HAZEL ROSE B. MARIANO",'position'=>"Supply Officer III"
+            ];
+        }else{
+            return 'N/A';
+        }
+    }
+
 }

@@ -181,10 +181,17 @@ class Arrays
     }
 
     public static function refBook(){
-        return [
-            'BCD' => 'BCD',
-            'LGAREC' => 'LGAREC'
-        ];
+        if (auth()->user()->project_id == 1)
+            return [
+                'BCD' => 'BCD',
+                'LGAREC' => 'LGAREC'
+            ];
+        elseif (auth()->user()->project_id == 2)
+            return [
+                'QC' => 'QC'
+            ];
+        else 
+            return [];
     }
 
     public static function acquisitionMode(){
