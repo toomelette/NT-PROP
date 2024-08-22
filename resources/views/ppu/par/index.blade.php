@@ -128,9 +128,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            {!! \App\Swep\ViewHelpers\__form2::textbox('employee_no',[
+                            {{-- {!! \App\Swep\ViewHelpers\__form2::textbox('employee_no',[
                             'label' => 'Employee No.:',
                             'cols' => 12,
+                            ]) !!} --}}
+                            {!! \App\Swep\ViewHelpers\__form2::select('employee_no',[
+                                'label' => 'Employee:',
+                                'cols' => 12,
+                                'options' => [],
+                                'id' => 'select-employee',
                             ]) !!}
                         </div>
                     </div>
@@ -407,8 +413,9 @@
                 })
             });
 
-            $("#select_employee").select2({
+            $("#select-employee").select2({
                 data : data,
+                dropdownParent : $('#par-by-employee')
             });
 
             $(".select2_article").select2({
