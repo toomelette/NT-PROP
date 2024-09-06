@@ -38,7 +38,7 @@ class Values
             ];
         }elseif($project_id == 2){
             return [
-                'name'=>"HAZEL ROSE B. MARIANO",'position'=>"Supply Officer III"
+                'name'=>"HAZEL ROSE B. MARIANO",'position'=>"Supply Officer III/OIC- Property and Procurement Section"
             ];
         }else{
             return 'N/A';
