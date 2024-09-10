@@ -14,6 +14,7 @@
             <li class="active"><a href="#tab_1" data-toggle="tab">Prepare RFQ</a></li>
             {{--<li class="active"><a href="#tab_1" data-toggle="tab">PRs & JRs pending of RFQ</a></li>--}}
             <li><a href="#tab_2" data-toggle="tab">All RFQs</a></li>
+            <li><a href="#tab_3" data-toggle="tab">RFQ Prep</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -167,6 +168,90 @@
                         <img style="width: 100px" src="{{asset('images/loader.gif')}}">
                     </center>
                 </div>
+            </div>
+
+            <div class="tab-pane" id="tab_3">
+
+                <div class="row">
+                    <input class="hidden" type="text" id="slug" name="slug"/>
+                    <input class="hidden" type="text" id="itemSlug" name="itemSlug"/>
+                    {!! \App\Swep\ViewHelpers\__form2::select('ref_book', [
+                        'label' => 'Reference Type:',
+                        'cols' => 2,
+                        'options' => [
+                            'PR' => 'PR',
+                            'JR' => 'JR'
+                        ]
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::select('mode', [
+                        'label' => 'Mode of Procurement:',
+                        'cols' => 3,
+                        'options' => \App\Swep\Helpers\Arrays::ModeOfProcurement(),
+                    ]) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_deadline',[
+                        'label' => 'Deadline:',
+                        'cols' => 3,
+                        'type' => 'date',
+                    ]) !!}
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <button data-target="#pr_items_table" uri="{{route('dashboard.ajax.get','add_row')}}?view=rfq_items" style="margin-bottom: 5px" type="button" class="btn btn-xs btn-success pull-right add_button"><i class="fa fa-plus"></i> Add item</button>
+                        <table id="pr_items_table" class="table-bordered table table-condensed table-striped">
+                            
+                            <thead>
+                            <tr>
+                                <th style="width: 25%">Reference Number:</th>
+                                <th style="width: 8%">Stock No.</th>
+                                <th style="width: 8%">Unit</th>
+                                <th>Item</th>
+                                <th style="width: 8%">Qty</th>
+                                <th style="width: 8%">Unit Cost</th>
+                                <th style="width: 8%">Total Cost</th>
+                                <th style="width: 50px"></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @include('dynamic_rows.rfq_items')
+                            </tbody>
+
+                            <tfoot>
+
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_name',[
+                        'label' => 'Signatory Name:',
+                        'cols' => 3,
+                    ],
+                    \App\Swep\Helpers\Helper::getSetting('rfq_name')->string_value ?? null
+                    ) !!}
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('rfq_s_position',[
+                        'label' => 'Signatory Position:',
+                        'cols' => 3,
+                    ],
+                    \App\Swep\Helpers\Helper::getSetting('rfq_position')->string_value ?? null
+                    ) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by',[
+                        'label' => 'Canvass By:',
+                        'cols' => 3,
+                    ]) !!}
+
+                    {!! \App\Swep\ViewHelpers\__form2::textbox('certified_by_designation',[
+                        'label' => 'Canvass By Designation:',
+                        'cols' => 3,
+                    ]) !!}
+                </div>
+
             </div>
 
         </div>
