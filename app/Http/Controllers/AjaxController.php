@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\AccountCode;
 use App\Models\Articles;
 use App\Models\InventoryPPE;
 use App\Models\PAP;
@@ -13,6 +14,7 @@ use App\Models\Transactions;
 use App\Models\User;
 use App\Models\UserDetails;
 use App\Swep\Helpers\Helper;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -164,6 +166,27 @@ class AjaxController extends Controller
             return Helper::wrapForSelect2($arr);
         }
 
+        if($for == 'newParNo'){
+            $request = \Illuminate\Http\Request::capture();
+            $year = Carbon::parse($request->date)->format('Y');
+            $par = InventoryPPE::query()
+                ->where('dateacquired','like',$year.'%')
+                ->orderBy('serial_no','desc')
+                ->first();
+            $lastNo = intval($par->serial_no ?? 0);
+
+            $coa = AccountCode::query()->where('code','=',$request->inventoryAccountCode)->first();
+            $subMajorAccountGroup = $coa->sub_major_account_group ?? '';
+            $generalLedgerAccount = $coa->general_ledger_account ?? '';
+            $location = $request->location;
+            $serialNo = Str::of($lastNo + 1)->padLeft(4,'0');
+            return  [
+                'subMajorAccountGroup' => $subMajorAccountGroup,
+                'generalLedgerAccount' => $generalLedgerAccount,
+                'serialNo' => $serialNo,
+                'newParNo' => $year.'-'.$subMajorAccountGroup.'-'.$generalLedgerAccount.'-'.$serialNo.'-'.$location,
+            ];
+        }
     }
 
 

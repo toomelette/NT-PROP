@@ -47,7 +47,7 @@
                                     'label' => 'Date Acquired:',
                                     'cols' => 2,
                                     'type' => 'date',
-                                    'class' => 'dateacquired'
+                                    'class' => 'dateacquired new-par-no'
                                  ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('article',[
                                       'cols' => 4,
@@ -66,6 +66,7 @@
                                     'cols' => 4,
                                     'options' => \App\Swep\Helpers\Arrays::inventoryAccountCode(),
                                     'id' => 'inventory-account-code',
+                                    'class' => 'new-par-no',
                                 ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::select('ref_book',[
                                     'label' => 'Reference Book:',
@@ -98,6 +99,7 @@
                                                                 'label' => 'Location:',
                                                                 'cols' => 4,
                                                                 'options' => \App\Swep\Helpers\Arrays::location(),
+                                                                'class' => 'new-par-no',
                                                             ]) !!}
                                 {!! \App\Swep\ViewHelpers\__form2::textbox('serial_no',[
                                                                 'label' => 'Serial No.:',
@@ -254,6 +256,34 @@
 
         let active;
         $(document).ready(function () {
+            $("body").on("change",".new-par-no",function (){
+                let form = $("#add_form");
+                let date = form.find('input[name="dateacquired"]').val();
+                let inventoryAccountCode = form.find('select[name="invtacctcode"]').val();
+                let location = form.find('select[name="location"]').val();
+                $.ajax({
+                    url : '{{route("dashboard.ajax.get","newParNo")}}',
+                    data : {
+                        date : date,
+                        inventoryAccountCode : inventoryAccountCode,
+                        location : location,
+                    },
+                    type: 'GET',
+                    headers: {
+                        {!! __html::token_header() !!}
+                    },
+                    success: function (res) {
+                        form.find('input[name="sub_major_account_group"]').val(res.subMajorAccountGroup);
+                        form.find('input[name="general_ledger_account"]').val(res.generalLedgerAccount);
+                        form.find('input[name="serial_no"]').val(res.serialNo);
+                        form.find('input[name="propertyno"]').val(res.newParNo);
+                    },
+                    error: function (res) {
+
+                    }
+                })
+            })
+
 
             $("input[name='acquiredcost']").on('input', function() {
                 // Retrieve the value from the input field
@@ -297,7 +327,7 @@
                     });
                 }
             });
-
+            /*
             $("select[name='location']").change(function() {
                 var selectedValue = $(this).val();
                 var dateValue = $("input[name='dateacquired']").val();
@@ -330,7 +360,7 @@
                     });
                 }
             });
-
+            */
             $("#add_form").submit(function(e) {
                 e.preventDefault();
                 let form = $(this);

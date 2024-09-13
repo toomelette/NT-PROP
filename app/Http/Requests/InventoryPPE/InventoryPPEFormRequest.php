@@ -17,7 +17,9 @@ class InventoryPPEFormRequest extends FormRequest
         return [
             'dateacquired' => 'required',
             'serial_no' => 'required',
-            'article' => 'required'
+            'article' => 'required',
+            'general_ledger_account' => 'required',
+            'sub_major_account_group' => 'required',
         ];
     }
 }
