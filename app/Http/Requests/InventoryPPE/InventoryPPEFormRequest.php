@@ -20,6 +20,7 @@ class InventoryPPEFormRequest extends FormRequest
             'article' => 'required',
             'general_ledger_account' => 'required',
             'sub_major_account_group' => 'required',
+            'location' => 'required',
         ];
     }
 }
