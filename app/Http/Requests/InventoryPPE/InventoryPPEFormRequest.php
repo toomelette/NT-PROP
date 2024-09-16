@@ -21,6 +21,11 @@ class InventoryPPEFormRequest extends FormRequest
             'general_ledger_account' => 'required',
             'sub_major_account_group' => 'required',
             'location' => 'required',
+            'propertyno' => [
+                'required',
+                Rule::unique('inventory_ppe','propertyno')
+                ->where('project_id',\Auth::user()->project_id)
+            ]
         ];
     }
 }

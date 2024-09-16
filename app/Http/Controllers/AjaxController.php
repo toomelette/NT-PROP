@@ -171,8 +171,10 @@ class AjaxController extends Controller
             $currentYear = Carbon::now()->format('Y');
             $par = InventoryPPE::query()
                 ->where('created_at','like',$currentYear.'%')
+                ->orderBy('created_at','desc')
                 ->orderBy('serial_no','desc')
                 ->first();
+
             $lastNo = intval($par->serial_no ?? 0);
 
             $coa = AccountCode::query()->where('code','=',$request->inventoryAccountCode)->first();
