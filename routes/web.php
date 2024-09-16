@@ -418,4 +418,8 @@ Route::get('/slugg',function (){
 
 });
 
+Route::get('/make',function (){
+    return dd(Carbon::make('2024-01-02')?->format('Y-m-d'));
+});
+
 

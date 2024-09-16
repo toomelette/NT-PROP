@@ -168,7 +168,7 @@ class AjaxController extends Controller
 
         if($for == 'newParNo'){
             $request = \Illuminate\Http\Request::capture();
-            $year = Carbon::parse($request->date)->format('Y');
+            $year = Carbon::now()->format('Y');
             $par = InventoryPPE::query()
                 ->where('dateacquired','like',$year.'%')
                 ->orderBy('serial_no','desc')
