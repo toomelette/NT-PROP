@@ -168,9 +168,9 @@ class AjaxController extends Controller
 
         if($for == 'newParNo'){
             $request = \Illuminate\Http\Request::capture();
-            $year = Carbon::now()->format('Y');
+            $currentYear = Carbon::now()->format('Y');
             $par = InventoryPPE::query()
-                ->where('dateacquired','like',$year.'%')
+                ->where('dateacquired','like',$currentYear.'%')
                 ->orderBy('serial_no','desc')
                 ->first();
             $lastNo = intval($par->serial_no ?? 0);
@@ -184,7 +184,7 @@ class AjaxController extends Controller
                 'subMajorAccountGroup' => $subMajorAccountGroup,
                 'generalLedgerAccount' => $generalLedgerAccount,
                 'serialNo' => $serialNo,
-                'newParNo' => $year.'-'.$subMajorAccountGroup.'-'.$generalLedgerAccount.'-'.$serialNo.'-'.$location,
+                'newParNo' => Carbon::make($request->date)->format('Y').'-'.$subMajorAccountGroup.'-'.$generalLedgerAccount.'-'.$serialNo.'-'.$location,
             ];
         }
     }

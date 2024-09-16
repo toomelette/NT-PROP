@@ -418,8 +418,80 @@ Route::get('/slugg',function (){
 
 });
 
-Route::get('/make',function (){
-    return dd(Carbon::make('2024-01-02')?->format('Y-m-d'));
+Route::get('/upload2024',function (){
+    $arr = [];
+    $temp = \App\Models\_PAR::query()->get();
+    $codes = \App\Models\AccountCode::query()->get()->mapWithKeys(function ($data){
+        return [
+            $data->code => $data,
+        ];
+    });
+    foreach ($temp as $old){
+        $fund_cluster = null;
+        if(Str::of($old->source)->contains('SIDA')){
+            $fund_cluster = 'SIDA';
+        }
+        if(Str::of($old->source)->contains('Corporate Fund')){
+            $fund_cluster = 'COB';
+        }
+        if(Str::of($old->source)->contains('Donation')){
+            $fund_cluster = 'DONATION';
+        }
+        $transformed = \Illuminate\Support\Str::of($old->revised_prop_no)
+            ->replaceFirst('-','=')
+            ->replaceFirst('-','*')
+            ->replaceFirst('-','^')
+            ->replaceFirst('-','#');
+        $serial = $transformed->between('^','#')
+            ->toString();
+        $location = $transformed->afterLast('#')->toString();
+        $emps = \App\Models\Employee::query()
+            ->where('resp_center','!=',null)
+            ->where(function ($q){
+                $q->where('locations','=','VISAYAS')
+                    ->orWhere('locations','=','LUZON/MINDANAO');
+            })
+            ->get()
+            ->mapWithKeys(function ($data){
+                return [
+                    $data->employee_no => $data,
+                ];
+            });
+
+
+        $arr[] = [
+            'slug' => Str::random(),
+            'ref_book' => 'IMPORT',
+            'par_code' => null,
+            'sub_major_account_group' => $codes[$old->account_code]['sub_major_account_group'] ?? null,
+            'general_ledger_account' => $codes[$old->account_code]['general_ledger_account'] ?? null,
+            'fund_cluster' => $fund_cluster,
+            'article' => $old->article,
+            'description' => $old->description,
+            'serial_no' => $serial,
+            'old_propertyno' => $old->orig_prop_no,
+            'propertyno' => $old->revised_prop_no,
+            'uom' => null,
+            'acquiredcost' => $old->cost,
+            'dateacquired' => Carbon::make($old->date)?->format('Y-m-d'),
+            'remarks' => null,
+            'acctemployee_no' => $old->employee_no,
+            'acctemployee_fname' => $old->accountable_person,
+            'acctemployee_post' => null,
+            'respcenter' => $emps[$old->employee_no]?->resp_center ?? null,
+            'pono' => $old->po_no ?? null,
+            'location' => $location,
+            'invtacctcode' => $old->account_code,
+            'ppe_serial_no' => $old->serial_no,
+            'office' => $old->location,
+            'acquiredmode' => Str::of($old->source)->contains('Purchase') ? 'PURCHASE' : null,
+            'user_created' => 'AUTO IMPORT',
+            'project_id' => 2,
+        ];
+    }
+    dd($arr);
 });
+
+
 
 
