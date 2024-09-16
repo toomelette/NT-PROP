@@ -170,7 +170,7 @@ class AjaxController extends Controller
             $request = \Illuminate\Http\Request::capture();
             $currentYear = Carbon::now()->format('Y');
             $par = InventoryPPE::query()
-                ->where('dateacquired','like',$currentYear.'%')
+                ->where('created_at','like',$currentYear.'%')
                 ->orderBy('serial_no','desc')
                 ->first();
             $lastNo = intval($par->serial_no ?? 0);
