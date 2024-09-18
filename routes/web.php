@@ -485,10 +485,11 @@ Route::get('/upload2024',function (){
             'ppe_serial_no' => $old->serial_no,
             'office' => $old->location,
             'acquiredmode' => Str::of($old->source)->contains('Purchase') ? 'PURCHASE' : null,
-            'user_created' => 'AUTO IMPORT',
+            'user_created' => 'AUTO IMPORT 2',
             'project_id' => 2,
         ];
     }
+//    \App\Models\InventoryPPE::query()->insert($arr);
     dd($arr);
 });
 

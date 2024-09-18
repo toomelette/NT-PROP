@@ -226,8 +226,8 @@ class PARController extends Controller
         $par->general_ledger_account = $request->general_ledger_account;
         $par->location = $request->location;
         $par->serial_no = $this->getSerialNo();
-        //$par->propertyno = $request->propertyno;
-        $par->propertyno = date('Y', strtotime($par->dateacquired)) . '-' . $par->sub_major_account_group . '-' . $par->general_ledger_account . '-' . $par->serial_no . '-' . $par->location;
+        $par->propertyno = $request->propertyno;
+//        $par->propertyno = date('Y', strtotime($par->dateacquired)) . '-' . $par->sub_major_account_group . '-' . $par->general_ledger_account . '-' . $par->serial_no . '-' . $par->location;
         $par->fund_cluster = $request->fund_cluster;
         $par->respcenter = $request->respcenter;
         $par->office = $request->office;
