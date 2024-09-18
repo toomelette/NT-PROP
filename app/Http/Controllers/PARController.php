@@ -216,7 +216,7 @@ class PARController extends Controller
 
         $par = new InventoryPPE();
         $par->slug = Str::random(16);
-        $par->par_code = $this->getNextPARNo();
+        $par->par_code = Carbon::now()->format('Y').'-'.$request->serial_no;
         $par->dateacquired = $request->dateacquired;
         $par->article = $article->article;
         $par->description = $request->description;
