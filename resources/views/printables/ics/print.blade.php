@@ -172,8 +172,14 @@
                 <div style="flex: 1; padding: 10px; border-right: 1px solid black;  border-left: 1px solid black;  box-sizing: border-box; text-align: center;">
                     <p style="text-align: left;">Received from:</p>
                     <p><br></p>
-                    <p style="margin: 0; padding:0; font-size: 16px;"><strong><u>{{$ics->approved_by}}</u></strong></p>
-                    <p style="margin: 0; padding:0">{{$ics->approved_by_designation}}</p>
+                    <p style="margin: 0; padding:0; font-size: 16px;"><strong><u>
+                        {{-- {{$ics->approved_by}} --}}
+                        {{ \App\Swep\Helpers\Values::parSgntr()['name'] }}
+                    </u></strong></p>
+                    <p style="margin: 0; padding:0">
+                        {{-- {{$ics->approved_by_designation}} --}}
+                        {{strtoupper(\App\Swep\Helpers\Values::parSgntr()['position'])}}
+                    </p>
                     <p>_______________________________</p>
                     <p style="margin-top: -10px;">Date</p>
                 </div>
