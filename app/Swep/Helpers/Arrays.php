@@ -287,6 +287,18 @@ class Arrays
 
     public static function AuthorizedOfficial(){
         $project_id = Values::currentUserProjectId();
+
+        $options = Options::query()
+            ->where('for','=','po_authorized_official_'.$project_id)
+            ->orderBy('display')
+            ->get();
+
+        return  $options->mapWithKeys(function ($data){
+            return [
+                $data->value => $data->display,
+            ];
+        })->toArray();
+        /*
         if($project_id == 1){
             $data = [
                 'ATTY. JOHANA S. JADOC' => 'ATTY. JOHANA S. JADOC',
@@ -308,13 +320,25 @@ class Arrays
             ];
         }else{
             $data = [
-            ];  
+            ];
         }
         return $data;
+        */
+
     }
 
     public static function AuthorizedOfficialDesignation(){
         $project_id = Values::currentUserProjectId();
+        $options = Options::query()
+            ->where('for','=','po_authorized_official_designation_'.$project_id)
+            ->orderBy('display')
+            ->get();
+        return  $options->mapWithKeys(function ($data){
+            return [
+                $data->value => $data->display,
+            ];
+        })->toArray();
+        /*
         if($project_id == 1){
             $data = [
                 'MANAGER III, AFD-VISAYAS' => 'MANAGER III, AFD-VISAYAS',
@@ -339,6 +363,7 @@ class Arrays
             ];
         }
         return $data;
+        */
     }
 
     public static function ChiefAccountant(){
