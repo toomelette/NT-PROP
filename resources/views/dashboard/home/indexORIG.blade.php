@@ -13,7 +13,7 @@
     <div class="col-md-6">
       <div class="panel">
         <div class="panel-body">
-          <label style="font-size: 18px;">Comparative Annual Total PPE Amount</label>
+          <label>Procurement per Responsibility Center</label>
           <hr class="no-margin">
           <div style="max-height: 355px;overflow-x: hidden; padding-top: 15px" id="">
             <div class="nav-tabs-custom" id="prContainer">
@@ -21,10 +21,11 @@
                 <thead>
                 <tr>
                   {{--<th>No.</th>--}}
-                  <th style="font-size: 18px;">Inventory Type</th>
-                  <th style="text-align: center; font-size: 18px;">2024</th>
-                  <th style="text-align: center; font-size: 18px;">2023</th>
-                  <th style="text-align: center; font-size: 18px;">2022</th>
+                  <th>Responsibility Center</th>
+                  <th style="text-align: center;">PR</th>
+                  <th style="text-align: center;">PO</th>
+                  <th style="text-align: center;">JR</th>
+                  <th style="text-align: center;">JO</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,7 @@
                     $prTotal += $rc->count;
                     $jrTotal += $rc->countJR;
                     $poTotal += $rc->countPO;
+                    $joTotal += $rc->countJO;
                     //$number++;
                   @endphp
                   <tr>
@@ -51,6 +53,7 @@
                     <td style="text-align: right;">{{ number_format($rc->count,2) }}</td>
                     <td style="text-align: right;">{{ number_format($rc->countPO,2) }}</td>
                     <td style="text-align: right;">{{ number_format($rc->countJR,2) }}</td>
+                    <td style="text-align: right;">{{ number_format($rc->countJO,2) }}</td>
                   </tr>
                 @endforeach
                 </tbody>
@@ -66,13 +69,16 @@
                     Total:
                   </th>
                   <th style="text-align: right">
-                    {{ number_format($prTotal,2) }}
+                    PR {{ number_format($prTotal,2) }}
                   </th>
                   <th style="text-align: right">
-                    {{ number_format($poTotal,2) }}
+                    PO {{ number_format($poTotal,2) }}
                   </th>
                   <th style="text-align: right;">
-                    {{ number_format($jrTotal,2) }}
+                    JR {{ number_format($jrTotal,2) }}
+                  </th>
+                  <th style="text-align: right;">
+                    JO {{ number_format($joTotal,2) }}
                   </th>
                 </tr>
                 </thead>
@@ -87,8 +93,8 @@
       <div class="col-lg-6 col-xs-12">
         <div class="small-box bg-aqua">
           <div class="inner">
-            <h3>18,520,000.00</h3>
-            <p>Sanchez, Ma. Lucia</p>
+            <h3>{{$trans_pr}}</h3>
+            <p>Purchase Request</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
