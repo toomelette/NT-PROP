@@ -99,7 +99,7 @@
         <div class="small-box bg-aqua">
           <div class="inner">
             <h3>{{$trans_jr}}</h3>
-            <p>Job Request</p>
+            <p>Employee No. 1</p>
           </div>
           <div class="icon">
             <i class="ion ion-person-add"></i>
@@ -110,7 +110,7 @@
         <div class="small-box bg-green">
           <div class="inner">
             <h3>{{$trans_rfq}}</h3>
-            <p>RFQ</p>
+            <p>Employee No. 2</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -121,7 +121,7 @@
         <div class="small-box bg-green">
           <div class="inner">
             <h3>{{$trans_aq}}</h3>
-            <p>AQ</p>
+            <p>Employee No. 3</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -132,7 +132,7 @@
         <div class="small-box bg-aqua">
           <div class="inner">
             <h3>{{$trans_po}}</h3>
-            <p>Purchase Order</p>
+            <p>Employee No. 4</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -143,7 +143,7 @@
         <div class="small-box bg-aqua">
           <div class="inner">
             <h3>{{$trans_jo}}</h3>
-            <p>Job Order</p>
+            <p>Employee No. 5</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -155,7 +155,7 @@
         <div class="small-box bg-red">
           <div class="inner">
             <h3>{{$trans_pr_cancelled}}</h3>
-            <p>Cancelled PR</p>
+            <p>Employee No. 6</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
@@ -167,7 +167,7 @@
         <div class="small-box bg-orange">
           <div class="inner">
             <h3>{{$trans_jr_cancelled}}</h3>
-            <p>Cancelled JR</p>
+            <p>Employee No. 7</p>
           </div>
           <div class="icon">
             <i class="ion ion-stats-bars"></i>
