@@ -24,6 +24,8 @@ class TreeComposer
             ->leftJoin('su_menus','su_menus.menu_id','su_submenus.menu_id')
             ->where('user_id','=',Auth::user()->user_id)
             ->where('portal','=','PPU')
+            ->where('lm','=',1);
+        $user_submenus = $user_submenus
             ->orderBy('category','asc')
             ->orderBy('su_menus.order','asc')
             ->orderBy('su_submenus.sort','asc')
