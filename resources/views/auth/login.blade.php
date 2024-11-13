@@ -474,8 +474,8 @@
                                 @endif
                                 <form class="login100-form validate-form" action="{{ route('auth.login') }}" method="POST">
                                     @csrf
-                                    <span class="login100-form-title "> ePMS </span>
-                                    <span class="login100-form-subtitle m-b-16"> SRA ePMS Portal Login </span>
+                                    <span class="login100-form-title "> POMD </span>
+                                    <span class="login100-form-subtitle m-b-16"> SRA POMD Portal Login </span>
                                     @if ($errors->has('username'))
                                         <span class="help-block" style="color: darkred"> {{ $errors->first('username') }}</span>
                                     @endif
