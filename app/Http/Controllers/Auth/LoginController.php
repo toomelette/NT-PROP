@@ -64,7 +64,7 @@ class LoginController extends Controller{
     {
         session(['link' => url()->previous()]);
 
-        return view('auth.login');
+        return view('auth.login_nt');
     }
 
     protected function authenticated(Request $request, $user)
