@@ -88,7 +88,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4" style="margin-top: 15%">
-            <h1 class="text-center login-title">Sign in to continue to ePMS Portal</h1>
+            <h1 class="text-center login-title">Sign in to continue to POMD Portal</h1>
 
             @if(Session::has('AUTH_AUTHENTICATED'))
                 {!! __html::alert('danger', '<i class="icon fa fa-ban"></i> Oops!', Session::get('AUTH_AUTHENTICATED')) !!}
