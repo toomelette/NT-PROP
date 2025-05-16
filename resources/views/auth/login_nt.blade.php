@@ -1,9 +1,7 @@
 <html>
 <head>
-    <link type="text/css" rel="stylesheet" href="{{asset('template/bower_components/bootstrap/dist/css/bootstrap.min.css')}}">
-
-    <link type="text/css" rel="stylesheet" href="{{asset('template/bower_components/font-awesome/css/font-awesome.min.css')}}">
-    <script type="text/javascript" src="{{ asset('template/bower_components/jquery/dist/jquery.min.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('layouts.css-plugins')
 
     <style>
         .form-signin
@@ -140,6 +138,7 @@
                     @endif
                     <button class="btn btn-lg btn-primary btn-block" type="submit">
                         Sign in</button>
+                    <div><a href="#" class="txt1" data-toggle="modal" data-target="#reset_modal">Forgot username/password? Click here</a> </div>
 
                 </form>
 
@@ -196,7 +195,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <button class="btn btn-primary pull-right" type="submit"><i class="fa fa-search"></i> Search</button>
-                                    </div>p
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -207,8 +206,77 @@
         </div>
     </div>
 </div>
-</body>
-<script>
+@include('layouts.js-plugins')
 
+<script type="text/javascript">
+    $("#reset_password_form").submit(function (e) {
+        e.preventDefault();
+        form = $(this);
+        loading_btn(form);
+        $.ajax({
+            url : '{{route("auth.reset_password")}}',
+            data : form.serialize(),
+            type: 'POST',
+            headers: {
+                {!! __html::token_header() !!}
+            },
+            success: function (res) {
+                remove_loading_btn(form);
+                Swal.fire({
+                    title: 'Verify your email address',
+                    input: 'text',
+                    html: 'Please enter your email address below: <br> <b>'+res.email+'</b>',
+                    inputAttributes: {
+                        autocapitalize: 'off'
+                    },
+                    showCancelButton: true,
+                    confirmButtonText: 'Verify',
+                    showLoaderOnConfirm: true,
+                    preConfirm: (email) => {
+                        return $.ajax({
+                            url : '{{route('auth.verify_email')}}',
+                            type: 'POST',
+                            data: {'email':email,'slug':res.slug},
+                            headers: {
+                                {!! __html::token_header() !!}
+                            },
+                        })
+                            .then(response => {
+                                return  response;
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                Swal.showValidationMessage(
+                                    'Error : '+ error.responseJSON.message,
+                                )
+                            })
+                    },
+                    allowOutsideClick: () => !Swal.isLoading()
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'A link was sent to your email. Please check your spam messages also.',
+                            icon : 'success',
+                        })
+                    }
+                })
+            },
+            error: function (res) {
+                console.log(res);
+                if(res.status == 503){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: res.responseJSON.message,
+                    })
+                }
+                errored(form,res);
+            }
+        })
+    })
+    $('#reset_modal').on('shown.bs.modal', function() {
+        $(document).off('focusin.modal');
+    });
 </script>
+</body>
 </html>

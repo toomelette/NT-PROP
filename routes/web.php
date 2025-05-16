@@ -14,7 +14,7 @@ Route::group(['as' => 'auth.'], function () {
     Route::post('/username_lookup','Auth\AccountRecoveryController@username_lookup')->name('username_lookup');
     Route::post('/reset_password','Auth\AccountRecoveryController@reset_password')->name('reset_password');
     Route::post('/verify_email','Auth\AccountRecoveryController@verify_email')->name('verify_email');
-    Route::get('/reset_password _via_email','Auth\AccountRecoveryController@reset_password_via_email')->name('reset_password_via_email');
+    Route::get('/reset_password_via_email','Auth\AccountRecoveryController@reset_password_via_email')->name('reset_password_via_email');
 });
 
 

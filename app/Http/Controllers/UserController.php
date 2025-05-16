@@ -419,6 +419,7 @@ class UserController extends Controller{
 
 
     public function resetPassword($slug){
+
         $user = User::query()->where('slug','=',$slug)->first();
         if(!empty($user)){
             if(!empty($user->employeeUnion)){

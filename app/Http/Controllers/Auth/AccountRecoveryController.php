@@ -49,13 +49,13 @@ class AccountRecoveryController extends Controller
 
     public function reset_password(ResetPasswordFormRequest $request){
 
-        $user = User::with('employeeUnion')->where('username','=',$request->username)->first();
-        if($user->employeeUnion->email == null){
+        $user = User::with('employee')->where('username','=',$request->username)->first();
+        if($user->employee->email == null){
             abort(503,'Account recovery is not possible on this account. Contact MIS Office for account recovery. Possible reason: email address not set.');
         }
-        $string_to_arr = explode("@",$user->employeeUnion->email);
+        $string_to_arr = explode("@",$user->employee->email);
         $length_of_string = strlen($string_to_arr[0])-4;
-        $first_three = substr($user->employeeUnion->email, 0, 3);
+        $first_three = substr($user->employee->email, 0, 3);
         for($x = 0; $x< $length_of_string;$x++){
             $first_three = $first_three.'*';
         }
@@ -68,15 +68,15 @@ class AccountRecoveryController extends Controller
     }
 
     public function verify_email(Request $request){
-        $user = User::with('employeeUnion')->where('slug','=',$request->slug)->first();
+        $user = User::with('employee')->where('slug','=',$request->slug)->first();
         if(empty($user)){
             abort(404,'User not found');
         }
-        if($user->employeeUnion->email == null){
+        if($user->employee->email == null){
             abort(404,'Email cannot be empty');
         }
 
-        if($request->email != $user->employeeUnion->email){
+        if($request->email != $user->employee->email){
             abort(404,'Incorrect email');
         }
         //clean previous
@@ -88,39 +88,46 @@ class AccountRecoveryController extends Controller
         $ev->verification_slug = $slug;
         $ev->user_slug = $user_slug;
         if($ev->save()){
-            // Backup your default mailer
-            $backup = Mail::getSwiftMailer();
-
-            // Setup your gmail mailer
-            $transport = new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
-            $transport->setUsername(env('SWIFTMAILER_EMAIL',null));
-            $transport->setPassword(env('SWIFTMAILER_PASSWORD',null));
-
-            // Any other mailer configuration stuff needed...
-            $gmail = new \Swift_Mailer($transport);
-
-            // Set the mailer as gmail
-            Mail::setSwiftMailer($gmail);
-            $data = [
-                'verification_slug' => $slug,
-                'user_slug' => $user_slug,
-                'name' => $user->employeeUnion->firstname,
-            ];
-
-            // Send your message
             try{
-                Mail::send('mailables.verify_email',$data, function($message) use($email) {
-                    $message->to($email, '')
-                        ->subject('SWEP Email Verification - '.strtoupper(Str::random(5)));
-                    $message->from('sys.srawebportal@gmail.com','SWEP System');
-                });
+                \Illuminate\Support\Facades\Mail::mailer('system')->send(new \App\Mail\ResetPasswordMailer($email,$user_slug,$slug));
             }catch (\Exception $e){
-                $ev->delete();
-                abort(503,'Error sending email verification');
+//                $r->delete();
+                abort(503,'Error sending email verification: '.$e->getMessage());
             }
 
+//            // Backup your default mailer
+//            $backup = Mail::getSwiftMailer();
+//
+//            // Setup your gmail mailer
+//            $transport = new \Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl');
+//            $transport->setUsername(env('SWIFTMAILER_EMAIL',null));
+//            $transport->setPassword(env('SWIFTMAILER_PASSWORD',null));
+//
+//            // Any other mailer configuration stuff needed...
+//            $gmail = new \Swift_Mailer($transport);
+//
+//            // Set the mailer as gmail
+//            Mail::setSwiftMailer($gmail);
+//            $data = [
+//                'verification_slug' => $slug,
+//                'user_slug' => $user_slug,
+//                'name' => $user->employee->firstname,
+//            ];
+//
+//            // Send your message
+//            try{
+//                Mail::send('mailables.verify_email',$data, function($message) use($email) {
+//                    $message->to($email, '')
+//                        ->subject('SWEP Email Verification - '.strtoupper(Str::random(5)));
+//                    $message->from('sys.srawebportal@gmail.com','SWEP System');
+//                });
+//            }catch (\Exception $e){
+//                $ev->delete();
+//                abort(503,'Error sending email verification');
+//            }
+
             // Restore your original mailer
-            Mail::setSwiftMailer($backup);
+//            Mail::setSwiftMailer($backup);
             return 1;
         }
 
@@ -128,6 +135,7 @@ class AccountRecoveryController extends Controller
     }
 
     public function  reset_password_via_email(Request $request){
+
         if(empty($request)){
             return 'INVALID TOKEN';
         }
@@ -136,16 +144,17 @@ class AccountRecoveryController extends Controller
             ->where('type','=',0)
             ->orWhere('type','=',null)->first();
         if(!empty($check_ev)){
-            $user = User::with('employeeUnion')->where('slug','=',$request->u)->first();
+            $user = User::with('employee')->where('slug','=',$request->u)->first();
 
             if(empty($user)){
                 abort(404);
             }
-            if(empty($user->employeeUnion())){
+            if(empty($user->employee())){
                 abort(404);
             }
 
-            $newpass = Hash::make(Carbon::parse($user->employeeUnion->birthday)->format('mdy'));
+            $newpass = Hash::make(Carbon::parse($user->employee->date_of_birth)->format('mdy'));
+
             $user->password = $newpass;
             if($user->update()){
                 $check_ev->type = 1;
