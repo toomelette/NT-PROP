@@ -132,21 +132,19 @@ class UserService extends BaseService{
     public function update($request, $slug){
 
         $user = $this->user_repo->findBySlug($slug);
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
-        $user->middlename = $request->middlename;
-        $user->email = $request->email;
-        $user->position = $request->position;
-        $user->dash = $request->dash_type;
+
         $user->update();
         $user->userMenu()->delete();
         $user->userSubmenu()->delete();
+        $user->access()->delete();
+
+        $user_id = $user->user_id;
 
         if(!empty($request->submenus)){
             $data = [];
             $submenu_data = [];
             $user = User::where('slug',$slug)->first();
-            $user_id = $user->user_id;
+            ;
             foreach ($request->submenus as $menu_id=>$submenus){
                 array_push($data,[
                     'menu_id' => $menu_id,
@@ -164,6 +162,30 @@ class UserService extends BaseService{
             UserSubmenu::insert($submenu_data);
 
         }
+        $access = [];
+        if(!empty($request->accessToEmployees)){
+
+            foreach ( $request->accessToEmployees as $item){
+                array_push($access,[
+                    'user' => $user_id,
+                    'access' => $item,
+                    'for' => 'employees',
+                ]);
+            }
+
+        }
+        if(!empty($request->accessToDocuments)){
+            array_push($access,[
+                'user' => $user_id,
+                'access' => $request->accessToDocuments,
+                'for' => 'documents',
+            ]);
+        }
+
+        if(count($access) > 0){
+            UserAccess::insert($access);
+        }
+        return $user->only('slug');
 
         return $user->only('slug');
     }

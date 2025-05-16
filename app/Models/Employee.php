@@ -12,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Employee extends Model{
 
 	use Sortable, LogsActivity;
-    protected $connection = 'mysql';
+    protected $connection = 'mysql_ppu';
     protected $table = 'hr_employees';
 
     protected $dates = ['date_of_birth', 'firstday_gov', 'firstday_sra', 'appointment_date', 'adjustment_date', 'created_at', 'updated_at'];

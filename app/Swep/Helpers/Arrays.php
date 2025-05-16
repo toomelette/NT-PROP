@@ -21,6 +21,20 @@ use Illuminate\Support\Facades\Auth;
 
 class Arrays
 {
+    public static function accessToEmployees(){
+        return [
+            'VIS' => 'VIS',
+            'LM' => 'LM',
+            'QC' => 'QC',
+            'LGAREC' => 'LGAREC',
+        ];
+    }
+    public static function accessToDocuments(){
+        return [
+            'VIS' => 'VIS',
+            'QC' => 'QC',
+        ];
+    }
     public static function jrType(){
         $jrType = JRType::query()->get();
         $arr = [];

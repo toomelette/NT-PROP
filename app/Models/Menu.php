@@ -28,7 +28,7 @@ class Menu extends Model{
 
 
     use Sortable, LogsActivity;
-    protected $connection = 'mysql';
+    protected $connection = 'mysql_ppu';
     protected $table = 'su_menus';
 
     protected $dates = ['created_at', 'updated_at'];

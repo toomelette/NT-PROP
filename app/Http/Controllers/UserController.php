@@ -7,6 +7,7 @@ use App\Http\Requests\User\UserEditFormRequest;
 use App\Models\Employee;
 
 use App\Models\Menu;
+use App\Models\SuSettings;
 use App\Models\User;
 use App\Models\UserSubmenu;
 use App\Swep\Helpers\Helper;
@@ -42,8 +43,12 @@ class UserController extends Controller{
 
 
     public function index(UserFilterRequest $request){
+        $this->assignNames();
+
         $menus = Menu::with('submenu')->get();
-        $users = User::query()->with(['userSubmenu']);
+        $users = User::select(['users.*',DB::raw('hr_employees.fullname as fullname')])
+            ->leftJoin('hr_employees','users.employee_no','=', 'hr_employees.employee_no')
+            ->addSelect(['users.*','hr_employees.fullname as fullname']);
         if(request()->ajax()){
             if(request()->has('draw')){
                 if($request->has('is_online') || $request->has('is_active')){
@@ -60,23 +65,35 @@ class UserController extends Controller{
                     }
                 }
 
-                $dt = DataTables::of($users->with(['employee']))
-                    ->order(function ($query) use ($request){
-                        if($request->has('order')){
-                            if($request->order[0]['column'] == 2)
+                //check for location
+
+
+
+
+                $dt = DataTables::of($users->with(['employee']));
+
+
+                $dt = $dt->order(function ($query) use ($request){
+                    if($request->has('order')){
+                        if($request->order[0]['column'] == 2)
                             $query->orderBy('last_activity',$request->order[0]['dir']);
-                        }
+                    }
 
-                        if($request->has('order')){
-                            if($request->order[0]['column'] == 0)
-                                $query->orderBy('username',$request->order[0]['dir']);
-                        }
+                    if($request->has('order')){
+                        if($request->order[0]['column'] == 1)
+                            $query->orderBy('lastname',$request->order[0]['dir']);
+                    }
 
-                        if($request->has('order')){
-                            if($request->order[0]['column'] == 3)
-                                $query->orderBy('is_activated',$request->order[0]['dir']);
-                        }
-                    })
+                    if($request->has('order')){
+                        if($request->order[0]['column'] == 0)
+                            $query->orderBy('username',$request->order[0]['dir']);
+                    }
+
+                    if($request->has('order')){
+                        if($request->order[0]['column'] == 3)
+                            $query->orderBy('is_activated',$request->order[0]['dir']);
+                    }
+                })
                     ->addColumn('action', function($data){
                         if($data->is_activated == 0){
                             $a = "Activate";
@@ -88,8 +105,9 @@ class UserController extends Controller{
                         $destroy_route = "'".route("dashboard.user.destroy","slug")."'";
                         $slug = "'".$data->slug."'";
                         if(!empty($data->employee)){
-                            $view = '';
 //                            $view = '<li><a href="'.route('dashboard.employee.index').'?find='.$data->employee->employee_no.'" target="_blank" class="" data="'.$data->slug.'">View employee</a></li>';
+                              $view = '<li><a href="#" target="_blank" class="" data="'.$data->slug.'">View employee</a></li>';
+
                         }else{
                             $view = '';
                         }
@@ -108,7 +126,7 @@ class UserController extends Controller{
                                   <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                                   <span class="caret"></span></button>
                                   <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li><a user="'.ucwords(strtolower($data->firstname ?? '')).'" href="#" data="'.$data->slug.'" name="'.strtoupper($data->firstname ?? '').' '.strtoupper($data->lastname).'" class="ac_dc" status="'.$stat.'" >'.$a.'</a>
+                                    <li><a user="'.ucwords(strtolower($data->firstname)).'" href="#" data="'.$data->slug.'" name="'.strtoupper($data->firstname).' '.strtoupper($data->lastname).'" class="ac_dc" status="'.$stat.'" >'.$a.'</a>
                                     </li>
                                     <li><a href="#" class="reset_password_btn" data="'.$data->slug.'" fullname="'.strtoupper($data->firstname).' '.strtoupper($data->lastname).'">Reset Password</a></li>
                                     '.$view.'
@@ -117,16 +135,25 @@ class UserController extends Controller{
                                 </div>';
                         return $button;
                     })
-                    ->addColumn('fullname', function ($data){
+                    ->editColumn('lastname', function ($data){
+                        $div = '<div class="pull-right" style="width: 30px;">';
                         if(!empty($data->employee)){
                             $default_pword = Carbon::parse($data->employee->date_of_birth)->format('mdy');
                             $add = '';
                             if(!Hash::check($default_pword,$data->password)){
                                 $add = '<i class="fa fa-lock text-muted" title="The user has already changed its password."></i>';
                             }
-                            return strtoupper($data->employeeUnion->lastname??''.', ') .' '.$add;
+                            if(file_exists(public_path('images/EmployeePics/1by1Low/'.$data->employee->employee_no.'.jpg'))){
+                                $div = $div.'<img src="'.asset('images/EmployeePics/1by1Low/'.$data->employee->employee_no.'.jpg').'" style="object-fit: contain;width: 100%" class="img-circle" alt="User Image">';
+                            }else{
+                                $div = $div.'<img src="'.asset('images/avatar.jpeg').'" style="object-fit: contain;width: 100%" class="img-circle" alt="User Image">';
+                            }
+                            $div = $div.'</div>';
+                            return strtoupper($data->employee->lastname.', '.$data->employee->firstname) .' '.$add.$div;
                         }
-                        return $data->lastname.', '.$data->firstname;
+                        $div = $div.'<img src="'.asset('images/avatar.jpeg').'" style="object-fit: contain;width: 100%" class="img-circle" alt="User Image">';
+                        $div = $div.'</div>';
+                        return $data->lastname.', '.$data->firstname.$div;
                     })
                     ->editColumn('is_online', function($data){
                         return Helper::online_badge($data->last_activity);
@@ -141,12 +168,11 @@ class UserController extends Controller{
                         if(isset($request->search['value'])){
                             $query->whereHas('employee',function($q) use($request){
                                 $q->where('lastname','like','%'.$request->search['value'].'%')
-                                ->orWhere('middlename','like','%'.$request->search['value'].'%')
-                                ->orWhere('firstname','like','%'.$request->search['value'].'%');
+                                    ->orWhere('middlename','like','%'.$request->search['value'].'%')
+                                    ->orWhere('firstname','like','%'.$request->search['value'].'%');
                             })
-                            ->orWhere('username','like','%'.$request->search['value'].'%');
+                                ->orWhere('username','like','%'.$request->search['value'].'%');
                         }
-
                     })
                     ->escapeColumns([])
                     ->setRowId('slug')
@@ -156,15 +182,16 @@ class UserController extends Controller{
             }
 
             if(request()->has('typeahead')){
+
                 $query = request('query');
                 $employees = Employee::query()
                     ->select(['slug','firstname','middlename','lastname','locations'])
-                    ->addSelect(DB::raw('"PERM" as type'))
+//                    ->addSelect(DB::raw('"PERM" as type'))
                     ->where('firstname','like','%'.$query.'%')
                     ->orWhere('middlename','like','%'.$query.'%')
                     ->orWhere('lastname','like','%'.$query.'%')
                     ->doesntHave('user');
-
+//                return $employees->to
                 $all_employees = $employees->get();
 
                 $list = [];
@@ -194,6 +221,23 @@ class UserController extends Controller{
             }
         }
         return view('dashboard.user.index')->with('menus', $menus);
+    }
+
+    private function assignNames(){
+        $users = User::query()
+            ->with('employee')
+            ->where('lastname' ,'=','')
+            ->where('firstname' ,'=','')
+            ->where('employee_no' ,'!=','')
+            ->get();
+        foreach ($users as $user){
+            if(!empty($user->employee)){
+                $user->lastname =  $user->employee->lastname;
+                $user->firstname =  $user->employee->firstname;
+                $user->middlename =  $user->employee->middlename;
+                $user->update();
+            }
+        }
     }
 
     public  function findEmployeeBySlug($slug){
@@ -286,17 +330,24 @@ class UserController extends Controller{
 
 
     public function edit($slug){
-        $all_menus = Menu::query()->orderBy('name','asc')->get();
+        $all_menus = Menu::query()
+            ->where('portal','=','PPU')
+            ->orderBy('name','asc')->get();
         $user = User::where('slug',$slug)->first();
         $user_submenus_arr = [];
         foreach ($user->userSubmenu as $submenu){
             $user_submenus_arr[$submenu->submenu_id] = 1;
         }
-
+        $by_category = [];
+        foreach ($all_menus as $menu){
+            $by_category[$menu->category][$menu->slug] = $menu;
+        }
+        ksort($by_category);
         return view('dashboard.user.edit')->with([
             'all_menus' => $all_menus,
             'user' => $user,
             'user_submenus_arr' => $user_submenus_arr,
+            'by_category' => $by_category,
         ]);
 
 
@@ -307,7 +358,7 @@ class UserController extends Controller{
 
 
 
-    public function update(UserEditFormRequest $request, $slug){
+    public function update(Request $request, $slug){
 
 
         return $this->user_service->update($request, $slug);

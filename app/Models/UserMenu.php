@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserMenu extends Model{
 
 
-    protected $connection = 'mysql';
+    protected $connection = 'mysql_ppu';
 
 
     protected $table = 'su_user_menus';

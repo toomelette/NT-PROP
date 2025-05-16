@@ -33,7 +33,7 @@ class User extends Authenticatable{
 
     use Notifiable, Sortable, LogsActivity;
 
-    protected $connection = 'mysql';
+    protected $connection = 'mysql_ppu';
     protected $dates = ['created_at', 'updated_at'];
 
     public $sortable = ['username', 'firstname', 'is_online', 'is_active'];
@@ -54,18 +54,18 @@ class User extends Authenticatable{
     protected $attributes = [
 
         'slug' => '',
-        'user_id' => '', 
-        'email' => '', 
-        'username' => '', 
-        'password' => '', 
-        'lastname' => '', 
-        'middlename' => '', 
-        'firstname' => '', 
-        'position' => '', 
-        'is_online' => false, 
+        'user_id' => '',
+        'email' => '',
+        'username' => '',
+        'password' => '',
+        'lastname' => '',
+        'middlename' => '',
+        'firstname' => '',
+        'position' => '',
+        'is_online' => false,
         'is_activated' => false,
-        'color' => 'skin-green sidebar-mini', 
-        'created_at' => null, 
+        'color' => 'skin-green sidebar-mini',
+        'created_at' => null,
         'updated_at' => null,
         'ip_created' => '',
         'ip_updated' => '',
@@ -80,9 +80,7 @@ class User extends Authenticatable{
 
 
 
-
-
-    /** RELATIONSHIPS **/ 
+    /** RELATIONSHIPS **/
     public function userMenu() {
         return $this->hasMany('App\Models\UserMenu','user_id','user_id');
     }
@@ -94,19 +92,40 @@ class User extends Authenticatable{
 
 
     public function employee(){
-        return $this->hasOne(Employee::class, 'slug', 'employee_slug');
+        return $this->hasOne(Employee::class, 'employee_no', 'employee_no');
     }
 
-    public function userDetails(){
-        return $this->hasOne(UserDetails::class,'user_id','user_id');
+    public function joEmployee(){
+        return $this->hasOne('App\Models\JoEmployees', 'employee_no', 'employee_no');
     }
 
-    public function availablePaps(){
-        return $this->hasMany(UserDetails::class,'user_id','user_id');
-    }
-    
+    public function employeeUnion(){
+        $employee = $this->hasOne('App\Models\Employee', 'employee_no', 'employee_no')
+            ->select(DB::raw('
+                firstname,
+                middlename,
+                lastname,
+                biometric_user_id,
+                employee_no,
+                date_of_birth as birthday,
+                email,
+                "PERM" as type
+            '));
+        $jo_emplyoee = $this->hasOne('App\Models\JoEmployees', 'employee_no', 'employee_no')
+            ->select(DB::raw('
+                firstname,
+                middlename,
+                lastname,
+                biometric_user_id,
+                employee_no,
+                birthday,
+                email,
+                "JO" as type
+            '));
 
-    
+        return $employee->union($jo_emplyoee->getQuery());
+    }
+
 
 
 
@@ -121,10 +140,75 @@ class User extends Authenticatable{
     public function getFullnameAttribute(){
         return strtoupper($this->firstname . " " . substr($this->middlename , 0, 1) . ". " . $this->lastname);
     }
-    
+
 
     public function actions(){
         return $this->hasMany(Activity::class,'causer_id','id');
+    }
+
+
+    public function access(){
+        return $this->hasMany(UserAccess::class,'user','user_id');
+    }
+
+    public function hasAccessToEmployees(...$access){
+        if(is_array($access)){
+            $acc = $this->hasMany(UserAccess::class,'user','user_id')
+                ->where('for','=','employees')
+                ->where(function($query) use ($access){
+                    foreach ($access as $item){
+                        $query->orWhere('access','=',$item);
+                    }
+                });
+
+            $acc = $acc->count();
+        }
+        if($acc > 0){
+            return true;
+        }else{
+            abort(510,'Your user account does not have enough privilege to do this action.');
+        }
+    }
+
+    public function getAccessToEmployees(){
+        $arr = [];
+        $access = $this->hasMany(UserAccess::class,'user','user_id')->where('for','=','employees')->get();
+        if(!empty($access)){
+            foreach ($access as $acc){
+                array_push($arr,$acc->access);
+            }
+        }
+        return $arr;
+    }
+
+
+    public function hasAccessToDocuments(...$access){
+        if(is_array($access)){
+
+            $acc = $this->hasMany(UserAccess::class,'user','user_id')
+                ->where('for','=','documents')
+                ->where(function($query) use ($access){
+                    foreach ($access as $item){
+                        $query->orWhere('access','=',$item);
+                    }
+                });
+
+            $acc = $acc->count();
+        }
+        if($acc > 0){
+            return true;
+        }else{
+            abort(510,'Your user account does not have enough privilege to do this action.');
+        }
+    }
+
+    public function getAccessToDocuments(){
+
+        $access = $this->hasMany(UserAccess::class,'user','user_id')->where('for','=','documents')->first();
+        if(!empty($access)){
+            return $access->access;
+        }
+        return null;
     }
 
 
