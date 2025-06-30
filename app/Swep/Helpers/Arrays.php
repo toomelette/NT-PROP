@@ -76,9 +76,12 @@ class Arrays
         else{
             $rcs = PPURespCodes::query()->with(['description'])
                 ->where(function($query){
-                    foreach (Auth::user()->availablePaps as $availablePap){
-                        $query->orWhere('rc','=',$availablePap->rc);
+                    if(!empty(Auth::user()->availablePaps)){
+                        foreach (Auth::user()->availablePaps as $availablePap){
+                            $query->orWhere('rc','=',$availablePap->rc);
+                        }
                     }
+
 //                    if (Auth::user()->username == 'gjg021' || Auth::user()->username == 'kevin'){
 //                        $query->orWhere('rc','=','030');
 //                    }
